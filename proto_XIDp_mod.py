@@ -192,10 +192,11 @@ def lstdrv_solvefluxes(sx250,sy250,sx350,sy350,sx500,sy500#pixel positions of so
                    im250,im350,im500,nim250,nim350,nim500#maps and noise maps
                        ,w_250,w_350,w_500,p_src,fcat#header information from maps, prior_flux, output catalague structure
                        , bkg250,bkg350,bkg500,
-                       sig_bkg250,sig_bkg350,sig_bkg500):
+                       sig_bkg250,sig_bkg350,sig_bkg500,outfile=None):#outfile saves pointing matrix and chains to a pickle file
 #background estimates
     from scipy.sparse import coo_matrix
     import pystan
+    import pickle
 
     # set up arrays to contain reconstructed map
     rmap250_old=np.empty((w_250._naxis1,w_250._naxis2))
@@ -258,6 +259,21 @@ def lstdrv_solvefluxes(sx250,sy250,sx350,sy350,sx500,sy500#pixel positions of so
     rmap250_old[sx_pix,sy_pix]=np.asarray(rmap_old.todense()).reshape(-1)
 
     rmap250[sx_pix,sy_pix]=np.asarray(rmap_new.todense()).reshape(-1)
+
+    #save pointing matrix and chains if requested:
+    if outfile != None:
+        print("""Saving: \n
+        1) pointing matrix (A) \n
+        2) chains (chains) \n
+        3) location of pixels in x (x_pix) \n
+        4) location of pixels in y (ypix) \n 
+        5) sigma (sig_pix) \n
+        6) pixel data (ssig_map) \n
+        7) number of sources being fitted (snsrc) \n
+        8) number of pixels using for fit \n
+        as a dictionary to %s""" % outfile)
+        with open(outfile, 'wb') as f:
+            pickle.dump({'A':A,'chains':fit_data,'x_pix':sx_pix,'y_pix':sy_pix,'sig_pix':snoisy_map,'im_pix':ssig_map,'snsrc':snsrc,'snpix':snpix}, f)
     return rmap250,rmap250_old,fit_data,fcat
 
 
