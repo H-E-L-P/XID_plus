@@ -184,6 +184,51 @@ def lstdrv_stan(amat_data,amat_row,amat_col,snoisy_map,ssig_map,snsrc,snpix,bkg,
     #return fit data
     return fit_data,chains,iter
 
+def lstdrv_stan_highz(amat_data,amat_row,amat_col,snoisy_map,ssig_map,n_src,n_src_z,snpix,bkg,sig_bkg,chains=4,iter=1000):
+    #
+    import pystan
+    import pickle
+
+    # define function to initialise flux values to one
+    def initfun():
+        return dict(src_f=np.ones(snsrc))
+    #input data into a dictionary
+
+    XID_data={'npix':snpix,
+          'nsrc':n_src+n_src_z,
+          'nsrc_z':n_src_z,
+          'nnz':amat_data.size,
+          'db':ssig_map,
+          'sigma':snoisy_map,
+          'bkg_prior':bkg,
+          'bkg_prior_sig':sig_bkg,
+          'Val':amat_data,
+          'Row': amat_row.astype(long),
+          'Col': amat_col.astype(long)}
+    
+    #see if model has already been compiled. If not, compile and save it
+    import os
+    model_file="./XID+highz.pkl"
+    try:
+       with open(model_file,'rb') as f:
+            # using the same model as before
+            print("%s found. Reusing" % model_file)
+            sm = pickle.load(f)
+            fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+    except IOError as e:
+        print("%s not found. Compiling" % model_file)
+        sm = pystan.StanModel(file='XID+highz.stan')
+        # save it to the file 'model.pkl' for later use
+        with open(model_file, 'wb') as f:
+            pickle.dump(sm, f)
+        fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+    #run pystan with dictionary of data
+    #fit=pystan.stan(file='XIDfit.stan',data=XID_data,iter=iter,chains=chains)#,init=initfun)
+    #extract fit
+    fit_data=fit.extract(permuted=False, inc_warmup=False)
+    #return fit data
+    return fit_data,chains,iter
+
 
 # In[17]:
 
@@ -199,7 +244,6 @@ def lstdrv_solvefluxes(sx250,sy250,sx350,sy350,sx500,sy500#pixel positions of so
     import pickle
 
     # set up arrays to contain reconstructed map
-    rmap250_old=np.empty((w_250._naxis1,w_250._naxis2))
     rmap250=np.empty((w_250._naxis1,w_250._naxis2))
     rmap350=np.empty((w_350._naxis1,w_350._naxis2))
     rmap500=np.empty((w_500._naxis1,w_500._naxis2))
@@ -238,15 +282,6 @@ def lstdrv_solvefluxes(sx250,sy250,sx350,sy350,sx500,sy500#pixel positions of so
     print bkg_250_med, bkg_250_low, bkg_250_up
 
 
-
-
-    #reconstruct old xid reconstruction
-    f_vec=np.empty((snsrc+1))
-    f_vec[0:snsrc]=fcat[1].data['oldf250']
-    f_vec[-1]=bkg250
-    f=coo_matrix((f_vec, (range(0,snsrc+1),np.zeros(snsrc+1))), shape=(snsrc+1, 1))
-    rmap_old=A*f
-
     #reconstruct map using median fluxes
     f_vec=np.empty((snsrc+1))
     f_vec[0:snsrc]=fcat[1].data['flux250']
@@ -256,8 +291,6 @@ def lstdrv_solvefluxes(sx250,sy250,sx350,sy350,sx500,sy500#pixel positions of so
 
     
     #update reconstruction map
-    rmap250_old[sx_pix,sy_pix]=np.asarray(rmap_old.todense()).reshape(-1)
-
     rmap250[sx_pix,sy_pix]=np.asarray(rmap_new.todense()).reshape(-1)
 
     #save pointing matrix and chains if requested:
@@ -274,7 +307,35 @@ def lstdrv_solvefluxes(sx250,sy250,sx350,sy350,sx500,sy500#pixel positions of so
         as a dictionary to %s""" % outfile)
         with open(outfile, 'wb') as f:
             pickle.dump({'A':A,'chains':fit_data,'x_pix':sx_pix,'y_pix':sy_pix,'sig_pix':snoisy_map,'im_pix':ssig_map,'snsrc':snsrc,'snpix':snpix}, f)
-    return rmap250,rmap250_old,fit_data,fcat
+    return rmap250,fit_data,fcat
 
+
+def cat_check_convert(inra,indec,wcs):
+    """Checks sources in the prior list are within the boundaries of the map,
+    and converts RA and DEC to pixel positions"""
+    #get positions of sources in terms of pixels
+    sx,sy=wcs.wcs_world2pix(inra,indec,0)
+    #check if sources are within map 
+    sgood=(sx > 0) & (sx < wcs._naxis1) & (sy > 0) & (sy < wcs._naxis2)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
+    #Redefine prior list so it only contains sources in the map
+    sx=sx[sgood]
+    sy=sy[sgood]
+    sra=inra[sgood]
+    sdec=indec[sgood]
+    n_src=sgood.sum()
+    return sx,sy,sra,sdec,n_src,sgood 
+    
+    
+
+
+
+#def create_XIDp_cat(nsrc):
+#    """creates the XIDp catalogue in fits format required by HeDaM"""
+#    #first define primary header and input information
+#    c1 = Column(name='target', format='10A', array=names)
+#    c2 = Column(name='counts', format='J', unit='DN', array=counts)
+#>>> c3 = Column(name='notes', format='A10')
+#>>> c4 = Column(name='spectrum', format='1000E')
+#>>> c5 = Column(name='flag', format='L', array=[1, 0, 1, 1])
 
 
