@@ -38,7 +38,7 @@ plwfits=imfolder+field+'_image_500_SMAP_v'+SMAPv+'.fits'#SPIRE 500 map
 # In[8]:
 
 #Folder containing prior input catalogue
-folder="/research/astrodata/fir/hermes/www/xid/rel0712"
+folder="/research/astrodata/fir/hermes/www/xid/rel0712/"
 #prior catalogue
 prior_cat="mod_cosmos-xid-pepprior-0512.fits.gz"
 hdulist = fits.open(folder+prior_cat)
@@ -110,7 +110,7 @@ n_src=sgood.sum()
 #define range
 sx_mean=np.mean(sx250)
 sy_mean=np.mean(sy250)
-p_range=200
+p_range=100
 #check if sources are within range and if the nearest pixel has a finite value 
 
 sgood=(sx250 > sx_mean-p_range) & (sx250 < sx_mean+p_range) & (sy250 > sy_mean-p_range) & (sy250 < sy_mean+p_range) & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
@@ -158,6 +158,7 @@ if(bad.sum() >0):
     nim500[bad]=1.
 
 
+
 # Point response information, at the moment its 2D Gaussian, but should be general. All lstdrv_solvfluxes needs is 2D array with prf
 
 # In[15]:
@@ -203,13 +204,13 @@ print thdulist[1].data['flux250'].size
 
 # In[17]:
 
+output_folder='/research/astro/fir/HELP/XID_plus_output/'
 
-rmap250,rmap_250old,fit_data,thdulist=xid_mod.lstdrv_solvefluxes(sx250,sy250,sx350,sy350,sx500,sy500,
+rmap250,fit_data,thdulist=xid_mod.lstdrv_solvefluxes(sx250,sy250,sx350,sy350,sx500,sy500,
                    prf250,prf350,prf500,
                    im250,im350,im500,nim250,nim350,nim500,
-                   w_250,w_350,w_500,p_src,thdulist,bkg250,bkg350,bkg500,0.2*np.abs(bkg250),0.2*np.abs(bkg350),0.2*np.abs(bkg500))#wcs information
+                   w_250,w_350,w_500,p_src,thdulist,bkg250,bkg350,bkg500,0.2*np.abs(bkg250),0.2*np.abs(bkg350),0.2*np.abs(bkg500),outfile=output_folder+'XID+_'+field+'_obj.pkl')#wcs information
 #save XID cat
-output_folder='/research/astro/fir/HELP/XID_plus_output/'
 thdulist.writeto(output_folder+'XID+_'+field+'_dat.fits')
 
 
