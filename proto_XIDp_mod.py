@@ -329,13 +329,87 @@ def cat_check_convert(inra,indec,wcs):
 
 
 
-#def create_XIDp_cat(nsrc):
-#    """creates the XIDp catalogue in fits format required by HeDaM"""
-#    #first define primary header and input information
-#    c1 = Column(name='target', format='10A', array=names)
-#    c2 = Column(name='counts', format='J', unit='DN', array=counts)
-#>>> c3 = Column(name='notes', format='A10')
-#>>> c4 = Column(name='spectrum', format='1000E')
-#>>> c5 = Column(name='flag', format='L', array=[1, 0, 1, 1])
+def create_XIDp_cat(nsrc,imhdu):
+    """creates the XIDp catalogue in fits format required by HeDaM"""
+    import datetime
+    
+    #----table info-----------------------
+    #first define columns
+    c1 = Column(name='XID', format='I', array=np.empty(nsrc,dtype=long))
+    c2 = Column(name='ra', format='D', unit='degrees', array=np.empty(nsrc,dtype=float))
+    c3 = Column(name='dec', format='D', unit='degrees', array=np.empty(nsrc,dtype=float))
+    c4 = Column(name='flux250', format='E', unit='mJy', array=np.empty(nsrc,dtype=float))
+    c5 = Column(name='flux250_err_u', format='E', unit='mJy', array=np.empty(nsrc,dtype=float))
+    c6 = Column(name='flux250_err_l', format='E', unit='mJy', array=np.empty(nsrc,dtype=float))
+    c7 = Column(name='flux350', format='E', unit='mJy', array=np.empty(nsrc,dtype=float))
+    c8 = Column(name='flux350_err_u', format='E', unit='mJy', array=np.empty(nsrc,dtype=float))
+    c9 = Column(name='flux350_err_l', format='E', unit='mJy', array=np.empty(nsrc,dtype=float))
+    c10 = Column(name='flux500', format='E', unit='mJy', array=np.empty(nsrc,dtype=float))
+    c11 = Column(name='flux500_err_u', format='E', unit='mJy', array=np.empty(nsrc,dtype=float))
+    c12 = Column(name='flux500_err_l', format='E', unit='mJy', array=np.empty(nsrc,dtype=float))
+    c13 = Column(name='bkg250', format='E', unit='mJy', array=np.empty(nsrc,dtype=float))
+    c14 = Column(name='bkg350', format='E', unit='mJy', array=np.empty(nsrc,dtype=float))
+    c15 = Column(name='bkg500', format='E', unit='mJy', array=np.empty(nsrc,dtype=float))
+
+    tbhdu = fits.new_table([c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15])
+    
+    tbhdu.header.set('TUCD1','XID',after='TUNIT1')      
+    tbhdu.header.set('TDESC1','ID of source which corresponds to indexing of cov matrix.',after='TUCD1')         
+
+    tbhdu.header.set('TUCD2','pos.eq.RA',after='TUNIT2')      
+    tbhdu.header.set('TDESC2','R.A. of object J2000',after='TUCD2') 
+
+    tbhdu.header.set('TUCD3','pos.eq.DEC',after='TUNIT3')      
+    tbhdu.header.set('TDESC3','Dec. of object J2000',after='TUCD3') 
+
+    tbhdu.header.set('TUCD4','phot.flux.density',after='TUNIT4')      
+    tbhdu.header.set('TDESC4','250 Flux (at 50th percentile)',after='TUCD4') 
+
+    tbhdu.header.set('TUCD5','phot.flux.density',after='TUNIT5')      
+    tbhdu.header.set('TDESC5','250 Flux (at 84.1 percentile) ',after='TUCD5') 
+
+    tbhdu.header.set('TUCD6','phot.flux.density',after='TUNIT6')      
+    tbhdu.header.set('TDESC6','250 Flux (at 25.9 percentile)',after='TUCD6') 
+
+    tbhdu.header.set('TUCD7','phot.flux.density',after='TUNIT7')      
+    tbhdu.header.set('TDESC7','350 Flux (at 50th percentile)',after='TUCD7') 
+
+    tbhdu.header.set('TUCD8','phot.flux.density',after='TUNIT8')      
+    tbhdu.header.set('TDESC8','350 Flux (at 84.1 percentile) ',after='TUCD8') 
+
+    tbhdu.header.set('TUCD9','phot.flux.density',after='TUNIT9')      
+    tbhdu.header.set('TDESC9','350 Flux (at 25.9 percentile)',after='TUCD9') 
+
+    tbhdu.header.set('TUCD10','phot.flux.density',after='TUNIT10')      
+    tbhdu.header.set('TDESC10','500 Flux (at 50th percentile)',after='TUCD10') 
+
+    tbhdu.header.set('TUCD11','phot.flux.density',after='TUNIT11')      
+    tbhdu.header.set('TDESC11','500 Flux (at 84.1 percentile) ',after='TUCD11') 
+
+    tbhdu.header.set('TUCD12','phot.flux.density',after='TUNIT12')      
+    tbhdu.header.set('TDESC12','500 Flux (at 25.9 percentile)',after='TUCD12')
+    
+    #----Primary header-----------------------------------
+    prihdr = fits.Header()
+    prihdr['TITLE'] = 'XID catalogue'
+    prihdr['Prior_C'] = prior_cat
+    prihdr['TITLE']   = 'XID catalogue in '+ Field         
+    prihdr['OBJECT']  = Field                               
+    prihdr['CREATOR'] = 'WP5'                                 
+    prihdr['VERSION'] = '1.0'                                 
+    prihdr['DATE']    = datetime.datetime.now().isoformat()              
+    prihdu = fits.PrimaryHDU(header=prihdr)
+    
+    #-----Covariance header---------------------------------
+    c1 = Column(name='sigma_i_j_k', format='I', array=np.empty(nsrc,dtype=long))
+    c2 = Column(name='XID_i', format='I', array=np.empty(nsrc,dtype=long))
+    c3 = Column(name='XID_j', format='I', array=np.empty(nsrc,dtype=long))
+    c4 = Column(name='XID_k', format='I', array=np.empty(nsrc,dtype=long))
+    tbhdu = fits.new_table([c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15])
+
+
+    thdulist = fits.HDUList([prihdu, tbhdu, covhdu, imhdu])
+    return thdulist
+
 
 
