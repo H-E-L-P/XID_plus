@@ -21,19 +21,22 @@ class prior(object):
         self.wcs=wcs
         self.imphdu=imphdu
 
+    def prior_bkg(self,mu,sigma):
+        self.bkg=(mu,sigma)
+
     def prior_cat(self,ra,dec,prior_cat,good_index=None):
         """Input info for prior catalogue. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
         and converts RA and DEC to pixel positions"""
         #get positions of sources in terms of pixels
-        sx,sy=self.wcs.wcs_world2pix(inra,indec,0)
+        sx,sy=self.wcs.wcs_world2pix(ra,dec,0)
         #check if sources are within map 
         sgood=(sx > 0) & (sx < self.wcs._naxis1) & (sy > 0) & (sy < self.wcs._naxis2)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
 
         #Redefine prior list so it only contains sources in the map
         self.sx=sx[sgood]
         self.sy=sy[sgood]
-        self.sra=inra[sgood]
-        self.sdec=indec[sgood]
+        self.sra=ra[sgood]
+        self.sdec=dec[sgood]
         self.nsrc=sgood.sum()
         self.prior_cat=prior_cat
         if good_index != None:
@@ -56,8 +59,8 @@ class prior(object):
         #now cut down and flatten maps
         self.sx_pix=x_pix[npix]
         self.sy_pix=y_pix[npix]
-        self.snim=noisy_map[npix]
-        self.sim_map=sig_map[npix]
+        self.snim=self.nim[npix]
+        self.sim=self.im[npix]
         amat_row=np.array([])
         amat_col=np.array([])
         amat_data=np.array([])
@@ -114,7 +117,7 @@ def lstdrv_SPIRE_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
     #input data into a dictionary
         
     XID_data={'nsrc':SPIRE_250.nsrc,
-          'npix_psw':SPIRE_250.snpix
+          'npix_psw':SPIRE_250.snpix,
           'nnz_psw':SPIRE_250.amat_data.size,
           'db_psw':SPIRE_250.sim,
           'sigma_psw':SPIRE_250.snim,
@@ -123,7 +126,7 @@ def lstdrv_SPIRE_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
           'Val_psw':SPIRE_250.amat_data,
           'Row_psw': SPIRE_250.amat_row.astype(long),
           'Col_psw': SPIRE_250.amat_col.astype(long),
-          'npix_pmw':SPIRE_350.snpix
+          'npix_pmw':SPIRE_350.snpix,
           'nnz_pmw':SPIRE_350.amat_data.size,
           'db_pmw':SPIRE_350.sim,
           'sigma_pmw':SPIRE_350.snim,
@@ -132,7 +135,7 @@ def lstdrv_SPIRE_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
           'Val_pmw':SPIRE_350.amat_data,
           'Row_pmw': SPIRE_350.amat_row.astype(long),
           'Col_pmw': SPIRE_350.amat_col.astype(long),
-          'npix_plw':SPIRE_500.snpix
+          'npix_plw':SPIRE_500.snpix,
           'nnz_plw':SPIRE_500.amat_data.size,
           'db_plw':SPIRE_500.sim,
           'sigma_plw':SPIRE_500.snim,
@@ -234,7 +237,7 @@ class posterior_stan(object):
         Band_k=k_cov[index]
         Band_l=l_cov[index]
         sigma_i_j_k_l=cov[index]
-        index_dup=XID_i >= XID_j & Band_k >= Band_l
+        index_dup=(Band_k >= Band_l)#i need to be smarter here so i don't store as many values
         self.XID_i=XID_i[index_dup]
         self.XID_j=XID_j[index_dup]
         self.Band_k=Band_k[index_dup]
@@ -265,13 +268,13 @@ def create_XIDp_SPIREcat(posterior,prior250,prior350,prior500):
     c10 = fits.Column(name='flux500', format='E', unit='mJy', array=med_flux[2*nsrc+2:(3*nsrc)+2])
     c11 = fits.Column(name='flux500_err_u', format='E', unit='mJy', array=flux_high[2*nsrc+2:(3*nsrc)+2])
     c12 = fits.Column(name='flux500_err_l', format='E', unit='mJy', array=flux_low[2*nsrc+2:(3*nsrc)+2])
-    c13 = fits.Column(name='bkg250', format='E', unit='mJy', array=np.full(nsrc,med_flux[nsrc+1]))
-    c14 = fits.Column(name='bkg350', format='E', unit='mJy', array=np.full(nsrc,med_flux[(2*nsrc)+2]))
-    c15 = fits.Column(name='bkg500', format='E', unit='mJy', array=np.full(nsrc,med_flux[(3*nsrc)+3]))
+    c13 = fits.Column(name='bkg250', format='E', unit='mJy', array=np.full(nsrc,med_flux[nsrc]))
+    c14 = fits.Column(name='bkg350', format='E', unit='mJy', array=np.full(nsrc,med_flux[(2*nsrc)+1]))
+    c15 = fits.Column(name='bkg500', format='E', unit='mJy', array=np.full(nsrc,med_flux[(3*nsrc)+2]))
 
     tbhdu = fits.new_table([c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15])
     
-    tbhdu.header.set('TUCD1','XID',after='TUNIT1')      
+    tbhdu.header.set('TUCD1','XID',after='TFORM1')      
     tbhdu.header.set('TDESC1','ID of source which corresponds to i and j of cov matrix.',after='TUCD1')         
 
     tbhdu.header.set('TUCD2','pos.eq.RA',after='TUNIT2')      
@@ -321,29 +324,29 @@ def create_XIDp_SPIREcat(posterior,prior250,prior350,prior500):
     #calcualte the sparse covariance matrix for the posterior
     posterior.covariance_sparse()
     
-    c1 = fits.Column(name='sigma_i_j_k_l', format='I', array=posterior.sigma_i_j_k_l)
+    c1 = fits.Column(name='sigma_i_j_k_l', format='E', array=posterior.sigma_i_j_k_l)
     c2 = fits.Column(name='XID_i', format='I', array=posterior.XID_i)
     c3 = fits.Column(name='XID_j', format='I', array=posterior.XID_j)
     c4 = fits.Column(name='Band_k', format='I', array=posterior.Band_k)
     c5 = fits.Column(name='Band_l', format='I', array=posterior.Band_l)
 
     covhdu = fits.new_table([c1,c2,c3,c4,c5])
-    covhdu.header.set('TUCD1','covariance',after='TUNIT1')      
+    covhdu.header.set('TUCD1','covariance',after='TFORM1')      
     covhdu.header.set('TDESC1','covariance between source i and j observed in bands k and l',after='TUCD1')         
 
-    covhdu.header.set('TUCD2','ID',after='TUNIT2')      
+    covhdu.header.set('TUCD2','ID',after='TFORM2')      
     covhdu.header.set('TDESC2','XID index of source i',after='TUCD2') 
 
-    covhdu.header.set('TUCD3','ID',after='TUNIT3')      
+    covhdu.header.set('TUCD3','ID',after='TFORM3')      
     covhdu.header.set('TDESC3','XID index of source j',after='TUCD3') 
 
-    covhdu.header.set('TUCD4','ID',after='TUNIT4')      
+    covhdu.header.set('TUCD4','ID',after='TFORM4')      
     covhdu.header.set('TDESC4','Band source i is observed in',after='TUCD4') 
 
-    covhdu.header.set('TUCD5','ID',after='TUNIT5')      
+    covhdu.header.set('TUCD5','ID',after='TFORM5')      
     covhdu.header.set('TDESC5','Band source j is observed in',after='TUCD5') 
 
-    thdulist = fits.HDUList([prihdu, tbhdu, covhdu, prior250.imphdu,prior350.imphdu,prior500.imphdu])
+    thdulist = fits.HDUList([prihdu, tbhdu, covhdu,fits.ImageHDU(header=prior250.imphdu), fits.ImageHDU(header=prior350.imphdu), fits.ImageHDU(header=prior500.imphdu)])
     return thdulist
 
 def fit_SPIRE(prior250,prior350,prior500):
@@ -353,5 +356,5 @@ def fit_SPIRE(prior250,prior350,prior500):
     fit_data,chains,iter=lstdrv_SPIRE_stan(prior250,prior350,prior500)
     
     posterior=posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
-    return posterior.create_XIDp_SPIREcat(posterior,prior250,prior350,prior500),prior250,prior350,prior500,posterior
+    return create_XIDp_SPIREcat(posterior,prior250,prior350,prior500),prior250,prior350,prior500,posterior
 

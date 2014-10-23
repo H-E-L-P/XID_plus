@@ -4,33 +4,33 @@ data {
   //----PSW----
   int<lower=0> npix_psw;//number of pixels
   int<lower=0> nnz_psw; //number of non neg entries in A
-  vector[npix] db_psw;//flattened map
-  vector[npix] sigma_psw;//flattened uncertianty map (assuming no covariance between pixels)
+  vector[npix_psw] db_psw;//flattened map
+  vector[npix_psw] sigma_psw;//flattened uncertianty map (assuming no covariance between pixels)
   real bkg_prior_psw;//prior estimate of background
   real bkg_prior_sig_psw;//sigma of prior estimate of background
-  vector[nnz] Val_psw;//non neg values in image matrix
-  int Row_psw[nnz];//Rows of non neg valies in image matrix
-  int Col_psw[nnz];//Cols of non neg values in image matrix
+  vector[nnz_psw] Val_psw;//non neg values in image matrix
+  int Row_psw[nnz_psw];//Rows of non neg valies in image matrix
+  int Col_psw[nnz_psw];//Cols of non neg values in image matrix
   //----PMW----
   int<lower=0> npix_pmw;//number of pixels
   int<lower=0> nnz_pmw; //number of non neg entries in A
-  vector[npix] db_pmw;//flattened map
-  vector[npix] sigma_pmw;//flattened uncertianty map (assuming no covariance between pixels)
+  vector[npix_pmw] db_pmw;//flattened map
+  vector[npix_pmw] sigma_pmw;//flattened uncertianty map (assuming no covariance between pixels)
   real bkg_prior_pmw;//prior estimate of background
   real bkg_prior_sig_pmw;//sigma of prior estimate of background
-  vector[nnz] Val_pmw;//non neg values in image matrix
-  int Row_pmw[nnz];//Rows of non neg valies in image matrix
-  int Col_pmw[nnz];//Cols of non neg values in image matrix
+  vector[nnz_pmw] Val_pmw;//non neg values in image matrix
+  int Row_pmw[nnz_pmw];//Rows of non neg valies in image matrix
+  int Col_pmw[nnz_pmw];//Cols of non neg values in image matrix
   //----PLW----
   int<lower=0> npix_plw;//number of pixels
   int<lower=0> nnz_plw; //number of non neg entries in A
-  vector[npix] db_plw;//flattened map
-  vector[npix] sigma_plw;//flattened uncertianty map (assuming no covariance between pixels)
+  vector[npix_plw] db_plw;//flattened map
+  vector[npix_plw] sigma_plw;//flattened uncertianty map (assuming no covariance between pixels)
   real bkg_prior_plw;//prior estimate of background
   real bkg_prior_sig_plw;//sigma of prior estimate of background
-  vector[nnz] Val_plw;//non neg values in image matrix
-  int Row_plw[nnz];//Rows of non neg valies in image matrix
-  int Col_plw[nnz];//Cols of non neg values in image matrix
+  vector[nnz_plw] Val_plw;//non neg values in image matrix
+  int Row_plw[nnz_plw];//Rows of non neg valies in image matrix
+  int Col_plw[nnz_plw];//Cols of non neg values in image matrix
 
 }
 parameters {
