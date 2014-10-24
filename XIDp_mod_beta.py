@@ -309,6 +309,15 @@ def create_XIDp_SPIREcat(posterior,prior250,prior350,prior500):
 
     tbhdu.header.set('TUCD12','phot.flux.density',after='TUNIT12')      
     tbhdu.header.set('TDESC12','500 Flux (at 25.9 percentile)',after='TUCD12')
+
+    tbhdu.header.set('TUCD13','phot.flux.density',after='TUNIT13')      
+    tbhdu.header.set('TDESC13','250 background',after='TUCD13') 
+
+    tbhdu.header.set('TUCD14','phot.flux.density',after='TUNIT14')      
+    tbhdu.header.set('TDESC14','350 background',after='TUCD14') 
+
+    tbhdu.header.set('TUCD15','phot.flux.density',after='TUNIT15')      
+    tbhdu.header.set('TDESC15','500 background',after='TUCD15')
     
     #----Primary header-----------------------------------
     prihdr = fits.Header()
