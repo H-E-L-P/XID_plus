@@ -34,6 +34,7 @@ hdulist = fits.open(pswfits)
 im250=hdulist[1].data*1.0E3
 nim250=hdulist[2].data*1.0E3
 w_250 = wcs.WCS(hdulist[1].header)
+im250phdu=hdulist[0]
 pixsize250=3600.0*w_250.wcs.cd[1,1] #pixel size (in arcseconds)
 hdulist.close()
 #-----350-------------
@@ -69,41 +70,8 @@ bkg350=-2.0
 bkg500=-2.0
 
 
-# In[6]:
-
-sx250,sy250,sra,sdec,n_src,sgood=xid_mod.cat_check_convert(inra,indec,w_250) 
 
 
-# In[7]:
-
-#get positions of sources in terms of pixels for other two maps
-sx350,sy350=w_350.wcs_world2pix(sra,sdec,0)#still not convinced about origin. is it 0 or 1
-sx500,sy500=w_500.wcs_world2pix(sra,sdec,0)#still not convinced about origin. is it 0 or 1
-
-
-# In[8]:
-
-#-----250-------------
-bad=np.logical_or(np.logical_or
-                  (np.invert(np.isfinite(im250)),
-                   np.invert(np.isfinite(nim250))),(nim250 == 0))
-if(bad.sum() >0):
-    im250[bad]=0.
-    nim250[bad]=1.
-#-----350-------------
-bad=np.logical_or(np.logical_or
-                  (np.invert(np.isfinite(im350)),
-                   np.invert(np.isfinite(nim350))),(nim350 == 0))
-if(bad.sum() >0):
-    im350[bad]=0.
-    nim350[bad]=1.
-#-----500-------------
-bad=np.logical_or(np.logical_or
-                  (np.invert(np.isfinite(im500)),
-                   np.invert(np.isfinite(nim500))),(nim500 == 0))
-if(bad.sum() >0):
-    im500[bad]=0.
-    nim500[bad]=1.
 
 
 # Load up High Z sources for stacking
@@ -113,7 +81,7 @@ if(bad.sum() >0):
 #Folder containing prior input catalogue
 folder="'/research/astro/fir/HELP/high_z/"
 #prior catalogue
-prior_cat="ZSOUTHDEEP.fits"
+prior_cat_stack="ZSOUTHDEEP.fits"
 hdulist = fits.open(folder+prior_cat)
 fcat_z=hdulist[1].data
 hdulist.close()
@@ -124,12 +92,8 @@ nrealcat_z=fcat.size
 
 # In[10]:
 
-sx250_z,sy250_z,sra_z,sdec_z,n_src_z,sgood_z=xid_mod.cat_check_convert(inra_z,indec_z,w_250)
 
 
-# Sort out PRF
-
-# In[11]:
 
 #pixsize array (size of pixels in arcseconds)
 pixsize=np.array([pixsize250,pixsize350,pixsize500])
@@ -149,34 +113,21 @@ prf350.normalize(mode='peak')
 prf500=Gaussian2DKernel(pfwhm[2]/2.355,x_size=paxis[0],y_size=paxis[1])
 prf500.normalize(mode='peak')
 
-
-# In[12]:
-
-sx250_tot=np.append(sx250,sx250_z)
-sy250_tot=np.append(sy250,sy250_z)
-
-
-# In[13]:
-
-x_pix,y_pix=np.meshgrid(np.arange(0,w_250._naxis1),np.arange(0,w_250._naxis2))
+prior250=xid_mod.prior(prf250,im250,nim250,w_250,im250phdu)
+prior250.prior_bkg(bkg250,2.0)
+prior250.prior_cat(inra,indec,prior_cat)
+prior250.prior_cat_stack(inra_z,indec_z,prior_cat_stack)
+prior250.get_pointing_matrix()
 
 
-# In[14]:
 
-#get pointing matrix
-amat_data,amat_row,amat_col,A,sx_pix,sy_pix,snoisy_map,ssig_map,snsrc,snpix=xid_mod.lstdrv_initsolveSP(sx250_tot
-                                                                                                   ,sy250_tot,prf250,im250,nim250,x_pix,y_pix)
-
-
-# In[ ]:
-
-fit_data,chains,iter=xid_mod.lstdrv_stan_highz(amat_data,amat_row,amat_col,snoisy_map,ssig_map,n_src,n_src_z,snpix,bkg250,3.0)
+fit_data,chains,iter=xid_mod.lstdrv_stan_highz(prior250)
 
 
 # In[ ]:
 
 output_folder='/research/astro/fir/HELP/XID_plus_output/'
-outfile=output_folder+'goodss_highz_fit.pkl'
+outfile=output_folder+'goodss_highz_fit_250.pkl'
 with open(outfile, 'wb') as f:
-            pickle.dump({'A':A,'chains':fit_data,'x_pix':sx_pix,'y_pix':sy_pix,'sig_pix':snoisy_map,'im_pix':ssig_map,'snsrc':snsrc,'snpix':snpix}, f)
+            pickle.dump({'prior':prior250,'fit':fit_data}, f)
 

@@ -42,6 +42,27 @@ class prior(object):
         if good_index != None:
             return sgood 
 
+
+    def prior_cat_stack():
+        """Input info for prior catalogue of sources being stacked. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
+        and converts RA and DEC to pixel positions"""
+        #get positions of sources in terms of pixels
+        sx,sy=self.wcs.wcs_world2pix(ra,dec,0)
+        #check if sources are within map 
+        sgood=(sx > 0) & (sx < self.wcs._naxis1) & (sy > 0) & (sy < self.wcs._naxis2)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
+
+        #Redefine prior list so it only contains sources in the map
+        self.sx=np.append(self.sx,sx[sgood])
+        self.sy=np.append(self.sy,sy[sgood])
+        self.sra=np.append(self.sra,ra[sgood])
+        self.sdec=np.append(self.sdec,dec[sgood])
+        self.nsrc=self.nsrc+sgood.sum()
+        self.prior_cat=prior_cat
+        self.stack.nsrc=sgood.sum()
+        if good_index != None:
+            return sgood 
+        
+
     
     def get_pointing_matrix(self):
         from scipy import interpolate
@@ -109,6 +130,7 @@ class prior(object):
             from scipy.sparse import coo_matrix
             self.A=coo_matrix((self.amat_data, (self.amat_row, self.amat_col)), shape=(self.snpix, self.nsrc+1))
 
+
 def lstdrv_SPIRE_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
     #
     import pystan
@@ -164,6 +186,51 @@ def lstdrv_SPIRE_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
         with open(model_file, 'wb') as f:
             pickle.dump(sm, f)
         fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+    #extract fit
+    fit_data=fit.extract(permuted=False, inc_warmup=False)
+    #return fit data
+    return fit_data,chains,iter
+
+def lstdrv_stan_highz(prior,chains=4,iter=1000):
+    #
+    import pystan
+    import pickle
+
+    # define function to initialise flux values to one
+    def initfun():
+        return dict(src_f=np.ones(prior.nsrc))
+    #input data into a dictionary
+
+    XID_data={'npix':prior.snpix,
+          'nsrc':prior.nsrc,
+          'nsrc_z':prior.stack.nsrc,
+          'nnz':prior.amat_data.size,
+          'db':prior.sim,
+          'sigma':prior.snim,
+          'bkg_prior':prior.bkg[0],
+          'bkg_prior_sig':prior.bkg[1],
+          'Val':prior.amat_data,
+          'Row': prior.amat_row.astype(long),
+          'Col': prior.amat_col.astype(long)}
+    
+    #see if model has already been compiled. If not, compile and save it
+    import os
+    model_file="./XID+highz.pkl"
+    try:
+       with open(model_file,'rb') as f:
+            # using the same model as before
+            print("%s found. Reusing" % model_file)
+            sm = pickle.load(f)
+            fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+    except IOError as e:
+        print("%s not found. Compiling" % model_file)
+        sm = pystan.StanModel(file='XID+highz.stan')
+        # save it to the file 'model.pkl' for later use
+        with open(model_file, 'wb') as f:
+            pickle.dump(sm, f)
+        fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+    #run pystan with dictionary of data
+    #fit=pystan.stan(file='XIDfit.stan',data=XID_data,iter=iter,chains=chains)#,init=initfun)
     #extract fit
     fit_data=fit.extract(permuted=False, inc_warmup=False)
     #return fit data
