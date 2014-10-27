@@ -132,13 +132,13 @@ class prior(object):
         good=(self.sx_pix < mux) & (self.sy_pix < muy) & (self.sy_pix >= mly) & (self.sx_pix >= mlx)
         snpix_bkg=good.sum()
         self.amat_data=np.append(amat_data,np.full(snpix_bkg,1))
-        self.amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long))[good]
+        self.amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long)[good])
         self.amat_col=np.append(amat_col,np.full(snpix_bkg,s+1))
         
         
-        def get_pointing_matrix_coo(self):
-            from scipy.sparse import coo_matrix
-            self.A=coo_matrix((self.amat_data, (self.amat_row, self.amat_col)), shape=(self.snpix, self.nsrc+1))
+    def get_pointing_matrix_coo(self):
+        from scipy.sparse import coo_matrix
+        self.A=coo_matrix((self.amat_data, (self.amat_row, self.amat_col)), shape=(self.snpix, self.nsrc+1))
 
 
 def lstdrv_SPIRE_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
