@@ -43,7 +43,7 @@ class prior(object):
             return sgood 
 
 
-    def prior_cat_stack():
+    def prior_cat_stack(self,ra,dec,prior_cat,good_index=None):
         """Input info for prior catalogue of sources being stacked. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
         and converts RA and DEC to pixel positions"""
         #get positions of sources in terms of pixels
@@ -52,12 +52,16 @@ class prior(object):
         sgood=(sx > 0) & (sx < self.wcs._naxis1) & (sy > 0) & (sy < self.wcs._naxis2)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
 
         #Redefine prior list so it only contains sources in the map
+        self.stack.sx=sx[good]
+        self.stack.sy=sy[good]
+        self.stack.sra=ra[good]
+        self.stack.sdec=dec[good]
         self.sx=np.append(self.sx,sx[sgood])
         self.sy=np.append(self.sy,sy[sgood])
         self.sra=np.append(self.sra,ra[sgood])
         self.sdec=np.append(self.sdec,dec[sgood])
         self.nsrc=self.nsrc+sgood.sum()
-        self.prior_cat=prior_cat
+        self.stack.prior_cat=prior_cat
         self.stack.nsrc=sgood.sum()
         if good_index != None:
             return sgood 
