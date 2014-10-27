@@ -4,6 +4,10 @@ import astropy
 from astropy.io import fits
 from astropy import wcs
 
+class stack(object):
+    def __init__(self,prior_cat):
+        self.prior_cat=prior_cat
+
 class prior(object):
     def __init__(self,prf,im,nim,wcs,imphdu):
         """class for SPIRE prior object. Initialise with prf,map,uncertianty map and wcs"""
@@ -44,6 +48,9 @@ class prior(object):
 
 
     def prior_cat_stack(self,ra,dec,prior_cat,good_index=None):
+        class stack(object):
+            def __init__(self,prior_cat):
+                self.prior_cat=prior_cat
         """Input info for prior catalogue of sources being stacked. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
         and converts RA and DEC to pixel positions"""
         #get positions of sources in terms of pixels
@@ -51,10 +58,6 @@ class prior(object):
         #check if sources are within map 
         sgood=(sx > 0) & (sx < self.wcs._naxis1) & (sy > 0) & (sy < self.wcs._naxis2)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
 
-
-        class stack(object):
-            def __init__(self,prior_cat):
-                self.prior_cat=prior_cat
                 
         self.stack=stack(prior_cat)
 
