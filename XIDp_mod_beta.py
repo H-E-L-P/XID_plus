@@ -53,8 +53,10 @@ class prior(object):
 
 
         class stack(object):
-            def __init__(self):
-        self.stack=stack()
+            def __init__(self,prior_cat):
+                self.prior_cat=prior_cat
+                
+        self.stack=stack(prior_cat)
 
         #Redefine prior list so it only contains sources in the map
         self.stack.sx=sx[sgood]
@@ -66,7 +68,6 @@ class prior(object):
         self.sra=np.append(self.sra,ra[sgood])
         self.sdec=np.append(self.sdec,dec[sgood])
         self.nsrc=self.nsrc+sgood.sum()
-        self.stack.prior_cat=prior_cat
         self.stack.nsrc=sgood.sum()
         if good_index != None:
             return sgood 
