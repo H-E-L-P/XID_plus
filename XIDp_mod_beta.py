@@ -51,6 +51,11 @@ class prior(object):
         #check if sources are within map 
         sgood=(sx > 0) & (sx < self.wcs._naxis1) & (sy > 0) & (sy < self.wcs._naxis2)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
 
+
+        class stack(object):
+            def __init__(self):
+        self.stack=stack()
+
         #Redefine prior list so it only contains sources in the map
         self.stack.sx=sx[sgood]
         self.stack.sy=sy[sgood]
