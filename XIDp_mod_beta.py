@@ -52,10 +52,10 @@ class prior(object):
         sgood=(sx > 0) & (sx < self.wcs._naxis1) & (sy > 0) & (sy < self.wcs._naxis2)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
 
         #Redefine prior list so it only contains sources in the map
-        self.stack.sx=sx[good]
-        self.stack.sy=sy[good]
-        self.stack.sra=ra[good]
-        self.stack.sdec=dec[good]
+        self.stack.sx=sx[sgood]
+        self.stack.sy=sy[sgood]
+        self.stack.sra=ra[sgood]
+        self.stack.sdec=dec[sgood]
         self.sx=np.append(self.sx,sx[sgood])
         self.sy=np.append(self.sy,sy[sgood])
         self.sra=np.append(self.sra,ra[sgood])
