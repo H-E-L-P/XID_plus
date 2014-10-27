@@ -96,10 +96,13 @@ class prior(object):
                 amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long)[good])#what pixels the source contributes to
                 amat_col=np.append(amat_col,np.full(ngood,s))#what source we are on
 
-        #Add background contribution to pointing matrix
-        self.amat_data=np.append(amat_data,np.full(self.snpix,1))
-        self.amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=int))
-        self.amat_col=np.append(amat_col,np.full(self.snpix,s+1))
+        #Add background contribution to pointing matrix: 
+        #only contributes to pixels within region of sources (i.e. not in the 20 pixel buffer space around edge)
+        good=(self.sx_pix < mux) & (self.sy_pix < muy) & (self.sy_pix >= mly) & (self.sx_pix >= mlx)
+        snpix_bkg=good.sum()
+        self.amat_data=np.append(amat_data,np.full(snpix_bkg,1))
+        self.amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long))[good]
+        self.amat_col=np.append(amat_col,np.full(snpix_bkg,s+1))
         
         
         def get_pointing_matrix_coo(self):
