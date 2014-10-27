@@ -14,10 +14,10 @@ data {
 }
 parameters {
   vector<lower=0.0,upper=300> [nsrc-nsrc_z] src_f;//source vector
-  vector<lower=0.0,upper=30> [nsrc_z] src_f_z;//source vector for high z sample
+  vector<lower=0.0,upper=10> [nsrc_z] src_f_z;//source vector for high z sample
   real bkg;//background
-  real <lower=0.0,upper=10> highz_mu;//mean flux of highz sample
-  real <lower=0.0,upper=10> highz_sigma;//dispersion of highz sample
+  real <lower=0.0,upper=6> highz_mu;//mean flux of highz sample
+  real <lower=0.0,upper=6> highz_sigma;//dispersion of highz sample
 }
 
 model {

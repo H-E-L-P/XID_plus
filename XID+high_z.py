@@ -120,6 +120,10 @@ prior250.prior_cat_stack(inra_z,indec_z,prior_cat_stack)
 prior250.get_pointing_matrix()
 print prior250.amat_data.size
 print prior250.amat_row.astype(long).size
+<<<<<<< HEAD
+=======
+
+>>>>>>> b0dc6b1624737e0f1e405ee655087a82b583a6ab
 
 
 fit_data,chains,iter=xid_mod.lstdrv_stan_highz(prior250)
