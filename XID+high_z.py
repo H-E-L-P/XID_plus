@@ -7,7 +7,7 @@ import numpy as np
 import astropy
 from astropy.io import fits
 from astropy import wcs
-import proto_XIDp_mod as xid_mod
+import XIDp_mod_beta as xid_mod
 
 
 # In[2]:
@@ -79,10 +79,10 @@ bkg500=-2.0
 # In[9]:
 
 #Folder containing prior input catalogue
-folder="'/research/astro/fir/HELP/high_z/"
+folder="/research/astro/fir/HELP/high_z/"
 #prior catalogue
 prior_cat_stack="ZSOUTHDEEP.fits"
-hdulist = fits.open(folder+prior_cat)
+hdulist = fits.open(folder+prior_cat_stack)
 fcat_z=hdulist[1].data
 hdulist.close()
 inra_z=fcat_z['RA']
@@ -118,7 +118,8 @@ prior250.prior_bkg(bkg250,2.0)
 prior250.prior_cat(inra,indec,prior_cat)
 prior250.prior_cat_stack(inra_z,indec_z,prior_cat_stack)
 prior250.get_pointing_matrix()
-
+print prior250.amat_data.size
+print prior250.amat_row.astype(long).size
 
 
 fit_data,chains,iter=xid_mod.lstdrv_stan_highz(prior250)
