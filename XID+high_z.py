@@ -12,7 +12,7 @@ import pickle
 import dill
 
 
-# In[2]:
+
 
 #Folder containing maps
 imfolder='/research/astrodata/fir/hermes/xid/XID_2014/SMAP_images_v4.2/' 
