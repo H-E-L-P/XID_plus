@@ -8,6 +8,8 @@ import astropy
 from astropy.io import fits
 from astropy import wcs
 import XIDp_mod_beta as xid_mod
+import pickle
+import dill
 
 
 # In[2]:
@@ -129,5 +131,5 @@ fit_data,chains,iter=xid_mod.lstdrv_stan_highz(prior250)
 output_folder='/research/astro/fir/HELP/XID_plus_output/'
 outfile=output_folder+'goodss_highz_fit_250.pkl'
 with open(outfile, 'wb') as f:
-            pickle.dump({'prior':prior250,'fit':fit_data}, f)
+            pickle.dump({'prior250':prior250,'fit':fit_data}, f)
 
