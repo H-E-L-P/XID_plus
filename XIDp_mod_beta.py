@@ -51,24 +51,19 @@ class prior(object):
         #check if sources are within map 
         sgood=(sx > 0) & (sx < self.wcs._naxis1) & (sy > 0) & (sy < self.wcs._naxis2)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
 
-
-        class stack(object):
-            def __init__(self,prior_cat):
-                self.prior_cat=prior_cat
                 
-        self.stack=stack(prior_cat)
 
         #Redefine prior list so it only contains sources in the map
-        self.stack.sx=sx[sgood]
-        self.stack.sy=sy[sgood]
-        self.stack.sra=ra[sgood]
-        self.stack.sdec=dec[sgood]
+        self.stack_sx=sx[sgood]
+        self.stack_sy=sy[sgood]
+        self.stack_sra=ra[sgood]
+        self.stack_sdec=dec[sgood]
         self.sx=np.append(self.sx,sx[sgood])
         self.sy=np.append(self.sy,sy[sgood])
         self.sra=np.append(self.sra,ra[sgood])
         self.sdec=np.append(self.sdec,dec[sgood])
         self.nsrc=self.nsrc+sgood.sum()
-        self.stack.nsrc=sgood.sum()
+        self.stack_nsrc=sgood.sum()
         if good_index != None:
             return sgood 
         
@@ -77,7 +72,7 @@ class prior(object):
     def get_pointing_matrix(self):
         from scipy import interpolate
         x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
-
+        
         paxis1,paxis2=self.prf.shape
         #cut down map to sources being fitted
         #first get range around sources
@@ -213,7 +208,7 @@ def lstdrv_stan_highz(prior,chains=4,iter=1000):
 
     XID_data={'npix':prior.snpix,
           'nsrc':prior.nsrc,
-          'nsrc_z':prior.stack.nsrc,
+          'nsrc_z':prior.stack_nsrc,
           'nnz':prior.amat_data.size,
           'db':prior.sim,
           'sigma':prior.snim,
