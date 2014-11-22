@@ -325,7 +325,7 @@ def create_XIDp_SPIREcat(posterior,prior250,prior350,prior500):
     import datetime
     nsrc=posterior.nsrc
     med_flux=posterior.quantileGet(50)
-    flux_low=posterior.quantileGet(25.9)
+    flux_low=posterior.quantileGet(15.87)
     flux_high=posterior.quantileGet(84.1)
 
 
