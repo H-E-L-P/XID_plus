@@ -230,6 +230,52 @@ def lstdrv_stan_highz(amat_data,amat_row,amat_col,snoisy_map,ssig_map,n_src,n_sr
     return fit_data,chains,iter
 
 
+
+
+def lstdrv_SPIRE_stan(amat_data,amat_row,amat_col,snoisy_map,ssig_map,snsrc,snpix,bkg,sig_bkg,chains=4,iter=1000):
+    #
+    import pystan
+    import pickle
+
+    # define function to initialise flux values to one
+    def initfun():
+        return dict(src_f=np.ones(snsrc))
+    #input data into a dictionary
+
+    XID_data={'npix':snpix,
+          'nsrc':snsrc,
+          'nnz':amat_data.size,
+          'db':ssig_map,
+          'sigma':snoisy_map,
+          'bkg_prior':bkg,
+          'bkg_prior_sig':sig_bkg,
+          'Val':amat_data,
+          'Row': amat_row.astype(long),
+          'Col': amat_col.astype(long)}
+    
+    #see if model has already been compiled. If not, compile and save it
+    import os
+    model_file="./XID+_basic.pkl"
+    try:
+       with open(model_file,'rb') as f:
+            # using the same model as before
+            print("%s found. Reusing" % model_file)
+            sm = pickle.load(f)
+            fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+    except IOError as e:
+        print("%s not found. Compiling" % model_file)
+        sm = pystan.StanModel(file='XIDfit.stan')
+        # save it to the file 'model.pkl' for later use
+        with open(model_file, 'wb') as f:
+            pickle.dump(sm, f)
+        fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+    #run pystan with dictionary of data
+    #fit=pystan.stan(file='XIDfit.stan',data=XID_data,iter=iter,chains=chains)#,init=initfun)
+    #extract fit
+    fit_data=fit.extract(permuted=False, inc_warmup=False)
+    #return fit data
+    return fit_data,chains,iter
+
 # In[17]:
 
 def lstdrv_solvefluxes(sx250,sy250,sx350,sy350,sx500,sy500#pixel positions of sources
@@ -401,15 +447,18 @@ def create_XIDp_cat(nsrc,imhdu):
     prihdu = fits.PrimaryHDU(header=prihdr)
     
     #-----Covariance header---------------------------------
-    c1 = Column(name='sigma_i_j_k', format='I', array=np.empty(nsrc,dtype=long))
+    c1 = Column(name='sigma_i_j_k_l', format='I', array=np.empty(nsrc,dtype=long))
     c2 = Column(name='XID_i', format='I', array=np.empty(nsrc,dtype=long))
     c3 = Column(name='XID_j', format='I', array=np.empty(nsrc,dtype=long))
-    c4 = Column(name='XID_k', format='I', array=np.empty(nsrc,dtype=long))
+    c4 = Column(name='Band_k', format='I', array=np.empty(nsrc,dtype=long))
+    c5 = Column(name='Band_l', format='I', array=np.empty(nsrc,dtype=long))
+
     tbhdu = fits.new_table([c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15])
 
 
     thdulist = fits.HDUList([prihdu, tbhdu, covhdu, imhdu])
     return thdulist
+
 
 
 
