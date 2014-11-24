@@ -4,6 +4,10 @@ import astropy
 from astropy.io import fits
 from astropy import wcs
 
+#path for where stan models lie
+stan_path='./stan_models/'
+
+
 class prior(object):
     def __init__(self,prf,im,nim,wcs,imphdu):
         """class for SPIRE prior object. Initialise with prf,map,uncertianty map and wcs"""
@@ -186,7 +190,7 @@ def lstdrv_SPIRE_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
             fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
     except IOError as e:
         print("%s not found. Compiling" % model_file)
-        sm = pystan.StanModel(file='XID+SPIRE.stan')
+        sm = pystan.StanModel(file=stan_path+'XID+SPIRE.stan')
         # save it to the file 'model.pkl' for later use
         with open(model_file, 'wb') as f:
             pickle.dump(sm, f)
@@ -229,13 +233,12 @@ def lstdrv_stan_highz(prior,chains=4,iter=1000):
             fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
     except IOError as e:
         print("%s not found. Compiling" % model_file)
-        sm = pystan.StanModel(file='XID+highz.stan')
+        sm = pystan.StanModel(file=stan_path+'XID+highz.stan')
         # save it to the file 'model.pkl' for later use
         with open(model_file, 'wb') as f:
             pickle.dump(sm, f)
         fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
-    #run pystan with dictionary of data
-    #fit=pystan.stan(file='XIDfit.stan',data=XID_data,iter=iter,chains=chains)#,init=initfun)
+
     #extract fit
     fit_data=fit.extract(permuted=False, inc_warmup=False)
     #return fit data
