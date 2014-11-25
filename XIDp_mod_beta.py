@@ -244,6 +244,51 @@ def lstdrv_stan_highz(prior,chains=4,iter=1000):
     #return fit data
     return fit_data,chains,iter
 
+def lstdrv_stan(prior,chains=4,iter=1000):
+    #
+    import pystan
+    import pickle
+
+    # define function to initialise flux values to one
+    def initfun():
+        return dict(src_f=np.ones(snsrc))
+    #input data into a dictionary
+
+    XID_data={'npix':prior.snpix,
+          'nsrc':prior.nsrc,
+          'nnz':prior.amat_data.size,
+          'db':prior.sim,
+          'sigma':prior.snim,
+          'bkg_prior':prior.bkg[0],
+          'bkg_prior_sig':prior.bkg[1],
+          'Val':prior.amat_data,
+          'Row': prior.amat_row.astype(long),
+          'Col': prior.amat_col.astype(long)}
+    
+    #see if model has already been compiled. If not, compile and save it
+    import os
+    model_file="./XID+_basic.pkl"
+    try:
+       with open(model_file,'rb') as f:
+            # using the same model as before
+            print("%s found. Reusing" % model_file)
+            sm = pickle.load(f)
+            fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+    except IOError as e:
+        print("%s not found. Compiling" % model_file)
+        sm = pystan.StanModel(file=stan_path+'XIDfit.stan')
+        # save it to the file 'model.pkl' for later use
+        with open(model_file, 'wb') as f:
+            pickle.dump(sm, f)
+        fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+    #run pystan with dictionary of data
+    #fit=pystan.stan(file='XIDfit.stan',data=XID_data,iter=iter,chains=chains)#,init=initfun)
+    #extract fit
+    fit_data=fit.extract(permuted=False, inc_warmup=False)
+    #return fit data
+    return fit_data,chains,iter
+
+
 
 class posterior_stan(object):
     def __init__(self,stan_fit,nsrc):
