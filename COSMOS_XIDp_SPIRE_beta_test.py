@@ -3,7 +3,7 @@ import astropy
 from astropy.io import fits
 from astropy import wcs
 import pickle
-import dill
+
 import XIDp_mod_beta as xid_mod
 
 #Folder containing maps
