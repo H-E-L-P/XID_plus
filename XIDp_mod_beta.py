@@ -11,6 +11,7 @@ stan_path='./stan_models/'
 class prior(object):
     def __init__(self,prf,im,nim,wcs,imphdu):
         """class for SPIRE prior object. Initialise with prf,map,uncertianty map and wcs"""
+        #updated so that prf is now array rather than astropy's kernel
         #---for any bad pixels set map pixel to zero and uncertianty to 1----
         bad=np.logical_or(np.logical_or
                   (np.invert(np.isfinite(im)),
@@ -118,7 +119,7 @@ class prior(object):
             nbad=bad.sum()
             if ngood > 0.5*self.prf.array.size:
                 ipx2,ipy2=np.meshgrid(pindx,pindy)
-                nprf=interpolate.Rbf(ipx2.ravel(),ipy2.ravel(),self.prf.array.ravel(),function='cubic')
+                nprf=interpolate.Rbf(ipx2.ravel(),ipy2.ravel(),self.prf.ravel(),function='cubic')
                 atemp=np.empty((ngood))
                 for i in range(0,ngood):
                     atemp[i]=nprf(dx[good][i],dy[good][i])
