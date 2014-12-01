@@ -20,6 +20,9 @@ class prior(object):
             im[bad]=0.
             nim[bad]=1.
         #--------------------------
+        if prf.__class__ != np.array.__class__:
+            print 'NOTE: prf now needs to be a numpy array. \n Assuming prf is astropy kernel and converting to array'
+            prf=prf.array
         self.prf=prf
         self.im=im
         self.nim=nim
