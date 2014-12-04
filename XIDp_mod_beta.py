@@ -371,6 +371,58 @@ class posterior_stan(object):
         self.Band_l=Band_l[index_dup]
         self.sigma_i_j_k_l=sigma_i_j_k_l[index_dup]
 
+def create_XIDp_cat(posterior,prior):
+"""creates the XIDp catalogue for one band, in fits format required by HeDaM"""
+    import datetime
+    nsrc=posterior.nsrc
+    med_flux=posterior.quantileGet(50)
+    flux_low=posterior.quantileGet(15.87)
+    flux_high=posterior.quantileGet(84.1)
+    #----table info-----------------------
+    #first define columns
+    c1 = fits.Column(name='XID', format='I', array=np.arange(posterior.nsrc,dtype=long))
+    c2 = fits.Column(name='ra', format='D', unit='degrees', array=prior.sra)
+    c3 = fits.Column(name='dec', format='D', unit='degrees', array=prior.sdec)
+    c4 = fits.Column(name='flux', format='E', unit='mJy', array=med_flux[0:nsrc])
+    c5 = fits.Column(name='flux_err_u', format='E', unit='mJy', array=flux_high[0:nsrc])
+    c6 = fits.Column(name='flux_err_l', format='E', unit='mJy', array=flux_low[0:nsrc])
+    c7 = fits.Column(name='bkg', format='E', unit='mJy', array=np.full(nsrc,med_flux[nsrc]))
+    tbhdu = fits.new_table([c1,c2,c3,c4,c5,c6,c7])
+    
+    tbhdu.header.set('TUCD1','XID',after='TFORM1')      
+    tbhdu.header.set('TDESC1','ID of source which corresponds to i and j of cov matrix.',after='TUCD1')         
+
+    tbhdu.header.set('TUCD2','pos.eq.RA',after='TUNIT2')      
+    tbhdu.header.set('TDESC2','R.A. of object J2000',after='TUCD2') 
+
+    tbhdu.header.set('TUCD3','pos.eq.DEC',after='TUNIT3')      
+    tbhdu.header.set('TDESC3','Dec. of object J2000',after='TUCD3') 
+
+    tbhdu.header.set('TUCD4','phot.flux.density',after='TUNIT4')      
+    tbhdu.header.set('TDESC4','Flux (at 50th percentile)',after='TUCD4') 
+
+    tbhdu.header.set('TUCD5','phot.flux.density',after='TUNIT5')      
+    tbhdu.header.set('TDESC5','Flux (at 84.1 percentile) ',after='TUCD5') 
+
+    tbhdu.header.set('TUCD6','phot.flux.density',after='TUNIT6')      
+    tbhdu.header.set('TDESC6','Flux (at 15.87 percentile)',after='TUCD6') 
+
+    tbhdu.header.set('TUCD7','phot.flux.density',after='TUNIT7')      
+    tbhdu.header.set('TDESC7','background',after='TUCD7') 
+ 
+#----Primary header-----------------------------------
+    prihdr = fits.Header()
+    prihdr['Prior_C'] = prior.prior_cat
+    prihdr['TITLE']   = 'SPIRE XID catalogue'        
+    prihdr['OBJECT']  = prior.imphdu['OBJECT']                              
+    prihdr['CREATOR'] = 'WP5'                                 
+    prihdr['VERSION'] = 'beta'                                 
+    prihdr['DATE']    = datetime.datetime.now().isoformat()              
+    prihdu = fits.PrimaryHDU(header=prihdr)
+    
+    thdulist = fits.HDUList([prihdu, tbhdu,fits.ImageHDU(header=prior.imphdu)])
+    return thdulist
+
 
 def create_XIDp_SPIREcat(posterior,prior250,prior350,prior500):
     """creates the XIDp catalogue in fits format required by HeDaM"""
@@ -379,6 +431,7 @@ def create_XIDp_SPIREcat(posterior,prior250,prior350,prior500):
     med_flux=posterior.quantileGet(50)
     flux_low=posterior.quantileGet(15.87)
     flux_high=posterior.quantileGet(84.1)
+
 
 
     #----table info-----------------------
@@ -493,4 +546,6 @@ def fit_SPIRE(prior250,prior350,prior500):
     
     posterior=posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
     return create_XIDp_SPIREcat(posterior,prior250,prior350,prior500),prior250,prior350,prior500,posterior
+
+
 
