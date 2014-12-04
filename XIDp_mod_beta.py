@@ -35,7 +35,6 @@ class prior(object):
         sx,sy=self.wcs.wcs_world2pix(ra,dec,0)
         #check if sources are within map 
         sgood=(sx > 0) & (sx < self.wcs._naxis1) & (sy > 0) & (sy < self.wcs._naxis2)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
-
         #Redefine prior list so it only contains sources in the map
         self.sx=sx[sgood]
         self.sy=sy[sgood]

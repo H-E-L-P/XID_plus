@@ -20,6 +20,7 @@ Requires the following python modules (all can be installed via pip)
 4. numpy
 5. scipy
 6. astropy
+7. Cython
 
 
 Tests
