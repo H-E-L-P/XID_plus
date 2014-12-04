@@ -30,9 +30,10 @@ prior_cat="gonzalez_cat_01102014_field1_PSW_COSMOS.fits"
 hdulist = fits.open(folder+prior_cat)
 fcat=hdulist[1].data
 hdulist.close()
-inra=fcat['RA']
-indec=fcat['DEC']
-f_src=fcat['LD_250O']
+ind_R=fcat['APPRSO_TOT_EXT'] < 19.8
+inra=fcat['RA'][ind]
+indec=fcat['DEC'][ind]
+f_src=fcat['LD_250O'][ind]
 df_src=f_src
 nrealcat=fcat.size
 bkg250=0#fcat['bkg250'][0]
@@ -119,8 +120,8 @@ prior500.prior_bkg(bkg500,2)
 
 thdulist,prior250,prior350,prior500,posterior=xid_mod.fit_SPIRE(prior250,prior350,prior500)
 output_folder='/research/astro/fir/HELP/XID_plus_output/'
-thdulist.writeto(output_folder+'Gonzalez_XIDp_SPIRE_beta_'+field+'_dat.fits')
-outfile=output_folder+'Gonzalez_XIDp_SPIRE_beta_test.pkl'
+thdulist.writeto(output_folder+'Gonzalez_r19.8_XIDp_SPIRE_beta_'+field+'_dat.fits')
+outfile=output_folder+'Gonzalez_r19.8_XIDp_SPIRE_beta_test.pkl'
 with open(outfile, 'wb') as f:
     pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)
 
