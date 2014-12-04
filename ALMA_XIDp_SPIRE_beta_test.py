@@ -94,7 +94,7 @@ bkg500=fcat['bkg500'][0]
 hdulist = fits.open(pswfits, ignore_missing_end=True)
 im250phdu=hdulist[0].header
 im250=(hdulist[1].data*1.0E3)
-nim250=hdulist[2].data[1]*1.0E3
+nim250=hdulist[2].data*1.0E3
 w_250 = wcs.WCS(hdulist[1].header)
 pixsize250=3600.0*w_250.wcs.cd[1,1] #pixel size (in arcseconds)
 print 'Arcseconds per pixel, 250 micron:', pixsize250
@@ -103,7 +103,7 @@ hdulist.close()
 hdulist = fits.open(pmwfits, ignore_missing_end=True)
 im350phdu=hdulist[0].header
 im350=hdulist[1].data*1.0E3
-nim350=hdulist[2].data[1]*1.0E3
+nim350=hdulist[2].data*1.0E3
 w_350 = wcs.WCS(hdulist[1].header)
 pixsize350=3600.0*w_350.wcs.cd[1,1] #pixel size (in arcseconds)
 print 'Arcseconds per pixel, 350 micron:', pixsize350
@@ -112,7 +112,7 @@ hdulist.close()
 hdulist = fits.open(plwfits, ignore_missing_end=True)
 im500phdu=hdulist[0].header
 im500=hdulist[1].data*1.0E3
-nim500=hdulist[2].data[1]*1.0E3
+nim500=hdulist[2].data*1.0E3
 w_500 = wcs.WCS(hdulist[1].header)
 pixsize500=3600.0*w_500.wcs.cd[1,1] #pixel size (in arcseconds)
 print 'Arcseconds per pixel, 500 micron:', pixsize500
