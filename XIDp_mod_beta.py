@@ -372,7 +372,7 @@ class posterior_stan(object):
         self.sigma_i_j_k_l=sigma_i_j_k_l[index_dup]
 
 def create_XIDp_cat(posterior,prior):
-"""creates the XIDp catalogue for one band, in fits format required by HeDaM"""
+    """creates the XIDp catalogue for one band, in fits format required by HeDaM"""
     import datetime
     nsrc=posterior.nsrc
     med_flux=posterior.quantileGet(50)
@@ -410,7 +410,7 @@ def create_XIDp_cat(posterior,prior):
     tbhdu.header.set('TUCD7','phot.flux.density',after='TUNIT7')      
     tbhdu.header.set('TDESC7','background',after='TUCD7') 
  
-#----Primary header-----------------------------------
+    #----Primary header-----------------------------------
     prihdr = fits.Header()
     prihdr['Prior_C'] = prior.prior_cat
     prihdr['TITLE']   = 'SPIRE XID catalogue'        
