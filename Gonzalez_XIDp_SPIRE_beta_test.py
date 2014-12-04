@@ -31,9 +31,9 @@ hdulist = fits.open(folder+prior_cat)
 fcat=hdulist[1].data
 hdulist.close()
 ind_R=fcat['APPRSO_TOT_EXT'] < 19.8
-inra=fcat['RA'][ind]
-indec=fcat['DEC'][ind]
-f_src=fcat['LD_250O'][ind]
+inra=fcat['RA'][ind_R]
+indec=fcat['DEC'][ind_R]
+f_src=fcat['LD_250O'][ind_R]
 df_src=f_src
 nrealcat=fcat.size
 bkg250=0#fcat['bkg250'][0]
