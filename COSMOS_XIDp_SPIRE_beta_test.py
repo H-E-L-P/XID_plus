@@ -120,9 +120,13 @@ prior500.prior_bkg(bkg500,2)
 #thdulist,prior250,prior350,prior500,posterior=xid_mod.fit_SPIRE(prior250,prior350,prior500)
 
 #-----------fit using real beam--------------------------
-prior250.get_pointing_matrix_full_II(xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PSW_bgmod9_1arcsec.fits',pixsize[0]))
-prior350.get_pointing_matrix_full_II(xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PMW_bgmod9_1arcsec.fits',pixsize[1]))
-prior500.get_pointing_matrix_full_II(xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PLW_bgmod9_1arcsec.fits',pixsize[2]))
+PSF_250,px_250,py_250=xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PSW_bgmod9_1arcsec.fits',pixsize[0])
+PSF_350,px_350,py_350=xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PMW_bgmod9_1arcsec.fits',pixsize[1])
+PSF_500,px_500,py_500=xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PLW_bgmod9_1arcsec.fits',pixsize[2])
+
+prior250.get_pointing_matrix_full_II(PSF_250,px_250,py_250)
+prior350.get_pointing_matrix_full_II(PSF_350,px_350,py_350)
+prior500.get_pointing_matrix_full_II(PSF_500,px_500,py_500)
 fit_data,chains,iter=xid_mod.lstdrv_SPIRE_stan(prior250,prior350,prior500)
 posterior=posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
 thdulist=create_XIDp_SPIREcat(posterior,prior250,prior350,prior500)
