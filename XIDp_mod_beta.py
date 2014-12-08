@@ -630,4 +630,4 @@ def SPIRE_PSF(file,pixsize):
     px,py=PSF_cut.shape
     pindx=np.arange(0,px,1)*1.0/pixsize #get x scale in terms of pixel scale of map
     pindy=np.arange(0,py,1)*1.0/pixsize #get y scale in terms of pixel scale of map
-    return PSF_cut,px,py
+    return PSF_cut,pindx,pindy
