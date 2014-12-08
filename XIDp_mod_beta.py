@@ -202,7 +202,68 @@ class prior(object):
         self.amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long)[good])
         self.amat_col=np.append(amat_col,np.full(snpix_bkg,s+1))
         
+
+    def get_pointing_matrix_full_II(self,prf,pindx_o,pindy_o):
+        """get the pointing matrix, using the full res version of the PRF \n Requires PRF and corresponding scale for x and y"""
+        from scipy import interpolate
+        x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
         
+        paxis1,paxis2=prf.shape
+        #cut down map to sources being fitted
+        #first get range around sources
+        mux=np.max(self.sx)
+        mlx=np.min(self.sx)
+        muy=np.max(self.sy)
+        mly=np.min(self.sy)
+        npix=(x_pix < mux+20) & (y_pix < muy+20) & (y_pix >= mly-20) & (x_pix >= mlx-20)
+        self.snpix=npix.sum()
+        #now cut down and flatten maps
+        self.sx_pix=x_pix[npix]
+        self.sy_pix=y_pix[npix]
+        self.snim=self.nim[npix]
+        self.sim=self.im[npix]
+        amat_row=np.array([])
+        amat_col=np.array([])
+        amat_data=np.array([])
+        
+        #------Deal with PRF array----------
+        centre=((paxis1-1)/2)
+        #create pointing array
+        for s in range(0,self.nsrc):
+
+
+
+            #diff from centre of beam for each pixel in x
+            dx = -np.rint(self.sx[s]).astype(long)+pindx_o[(paxis1-1.)/2]+self.sx_pix
+            #diff from centre of beam for each pixel in y
+            dy = -np.rint(self.sy[s]).astype(long)+pindy_o[(paxis2-1.)/2]+self.sy_pix
+            #diff from each pixel in prf
+            pindx=pindx_o+self.sx[s]-np.rint(self.sx[s]).astype(long)
+            pindy=pindy_o+self.sy[s]-np.rint(self.sy[s]).astype(long)
+            #diff from pixel centre
+            px=self.sx[s]-np.rint(self.sx[s]).astype(long)+(paxis1-1.)/2.
+            py=self.sy[s]-np.rint(self.sy[s]).astype(long)+(paxis2-1.)/2.
+        
+            good = (dx >= 0) & (dx < pindx_o[paxis1-1]) & (dy >= 0) & (dy < pindy_o[paxis2-1])
+            ngood = good.sum()
+            bad = np.asarray(good)==False
+            nbad=bad.sum()
+            if ngood > 0.5*pindx_o[-1]*pindy_o[-1]:
+                ipx2,ipy2=np.meshgrid(pindx,pindy)
+                #nprf=interpolate.Rbf(ipx2.ravel(),ipy2.ravel(),prf.ravel(),function='cubic')
+                atemp=interpolate.griddata((ipx2.ravel(),ipy2.ravel()),prf.ravel(), (dx[good],dy[good]), method='nearest')
+                amat_data=np.append(amat_data,atemp)
+                amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long)[good])#what pixels the source contributes to
+                amat_col=np.append(amat_col,np.full(ngood,s))#what source we are on
+
+        #Add background contribution to pointing matrix: 
+        #only contributes to pixels within region of sources (i.e. not in the 20 pixel buffer space around edge)
+        good=(self.sx_pix < mux) & (self.sy_pix < muy) & (self.sy_pix >= mly) & (self.sx_pix >= mlx)
+        snpix_bkg=good.sum()
+        self.amat_data=np.append(amat_data,np.full(snpix_bkg,1))
+        self.amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long)[good])
+        self.amat_col=np.append(amat_col,np.full(snpix_bkg,s+1))
+
     def get_pointing_matrix_coo(self):
         from scipy.sparse import coo_matrix
         self.A=coo_matrix((self.amat_data, (self.amat_row, self.amat_col)), shape=(self.snpix, self.nsrc+1))
@@ -558,3 +619,15 @@ def fit_SPIRE(prior250,prior350,prior500):
     posterior=posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
     return create_XIDp_SPIREcat(posterior,prior250,prior350,prior500),prior250,prior350,prior500,posterior
 
+def SPIRE_PSF(file,pixsize):
+    """ Takes in file for PSF and return arrays for get_pointing_matrix_full. \n Assumes beam is from ftp://ftp.sciops.esa.int/pub/hsc-calibration/SPIRE/PHOT/Beams-1arcsec-shadow/ """
+    hdulist = fits.open(file) #Read in file
+    PSF=hdulist[1].data
+    hdulist.close()
+    offset=50 #How many pixels each side of centre do we want in array
+    centre=((PSF.shape[0]-1)/2.0) #get centre
+    PSF_cut=PSF[centre-offset:centre+offset+1,centre-offset:centre+offset+1] #Cut array to required size
+    px,py=PSF_cut.shape
+    pindx=np.arange(0,px,1)*1.0/pixsize #get x scale in terms of pixel scale of map
+    pindy=np.arange(0,py,1)*1.0/pixsize #get y scale in terms of pixel scale of map
+    return PSF_cut,px,py

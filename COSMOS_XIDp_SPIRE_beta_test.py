@@ -117,10 +117,22 @@ prior500=xid_mod.prior(prf500.array,im500,nim500,w_500,im500phdu)
 prior500.prior_cat(inra,indec,prior_cat)
 prior500.prior_bkg(bkg500,2)
 
-thdulist,prior250,prior350,prior500,posterior=xid_mod.fit_SPIRE(prior250,prior350,prior500)
+#thdulist,prior250,prior350,prior500,posterior=xid_mod.fit_SPIRE(prior250,prior350,prior500)
+
+#-----------fit using real beam--------------------------
+prior250.get_pointing_matrix_full_II(xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PSW_bgmod9_1arcsec.fits',pixsize[0]))
+prior350.get_pointing_matrix_full_II(xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PMW_bgmod9_1arcsec.fits',pixsize[1]))
+prior500.get_pointing_matrix_full_II(xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PLW_bgmod9_1arcsec.fits',pixsize[2]))
+fit_data,chains,iter=xid_mod.lstdrv_SPIRE_stan(prior250,prior350,prior500)
+posterior=posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
+thdulist=create_XIDp_SPIREcat(posterior,prior250,prior350,prior500)
+#----------------------------------------------------------
+
+
+
 output_folder='/research/astro/fir/HELP/XID_plus_output/'
 thdulist.writeto(output_folder+'XIDp_SPIRE_beta_'+field+'_dat.fits')
 outfile=output_folder+'XIDp_SPIRE_beta_test.pkl'
 with open(outfile, 'wb') as f:
-    pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500},f)
+    pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)
 
