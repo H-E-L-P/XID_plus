@@ -76,7 +76,7 @@ hdulist.close()
 #define range
 ra_mean=np.mean(inra)
 dec_mean=np.mean(indec)
-p_range=0.15
+p_range=0.05
 #check if sources are within range and if the nearest pixel has a finite value 
 
 sgood=(inra > ra_mean-p_range) & (inra < ra_mean+p_range) & (indec > dec_mean-p_range) & (indec < dec_mean+p_range)
@@ -135,8 +135,8 @@ thdulist=create_XIDp_SPIREcat(posterior,prior250,prior350,prior500)
 
 
 output_folder='/research/astro/fir/HELP/XID_plus_output/'
-thdulist.writeto(output_folder+'XIDp_SPIRE_beta_'+field+'_dat.fits')
-outfile=output_folder+'XIDp_SPIRE_beta_test.pkl'
+thdulist.writeto(output_folder+'XIDp_SPIRE_beta_'+field+'_dat_small.fits')
+outfile=output_folder+'XIDp_SPIRE_beta_test_small.pkl'
 with open(outfile, 'wb') as f:
     pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)
 
