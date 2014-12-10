@@ -120,13 +120,25 @@ prior500.prior_bkg(bkg500,2)
 #thdulist,prior250,prior350,prior500,posterior=xid_mod.fit_SPIRE(prior250,prior350,prior500)
 
 #-----------fit using real beam--------------------------
-PSF_250,px_250,py_250=xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PSW_bgmod9_1arcsec.fits',pixsize[0])
-PSF_350,px_350,py_350=xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PMW_bgmod9_1arcsec.fits',pixsize[1])
-PSF_500,px_500,py_500=xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PLW_bgmod9_1arcsec.fits',pixsize[2])
+#PSF_250,px_250,py_250=xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PSW_bgmod9_1arcsec.fits',pixsize[0])
+#PSF_350,px_350,py_350=xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PMW_bgmod9_1arcsec.fits',pixsize[1])
+#PSF_500,px_500,py_500=xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PLW_bgmod9_1arcsec.fits',pixsize[2])
+##---------fit using Gaussian beam-----------------------
+prf250=Gaussian2DKernel(prfsize[0]/2.355,x_size=101,y_size=101)
+prf250.normalize(mode='peak')
+prf350=Gaussian2DKernel(prfsize[1]/2.355,x_size=101,y_size=101)
+prf350.normalize(mode='peak')
+prf500=Gaussian2DKernel(prfsize[2]/2.355,x_size=101,y_size=101)
+prf500.normalize(mode='peak')
 
-prior250.get_pointing_matrix_full_II(PSF_250,px_250,py_250)
-prior350.get_pointing_matrix_full_II(PSF_350,px_350,py_350)
-prior500.get_pointing_matrix_full_II(PSF_500,px_500,py_500)
+pind250=np.arange(0,101,1)*1.0/pixsize[0] #get 250 scale in terms of pixel scale of map
+pind350=np.arange(0,101,1)*1.0/pixsize[1] #get 350 scale in terms of pixel scale of map
+pind500=np.arange(0,101,1)*1.0/pixsize[2] #get 500 scale in terms of pixel scale of map
+
+prior250.get_pointing_matrix_full_II(prf250,pind250,pind250)
+prior350.get_pointing_matrix_full_II(prf350,pind350,pind350)
+prior500.get_pointing_matrix_full_II(prf500,pind500,pind500)
+
 fit_data,chains,iter=xid_mod.lstdrv_SPIRE_stan(prior250,prior350,prior500)
 posterior=xid_mod.posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
 thdulist=xid_mod.create_XIDp_SPIREcat(posterior,prior250,prior350,prior500)
@@ -135,8 +147,8 @@ thdulist=xid_mod.create_XIDp_SPIREcat(posterior,prior250,prior350,prior500)
 
 
 output_folder='/research/astro/fir/HELP/XID_plus_output/'
-thdulist.writeto(output_folder+'XIDp_SPIRE_beta_'+field+'_dat_small_0.08.fits')
-outfile=output_folder+'XIDp_SPIRE_beta_test_small_0.08.pkl'
+thdulist.writeto(output_folder+'XIDp_SPIRE_beta_'+field+'_dat_small_0.08_Gauss.fits')
+outfile=output_folder+'XIDp_SPIRE_beta_test_small_0.08_Gauss.pkl'
 with open(outfile, 'wb') as f:
     pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)
 
