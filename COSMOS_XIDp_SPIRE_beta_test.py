@@ -135,9 +135,9 @@ pind250=np.arange(0,101,1)*1.0/pixsize[0] #get 250 scale in terms of pixel scale
 pind350=np.arange(0,101,1)*1.0/pixsize[1] #get 350 scale in terms of pixel scale of map
 pind500=np.arange(0,101,1)*1.0/pixsize[2] #get 500 scale in terms of pixel scale of map
 
-prior250.get_pointing_matrix_full_II(prf250,pind250,pind250)
-prior350.get_pointing_matrix_full_II(prf350,pind350,pind350)
-prior500.get_pointing_matrix_full_II(prf500,pind500,pind500)
+prior250.get_pointing_matrix_full_II(prf250.array,pind250,pind250)
+prior350.get_pointing_matrix_full_II(prf350.array,pind350,pind350)
+prior500.get_pointing_matrix_full_II(prf500.array,pind500,pind500)
 
 fit_data,chains,iter=xid_mod.lstdrv_SPIRE_stan(prior250,prior350,prior500)
 posterior=xid_mod.posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
