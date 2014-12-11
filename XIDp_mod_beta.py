@@ -9,7 +9,7 @@ stan_path='./stan_models/'
 
 
 class prior(object):
-    def __init__(self,prf,im,nim,wcs,imphdu):
+    def __init__(self,im,nim,wcs,imphdu):
         """class for SPIRE prior object. Initialise with prf,map,uncertianty map and wcs"""
         #updated so that prf is now array rather than astropy's kernel
         #---for any bad pixels set map pixel to zero and uncertianty to 1----
@@ -19,12 +19,6 @@ class prior(object):
         if(bad.sum() >0):
             im[bad]=0.
             nim[bad]=1.
-        #--------------------------
-        from astropy.convolution import Gaussian2DKernel
-        if prf.__class__ == Gaussian2DKernel(10).__class__:
-            print 'NOTE: prf now needs to be a numpy array. \n Assuming prf is astropy kernel and converting to array'
-            prf=prf.array
-        self.prf=prf
         self.im=im
         self.nim=nim
         self.wcs=wcs
@@ -75,10 +69,17 @@ class prior(object):
         self.stack_nsrc=sgood.sum()
         if good_index != None:
             return sgood 
+    
+
+    def set_prf(self,prf,pindx,pindy):
+        """Add prf array and corresponding x and y scales (in terms of pixels in map) \n Array should be an nxn array, where n is an odd number, and the centre of the prf is at the centre of the array"""
+        self.prf=prf
+        self.pindx=pindx
+        self.pindy=pindy
         
 
-    
     def get_pointing_matrix(self):
+        """get the pointing matrix, using the full res version of the PRF"""
         from scipy import interpolate
         x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
         
@@ -99,68 +100,6 @@ class prior(object):
         amat_row=np.array([])
         amat_col=np.array([])
         amat_data=np.array([])
-
-        #create pointing array
-        for s in range(0,self.nsrc):
-
-
-
-            #diff from centre of beam for each pixel in x
-            dx = -np.rint(self.sx[s]).astype(long)+(paxis1-1.)/2.+self.sx_pix
-            #diff from centre of beam for each pixel in y
-            dy = -np.rint(self.sy[s]).astype(long)+(paxis2-1.)/2.+self.sy_pix
-            #diff from each pixel in prf
-            pindx=range(0,paxis1)+self.sx[s]-np.rint(self.sx[s]).astype(long)
-            pindy=range(0,paxis2)+self.sy[s]-np.rint(self.sy[s]).astype(long)
-        
-            #diff from pixel centre
-            px=self.sx[s]-np.rint(self.sx[s]).astype(long)+(paxis1-1.)/2.
-            py=self.sy[s]-np.rint(self.sy[s]).astype(long)+(paxis2-1.)/2.
-        
-            good = (dx >= 0) & (dx < paxis1) & (dy >= 0) & (dy < paxis2)
-            ngood = good.sum()
-            bad = np.asarray(good)==False
-            nbad=bad.sum()
-            if ngood > 0.5*self.prf.size:
-                ipx2,ipy2=np.meshgrid(pindx,pindy)
-                nprf=interpolate.Rbf(ipx2.ravel(),ipy2.ravel(),self.prf.ravel(),function='cubic')
-                atemp=np.empty((ngood))
-                for i in range(0,ngood):
-                    atemp[i]=nprf(dx[good][i],dy[good][i])
-                amat_data=np.append(amat_data,atemp)
-                amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long)[good])#what pixels the source contributes to
-                amat_col=np.append(amat_col,np.full(ngood,s))#what source we are on
-
-        #Add background contribution to pointing matrix: 
-        #only contributes to pixels within region of sources (i.e. not in the 20 pixel buffer space around edge)
-        good=(self.sx_pix < mux) & (self.sy_pix < muy) & (self.sy_pix >= mly) & (self.sx_pix >= mlx)
-        snpix_bkg=good.sum()
-        self.amat_data=np.append(amat_data,np.full(snpix_bkg,1))
-        self.amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long)[good])
-        self.amat_col=np.append(amat_col,np.full(snpix_bkg,s+1))
-
-    def get_pointing_matrix_full(self,prf,pindx_o,pindy_o):
-        """get the pointing matrix, using the full res version of the PRF \n Requires PRF and corresponding scale for x and y"""
-        from scipy import interpolate
-        x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
-        
-        paxis1,paxis2=prf.shape
-        #cut down map to sources being fitted
-        #first get range around sources
-        mux=np.max(self.sx)
-        mlx=np.min(self.sx)
-        muy=np.max(self.sy)
-        mly=np.min(self.sy)
-        npix=(x_pix < mux+20) & (y_pix < muy+20) & (y_pix >= mly-20) & (x_pix >= mlx-20)
-        self.snpix=npix.sum()
-        #now cut down and flatten maps
-        self.sx_pix=x_pix[npix]
-        self.sy_pix=y_pix[npix]
-        self.snim=self.nim[npix]
-        self.sim=self.im[npix]
-        amat_row=np.array([])
-        amat_col=np.array([])
-        amat_data=np.array([])
         
         #------Deal with PRF array----------
         centre=((paxis1-1)/2)
@@ -170,88 +109,24 @@ class prior(object):
 
 
             #diff from centre of beam for each pixel in x
-            dx = -np.rint(self.sx[s]).astype(long)+pindx_o[(paxis1-1.)/2]+self.sx_pix
+            dx = -np.rint(self.sx[s]).astype(long)+self.pindx[(paxis1-1.)/2]+self.sx_pix
             #diff from centre of beam for each pixel in y
-            dy = -np.rint(self.sy[s]).astype(long)+pindy_o[(paxis2-1.)/2]+self.sy_pix
+            dy = -np.rint(self.sy[s]).astype(long)+self.pindy[(paxis2-1.)/2]+self.sy_pix
             #diff from each pixel in prf
-            pindx=pindx_o+self.sx[s]-np.rint(self.sx[s]).astype(long)
-            pindy=pindy_o+self.sy[s]-np.rint(self.sy[s]).astype(long)
+            pindx=self.pindx+self.sx[s]-np.rint(self.sx[s]).astype(long)
+            pindy=self.pindy+self.sy[s]-np.rint(self.sy[s]).astype(long)
             #diff from pixel centre
             px=self.sx[s]-np.rint(self.sx[s]).astype(long)+(paxis1-1.)/2.
             py=self.sy[s]-np.rint(self.sy[s]).astype(long)+(paxis2-1.)/2.
         
-            good = (dx >= 0) & (dx < pindx_o[paxis1-1]) & (dy >= 0) & (dy < pindy_o[paxis2-1])
+            good = (dx >= 0) & (dx < self.pindx[paxis1-1]) & (dy >= 0) & (dy < self.pindy[paxis2-1])
             ngood = good.sum()
             bad = np.asarray(good)==False
             nbad=bad.sum()
-            if ngood > 0.5*pindx_o[-1]*pindy_o[-1]:
-                ipx2,ipy2=np.meshgrid(pindx,pindy)
-                nprf=interpolate.Rbf(ipx2.ravel(),ipy2.ravel(),prf.ravel(),function='cubic')
-                atemp=np.empty((ngood))
-                for i in range(0,ngood):
-                    atemp[i]=nprf(dx[good][i],dy[good][i])
-                amat_data=np.append(amat_data,atemp)
-                amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long)[good])#what pixels the source contributes to
-                amat_col=np.append(amat_col,np.full(ngood,s))#what source we are on
-
-        #Add background contribution to pointing matrix: 
-        #only contributes to pixels within region of sources (i.e. not in the 20 pixel buffer space around edge)
-        good=(self.sx_pix < mux) & (self.sy_pix < muy) & (self.sy_pix >= mly) & (self.sx_pix >= mlx)
-        snpix_bkg=good.sum()
-        self.amat_data=np.append(amat_data,np.full(snpix_bkg,1))
-        self.amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long)[good])
-        self.amat_col=np.append(amat_col,np.full(snpix_bkg,s+1))
-        
-
-    def get_pointing_matrix_full_II(self,prf,pindx_o,pindy_o):
-        """get the pointing matrix, using the full res version of the PRF \n Requires PRF and corresponding scale for x and y"""
-        from scipy import interpolate
-        x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
-        
-        paxis1,paxis2=prf.shape
-        #cut down map to sources being fitted
-        #first get range around sources
-        mux=np.max(self.sx)
-        mlx=np.min(self.sx)
-        muy=np.max(self.sy)
-        mly=np.min(self.sy)
-        npix=(x_pix < mux+20) & (y_pix < muy+20) & (y_pix >= mly-20) & (x_pix >= mlx-20)
-        self.snpix=npix.sum()
-        #now cut down and flatten maps
-        self.sx_pix=x_pix[npix]
-        self.sy_pix=y_pix[npix]
-        self.snim=self.nim[npix]
-        self.sim=self.im[npix]
-        amat_row=np.array([])
-        amat_col=np.array([])
-        amat_data=np.array([])
-        
-        #------Deal with PRF array----------
-        centre=((paxis1-1)/2)
-        #create pointing array
-        for s in range(0,self.nsrc):
-
-
-
-            #diff from centre of beam for each pixel in x
-            dx = -np.rint(self.sx[s]).astype(long)+pindx_o[(paxis1-1.)/2]+self.sx_pix
-            #diff from centre of beam for each pixel in y
-            dy = -np.rint(self.sy[s]).astype(long)+pindy_o[(paxis2-1.)/2]+self.sy_pix
-            #diff from each pixel in prf
-            pindx=pindx_o+self.sx[s]-np.rint(self.sx[s]).astype(long)
-            pindy=pindy_o+self.sy[s]-np.rint(self.sy[s]).astype(long)
-            #diff from pixel centre
-            px=self.sx[s]-np.rint(self.sx[s]).astype(long)+(paxis1-1.)/2.
-            py=self.sy[s]-np.rint(self.sy[s]).astype(long)+(paxis2-1.)/2.
-        
-            good = (dx >= 0) & (dx < pindx_o[paxis1-1]) & (dy >= 0) & (dy < pindy_o[paxis2-1])
-            ngood = good.sum()
-            bad = np.asarray(good)==False
-            nbad=bad.sum()
-            if ngood > 0.5*pindx_o[-1]*pindy_o[-1]:
+            if ngood > 0.5*self.pindx[-1]*self.pindy[-1]:
                 ipx2,ipy2=np.meshgrid(pindx,pindy)
                 #nprf=interpolate.Rbf(ipx2.ravel(),ipy2.ravel(),prf.ravel(),function='cubic')
-                atemp=interpolate.griddata((ipx2.ravel(),ipy2.ravel()),prf.ravel(), (dx[good],dy[good]), method='nearest')
+                atemp=interpolate.griddata((ipx2.ravel(),ipy2.ravel()),self.prf.ravel(), (dx[good],dy[good]), method='nearest')
                 amat_data=np.append(amat_data,atemp)
                 amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long)[good])#what pixels the source contributes to
                 amat_col=np.append(amat_col,np.full(ngood,s))#what source we are on

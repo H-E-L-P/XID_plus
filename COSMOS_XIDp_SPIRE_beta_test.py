@@ -84,36 +84,27 @@ inra=inra[sgood]
 indec=indec[sgood]
 n_src=sgood.sum()
 print 'fitting '+str(n_src)+' sources'
-# Point response information, at the moment its 2D Gaussian, but should be general. All lstdrv_solvfluxes needs is 2D array with prf
 
-# In[15]:
+
+
+# Point response information, at the moment its 2D Gaussian,
 
 #pixsize array (size of pixels in arcseconds)
 pixsize=np.array([pixsize250,pixsize350,pixsize500])
 #point response function for the three bands
 prfsize=np.array([18.15,25.15,36.3])
-#set fwhm of prfs in terms of pixels
-pfwhm=prfsize/pixsize
-#set size of prf array (in pixels)
-paxis=[13,13]
 #use Gaussian2DKernel to create prf (requires stddev rather than fwhm hence pfwhm/2.355)
 from astropy.convolution import Gaussian2DKernel
-print pixsize
-print pfwhm[0]/2.355
-prf250=Gaussian2DKernel(pfwhm[0]/2.355,x_size=paxis[0],y_size=paxis[1])
-prf250.normalize(mode='peak')
-prf350=Gaussian2DKernel(pfwhm[1]/2.355,x_size=paxis[0],y_size=paxis[1])
-prf350.normalize(mode='peak')
-prf500=Gaussian2DKernel(pfwhm[2]/2.355,x_size=paxis[0],y_size=paxis[1])
-prf500.normalize(mode='peak')
 
-prior250=xid_mod.prior(prf250.array,im250,nim250,w_250,im250phdu)
+
+
+prior250=xid_mod.prior(im250,nim250,w_250,im250phdu)
 prior250.prior_cat(inra,indec,prior_cat)
 prior250.prior_bkg(bkg250,2)
-prior350=xid_mod.prior(prf350.array,im350,nim350,w_350,im350phdu)
+prior350=xid_mod.prior(im350,nim350,w_350,im350phdu)
 prior350.prior_cat(inra,indec,prior_cat)
 prior350.prior_bkg(bkg350,2)
-prior500=xid_mod.prior(prf500.array,im500,nim500,w_500,im500phdu)
+prior500=xid_mod.prior(im500,nim500,w_500,im500phdu)
 prior500.prior_cat(inra,indec,prior_cat)
 prior500.prior_bkg(bkg500,2)
 
@@ -135,15 +126,18 @@ pind250=np.arange(0,101,1)*1.0/pixsize[0] #get 250 scale in terms of pixel scale
 pind350=np.arange(0,101,1)*1.0/pixsize[1] #get 350 scale in terms of pixel scale of map
 pind500=np.arange(0,101,1)*1.0/pixsize[2] #get 500 scale in terms of pixel scale of map
 
-prior250.get_pointing_matrix_full_II(prf250.array,pind250,pind250)
-prior350.get_pointing_matrix_full_II(prf350.array,pind350,pind350)
-prior500.get_pointing_matrix_full_II(prf500.array,pind500,pind500)
+prior250.set_prf(prf250.array,pind250,pind250)
+prior350.set_prf(prf350.array,pind350,pind350)
+prior500.set_prf(prf500.array,pind500,pind500)
+
+prior250.get_pointing_matrix()
+prior350.get_pointing_matrix()
+prior500.get_pointing_matrix()
 
 fit_data,chains,iter=xid_mod.lstdrv_SPIRE_stan(prior250,prior350,prior500)
 posterior=xid_mod.posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
 thdulist=xid_mod.create_XIDp_SPIREcat(posterior,prior250,prior350,prior500)
 #----------------------------------------------------------
-
 
 
 output_folder='/research/astro/fir/HELP/XID_plus_output/'
