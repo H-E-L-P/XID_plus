@@ -150,7 +150,7 @@ fit_data,chains,iter=xid_mod.lstdrv_stan_highz(prior250)
 # In[ ]:
 
 output_folder='/research/astro/fir/HELP/XID_plus_output/'
-outfile=output_folder+'COSMOS_g_mcut_fit_250.pkl'
+outfile=output_folder+'COSMOS_g_mcut_fit_250_neg.pkl'
 with open(outfile, 'wb') as f:
             pickle.dump({'prior250':prior250,'fit':fit_data}, f)
 
