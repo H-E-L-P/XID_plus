@@ -46,8 +46,8 @@
 
 
 % Setting up some stuff that will go into the title
-\author{Seb Oliver, Peter Hurley}
-\title{HELP: FIR Luminosity Function from a map}
+\author{Peter Hurley, Seb Oliver}
+\title{HELP: XID+}
 \date{July 11th 2014}
 
 % Now we start doing some stuff
@@ -63,59 +63,34 @@
 
 
 \section{Introduction}
-An important approach in the understanding of the evolution of galaxy populations is to compare statistical summaries of populations at different redshifts.    Luminosity functions are a pretty ubiquitous example.
-Determining the far Infrared luminosity function is an important one.  FIR data suffers from large beams.  But there is lots of information in the map.  So we'd like to get the Luminosity function directly from the map.  Here we explore how to do that using Bayesian probabilistic modelling approach.
+\section{Posterior Predictive Checking}
+All models are wrong. What we would like to know is what aspects of the model don't fit the data. If our models are  for the SPIRE maps are reasonable, the observed SPIRE maps should look plausible under the posterior predictive distribution. To asses the model fits provided by XID+, we compare the predictive distribution $\mathbf{y}^{\mathrm{rep}}$ to the observed data $\mathbf{y}$. Unlike frequentist statistics, posterior predictive checking takes into account the uncertainty associated with the estimated parameters of the model. As posterior predictive checks involve a double use of the data, usage should be limited to measuring discrepancy to study model adequacy and not model comparison or inference (Meng 1994).
 
-\section{What data are we going to use?} 
-As a simple example lets assume that we have (i) a far infrared map with surface brightness $B_{\rm IR}$ as a function of sky position $(\alpha, \delta)$, this can be represented as a data vector $\mathbf{B}$  (ii) a spectroscopic redshift catalogue given exact redshifts $z_j$ for a set of galaxies that have a optical fluxes $f_{\rm opt}$ satisfying some threshold criteria.   
+Discrepency between model and data is measured via a test quantity or discrepancy measure, $T(\mathbf{y},\mathbf{\Theta})$,  a scaler summary of all parameters and data. A test statistic  only depends on data. In Bayesian context, test statistics can be generalised to allow dependence on model parameters under posterior distribution.
 
-We also know things like the FIR beam and the selection functions of the data sets.
+\subsection{Tail area probabilities (or p-value)} 
+Classical p-value for the test statistic $T(\mathbf{y})$ is
+\begin{equation}
+p_{C} = \Pr(T(\mathbf{y}^{\mathrm{rep}})\le T(\mathbf{y})|\mathbf{\Theta})
+\end{equation}
+where $\Theta$ is fixed. Test statistics represent a summary measure of discrepancy between observed data and what would be expected under a model with a particular value of $\mathbf{Theta}$ such as the maximum likelihood value. 
 
-\section{What are we interested in?}
-We principle want to know the luminosity function $\psi(L_{\rm IR},z)$ which gives the number density of galaxies i.e. is defined by 
-$$dN=\psi( L_{\rm IR},z)\,d\log L_{\rm IR}\,dV=\psi( L_{\rm IR},z)\,d\log L_{\rm IR}\,\frac{dV}{dz\,d\Omega}\,dz\,d\Omega.$$
+Possible test statistics for SPIRE maps include:
+\begin{itemize}
+\item $\mathrm{E}(\mathbf{y})$
+\end{itemize}
 
-In practice we are need to know (and might also be interested in) the bivariate luminosity function
+\subsection{Graphical posterior predictive checks}
+Basic idea is to display data alongside simulated data and look for systematic discrepancies. This could include:
+\begin{itemize}
+\item direct display of data i.e. map and simulated maps. as in BDA, ordering of pixels could be important (though is the case for maps?)
+\item display of data summaries (i.e. histogram of pixel flux densities) or parameter inferences (I don't understand the example in BDA for how parameter inferences can help).
+\item display of residuals, though they are in Bayesian in this context as they include uncertainty in parameters. Histogram of residuals might also be useful.
+\end{itemize}
 
-$$\psi( L_{\rm IR},L_{\rm opt},z),$$
-defined in a similar way.
-
-These luminosity functions can be parameterised in many ways.  We will likely be wanting to parameterise as parametric functions in luminosity and step-functions in $z$.  The parameter set to define the luminosity function is $\bm{\theta}$
-
-Because we worship at the altar of Bayes we want to turn the luminosity function into a probability density, 
-$$P(\log L_{\rm IR},\log L_{\rm opt},\bm{r}),$$ being the probability density of finding a galaxy at position $\bm{r}$ with $L_{\rm IR}$ and $L_{\rm opt}$, which is defined such that the probability of finding a galaxy in the interval $d\log L_{\rm IR}\,d\log L_{\rm opt}\, d \bm{r}$
-$$dP=P(\log L_{\rm IR},\log L_{\rm opt},\bm{r}) d\log L_{\rm IR}\,d\log L_{\rm opt}\,d\bm{r}$$
-Noting that $d\bm{r}=dV$ and that $dP = dN$ in the infinitesimal limit we see that 
-$$P(\log L_{\rm IR},\log L_{\rm opt},\bm{r})=\psi( L_{\rm IR},L_{\rm opt},z)$$
-
-\section{Optical Selection}
-Assume that we have a galaxy with the following properties: $\log L_{\rm IR},\log L_{\rm opt},\bm{r}$.
-A crucial consideration is the optical selection. This is the probability that the galaxy was in the original optical catalogue and then that the galaxy obtained a spectroscopic redshift. 
-
-Given that the galaxy is in the parent optical photometric catalogue...The spectroscopic redshift success will likely depend on the redshift survey geometry and the redshift of the galaxy and the flux of the galaxy. Let's assume that the probability of having a spectroscopic redshift is simply a function of the true optical flux, $f_{\rm opt}$, angular position and redshifts$ \bm{r}$.  I.e. the probability of the galaxy being in our redshift sample, $P({\rm zcat})$, is defined by a {\em selection function}:
-$$P({\rm zcat}| f_{\rm opt}, \bm{r}, {\rm photcat}).$$  
-
-In the simple case that we have a single galaxy type with a known spectral energy distribution there will be a deterministic function that relates to the ``true'' optical flux, $f_{\rm opt}$, to the luminosity and redshift i.e.
-$f_{\rm opt}=f(\log L_{\rm IR},\log L_{\rm opt},\bm{r})$.
-
-The original optical photometric survey produces a catalogue of observed fluxes There will then be another probabilistic {\em selection function} which relates the observed flux to the ``true" flux, which may also depend on position i.e.,
-$$ P(f_{\rm opt}^\prime|f_{\rm opt},\bm{r})$$
-
-also need the probability that the object would be in the photometric catalogue which is probably a simple function of its observed flux
-
-$$P({\rm photcat}| f_{\rm opt}^\prime)$$
-
-\section{Bayesian Inference}
-To get a better handle on how variables and observables are related, we can create a graphical model. Figure \ref{fig:graph_model} shows our graphical model for getting $$P(\log L_{\rm IR},\log L_{\rm opt},\bm{r}),$$
-$A_i^j$ denotes the contribution from source $i$ at pixel $j$, while $m_j$ is our model flux at pixel $j$. Other variables are as described above.
-
-\begin{figure}
-\centering
-\includegraphics{graphical_model.pdf}
-\caption{Graphical model for luminosity function. Dashed lines represent deterministic links, while solid lines represent probabilistic connections. Fixed variables are plotted as blobs, open circles as variables, and shaded circles as observed variables.}\label{fig:graph_model}
-\end{figure}
-
-Now we have the basic assumptions as to how variables interact with each other (i.e. the probabilistic model is constructed) all questions of interest are answered by performing inference on the distribution. 
+ 
+ 
+ 
 \end{document}
 
 
