@@ -10,8 +10,7 @@ stan_path='./stan_models/'
 
 class prior(object):
     def __init__(self,im,nim,wcs,imphdu):
-        """class for SPIRE prior object. Initialise with prf,map,uncertianty map and wcs"""
-        #updated so that prf is now array rather than astropy's kernel
+        """class for SPIRE prior object. Initialise with map,uncertianty map and wcs"""
         #---for any bad pixels set map pixel to zero and uncertianty to 1----
         bad=np.logical_or(np.logical_or
                   (np.invert(np.isfinite(im)),
@@ -25,6 +24,7 @@ class prior(object):
         self.imphdu=imphdu
 
     def prior_bkg(self,mu,sigma):
+        """Add background prior ($\mu$) and uncertianty ($\sigma$). Assumes normal distribution"""
         self.bkg=(mu,sigma)
 
     def prior_cat(self,ra,dec,prior_cat,good_index=None):
@@ -72,14 +72,14 @@ class prior(object):
     
 
     def set_prf(self,prf,pindx,pindy):
-        """Add prf array and corresponding x and y scales (in terms of pixels in map) \n Array should be an nxn array, where n is an odd number, and the centre of the prf is at the centre of the array"""
+        """Add prf array and corresponding x and y scales (in terms of pixels in map). \n Array should be an n x n array, where n is an odd number, and the centre of the prf is at the centre of the array"""
         self.prf=prf
         self.pindx=pindx
         self.pindy=pindy
         
 
     def get_pointing_matrix(self):
-        """get the pointing matrix, using the full res version of the PRF"""
+        """get the pointing matrix"""
         from scipy import interpolate
         x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
         
@@ -125,7 +125,6 @@ class prior(object):
             nbad=bad.sum()
             if ngood > 0.5*self.pindx[-1]*self.pindy[-1]:
                 ipx2,ipy2=np.meshgrid(pindx,pindy)
-                #nprf=interpolate.Rbf(ipx2.ravel(),ipy2.ravel(),prf.ravel(),function='cubic')
                 atemp=interpolate.griddata((ipx2.ravel(),ipy2.ravel()),self.prf.ravel(), (dx[good],dy[good]), method='nearest')
                 amat_data=np.append(amat_data,atemp)
                 amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long)[good])#what pixels the source contributes to
@@ -140,12 +139,13 @@ class prior(object):
         self.amat_col=np.append(amat_col,np.full(snpix_bkg,s+1))
 
     def get_pointing_matrix_coo(self):
+        """Get scipy coo version of pointing matrix. Useful for sparse matrix multiplication"""
         from scipy.sparse import coo_matrix
         self.A=coo_matrix((self.amat_data, (self.amat_row, self.amat_col)), shape=(self.snpix, self.nsrc+1))
 
 
 def lstdrv_SPIRE_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
-    #
+    """Fit all three SPIRE maps using stan"""
     import pystan
     import pickle
 
@@ -285,8 +285,6 @@ def lstdrv_stan(prior,chains=4,iter=1000):
         with open(model_file, 'wb') as f:
             pickle.dump(sm, f)
         fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
-    #run pystan with dictionary of data
-    #fit=pystan.stan(file='XIDfit.stan',data=XID_data,iter=iter,chains=chains)#,init=initfun)
     #extract fit
     fit_data=fit.extract(permuted=False, inc_warmup=False)
     #return fit data
@@ -296,6 +294,7 @@ def lstdrv_stan(prior,chains=4,iter=1000):
 
 class posterior_stan(object):
     def __init__(self,stan_fit,nsrc):
+        """ Class for dealing with posterior from stan"""
         self.stan_fit=stan_fit
         self.nsrc=nsrc
     
@@ -352,24 +351,26 @@ class posterior_stan(object):
         return quants
     
     def covariance_sparse(self,threshold=0.1):
+        """Create sparse covariance matrix from posterior. \n 
+        Only stores values that are greater than given threshold (default=|0.1|)"""
         chains,iter,nparam=self.stan_fit.shape
+        #Create index for sources that correspond to index in covariance matrix
         ij=np.append(np.arange(0,self.nsrc+1),[np.arange(0,self.nsrc+1),np.arange(0,self.nsrc+1)])
+        #Create index for band that correspond to index in covarariance matrix
         bb=np.append(np.full(self.nsrc+1,0),[np.full(self.nsrc+1,1),np.full(self.nsrc+1,2)])
         i_cov,j_cov=np.meshgrid(ij,ij)
         k_cov,l_cov=np.meshgrid(bb,bb)
+        #Calculate covariance matrix
         cov=np.cov(self.stan_fit.reshape((chains*iter,nparam)).T)
+        #Rather than storing full cov matrix, use only upper triangle (and diag)
+        cov=np.triu(cov,0) #this sets lower tri to zero
+        #select elements greater than threshold
         index=np.abs(cov)>threshold
-        XID_i=i_cov[index]
-        XID_j=j_cov[index]
-        Band_k=k_cov[index]
-        Band_l=l_cov[index]
-        sigma_i_j_k_l=cov[index]
-        index_dup=(Band_k >= Band_l)#i need to be smarter here so i don't store as many values
-        self.XID_i=XID_i[index_dup]
-        self.XID_j=XID_j[index_dup]
-        self.Band_k=Band_k[index_dup]
-        self.Band_l=Band_l[index_dup]
-        self.sigma_i_j_k_l=sigma_i_j_k_l[index_dup]
+        self.XID_i=i_cov[index]
+        self.XID_j=j_cov[index]
+        self.Band_k=k_cov[index]
+        self.Band_l=l_cov[index]
+        self.sigma_i_j_k_l=cov[index]
 
 def create_XIDp_cat(posterior,prior):
     """creates the XIDp catalogue for one band, in fits format required by HeDaM"""
@@ -548,7 +549,7 @@ def fit_SPIRE(prior250,prior350,prior500):
     return create_XIDp_SPIREcat(posterior,prior250,prior350,prior500),prior250,prior350,prior500,posterior
 
 def SPIRE_PSF(file,pixsize):
-    """ Takes in file for PSF and return arrays for get_pointing_matrix_full. \n Assumes beam is from ftp://ftp.sciops.esa.int/pub/hsc-calibration/SPIRE/PHOT/Beams-1arcsec-shadow/ """
+    """ Takes in file for PSF and return arrays for get_pointing_matrix. \n Assumes beam is from ftp://ftp.sciops.esa.int/pub/hsc-calibration/SPIRE/PHOT/Beams-1arcsec-shadow/ """
     hdulist = fits.open(file) #Read in file
     PSF=hdulist[1].data
     hdulist.close()
