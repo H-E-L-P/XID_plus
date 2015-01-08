@@ -44,6 +44,7 @@ hdulist = fits.open(pmwfits)
 im350=hdulist[1].data*1.0E3
 nim350=hdulist[2].data*1.0E3
 w_350 = wcs.WCS(hdulist[1].header)
+im350phdu=hdulist[0]
 pixsize350=3600.0*w_350.wcs.cd[1,1] #pixel size (in arcseconds)
 hdulist.close()
 #-----500-------------
@@ -51,6 +52,7 @@ hdulist = fits.open(plwfits)
 im500=hdulist[1].data*1.0E3
 nim500=hdulist[2].data*1.0E3
 w_500 = wcs.WCS(hdulist[1].header)
+im500phdu=hdulist[0]
 pixsize500=3600.0*w_500.wcs.cd[1,1] #pixel size (in arcseconds)
 hdulist.close()
 
@@ -121,15 +123,26 @@ prior250.prior_cat(inra,indec,prior_cat)
 prior250.prior_cat_stack(inra_z,indec_z,prior_cat_stack)
 prior250.get_pointing_matrix()
 
+prior350=xid_mod.prior(prf350,im350,nim350,w_350,im350phdu)
+prior350.prior_bkg(bkg350,2.0)
+prior350.prior_cat(inra,indec,prior_cat)
+prior350.prior_cat_stack(inra_z,indec_z,prior_cat_stack)
+prior350.get_pointing_matrix()
 
+prior500=xid_mod.prior(prf500,im500,nim500,w_500,im500phdu)
+prior500.prior_bkg(bkg500,2.0)
+prior500.prior_cat(inra,indec,prior_cat)
+prior500.prior_cat_stack(inra_z,indec_z,prior_cat_stack)
+prior500.get_pointing_matrix()
 
-fit_data,chains,iter=xid_mod.lstdrv_stan_highz(prior250)
+fit_data,chains,iter=xid_mod.lstdrv_stan_highz(prior350)
+
 
 
 # In[ ]:
 
 output_folder='/research/astro/fir/HELP/XID_plus_output/'
-outfile=output_folder+'goodss_highz_fit_250.pkl'
+outfile=output_folder+'goodss_highz_fit_350.pkl'
 with open(outfile, 'wb') as f:
-            pickle.dump({'prior250':prior250,'fit':fit_data}, f)
+            pickle.dump({'prior350':prior350,'fit':fit_data}, f)
 
