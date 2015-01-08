@@ -16,7 +16,7 @@ SMAPv='4.2'
 
 # In[7]:
 
-pswfits=imfolder+'cosmos_itermap_lacey_05012015_simulated_observation_w_noise_PSW_hipe.fits.gz'#SPIRE 250 map
+pswfits=imfolder+'cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PSW_hipe.fits.gz'#SPIRE 250 map
 pmwfits=imfolder+'cosmos_itermap_lacey_05012015_simulated_observation_w_noise_PMW_hipe.fits.gz'#SPIRE 350 map
 plwfits=imfolder+'cosmos_itermap_lacey_05012015_simulated_observation_w_noise_PLW_hipe.fits.gz'#SPIRE 500 map
 
@@ -46,8 +46,8 @@ bkg500=0#fcat['bkg500'][0]
 #-----250-------------
 hdulist = fits.open(pswfits)
 im250phdu=hdulist[0].header
-im250=hdulist[1].data*1.0E3
-nim250=hdulist[2].data*1.0E3
+im250=hdulist[1].data
+nim250=hdulist[2].data
 w_250 = wcs.WCS(hdulist[1].header)
 pixsize250=3600.0*w_250.wcs.cd[1,1] #pixel size (in arcseconds)
 hdulist.close()
@@ -135,12 +135,12 @@ prior500.get_pointing_matrix()
 
 fit_data,chains,iter=xid_mod.lstdrv_SPIRE_stan(prior250,prior350,prior500)
 posterior=xid_mod.posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
-thdulist=xid_mod.create_XIDp_SPIREcat(posterior,prior250,prior350,prior500)
+#thdulist=xid_mod.create_XIDp_SPIREcat(posterior,prior250,prior350,prior500)
 #----------------------------------------------------------
 
 
 output_folder='/research/astro/fir/HELP/XID_plus_output/'
-thdulist.writeto(output_folder+'lacy_XIDp_SPIRE_beta_'+field+'_dat_small_0.08_Gauss.fits')
+#thdulist.writeto(output_folder+'lacy_XIDp_SPIRE_beta_'+field+'_dat_small_0.08_Gauss.fits')
 outfile=output_folder+'lacy_XIDp_SPIRE_beta_test_small_0.08_Gauss.pkl'
 with open(outfile, 'wb') as f:
     pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)
