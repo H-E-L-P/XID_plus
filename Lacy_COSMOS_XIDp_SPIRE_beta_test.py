@@ -17,8 +17,8 @@ SMAPv='4.2'
 # In[7]:
 
 pswfits=imfolder+'cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PSW_hipe.fits.gz'#SPIRE 250 map
-pmwfits=imfolder+'cosmos_itermap_lacey_05012015_simulated_observation_w_noise_PMW_hipe.fits.gz'#SPIRE 350 map
-plwfits=imfolder+'cosmos_itermap_lacey_05012015_simulated_observation_w_noise_PLW_hipe.fits.gz'#SPIRE 500 map
+pmwfits=imfolder+'cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PMW_hipe.fits.gz'#SPIRE 350 map
+plwfits=imfolder+'cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PLW_hipe.fits.gz'#SPIRE 500 map
 
 
 # In[8]:
@@ -26,7 +26,7 @@ plwfits=imfolder+'cosmos_itermap_lacey_05012015_simulated_observation_w_noise_PL
 #Folder containing prior input catalogue
 folder='/research/astro/fir/cclarke/lacey/released/'
 #prior catalogue
-prior_cat='lacey_05012015_MillGas.ALLVOLS_cat_PSW_COSMOS.fits'
+prior_cat='lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS.fits'
 hdulist = fits.open(folder+prior_cat)
 fcat=hdulist[1].data
 hdulist.close()
@@ -46,8 +46,8 @@ bkg500=0#fcat['bkg500'][0]
 #-----250-------------
 hdulist = fits.open(pswfits)
 im250phdu=hdulist[0].header
-im250=hdulist[1].data
-nim250=hdulist[2].data
+im250=hdulist[1].data*1.0E3
+nim250=hdulist[2].data*1.0E3
 w_250 = wcs.WCS(hdulist[1].header)
 pixsize250=3600.0*w_250.wcs.cd[1,1] #pixel size (in arcseconds)
 hdulist.close()
