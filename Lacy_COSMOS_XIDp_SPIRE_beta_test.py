@@ -141,7 +141,7 @@ posterior=xid_mod.posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
 
 output_folder='/research/astro/fir/HELP/XID_plus_output/'
 #thdulist.writeto(output_folder+'lacy_XIDp_SPIRE_beta_'+field+'_dat_small_0.08_Gauss.fits')
-outfile=output_folder+'lacy_XIDp_SPIRE_beta_test_small_0.08_Gauss.pkl'
+outfile=output_folder+'lacy_XIDp_SPIRE_beta_test_small_0.08_Gauss_Cauchy.pkl'
 with open(outfile, 'wb') as f:
     pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)
 

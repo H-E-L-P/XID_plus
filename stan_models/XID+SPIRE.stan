@@ -57,7 +57,12 @@ model {
   bkg_psw ~normal(bkg_prior_psw,bkg_prior_sig_psw);
   bkg_pmw ~normal(bkg_prior_pmw,bkg_prior_sig_pmw);
   bkg_plw ~normal(bkg_prior_plw,bkg_prior_sig_plw);
- 
+  
+  src_f_psw ~cauchy(0,10);
+  src_f_pmw ~cauchy(0,10);
+  src_f_plw ~cauchy(0,10);
+
+
   for (n in 1:nsrc) {
     f_vec_psw[n] <- src_f_psw[n];
     f_vec_pmw[n] <- src_f_pmw[n];

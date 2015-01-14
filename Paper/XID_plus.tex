@@ -1,0 +1,120 @@
+% mn2eguide.tex
+% v2.1 released 03/05/2002
+%
+% Adapted from mnguide.tex
+% v1.3 released 14th September 1995
+% v1.2 released 5th September 1994 (M. Reed)
+% v1.1 released 18th July 1994
+% v1.0 released 28th January 1994
+
+
+% The journal style files and macros, with guides on their use, are
+% available by anonymous FTP on the Internet from the Comprehensive
+% TeX Archive Network (CTAN) sites ftp.tex.ac.uk and ftp.dante.de.
+% The files are in the directories
+% /tex-archive/macros/plain/contrib/mnras and
+% /tex-archive/macros/latex209/contrib/mnras for the TeX and LaTeX
+% files respectively.
+
+
+
+\documentclass[useAMS,usenatbib]{mn2e}
+
+\usepackage{rotating}
+\usepackage{lscape}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\usepackage{color}
+\usepackage{soul}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{textcomp}
+\usepackage[caption=false]{subfig}
+\usepackage{float}
+\usepackage{appendix}
+
+
+\def\mnras{MNRAS}
+ \def\apj{Astrophys. J.}
+ \def\aap{Astron. Astrophys.}
+ \def\apjs{Astrophys. J., Suppl. Ser.}
+
+
+
+%--------------------------------------------------------
+\bibliographystyle{mn2eNicola}
+
+\usepackage{hyperref}
+
+\title[HELP:XID+]
+  {HELP: Probabilistic De-blender for Herschel SPIRE maps}\author[P.D. Hurley et al.]{P.D.~Hurley,$^1$\thanks{Email: p.d.hurley@sussex.ac.uk} S.~Oliver,$^1$\\
+$^1$Astronomy Centre, Department of Physics and Astronomy, University of Sussex, Falmer, Brighton BN1 9QH, UK\\}
+
+\date{Released 2002 Xxxxx XX}
+
+\pagerange{\pageref{firstpage}--\pageref{lastpage}} \pubyear{2002}
+
+\def\LaTeX{L\kern-.36em\raise.3ex\hbox{a}\kern-.15em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}
+
+\newtheorem{theorem}{Theorem}[section]
+\graphicspath{}
+\begin{document}
+
+\label{firstpage}
+\maketitle
+
+\begin{abstract}
+The Herschel Extragalactic Legacy Project (HELP) will provide ancillary data from other wavelengths alongside the extra
+Software available at \url{https://github.com/pdh21/XID_plus/}.
+\end{abstract}
+
+
+\begin{keywords}
+galaxies: statistics -- infrared: galaxies
+\end{keywords}
+%
+%
+\section{Introduction}
+\section{Data}
+\section{Algorithm}
+\subsection{Probabilistic Model}
+%Our model for the map i.e. background, sources, prior flux information etc
+\subsection{Stan}
+%How Stan fits the map, chains, runtime, estimating convergence
+\subsection{Segmentation}
+%How we segment the map
+\subsection{Uncertainties and Covariances}
+%Details on what we get out of fit. e.g. marginalised estimate of fluxes, covariance information between sources
+\section{Simulations}
+\subsection{XID+ vs. DESPHOT}
+%testing agains DESPHOT
+\subsection{Performance with Priors}
+%Show how performance increases with better prior information
+\section{XID+Science}
+%Show how framework allows users to do science with maps 
+\section{Conclusions}
+
+
+
+\section*{Acknowledgements} %
+%
+%%
+%
+%
+\bibliography{}
+
+%
+%
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%% \bsp % ``This paper has been produced using the ...''
+%
+%\label{lastpage}
+
+\end{document}
