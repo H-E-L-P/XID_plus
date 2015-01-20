@@ -36,11 +36,12 @@ model {
   }
   f_vec[nsrc+1] <-bkg;
 
-  #src_f ~cauchy(0,10); // set cauchy distribution for fluxes i.e. expect lower
+  //src_f ~cauchy(0,10); // set cauchy distribution for fluxes i.e. expect lower
 
   for (k in 1:npix) {
     db_hat[k] <- 0;
   }
+  // do sparse multiplication of pointing matrix and source flux vector to get model of map
   for (k in 1:nnz) {
     db_hat[Row[k]+1] <- db_hat[Row[k]+1] + Val[k]*f_vec[Col[k]+1];
       }
