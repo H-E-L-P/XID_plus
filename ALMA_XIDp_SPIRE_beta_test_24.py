@@ -7,63 +7,44 @@ import dill
 import XIDp_mod_beta as xid_mod
 from astropy import coordinates as coord
 from astropy import units as u
-from astropy.coordinates import SkyCoord, ICRS
 from astropy.coordinates import Angle
 
 #Get field names out of ALMA data catalogue:
 fields=[]
 sources=[]
-ralist=[]
-declist=[]
 file=open('/Users/jillianscudder/Research/ALMA_XID/table_observed.dat', 'r')
 dat=file.readlines()
 for entry in dat[1::]:
     splitlines=entry.split()
     fields.append(splitlines[0])
     sources.append(splitlines[1])
-    ralist.append(splitlines[2])
-    declist.append(splitlines[3])
 file.close()
 fields=np.asarray(fields)
 sources=np.asarray(sources)
-ralist=np.asarray(ralist)
-declist=np.asarray(declist)
 
 #Find the unique field IDs
 unique_fields=np.unique(fields)
 print 'Number of fields:', len(unique_fields)
 #Select the number of sources per field
 sources_per_field={}
-ra_per_field={}
-dec_per_field={}
 for u_field in unique_fields:
     sources_per_field[u_field]=sources[np.where(fields==u_field)]
-    ra_per_field[u_field]=ralist[np.where(fields==u_field)]
-    dec_per_field[u_field]=declist[np.where(fields==u_field)]
 
+'''
 #Convert RA/Dec lists into decimal from hours
-field_ra_dict={}
-field_dec_dict={}
-for field in unique_fields:
-    print field
-    sources=sources_per_field[field]
-    ratemp=ra_per_field[field]
-    dectemp=dec_per_field[field]
-    ra_decdeg_dict={}
-    dec_decdeg_dict={}
+ra_decdeg_dict={}
+dec_decdeg_dict={}
+for entry in unique_fields:
+    sources=sources_per_field[entry]
+    ratemp=ra_per_field[entry]
+    dectemp=dec_per_field[entry]
     for index, entry in enumerate(ratemp):
         source=sources[index]
-        coord_temp=SkyCoord(entry, dectemp[index], unit=(u.hourangle, u.deg))
-        print coord_temp.ra.deg
-        print coord_temp.dec.deg
-        #dec_temp=SkyCoord(dectemp[index], unit=u.deg)
-        #print (ra_temp.to_string(unit='degree', decimal='True', precision=7)), (dec_temp.to_string(unit='degree', decimal='True', precision=7))
-        ra_decdeg_dict[source]=(coord_temp.ra.to_string(unit='degree', decimal='True', precision=10))
-        dec_decdeg_dict[source]=(coord_temp.dec.to_string(unit='degree', decimal='True', precision=10))
-    field_ra_dict[field]=ra_decdeg_dict
-    field_dec_dict[field]=dec_decdeg_dict
-    print 'end', field
-
+        ra_temp=Angle(entry, unit=u.hour)
+        dec_temp=Angle(dectemp[index], unit=u.deg)
+        ra_decdeg_dict[source]=(ra_temp.to_string(unit='degree', decimal='True', precision=7))
+        dec_decdeg_dict[source]=(dec_temp.to_string(unit='degree', decimal='True', precision=7))
+'''
 #Folder containing maps
 imfolder='/Users/jillianscudder/Research/ALMA_XID/'
 #field
@@ -75,9 +56,22 @@ for index in range(0, len(unique_fields)):
     pswfits=imfolder+'SPIRE250/'+field+'_250.fits'#SPIRE 250 map
     pmwfits=imfolder+'SPIRE350/'+field+'_350.fits'#SPIRE 350 map
     plwfits=imfolder+'SPIRE500/'+field+'_500.fits'#SPIRE 500 map
+    micron24_file=imfolder+'24MN/targets_'+field+'.txt'#final list of ra/dec sources
     ##My prior catalogue is the 870 source positions, already read in
     prior_cat="870 positions"
+    file=open(micron24_file, 'r')
+    ralist=[]
+    declist=[]
+    dat=file.readlines()
+    for entry in dat[1::]:
+        splitlines=entry.split()
+        ralist.append(float(splitlines[0]))
+        declist.append(float(splitlines[1]))
+    ralist=np.asarray(ralist)
+    declist=np.asarray(declist)
+
     # Open images and noise maps and use WCS module in astropy to get header information
+
     # In[9]:
 
     #-----250-------------
@@ -113,16 +107,11 @@ for index in range(0, len(unique_fields)):
     fieldid=field
     sourcelist=sources_per_field[fieldid]
     print sourcelist
-    inra=[]
-    indec=[]
-    for gal in sourcelist:
-        inra.append(float(field_ra_dict[field][gal]))
-        indec.append(float(field_dec_dict[field][gal]))
-    
-    print 'Fitting '+str(len(inra))+' sources...'
 
-    inra=np.asarray(inra)
-    indec=np.asarray(indec)
+    print 'Fitting '+str(len(ralist))+' sources...'
+
+    inra=np.asarray(ralist)
+    indec=np.asarray(declist)
     # Point response information, at the moment its 2D Gaussian, but should be general. All lstdrv_solvfluxes needs is 2D array with prf
 
     # In[15]:
@@ -155,9 +144,9 @@ for index in range(0, len(unique_fields)):
     prior500=xid_mod.prior(prf500,im500,nim500,w_500,im500phdu)
     prior500.prior_cat(inra,indec,prior_cat)
     prior500.prior_bkg(0,2)
-    
+
     thdulist,prior250,prior350,prior500,posterior=xid_mod.fit_SPIRE(prior250,prior350,prior500)
-    output_folder='/Users/jillianscudder/XID_plus/Output/870MN/'
+    output_folder='/Users/jillianscudder/XID_plus/Output/24MN/'
     thdulist.writeto(output_folder+'XIDp_ALMA_SPIRE_beta_'+field+'_dat.fits')
     outfile=output_folder+'XIDp_SPIRE_beta_test'+field+'.pkl'
     with open(outfile, 'wb') as f:
