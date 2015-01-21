@@ -22,6 +22,19 @@ class prior(object):
         self.nim=nim
         self.wcs=wcs
         self.imphdu=imphdu
+        #add a boolean array 
+        ind=np.empty_like(im,dtype=bool)
+        ind[:]=True
+        self.im_bool=ind
+        #get x and y pixel position for each position
+        x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
+        #now cut down and flatten maps (default is to use all pixels, running segment will change the values below to pixels within segment)
+        self.sx_pix=x_pix[ind]
+        self.sy_pix=y_pix[ind]
+        self.snim=self.nim[ind]
+        self.sim=self.im[ind]
+        self.snpix=npix.sum()
+
 
     def prior_bkg(self,mu,sigma):
         """Add background prior ($\mu$) and uncertianty ($\sigma$). Assumes normal distribution"""
@@ -33,7 +46,7 @@ class prior(object):
         #get positions of sources in terms of pixels
         sx,sy=self.wcs.wcs_world2pix(ra,dec,0)
         #check if sources are within map 
-        sgood=(sx > 0) & (sx < self.wcs._naxis1) & (sy > 0) & (sy < self.wcs._naxis2)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
+        sgood=(ra > self.tile[0,0]-self.buffer_size) & (ra < self.tile[0,2]+self.buffer_size) & (dec > tile[1,0]-self.buffer_size) & (dec < self.tile[1,2]+self.buffer_size)#
 
         #Redefine prior list so it only contains sources in the map
         self.sx=sx[sgood]
@@ -52,11 +65,11 @@ class prior(object):
         #get positions of sources in terms of pixels
         sx,sy=self.wcs.wcs_world2pix(ra,dec,0)
         #check if sources are within map 
-        sgood=(sx > 0) & (sx < self.wcs._naxis1) & (sy > 0) & (sy < self.wcs._naxis2)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
+        sgood=(ra > self.tile[0,0]-self.buffer_size) & (ra < self.tile[0,2]+self.buffer_size) & (dec > tile[1,0]-self.buffer_size) & (dec < self.tile[1,2]+self.buffer_size)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
 
                 
 
-        #Redefine prior list so it only contains sources in the map
+        #Redefine prior list so it only contains sources in the tile being fitted
         self.stack_sx=sx[sgood]
         self.stack_sy=sy[sgood]
         self.stack_sra=ra[sgood]
@@ -70,6 +83,28 @@ class prior(object):
         if good_index != None:
             return sgood 
     
+    def set_tile(tile,buffer_size):
+        """Segment map to tile region described by tile and buffer_size"""
+        #create polygon of tile (in format used by aplpy). Should be 2x4 array
+        self.tile=tile
+        #get vertices of polygon in terms of pixels
+        tile_x,tile_y=self.wcs.wcs_world2pix(tile[0,:],tile[1,:],0)
+
+        x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
+
+        npix=(x_pix < tile_x[2]) & (y_pix < tile_y[2]) & (y_pix >= tile_y[0]) & (x_pix >= tile_x[0])
+
+        #now cut down and flatten maps
+        self.sx_pix=x_pix[npix]
+        self.sy_pix=y_pix[npix]
+        self.snim=self.nim[npix]
+        self.sim=self.im[npix]
+        self.snpix=npix.sum()
+
+        
+        #store buffer size
+        self.buffer_size=buffer_size
+
 
     def set_prf(self,prf,pindx,pindy):
         """Add prf array and corresponding x and y scales (in terms of pixels in map). \n Array should be an n x n array, where n is an odd number, and the centre of the prf is at the centre of the array"""
@@ -80,23 +115,9 @@ class prior(object):
 
     def get_pointing_matrix(self):
         """get the pointing matrix"""
-        from scipy import interpolate
-        x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
-        
+        from scipy import interpolate        
         paxis1,paxis2=self.prf.shape
-        #cut down map to sources being fitted
-        #first get range around sources
-        mux=np.max(self.sx)
-        mlx=np.min(self.sx)
-        muy=np.max(self.sy)
-        mly=np.min(self.sy)
-        npix=(x_pix < mux+20) & (y_pix < muy+20) & (y_pix >= mly-20) & (x_pix >= mlx-20)
-        self.snpix=npix.sum()
-        #now cut down and flatten maps
-        self.sx_pix=x_pix[npix]
-        self.sy_pix=y_pix[npix]
-        self.snim=self.nim[npix]
-        self.sim=self.im[npix]
+
         amat_row=np.array([])
         amat_col=np.array([])
         amat_data=np.array([])
@@ -131,11 +152,10 @@ class prior(object):
                 amat_col=np.append(amat_col,np.full(ngood,s))#what source we are on
 
         #Add background contribution to pointing matrix: 
-        #only contributes to pixels within region of sources (i.e. not in the 20 pixel buffer space around edge)
-        good=(self.sx_pix < mux) & (self.sy_pix < muy) & (self.sy_pix >= mly) & (self.sx_pix >= mlx)
-        snpix_bkg=good.sum()
+        #only contributes to pixels within tile
+        snpix_bkg=self.snpix
         self.amat_data=np.append(amat_data,np.full(snpix_bkg,1))
-        self.amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long)[good])
+        self.amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long))
         self.amat_col=np.append(amat_col,np.full(snpix_bkg,s+1))
 
     def get_pointing_matrix_coo(self):
@@ -562,5 +582,22 @@ def SPIRE_PSF(file,pixsize):
     return PSF_cut,pindx,pindy
 
 
-    
+def Segmentation_scheme(inra,indec,tile_l):
+    """For a given prior catalogue, create a tiling scheme with given tile size. \n Returns tiles for which there are sources""" 
+    ra_min=np.floor(10.0*np.min(inra))/10.0
+    ra_max=np.floor(10.0*np.max(inra))/10.0
+    dec_min=np.floor(10.0*np.min(indec))/10.0
+    dec_max=np.floor(10.0*np.max(indec))/10.0
+    #Create tiles
+    tiles=[]
+    for ra in np.arange(ra_min,ra_max,tile_l):
+        for dec in np.arange(dec_min,dec_max,tile_l):
+            #create tile for this ra and dec
+            tile=np.array([[ra,dec],[ra+tile_l,dec],[ra+tile_l,dec+tile_l],[ra,dec+tile_l]]).T
+            #check how many sources are in this tile
+            sgood=(inra > tile[0,0]) & (inra < tile[0,1]) & (indec > tile[1,0]) & (indec < tile[1,2])
+
+            if sgood.sum() >0:
+                tiles.append[tile]
+    return tiles
     

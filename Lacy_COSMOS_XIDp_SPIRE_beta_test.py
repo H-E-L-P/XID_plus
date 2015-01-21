@@ -5,6 +5,8 @@ from astropy import wcs
 import pickle
 import dill
 import XIDp_mod_beta as xid_mod
+import os
+import sys
 
 #Folder containing maps
 imfolder='/research/astro/fir/cclarke/lacey/released/'
@@ -68,6 +70,7 @@ w_500 = wcs.WCS(hdulist[1].header)
 pixsize500=3600.0*w_500.wcs.cd[1,1] #pixel size (in arcseconds)
 hdulist.close()
 
+
 # Since I am only testing, redo this so that I only fit sources within a given range of the mean ra and dec position of the prior list
 
 # In[12]:
@@ -75,7 +78,7 @@ hdulist.close()
 #define range
 ra_mean=np.mean(inra)
 dec_mean=np.mean(indec)
-p_range=0.08
+p_range=0.1
 #check if sources are within range and if the nearest pixel has a finite value 
 
 sgood=(inra > ra_mean-p_range) & (inra < ra_mean+p_range) & (indec > dec_mean-p_range) & (indec < dec_mean+p_range)
@@ -83,6 +86,37 @@ inra=inra[sgood]
 indec=indec[sgood]
 n_src=sgood.sum()
 print 'fitting '+str(n_src)+' sources'
+
+#--------SEGMENTATION--------------------
+#how many tiles are there?
+tile_l=0.05
+tiles=xid_mod.Segmentation_scheme(inra,indec,tile_l)
+print '----- There are '+str(tiles.shape[0])+' tiles required for input catalogue'
+try:
+    if sys.arg == 'Tiling':
+        print '----- There are '+str(tiles.shape[0])+' tiles required for input catalogue'
+        exit
+except Exception:
+    continue
+
+
+
+try:
+    taskid = np.int(os.environ['SGE_TASK_ID'])
+    task_first=np.int(os.environ['SGE_TASK_FIRST'])
+    task_last=np.int(os.environ['SGE_TASK_LAST'])
+
+except KeyError:
+    print "Error: could not read SGE_TASK_ID from environment"
+    exit
+
+if task_last != tiles.shape[0]:
+    print '---------------------------'
+    print 'Number of tasks does not equal number of tiles \n Stopping program'
+    exit
+
+
+
 
 
 
@@ -96,16 +130,24 @@ prfsize=np.array([18.15,25.15,36.3])
 from astropy.convolution import Gaussian2DKernel
 
 
-
-prior250=xid_mod.prior(im250,nim250,w_250,im250phdu)
-prior250.prior_cat(inra,indec,prior_cat)
-prior250.prior_bkg(bkg250,2)
+#Set prior classes
+#---prior250--------
+prior250=xid_mod.prior(im250,nim250,w_250,im250phdu)#Initialise with map, uncertianty map, wcs info and primary header
+prior250.set_tile(tiles[taskid],0.01)#Set tile, using a buffer size of 0.01 deg (36'' which is fwhm of PLW)
+prior250.prior_cat(inra,indec,prior_cat)#Set input catalogue
+prior250.prior_bkg(bkg250,2)#Set prior on background
+#---prior350--------
 prior350=xid_mod.prior(im350,nim350,w_350,im350phdu)
+prior350.set_tile(tiles[taskid],0.01)
 prior350.prior_cat(inra,indec,prior_cat)
 prior350.prior_bkg(bkg350,2)
+#---prior500--------
 prior500=xid_mod.prior(im500,nim500,w_500,im500phdu)
+prior500.set_tile(tiles[taskid],0.01)
 prior500.prior_cat(inra,indec,prior_cat)
 prior500.prior_bkg(bkg500,2)
+
+
 
 #thdulist,prior250,prior350,prior500,posterior=xid_mod.fit_SPIRE(prior250,prior350,prior500)
 
@@ -141,7 +183,7 @@ posterior=xid_mod.posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
 
 output_folder='/research/astro/fir/HELP/XID_plus_output/'
 #thdulist.writeto(output_folder+'lacy_XIDp_SPIRE_beta_'+field+'_dat_small_0.08_Gauss.fits')
-outfile=output_folder+'lacy_XIDp_SPIRE_beta_test_small_0.08_Gauss_Cauchy.pkl'
+outfile=output_folder+'lacy_XIDp_SPIRE_beta_test_small_0.08_Gauss_Cauchy_'+str(prior250.tile[0,0]).replace('.','_')+'p'+str(prior250.tile[1,0]).replace('.','_')+'.pkl'
 with open(outfile, 'wb') as f:
     pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)
 
