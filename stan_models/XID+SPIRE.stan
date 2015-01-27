@@ -34,11 +34,11 @@ data {
 
 }
 parameters {
-  vector<lower=0.0,upper=300> [nsrc] src_f_psw;//source vector
+  vector<lower=-5,upper=3> [nsrc] src_f_psw;//source vector
   real bkg_psw;//background
-  vector<lower=0.0,upper=300> [nsrc] src_f_pmw;//source vector
+  vector<lower=-5,upper=3> [nsrc] src_f_pmw;//source vector
   real bkg_pmw;//background
-  vector<lower=0.0,upper=300> [nsrc] src_f_plw;//source vector
+  vector<lower=-5,upper=3> [nsrc] src_f_plw;//source vector
   real bkg_plw;//background
 
 }
@@ -58,15 +58,15 @@ model {
   bkg_pmw ~normal(bkg_prior_pmw,bkg_prior_sig_pmw);
   bkg_plw ~normal(bkg_prior_plw,bkg_prior_sig_plw);
   
-  src_f_psw ~cauchy(0,10);
-  src_f_pmw ~cauchy(0,10);
-  src_f_plw ~cauchy(0,10);
+#  src_f_psw ~cauchy(0,10);
+#  src_f_pmw ~cauchy(0,10);
+#  src_f_plw ~cauchy(0,10);
 
 
   for (n in 1:nsrc) {
-    f_vec_psw[n] <- src_f_psw[n];
-    f_vec_pmw[n] <- src_f_pmw[n];
-    f_vec_plw[n] <- src_f_plw[n];
+    f_vec_psw[n] <- pow(10.0,src_f_psw[n]);
+    f_vec_pmw[n] <- pow(10.0,src_f_pmw[n]);
+    f_vec_plw[n] <- pow(10.0,src_f_plw[n]);
 
 
   }
@@ -74,8 +74,6 @@ model {
   f_vec_pmw[nsrc+1] <-bkg_pmw;
   f_vec_plw[nsrc+1] <-bkg_plw;
 
-
-  #src_f ~cauchy(0,10); // set cauchy distribution for fluxes i.e. expect lower
 
   for (k in 1:npix_psw) {
     db_hat_psw[k] <- 0;

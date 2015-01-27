@@ -91,15 +91,15 @@ print 'fitting '+str(n_src)+' sources'
 #how many tiles are there?
 tile_l=0.05
 tiles=xid_mod.Segmentation_scheme(inra,indec,tile_l)
-print '----- There are '+str(tiles.shape[0])+' tiles required for input catalogue'
+print '----- There are '+str(len(tiles))+' tiles required for input catalogue'
 try:
     if sys.arg == 'Tiling':
-        print '----- There are '+str(tiles.shape[0])+' tiles required for input catalogue'
-        exit
-except Exception:
-    continue
+        print '----- There are '+str(len(tiles))+' tiles required for input catalogue'
+        sys.exit(0)
 
 
+except:
+    pass
 
 try:
     taskid = np.int(os.environ['SGE_TASK_ID'])
@@ -108,12 +108,12 @@ try:
 
 except KeyError:
     print "Error: could not read SGE_TASK_ID from environment"
-    exit
+    sys.exit(0)
 
-if task_last != tiles.shape[0]:
+if task_last != len(tiles):
     print '---------------------------'
     print 'Number of tasks does not equal number of tiles \n Stopping program'
-    exit
+    sys.exit(0)
 
 
 
@@ -133,17 +133,18 @@ from astropy.convolution import Gaussian2DKernel
 #Set prior classes
 #---prior250--------
 prior250=xid_mod.prior(im250,nim250,w_250,im250phdu)#Initialise with map, uncertianty map, wcs info and primary header
-prior250.set_tile(tiles[taskid],0.01)#Set tile, using a buffer size of 0.01 deg (36'' which is fwhm of PLW)
+print tiles[taskid-1].shape
+prior250.set_tile(tiles[taskid-1],0.01)#Set tile, using a buffer size of 0.01 deg (36'' which is fwhm of PLW)
 prior250.prior_cat(inra,indec,prior_cat)#Set input catalogue
 prior250.prior_bkg(bkg250,2)#Set prior on background
 #---prior350--------
 prior350=xid_mod.prior(im350,nim350,w_350,im350phdu)
-prior350.set_tile(tiles[taskid],0.01)
+prior350.set_tile(tiles[taskid-1],0.01)
 prior350.prior_cat(inra,indec,prior_cat)
 prior350.prior_bkg(bkg350,2)
 #---prior500--------
 prior500=xid_mod.prior(im500,nim500,w_500,im500phdu)
-prior500.set_tile(tiles[taskid],0.01)
+prior500.set_tile(tiles[taskid-1],0.01)
 prior500.prior_cat(inra,indec,prior_cat)
 prior500.prior_bkg(bkg500,2)
 

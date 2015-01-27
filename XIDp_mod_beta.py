@@ -25,7 +25,6 @@ class prior(object):
         #add a boolean array 
         ind=np.empty_like(im,dtype=bool)
         ind[:]=True
-        self.im_bool=ind
         #get x and y pixel position for each position
         x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
         #now cut down and flatten maps (default is to use all pixels, running segment will change the values below to pixels within segment)
@@ -33,7 +32,7 @@ class prior(object):
         self.sy_pix=y_pix[ind]
         self.snim=self.nim[ind]
         self.sim=self.im[ind]
-        self.snpix=npix.sum()
+        self.snpix=ind.sum()
 
 
     def prior_bkg(self,mu,sigma):
@@ -46,7 +45,7 @@ class prior(object):
         #get positions of sources in terms of pixels
         sx,sy=self.wcs.wcs_world2pix(ra,dec,0)
         #check if sources are within map 
-        sgood=(ra > self.tile[0,0]-self.buffer_size) & (ra < self.tile[0,2]+self.buffer_size) & (dec > tile[1,0]-self.buffer_size) & (dec < self.tile[1,2]+self.buffer_size)#
+        sgood=(ra > self.tile[0,0]-self.buffer_size) & (ra < self.tile[0,2]+self.buffer_size) & (dec > self.tile[1,0]-self.buffer_size) & (dec < self.tile[1,2]+self.buffer_size)#
 
         #Redefine prior list so it only contains sources in the map
         self.sx=sx[sgood]
@@ -65,7 +64,7 @@ class prior(object):
         #get positions of sources in terms of pixels
         sx,sy=self.wcs.wcs_world2pix(ra,dec,0)
         #check if sources are within map 
-        sgood=(ra > self.tile[0,0]-self.buffer_size) & (ra < self.tile[0,2]+self.buffer_size) & (dec > tile[1,0]-self.buffer_size) & (dec < self.tile[1,2]+self.buffer_size)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
+        sgood=(ra > self.tile[0,0]-self.buffer_size) & (ra < self.tile[0,2]+self.buffer_size) & (dec > self.tile[1,0]-self.buffer_size) & (dec < self.tile[1,2]+self.buffer_size)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
 
                 
 
@@ -83,7 +82,7 @@ class prior(object):
         if good_index != None:
             return sgood 
     
-    def set_tile(tile,buffer_size):
+    def set_tile(self,tile,buffer_size):
         """Segment map to tile region described by tile and buffer_size"""
         #create polygon of tile (in format used by aplpy). Should be 2x4 array
         self.tile=tile
@@ -598,6 +597,6 @@ def Segmentation_scheme(inra,indec,tile_l):
             sgood=(inra > tile[0,0]) & (inra < tile[0,1]) & (indec > tile[1,0]) & (indec < tile[1,2])
 
             if sgood.sum() >0:
-                tiles.append[tile]
+                tiles.append(tile)
     return tiles
     
