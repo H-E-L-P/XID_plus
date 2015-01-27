@@ -30,21 +30,6 @@ sources_per_field={}
 for u_field in unique_fields:
     sources_per_field[u_field]=sources[np.where(fields==u_field)]
 
-'''
-#Convert RA/Dec lists into decimal from hours
-ra_decdeg_dict={}
-dec_decdeg_dict={}
-for entry in unique_fields:
-    sources=sources_per_field[entry]
-    ratemp=ra_per_field[entry]
-    dectemp=dec_per_field[entry]
-    for index, entry in enumerate(ratemp):
-        source=sources[index]
-        ra_temp=Angle(entry, unit=u.hour)
-        dec_temp=Angle(dectemp[index], unit=u.deg)
-        ra_decdeg_dict[source]=(ra_temp.to_string(unit='degree', decimal='True', precision=7))
-        dec_decdeg_dict[source]=(dec_temp.to_string(unit='degree', decimal='True', precision=7))
-'''
 #Folder containing maps
 imfolder='/Users/jillianscudder/Research/ALMA_XID/'
 #field
@@ -112,43 +97,62 @@ for index in range(0, len(unique_fields)):
 
     inra=np.asarray(ralist)
     indec=np.asarray(declist)
-    # Point response information, at the moment its 2D Gaussian, but should be general. All lstdrv_solvfluxes needs is 2D array with prf
-
-    # In[15]:
-
+    # Point response information, at the moment its 2D Gaussian,
+    
     #pixsize array (size of pixels in arcseconds)
     pixsize=np.array([pixsize250,pixsize350,pixsize500])
     #point response function for the three bands
     prfsize=np.array([18.15,25.15,36.3])
-    #set fwhm of prfs in terms of pixels
-    pfwhm=prfsize/pixsize
-    #set size of prf array (in pixels)
-    paxis=[13,13]
     #use Gaussian2DKernel to create prf (requires stddev rather than fwhm hence pfwhm/2.355)
     from astropy.convolution import Gaussian2DKernel
-    print 'Pixelsize', pixsize
-    print 'Standard deviation for Gaussian', pfwhm[0]/2.355
-    prf250=Gaussian2DKernel(pfwhm[0]/2.355,x_size=paxis[0],y_size=paxis[1])
-    prf250.normalize(mode='peak')
-    prf350=Gaussian2DKernel(pfwhm[1]/2.355,x_size=paxis[0],y_size=paxis[1])
-    prf350.normalize(mode='peak')
-    prf500=Gaussian2DKernel(pfwhm[2]/2.355,x_size=paxis[0],y_size=paxis[1])
-    prf500.normalize(mode='peak')
-
-    prior250=xid_mod.prior(prf250,im250,nim250,w_250,im250phdu)
+    
+    
+    
+    prior250=xid_mod.prior(im250,nim250,w_250,im250phdu)
     prior250.prior_cat(inra,indec,prior_cat)
     prior250.prior_bkg(0,2)
-    prior350=xid_mod.prior(prf350,im350,nim350,w_350,im350phdu)
+    prior350=xid_mod.prior(im350,nim350,w_350,im350phdu)
     prior350.prior_cat(inra,indec,prior_cat)
     prior350.prior_bkg(0,2)
-    prior500=xid_mod.prior(prf500,im500,nim500,w_500,im500phdu)
+    prior500=xid_mod.prior(im500,nim500,w_500,im500phdu)
     prior500.prior_cat(inra,indec,prior_cat)
     prior500.prior_bkg(0,2)
+    
+    #thdulist,prior250,prior350,prior500,posterior=xid_mod.fit_SPIRE(prior250,prior350,prior500)
+    
+    #-----------fit using real beam--------------------------
+    #PSF_250,px_250,py_250=xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PSW_bgmod9_1arcsec.fits',pixsize[0])
+    #PSF_350,px_350,py_350=xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PMW_bgmod9_1arcsec.fits',pixsize[1])
+    #PSF_500,px_500,py_500=xid_mod.SPIRE_PSF('../hsc-calibration/0x5000241aL_PLW_bgmod9_1arcsec.fits',pixsize[2])
+    ##---------fit using Gaussian beam-----------------------
+    prf250=Gaussian2DKernel(prfsize[0]/2.355,x_size=101,y_size=101)
+    prf250.normalize(mode='peak')
+    prf350=Gaussian2DKernel(prfsize[1]/2.355,x_size=101,y_size=101)
+    prf350.normalize(mode='peak')
+    prf500=Gaussian2DKernel(prfsize[2]/2.355,x_size=101,y_size=101)
+    prf500.normalize(mode='peak')
+    
+    pind250=np.arange(0,101,1)*1.0/pixsize[0] #get 250 scale in terms of pixel scale of map
+    pind350=np.arange(0,101,1)*1.0/pixsize[1] #get 350 scale in terms of pixel scale of map
+    pind500=np.arange(0,101,1)*1.0/pixsize[2] #get 500 scale in terms of pixel scale of map
+    
+    prior250.set_prf(prf250.array,pind250,pind250)
+    prior350.set_prf(prf350.array,pind350,pind350)
+    prior500.set_prf(prf500.array,pind500,pind500)
+    
+    prior250.get_pointing_matrix()
+    prior350.get_pointing_matrix()
+    prior500.get_pointing_matrix()
+    
+    fit_data,chains,iter=xid_mod.lstdrv_SPIRE_stan(prior250,prior350,prior500)
+    posterior=xid_mod.posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
+    thdulist=xid_mod.create_XIDp_SPIREcat(posterior,prior250,prior350,prior500)
+    
+    #----------------------------------------------------------
 
-    thdulist,prior250,prior350,prior500,posterior=xid_mod.fit_SPIRE(prior250,prior350,prior500)
     output_folder='/Users/jillianscudder/XID_plus/Output/24MN/'
     thdulist.writeto(output_folder+'XIDp_ALMA_SPIRE_beta_'+field+'_dat.fits')
     outfile=output_folder+'XIDp_SPIRE_beta_test'+field+'.pkl'
     with open(outfile, 'wb') as f:
         pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500, 'post':posterior},f)
-
+    
