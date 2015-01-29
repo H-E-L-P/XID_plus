@@ -88,7 +88,6 @@ class prior(object):
         self.tile=tile
         #get vertices of polygon in terms of pixels
         tile_x,tile_y=self.wcs.wcs_world2pix(tile[0,:],tile[1,:],0)
-        print tile_x,tile_y
         x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
 
         npix=(x_pix < np.max(tile_x)) & (y_pix < np.max(tile_y)) & (y_pix >= np.min(tile_y)) & (x_pix >= np.min(tile_x))
