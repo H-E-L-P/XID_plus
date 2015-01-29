@@ -34,7 +34,7 @@ fcat=hdulist[1].data
 hdulist.close()
 inra=fcat['RA']
 indec=fcat['DEC']
-f_src=fcat['S250']
+f_src=fcat['APPRSO_TOT_EXT']#apparent r band mag
 df_src=f_src
 nrealcat=fcat.size
 bkg250=0#fcat['bkg250'][0]
@@ -75,13 +75,17 @@ hdulist.close()
 
 # In[12]:
 
-#define range
-ra_mean=np.mean(inra)
-dec_mean=np.mean(indec)
-p_range=0.1
-#check if sources are within range and if the nearest pixel has a finite value 
+##define range
+#ra_mean=np.mean(inra)
+#dec_mean=np.mean(indec)
+#p_range=0.1
+##check if sources are within range and if the nearest pixel has a finite value 
 
-sgood=(inra > ra_mean-p_range) & (inra < ra_mean+p_range) & (indec > dec_mean-p_range) & (indec < dec_mean+p_range)
+#sgood=(inra > ra_mean-p_range) & (inra < ra_mean+p_range) & (indec > dec_mean-p_range) & (indec < dec_mean+p_range)
+
+#--------flux cut on simulation----
+##
+sgood=f_src <19.8
 inra=inra[sgood]
 indec=indec[sgood]
 n_src=sgood.sum()
@@ -89,7 +93,7 @@ print 'fitting '+str(n_src)+' sources'
 
 #--------SEGMENTATION--------------------
 #how many tiles are there?
-tile_l=0.05
+tile_l=0.1
 tiles=xid_mod.Segmentation_scheme(inra,indec,tile_l)
 print '----- There are '+str(len(tiles))+' tiles required for input catalogue'
 try:
@@ -136,17 +140,17 @@ prior250=xid_mod.prior(im250,nim250,w_250,im250phdu)#Initialise with map, uncert
 print tiles[taskid-1].shape
 prior250.set_tile(tiles[taskid-1],0.01)#Set tile, using a buffer size of 0.01 deg (36'' which is fwhm of PLW)
 prior250.prior_cat(inra,indec,prior_cat)#Set input catalogue
-prior250.prior_bkg(bkg250,2)#Set prior on background
+prior250.prior_bkg(bkg250,5)#Set prior on background
 #---prior350--------
 prior350=xid_mod.prior(im350,nim350,w_350,im350phdu)
 prior350.set_tile(tiles[taskid-1],0.01)
 prior350.prior_cat(inra,indec,prior_cat)
-prior350.prior_bkg(bkg350,2)
+prior350.prior_bkg(bkg350,5)
 #---prior500--------
 prior500=xid_mod.prior(im500,nim500,w_500,im500phdu)
 prior500.set_tile(tiles[taskid-1],0.01)
 prior500.prior_cat(inra,indec,prior_cat)
-prior500.prior_bkg(bkg500,2)
+prior500.prior_bkg(bkg500,5)
 
 
 
