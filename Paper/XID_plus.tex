@@ -80,7 +80,6 @@ galaxies: statistics -- infrared: galaxies
 \section{Introduction}
 \section{Data}
 \section{XID+ Algorithm}
- With XID+, we have adopted a Bayesian probabilistic framework to provides us with a natural and transparent way to include prior information. 
 %probabilisitc programming, probabilistic models, inference on models... why do science with catalogues when we can do science with maps? 
 
 \subsection{XID and DESPHOT}
@@ -90,13 +89,19 @@ DESPHOT consists of following main steps: map segmentation, source photometry an
 
 \subsubsection{Map segmentation}
 Ideally, source photometry and background estimation would be done on full image, in practice it is often computationally infeasible. DESPHOT segmented the map by locating islands of high SNR pixels enclosed by low SNR pixels. The segmentation algorithm operates thus:
-\begin{itemize}\item Locates all pixels with a SNR above some threshold (default value of SNR= 1);\item Takes the first of these high SNR pixel starting in the bottom left corner of the image;\item `Grows' a region around this pixel by iteratively taking neighbouring high SNR pixels;\item Once there are no more high SNR neighbours jumps to the next high SNR pixel and repeat from step (iii).Each of these independent regions of high SNR pixels is uniquely identified and processed separately by the source photometry component.
+\begin{itemize}
+\item Locates all pixels with a SNR above some threshold (default value of SNR= 1);
+\item Takes the first of these high SNR pixel starting in the bottom left corner of the image;
+\item `Grows' a region around this pixel by iteratively taking neighbouring high SNR pixels;
+\item Once there are no more high SNR neighbours jumps to the next high SNR pixel and repeat from step (iii).
+Each of these independent regions of high SNR pixels is uniquely identified and processed separately by the source photometry component.
 \end{itemize}
 \subsubsection{Source photometry}
 DESPHOT assumes the map can be described by the sum of the flux densities from $n$ known sources, a global background level and some unknown noise term
 
 \begin{equation}
 \mathbf{d} = \sum\limits_{i=1}^n \mathbf{P_i}f_i + B + \delta
+\label{eq:map}
 \end{equation}
 where $\mathbf{d}$ is the image, $\mathbf{P_i}$ is the PRF for source $i$, $f_i$ is the flux density for source $i$, $B$ is a global background estimate and $\delta$ is the noise term. As this is a linear equation, it has a maximum likelihood solution which can be solved directly by matrix inversion or via other linear methods. As discussed in \cite{Roseboom:2010, Roseboom:2011, Wang:2014}, these approaches ignore prior knowledge that fluxes cannot have negative flux density, which in very degenerative cases can result in any symmetric pairing of positive and negative flux providing a good fit. They are also incapable of discriminating between real and spurious sources, which can result in overfitting. To overcome these issues, \cite{Roseboom:2011} used the non-negative weighted LASSO algorithm (Tibshirani 1996; Zou 2006; ter Braak et al 2010).
 
@@ -114,6 +119,7 @@ If DESPHOT is assumed to be linear\footnote{introducing LASSO and non-negative p
  
  One of the goals of HELP is to extend the use of prior information in order to get below the noise level introduced by source confusion.
 \subsection{Probabilistic Model}
+With XID+, we have adopted a Bayesian probabilistic framework to provide us with a natural and transparent way to include prior information. To use this probabilistic framework, we need to create a generative model for the maps. XID+ is the simplest example of a generative model for the Herschel SPIRE maps. Figure \ref{} shows our probabilistic graphical model for our basic XID+ model, where boxes represent dimensions, open circles as variables, dots as deterministic or (fixed) variables. For our simplest model, the sky co-ordinates of our sources are treated as fixed and along with the fixed PRF. Both these fixed variables are used to make the pointing matrix $A$ which details the contribution each source makes to each pixel $j$ in the map. Each source has its own flux $f$ which is a random variable. By combining $f$, $A$ and our global estimate for the background $B$, we can make our model map $m$   our model for the map ($M$)the map ($D$) however one can easily add additional details. 
 
 %Our model for the map i.e. background, sources, prior flux information etc
 
@@ -123,6 +129,7 @@ If DESPHOT is assumed to be linear\footnote{introducing LASSO and non-negative p
 %How we segment the map
 \subsection{Uncertainties and Covariances}
 %Details on what we get out of fit. e.g. marginalised estimate of fluxes, covariance information between sources
+The uncertainties from the posterior give the uncertainty of the flux given the data. This includes the uncertainty from instrumental noise and confusion (I think). Unlike XID, we are not solving $\mathbf{f}=(\mathbf{A^TN_d^{-1}A})^{-1}\mathbf{A^TN_d^{-1}d}$, we are solving equation \ref{eq:map} and so variations in pixel flux from sources not in the prior list, i.e. from confusion, will directly affect our flux estimates.
 \section{Simulations}
 \subsection{XID+ vs. DESPHOT}
 %testing agains DESPHOT
