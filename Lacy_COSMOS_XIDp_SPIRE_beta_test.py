@@ -23,6 +23,9 @@ pmwfits=imfolder+'cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PM
 plwfits=imfolder+'cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PLW_hipe.fits.gz'#SPIRE 500 map
 
 
+#----output folder-----------------
+output_folder='/research/astro/fir/HELP/XID_plus_output/Tiling/'
+
 # In[8]:
 
 #Folder containing prior input catalogue
@@ -93,13 +96,14 @@ print 'fitting '+str(n_src)+' sources'
 
 #--------SEGMENTATION--------------------
 #how many tiles are there?
-tile_l=0.1
-tiles=xid_mod.Segmentation_scheme(inra,indec,tile_l)
+tile_l=0.2
+tiles, tiling_list=xid_mod.Segmentation_scheme(inra,indec,tile_l)
 print '----- There are '+str(len(tiles))+' tiles required for input catalogue'
 try:
-    if sys.arg == 'Tiling':
+    if sys.argv[1] == 'Tiling':
         print '----- There are '+str(len(tiles))+' tiles required for input catalogue'
-        sys.exit(0)
+        pickle.dump({'tiles':tiles,'tiling_list':tiling_list},open(output_folder+'Tiling_info.pkl', 'wb'))()
+        raise SystemExit()
 
 
 except:
@@ -116,8 +120,8 @@ except KeyError:
 
 if task_last != len(tiles):
     print '---------------------------'
-    print 'Number of tasks does not equal number of tiles \n Stopping program'
-    sys.exit(0)
+    print 'NOTE:Number of tasks does not equal number of tiles \n Stopping program'
+    #sys.exit(0)
 
 
 
@@ -186,9 +190,10 @@ posterior=xid_mod.posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
 #----------------------------------------------------------
 
 
-output_folder='/research/astro/fir/HELP/XID_plus_output/'
+output_folder='/research/astro/fir/HELP/XID_plus_output/Tiling/'
 #thdulist.writeto(output_folder+'lacy_XIDp_SPIRE_beta_'+field+'_dat_small_0.08_Gauss.fits')
-outfile=output_folder+'lacy_XIDp_SPIRE_beta_test_small_0.08_Gauss_Cauchy_'+str(prior250.tile[0,0]).replace('.','_')+'p'+str(prior250.tile[1,0]).replace('.','_')+'.pkl'
+outfile=output_folder+'lacy_rband_19_8_normal_log10fluxprior_'+str(prior250.tile[0,0]).replace('.','_')+'p'+str(prior250.tile[1,0]).replace('.','_')+'.pkl'
+#outfile=output_folder+'Lacey_rbandcut_19_8_log_flux.pkl'
 with open(outfile, 'wb') as f:
     pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)
 

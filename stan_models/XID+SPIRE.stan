@@ -34,11 +34,11 @@ data {
 
 }
 parameters {
-  vector<lower=-5,upper=3> [nsrc] src_f_psw;//source vector
+  vector [nsrc] src_f_psw;//source vector
   real bkg_psw;//background
-  vector<lower=-5,upper=3> [nsrc] src_f_pmw;//source vector
+  vector [nsrc] src_f_pmw;//source vector
   real bkg_pmw;//background
-  vector<lower=-5,upper=3> [nsrc] src_f_plw;//source vector
+  vector [nsrc] src_f_plw;//source vector
   real bkg_plw;//background
 
 }
@@ -57,10 +57,10 @@ model {
   bkg_psw ~normal(bkg_prior_psw,bkg_prior_sig_psw);
   bkg_pmw ~normal(bkg_prior_pmw,bkg_prior_sig_pmw);
   bkg_plw ~normal(bkg_prior_plw,bkg_prior_sig_plw);
-  
-#  src_f_psw ~cauchy(0,10);
-#  src_f_pmw ~cauchy(0,10);
-#  src_f_plw ~cauchy(0,10);
+ 
+  src_f_psw ~normal(-1,2.2);
+  src_f_pmw ~normal(-1,2.2);
+  src_f_plw ~normal(-1,2.2);
 
 
   for (n in 1:nsrc) {

@@ -44,9 +44,11 @@ class prior(object):
         and converts RA and DEC to pixel positions"""
         #get positions of sources in terms of pixels
         sx,sy=self.wcs.wcs_world2pix(ra,dec,0)
-        #check if sources are within map 
-        sgood=(ra > self.tile[0,0]-self.buffer_size) & (ra < self.tile[0,2]+self.buffer_size) & (dec > self.tile[1,0]-self.buffer_size) & (dec < self.tile[1,2]+self.buffer_size)#
-
+        #check if sources are within map
+        if hasattr(self, 'tile'):
+            sgood=(ra > self.tile[0,0]-self.buffer_size) & (ra < self.tile[0,2]+self.buffer_size) & (dec > self.tile[1,0]-self.buffer_size) & (dec < self.tile[1,2]+self.buffer_size)#
+        else:
+            sgood=(sx > 0) & (sx < self.wcs._naxis1) & (sy > 0) & (sy < self.wcs._naxis2)
         #Redefine prior list so it only contains sources in the map
         self.sx=sx[sgood]
         self.sy=sy[sgood]
@@ -88,6 +90,7 @@ class prior(object):
         self.tile=tile
         #get vertices of polygon in terms of pixels
         tile_x,tile_y=self.wcs.wcs_world2pix(tile[0,:],tile[1,:],0)
+
         x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
 
         npix=(x_pix < np.max(tile_x)) & (y_pix < np.max(tile_y)) & (y_pix >= np.min(tile_y)) & (x_pix >= np.min(tile_x))
@@ -586,10 +589,14 @@ def Segmentation_scheme(inra,indec,tile_l):
     ra_max=np.floor(10.0*np.max(inra))/10.0
     dec_min=np.floor(10.0*np.min(indec))/10.0
     dec_max=np.floor(10.0*np.max(indec))/10.0
+
+    #Create array to store optimum tile for each source
+    tiling_list=np.empty((inra.size,5))
     #Create tiles
     tiles=[]
-    for ra in np.arange(ra_min,ra_max,tile_l):
-        for dec in np.arange(dec_min,dec_max,tile_l):
+    
+    for ra in np.arange(ra_min,ra_max,0.75*tile_l):
+        for dec in np.arange(dec_min,dec_max,0.75*tile_l):
             #create tile for this ra and dec
             tile=np.array([[ra,dec],[ra+tile_l,dec],[ra+tile_l,dec+tile_l],[ra,dec+tile_l]]).T
             #check how many sources are in this tile
@@ -597,5 +604,13 @@ def Segmentation_scheme(inra,indec,tile_l):
 
             if sgood.sum() >0:
                 tiles.append(tile)
-    return tiles
+                #work out distance from tile centre to each source in tile
+                dist=np.power(np.power((ra+tile_l/2.0)-inra[sgood],2)+np.power((dec+tile_l/2.0)-indec[sgood],2),0.5)
+                ii=0
+                for i in np.arange(0,inra.size)[sgood]:
+                    #store ra and dec of optimum tile as well as distance
+                    if tiling_list[i,4] > dist[ii]:
+                        tiling_list[i,:]=[inra[i],indec[i],ra,dec,dist[ii]]
+                    ii+=1
+    return tiles, tiling_list
     
