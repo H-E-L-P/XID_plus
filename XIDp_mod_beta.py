@@ -436,7 +436,7 @@ def create_XIDp_cat(posterior,prior):
     prihdr = fits.Header()
     prihdr['Prior_C'] = prior.prior_cat
     prihdr['TITLE']   = 'SPIRE XID catalogue'        
-    prihdr['OBJECT']  = prior.imphdu['OBJECT']                              
+    #prihdr['OBJECT']  = prior.imphdu['OBJECT']                              
     prihdr['CREATOR'] = 'WP5'                                 
     prihdr['VERSION'] = 'beta'                                 
     prihdr['DATE']    = datetime.datetime.now().isoformat()              
@@ -525,7 +525,7 @@ def create_XIDp_SPIREcat(posterior,prior250,prior350,prior500):
     prihdr = fits.Header()
     prihdr['Prior_C'] = prior250.prior_cat
     prihdr['TITLE']   = 'SPIRE XID catalogue'        
-    prihdr['OBJECT']  = prior250.imphdu['OBJECT']                              
+    #prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change                              
     prihdr['CREATOR'] = 'WP5'                                 
     prihdr['VERSION'] = 'beta'                                 
     prihdr['DATE']    = datetime.datetime.now().isoformat()              
@@ -594,7 +594,7 @@ def Segmentation_scheme(inra,indec,tile_l):
     tiling_list=np.empty((inra.size,5))
     #Create tiles
     tiles=[]
-    
+    tiling_list[:,4]=tile_l
     for ra in np.arange(ra_min,ra_max,0.75*tile_l):
         for dec in np.arange(dec_min,dec_max,0.75*tile_l):
             #create tile for this ra and dec
@@ -614,3 +614,86 @@ def Segmentation_scheme(inra,indec,tile_l):
                     ii+=1
     return tiles, tiling_list
     
+def create_empty_XIDp_SPIREcat(nsrc):
+    """creates the XIDp catalogue in fits format required by HeDaM"""
+    import datetime
+
+
+
+    #----table info-----------------------
+    #first define columns
+    c1 = fits.Column(name='XID', format='I', array=np.empty((nsrc), dtype=long))
+    c2 = fits.Column(name='ra', format='D', unit='degrees', array=np.empty((nsrc)))
+    c3 = fits.Column(name='dec', format='D', unit='degrees', array=np.empty((nsrc)))
+    c4 = fits.Column(name='flux250', format='E', unit='mJy', array=np.empty((nsrc)))
+    c5 = fits.Column(name='flux250_err_u', format='E', unit='mJy', array=np.empty((nsrc)))
+    c6 = fits.Column(name='flux250_err_l', format='E', unit='mJy', array=np.empty((nsrc)))
+    c7 = fits.Column(name='flux350', format='E', unit='mJy', array=np.empty((nsrc)))
+    c8 = fits.Column(name='flux350_err_u', format='E', unit='mJy', array=np.empty((nsrc)))
+    c9 = fits.Column(name='flux350_err_l', format='E', unit='mJy', array=np.empty((nsrc)))
+    c10 = fits.Column(name='flux500', format='E', unit='mJy', array=np.empty((nsrc)))
+    c11 = fits.Column(name='flux500_err_u', format='E', unit='mJy', array=np.empty((nsrc)))
+    c12 = fits.Column(name='flux500_err_l', format='E', unit='mJy', array=np.empty((nsrc)))
+    c13 = fits.Column(name='bkg250', format='E', unit='mJy', array=np.empty((nsrc)))
+    c14 = fits.Column(name='bkg350', format='E', unit='mJy', array=np.empty((nsrc)))
+    c15 = fits.Column(name='bkg500', format='E', unit='mJy', array=np.empty((nsrc)))
+
+    tbhdu = fits.new_table([c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15])
+    
+    tbhdu.header.set('TUCD1','XID',after='TFORM1')      
+    tbhdu.header.set('TDESC1','ID of source which corresponds to i and j of cov matrix.',after='TUCD1')         
+
+    tbhdu.header.set('TUCD2','pos.eq.RA',after='TUNIT2')      
+    tbhdu.header.set('TDESC2','R.A. of object J2000',after='TUCD2') 
+
+    tbhdu.header.set('TUCD3','pos.eq.DEC',after='TUNIT3')      
+    tbhdu.header.set('TDESC3','Dec. of object J2000',after='TUCD3') 
+
+    tbhdu.header.set('TUCD4','phot.flux.density',after='TUNIT4')      
+    tbhdu.header.set('TDESC4','250 Flux (at 50th percentile)',after='TUCD4') 
+
+    tbhdu.header.set('TUCD5','phot.flux.density',after='TUNIT5')      
+    tbhdu.header.set('TDESC5','250 Flux (at 84.1 percentile) ',after='TUCD5') 
+
+    tbhdu.header.set('TUCD6','phot.flux.density',after='TUNIT6')      
+    tbhdu.header.set('TDESC6','250 Flux (at 25.9 percentile)',after='TUCD6') 
+
+    tbhdu.header.set('TUCD7','phot.flux.density',after='TUNIT7')      
+    tbhdu.header.set('TDESC7','350 Flux (at 50th percentile)',after='TUCD7') 
+
+    tbhdu.header.set('TUCD8','phot.flux.density',after='TUNIT8')      
+    tbhdu.header.set('TDESC8','350 Flux (at 84.1 percentile) ',after='TUCD8') 
+
+    tbhdu.header.set('TUCD9','phot.flux.density',after='TUNIT9')      
+    tbhdu.header.set('TDESC9','350 Flux (at 25.9 percentile)',after='TUCD9') 
+
+    tbhdu.header.set('TUCD10','phot.flux.density',after='TUNIT10')      
+    tbhdu.header.set('TDESC10','500 Flux (at 50th percentile)',after='TUCD10') 
+
+    tbhdu.header.set('TUCD11','phot.flux.density',after='TUNIT11')      
+    tbhdu.header.set('TDESC11','500 Flux (at 84.1 percentile) ',after='TUCD11') 
+
+    tbhdu.header.set('TUCD12','phot.flux.density',after='TUNIT12')      
+    tbhdu.header.set('TDESC12','500 Flux (at 25.9 percentile)',after='TUCD12')
+
+    tbhdu.header.set('TUCD13','phot.flux.density',after='TUNIT13')      
+    tbhdu.header.set('TDESC13','250 background',after='TUCD13') 
+
+    tbhdu.header.set('TUCD14','phot.flux.density',after='TUNIT14')      
+    tbhdu.header.set('TDESC14','350 background',after='TUCD14') 
+
+    tbhdu.header.set('TUCD15','phot.flux.density',after='TUNIT15')      
+    tbhdu.header.set('TDESC15','500 background',after='TUCD15')
+    
+    #----Primary header-----------------------------------
+    prihdr = fits.Header()
+    #prihdr['Prior_C'] = prior250.prior_cat
+    prihdr['TITLE']   = 'SPIRE XID catalogue'        
+    #prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change                              
+    prihdr['CREATOR'] = 'WP5'                                 
+    prihdr['VERSION'] = 'beta'                                 
+    prihdr['DATE']    = datetime.datetime.now().isoformat()              
+    prihdu = fits.PrimaryHDU(header=prihdr)
+    
+    thdulist = fits.HDUList([prihdu, tbhdu])
+    return thdulist
