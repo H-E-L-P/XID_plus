@@ -25,6 +25,8 @@ class prior(object):
         #add a boolean array 
         ind=np.empty_like(im,dtype=bool)
         ind[:]=True
+        print ind.shape
+        print self.wcs._naxis1,self.wcs._naxis2
         #get x and y pixel position for each position
         x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
         #now cut down and flatten maps (default is to use all pixels, running segment will change the values below to pixels within segment)
@@ -39,7 +41,7 @@ class prior(object):
         """Add background prior ($\mu$) and uncertianty ($\sigma$). Assumes normal distribution"""
         self.bkg=(mu,sigma)
 
-    def prior_cat(self,ra,dec,prior_cat,good_index=None):
+    def prior_cat(self,ra,dec,prior_cat_file,good_index=None):
         """Input info for prior catalogue. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
         and converts RA and DEC to pixel positions"""
         #get positions of sources in terms of pixels
@@ -55,7 +57,7 @@ class prior(object):
         self.sra=ra[sgood]
         self.sdec=dec[sgood]
         self.nsrc=sgood.sum()
-        self.prior_cat=prior_cat
+        self.prior_cat=prior_cat_file
         if good_index != None:
             return sgood 
 

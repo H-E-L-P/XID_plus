@@ -34,11 +34,11 @@ data {
 
 }
 parameters {
-  vector [nsrc] src_f_psw;//source vector
+  vector<lower=-8.0,upper=3.0> [nsrc] src_f_psw;//source vector
   real bkg_psw;//background
-  vector [nsrc] src_f_pmw;//source vector
+  vector<lower=-8.0,upper=3.0> [nsrc] src_f_pmw;//source vector
   real bkg_pmw;//background
-  vector [nsrc] src_f_plw;//source vector
+  vector<lower=-8.0,upper=3.0> [nsrc] src_f_plw;//source vector
   real bkg_plw;//background
 
 }
@@ -47,6 +47,9 @@ model {
   vector[npix_psw] db_hat_psw;//model of map
   vector[npix_pmw] db_hat_pmw;//model of map
   vector[npix_plw] db_hat_plw;//model of map
+  vector[npix_psw] db_obs_psw;//model of map+noise
+  vector[npix_pmw] db_obs_pmw;//model of map+noise
+  vector[npix_plw] db_obs_plw;//model of map+noise
 
   vector[nsrc+1] f_vec_psw;//vector of source fluxes and background
   vector[nsrc+1] f_vec_pmw;//vector of source fluxes and background
@@ -58,10 +61,14 @@ model {
   bkg_pmw ~normal(bkg_prior_pmw,bkg_prior_sig_pmw);
   bkg_plw ~normal(bkg_prior_plw,bkg_prior_sig_plw);
  
-  src_f_psw ~normal(-1,2.2);
-  src_f_pmw ~normal(-1,2.2);
-  src_f_plw ~normal(-1,2.2);
-
+  //src_f_psw ~normal(-1,2.2);
+  //src_f_pmw ~normal(-1,2.2);
+  //src_f_plw ~normal(-1,2.2);
+  
+  //background is now contribution from confusion only!!
+  f_vec_psw[nsrc+1] <-pow(10.0,bkg_psw);
+  f_vec_pmw[nsrc+1] <-pow(10.0,bkg_pmw);
+  f_vec_plw[nsrc+1] <-pow(10.0,bkg_plw);
 
   for (n in 1:nsrc) {
     f_vec_psw[n] <- pow(10.0,src_f_psw[n]);
@@ -70,10 +77,7 @@ model {
 
 
   }
-  f_vec_psw[nsrc+1] <-bkg_psw;
-  f_vec_pmw[nsrc+1] <-bkg_pmw;
-  f_vec_plw[nsrc+1] <-bkg_plw;
-
+ 
 
   for (k in 1:npix_psw) {
     db_hat_psw[k] <- 0;
@@ -97,8 +101,12 @@ model {
       }
 
 
-  db_psw ~ normal(db_hat_psw,sigma_psw);
+  db_obs_psw ~ normal(db_hat_psw,sigma_psw);
   db_pmw ~ normal(db_hat_pmw,sigma_pmw);
   db_plw ~ normal(db_hat_plw,sigma_plw);
 
+  // Now explicitly modelling mean subtraction
+  db_psw ~ db_obs_psw-mean(db_obs_psw);
+  //db_pmw ~ db_obs_pmw-mean(db_obs_pmw);
+  //db_plw ~ db_obs_plw-mean(db_obs_plw);
     }
