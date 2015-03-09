@@ -43,24 +43,27 @@ parameters {
 
 }
 
+
 model {
   vector[npix_psw] db_hat_psw;//model of map
   vector[npix_pmw] db_hat_pmw;//model of map
   vector[npix_plw] db_hat_plw;//model of map
-  vector[npix_psw] db_obs_psw;//model of map+noise
-  vector[npix_pmw] db_obs_pmw;//model of map+noise
-  vector[npix_plw] db_obs_plw;//model of map+noise
+  vector[npix_psw] db_obs_psw;//model of observed map
+  vector[npix_pmw] db_obs_pmw;//model of observed map
+  vector[npix_plw] db_obs_plw;//model of observed map
 
   vector[nsrc+1] f_vec_psw;//vector of source fluxes and background
   vector[nsrc+1] f_vec_pmw;//vector of source fluxes and background
   vector[nsrc+1] f_vec_plw;//vector of source fluxes and background
 
 
-
+  //Prior on background 
+  //(this is now background due to confusion. Can ignore instrumental background as cancels out with background subtraction)
   bkg_psw ~normal(bkg_prior_psw,bkg_prior_sig_psw);
   bkg_pmw ~normal(bkg_prior_pmw,bkg_prior_sig_pmw);
   bkg_plw ~normal(bkg_prior_plw,bkg_prior_sig_plw);
  
+  //Prior on flux of sources (not being used yet)
   //src_f_psw ~normal(-1,2.2);
   //src_f_pmw ~normal(-1,2.2);
   //src_f_plw ~normal(-1,2.2);
@@ -70,6 +73,7 @@ model {
   f_vec_pmw[nsrc+1] <-pow(10.0,bkg_pmw);
   f_vec_plw[nsrc+1] <-pow(10.0,bkg_plw);
 
+  // Transform to normal space. As I am sampling variable then transforming I don't need a Jacobian adjustment
   for (n in 1:nsrc) {
     f_vec_psw[n] <- pow(10.0,src_f_psw[n]);
     f_vec_pmw[n] <- pow(10.0,src_f_pmw[n]);
@@ -77,8 +81,9 @@ model {
 
 
   }
+   
  
-
+  // Create model maps (i.e. db_hat = A*f) using sparse multiplication
   for (k in 1:npix_psw) {
     db_hat_psw[k] <- 0;
   }
@@ -100,13 +105,17 @@ model {
     db_hat_plw[Row_plw[k]+1] <- db_hat_plw[Row_plw[k]+1] + Val_plw[k]*f_vec_plw[Col_plw[k]+1];
       }
 
-
+  // likelihood of observed map|model map
   db_obs_psw ~ normal(db_hat_psw,sigma_psw);
-  db_pmw ~ normal(db_hat_pmw,sigma_pmw);
-  db_plw ~ normal(db_hat_plw,sigma_plw);
+  db_obs_pmw ~ normal(db_hat_pmw,sigma_pmw);
+  db_obs_plw ~ normal(db_hat_plw,sigma_plw);
 
-  // Now explicitly modelling mean subtraction
-  db_psw ~ db_obs_psw-mean(db_obs_psw);
-  //db_pmw ~ db_obs_pmw-mean(db_obs_pmw);
-  //db_plw ~ db_obs_plw-mean(db_obs_plw);
+
+  // As actual maps are mean subtracted, requires a Jacobian adjustment
+  db_psw <- db_obs_psw - mean(db_obs_psw)
+  increment_log_prob(log((size(db_obs_psw)-1)/size(db_obs_psw)))
+  db_pmw <- db_obs_pmw - mean(db_obs_pmw)
+  increment_log_prob(log((size(db_obs_pmw)-1)/size(db_obs_pmw)))
+  db_plw <- db_obs_plw - mean(db_obs_plw)
+  increment_log_prob(log((size(db_obs_plw)-1)/size(db_obs_plw)))
     }
