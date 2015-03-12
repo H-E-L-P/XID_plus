@@ -68,7 +68,7 @@ model {
   //src_f_pmw ~normal(-1,2.2);
   //src_f_plw ~normal(-1,2.2);
   
-  //background is now contribution from confusion only!!
+  //background is combination of instrumental background and confusion
   f_vec_psw[nsrc+1] <-pow(10.0,bkg_psw);
   f_vec_pmw[nsrc+1] <-pow(10.0,bkg_pmw);
   f_vec_plw[nsrc+1] <-pow(10.0,bkg_plw);
@@ -113,9 +113,9 @@ model {
 
   // As actual maps are mean subtracted, requires a Jacobian adjustment
   db_psw <- db_obs_psw - mean(db_obs_psw)
-  increment_log_prob(log((size(db_obs_psw)-1)/size(db_obs_psw)))
+  increment_log_prob(log((npix_psw-1)/npix_psw))
   db_pmw <- db_obs_pmw - mean(db_obs_pmw)
-  increment_log_prob(log((size(db_obs_pmw)-1)/size(db_obs_pmw)))
+  increment_log_prob(log((npix_pmw-1)/npix_pmw))
   db_plw <- db_obs_plw - mean(db_obs_plw)
-  increment_log_prob(log((size(db_obs_plw)-1)/size(db_obs_plw)))
+  increment_log_prob(log((npix_plw-1)/npix_plw))
     }
