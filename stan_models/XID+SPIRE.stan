@@ -58,7 +58,6 @@ model {
 
 
   //Prior on background 
-  //(this is now background due to confusion. Can ignore instrumental background as cancels out with background subtraction)
   bkg_psw ~normal(bkg_prior_psw,bkg_prior_sig_psw);
   bkg_pmw ~normal(bkg_prior_pmw,bkg_prior_sig_pmw);
   bkg_plw ~normal(bkg_prior_plw,bkg_prior_sig_plw);
@@ -105,10 +104,12 @@ model {
     db_hat_plw[Row_plw[k]+1] <- db_hat_plw[Row_plw[k]+1] + Val_plw[k]*f_vec_plw[Col_plw[k]+1];
       }
 
+
+
   // likelihood of observed map|model map
-  db_obs_psw ~ normal(db_hat_psw,sigma_psw);
-  db_obs_pmw ~ normal(db_hat_pmw,sigma_pmw);
-  db_obs_plw ~ normal(db_hat_plw,sigma_plw);
+  db_obs_psw ~ normal(db_hat_psw-mean(db_hat_psw),sigma_psw);
+  db_obs_pmw ~ normal(db_hat_pmw-mean(db_hat_pmw),sigma_pmw);
+  db_obs_plw ~ normal(db_hat_plw-mean(db_hat_plw),sigma_plw);
 
 
   // As actual maps are mean subtracted, requires a Jacobian adjustment
