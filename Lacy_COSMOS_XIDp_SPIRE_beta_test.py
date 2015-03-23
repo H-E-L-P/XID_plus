@@ -25,7 +25,7 @@ plwfits=imfolder+'cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PL
 
 #----output folder-----------------
 #output_folder='/research/astro/fir/HELP/XID_plus_output/Tiling/log_uniform_prior/'
-output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior/'
+output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/uniform_prior/'
 # In[8]:
 
 #Folder containing prior input catalogue
@@ -191,9 +191,9 @@ posterior=xid_mod.posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
 
 
 #output_folder='/research/astro/fir/HELP/XID_plus_output/Tiling/log_uniform_prior/'
-output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior/'
+output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/uniform_prior/'
 #thdulist.writeto(output_folder+'lacy_XIDp_SPIRE_beta_'+field+'_dat_small_0.08_Gauss.fits')
-outfile=output_folder+'lacy_uniform_log10fluxprior_'+str(prior250.tile[0,0]).replace('.','_')+'p'+str(prior250.tile[1,0]).replace('.','_')+'.pkl'
+outfile=output_folder+'lacy_uniform_fluxprior_'+str(prior250.tile[0,0]).replace('.','_')+'p'+str(prior250.tile[1,0]).replace('.','_')+'.pkl'
 #outfile=output_folder+'Lacey_rbandcut_19_8_log_flux.pkl'
 with open(outfile, 'wb') as f:
     pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)

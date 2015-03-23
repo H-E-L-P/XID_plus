@@ -11,7 +11,7 @@ import os
 import sys
 
 #----output folder-----------------
-output_folder='/research/astro/fir/HELP/XID_plus_output/Tiling/log_uniform_prior/'
+output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/uniform_prior/'
 
 with open(output_folder+'Tiling_info.pkl', "rb") as f:
         obj = pickle.load(f)
@@ -27,7 +27,7 @@ for i in np.arange(0,len(tiles)):
     #find which sources from master list are we interested in
     ind= (np.around(tiling_list[:,2],3) == np.around(tile[0,0],3)) & (np.around(tiling_list[:,3],3) == np.around(tile[1,0],3))
     if ind.sum() >0:
-	    infile=output_folder+'lacy_rband_19_8_uniform_log10fluxprior_'+str(tile[0,0]).replace('.','_')+'p'+str(tile[1,0]).replace('.','_')+'.pkl'
+	    infile=output_folder+'lacy_uniform_fluxprior_'+str(tile[0,0]).replace('.','_')+'p'+str(tile[1,0]).replace('.','_')+'.pkl'
 	    with open(infile, "rb") as f:
 		dictname = pickle.load(f)
 	    prior250=dictname['psw']
