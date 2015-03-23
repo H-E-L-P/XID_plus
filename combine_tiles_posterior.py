@@ -45,7 +45,9 @@ for i in np.arange(0,len(tiles)):
 	    #hdulist.writeto(output_folder+'lacy_rband_19_8_normal_log10fluxprior_'+str(tile[0,0]).replace('.','_')+'p'+str(tile[1,0]).replace('.','_')+'.fits')
 
 	    #match interested sources to those fitted
-	    c = SkyCoord(ra=table['ra']*u.degree, dec=table['dec']*u.degree)
+	    #c = SkyCoord(ra=table['ra']*u.degree, dec=table['dec']*u.degree)
+	    c = SkyCoord(ra=prior250.sra*u.degree, dec=prior250.sdec*u.degree)
+
 	    c2 = SkyCoord(ra=tiling_list[ind,0]*u.degree, dec=tiling_list[ind,1]*u.degree)
 	    #get indices in prior list which match those in master list
 	    idx, d2d, d3d = c2.match_to_catalog_sky(c)
