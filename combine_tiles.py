@@ -35,7 +35,7 @@ for i in np.arange(0,len(tiles)):
 	    prior500=dictname['plw']
 
 	    posterior=dictname['posterior']
-	    posterior.stan_fit=np.power(10.0,posterior.stan_fit)
+	    #posterior.stan_fit=np.power(10.0,posterior.stan_fit)
 	    hdulist=xid_mod.create_XIDp_SPIREcat(posterior,prior250,prior350,prior500)
 	    table=hdulist[1].data
 	    #hdulist.writeto(output_folder+'lacy_rband_19_8_normal_log10fluxprior_'+str(tile[0,0]).replace('.','_')+'p'+str(tile[1,0]).replace('.','_')+'.fits')
