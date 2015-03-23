@@ -58,7 +58,6 @@ model {
 
 
   //Prior on background 
-  //(this is now background due to confusion. Can ignore instrumental background as cancels out with background subtraction)
   bkg_psw ~normal(bkg_prior_psw,bkg_prior_sig_psw);
   bkg_pmw ~normal(bkg_prior_pmw,bkg_prior_sig_pmw);
   bkg_plw ~normal(bkg_prior_plw,bkg_prior_sig_plw);
@@ -68,6 +67,7 @@ model {
   //src_f_pmw ~normal(-1,2.2);
   //src_f_plw ~normal(-1,2.2);
   
+
   //background is now contribution from confusion only!!
   f_vec_psw[nsrc+1] <-bkg_psw;
   f_vec_pmw[nsrc+1] <-bkg_pmw;
@@ -104,6 +104,8 @@ model {
   for (k in 1:nnz_plw) {
     db_hat_plw[Row_plw[k]+1] <- db_hat_plw[Row_plw[k]+1] + Val_plw[k]*f_vec_plw[Col_plw[k]+1];
       }
+
+
 
   // likelihood of observed map|model map
   db_psw ~ normal(db_hat_psw,sigma_psw);
