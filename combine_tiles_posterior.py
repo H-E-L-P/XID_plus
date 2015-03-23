@@ -11,7 +11,7 @@ import os
 import sys
 
 #----output folder-----------------
-output_folder='/research/astro/fir/HELP/XID_plus_output/Tiling/'
+output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/uniform_prior/'
 
 with open(output_folder+'Tiling_info.pkl', "rb") as f:
         obj = pickle.load(f)
@@ -20,7 +20,7 @@ tiles=obj['tiles']
 tiling_list=obj['tiling_list']
 nsources=tiling_list.shape[0]
 sources_percentile=np.empty((nsources,14))
-hdulist_master=xid_mod.create_empty_XIDp_SPIREcat(nsources)
+#hdulist_master=xid_mod.create_empty_XIDp_SPIREcat(nsources)
 stan_fit_master=np.empty((500,4,(nsources+1.0)*3))
 for i in np.arange(0,len(tiles)):
     print 'on tile '+str(i)+' of '+str(len(tiles))
@@ -28,7 +28,7 @@ for i in np.arange(0,len(tiles)):
     #find which sources from master list are we interested in
     ind= (np.around(tiling_list[:,2],3) == np.around(tile[0,0],3)) & (np.around(tiling_list[:,3],3) == np.around(tile[1,0],3))
     if ind.sum() >0:
-	    infile=output_folder+'lacy_rband_19_8_normal_log10fluxprior_'+str(tile[0,0]).replace('.','_')+'p'+str(tile[1,0]).replace('.','_')+'.pkl'
+	    infile=output_folder+'lacy_uniform_fluxprior_'+str(tile[0,0]).replace('.','_')+'p'+str(tile[1,0]).replace('.','_')+'.pkl'
 	    with open(infile, "rb") as f:
 		dictname = pickle.load(f)
 	    prior250=dictname['psw']
@@ -38,10 +38,10 @@ for i in np.arange(0,len(tiles)):
 	    print prior250.wcs._naxis1,prior250.wcs._naxis2
 	    print '---------------'
 	    posterior=dictname['posterior']
-	    posterior.stan_fit=np.power(10.0,posterior.stan_fit)
+	    #posterior.stan_fit=np.power(10.0,posterior.stan_fit)
 	    
-	    hdulist=xid_mod.create_XIDp_SPIREcat(posterior,prior250,prior350,prior500)
-	    table=hdulist[1].data
+	    #hdulist=xid_mod.create_XIDp_SPIREcat(posterior,prior250,prior350,prior500)
+	    #table=hdulist[1].data
 	    #hdulist.writeto(output_folder+'lacy_rband_19_8_normal_log10fluxprior_'+str(tile[0,0]).replace('.','_')+'p'+str(tile[1,0]).replace('.','_')+'.fits')
 
 	    #match interested sources to those fitted
@@ -49,9 +49,9 @@ for i in np.arange(0,len(tiles)):
 	    c2 = SkyCoord(ra=tiling_list[ind,0]*u.degree, dec=tiling_list[ind,1]*u.degree)
 	    #get indices in prior list which match those in master list
 	    idx, d2d, d3d = c2.match_to_catalog_sky(c)
-	    for i in range(len(hdulist_master[1].data.columns)):
+	    #for i in range(len(hdulist_master[1].data.columns)):
 		    
-		    hdulist_master[1].data.field(i)[ind]=table.field(i)[idx]
+		#    hdulist_master[1].data.field(i)[ind]=table.field(i)[idx]
 
 	    #sources_percentile[ind,:]=table[idx][1:]
 
@@ -66,7 +66,7 @@ for i in np.arange(0,len(tiles)):
 
 
 
-output_folder='/research/astro/fir/HELP/XID_plus_output/Tiling/log_uniform_prior/'
+output_folder='/research/astro/fir/HELP/XID_plus_output/Tiling/uniform_prior/'
 
 #-------------since wcs info isnt saving properly, get it from original maps---------
 #Folder containing maps
@@ -113,12 +113,12 @@ prior500_master.prior_cat(tiling_list[:,0],tiling_list[:,1],prior_cat_file)
 
 posterior_master=xid_mod.posterior_stan(stan_fit_master,nsources)
 
-with open(output_folder+'Tiled_master_Lacey_rbandcut_19_8_notlog_flux.pkl', 'wb') as f:
+with open(output_folder+'Tiled_master_Lacey_notlog_flux.pkl', 'wb') as f:
     pickle.dump({'psw':prior250_master,'pmw':prior350_master,'plw':prior500_master,'posterior':posterior_master},f)
 
 
 
-hdulist_master.writeto(output_folder+'Tiled_SPIRE_cat_flux_notlog.fits')
+#hdulist_master.writeto(output_folder+'Tiled_SPIRE_cat_flux_notlog.fits')
 
 
 
