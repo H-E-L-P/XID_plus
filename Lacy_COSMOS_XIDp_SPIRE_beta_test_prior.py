@@ -163,17 +163,17 @@ from astropy.convolution import Gaussian2DKernel
 prior250=xid_mod.prior(im250,nim250,w_250,im250phdu)#Initialise with map, uncertianty map, wcs info and primary header
 print tiles[taskid-1].shape
 prior250.set_tile(tiles[taskid-1],0.01)#Set tile, using a buffer size of 0.01 deg (36'' which is fwhm of PLW)
-prior250.prior_cat(inra,indec,prior_cat)#Set input catalogue
+prior250.prior_cat(inra,indec,prior_cat, flux=f250)#Set input catalogue
 prior250.prior_bkg(bkg250,5)#Set prior on background
 #---prior350--------
 prior350=xid_mod.prior(im350,nim350,w_350,im350phdu)
 prior350.set_tile(tiles[taskid-1],0.01)
-prior350.prior_cat(inra,indec,prior_cat)
+prior350.prior_cat(inra,indec,prior_cat,flux=f350)
 prior350.prior_bkg(bkg350,5)
 #---prior500--------
 prior500=xid_mod.prior(im500,nim500,w_500,im500phdu)
 prior500.set_tile(tiles[taskid-1],0.01)
-prior500.prior_cat(inra,indec,prior_cat)
+prior500.prior_cat(inra,indec,prior_cat,flux=f500)
 prior500.prior_bkg(bkg500,5)
 
 
