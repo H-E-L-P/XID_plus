@@ -105,7 +105,7 @@ f350=f350[sgood]
 f500=f500[sgood]
 n_src=sgood.sum()
 
-for i in np.arange(0,nsrc):
+for i in np.arange(0,n_src):
     f250[i]=np.random.normal(loc=np.log10(f250[i]))
     f350[i]=np.random.normal(loc=np.log10(f350[i]))
     f500[i]=np.random.normal(loc=np.log10(f500[i]))
