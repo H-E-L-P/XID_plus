@@ -21,7 +21,7 @@ nsources=tiling_list.shape[0]
 sources_percentile=np.empty((nsources,14))
 
 
-with open(output_folder+'Tiled_master_Lacey_notlog_flux.pkl',, "rb") as f:
+with open(output_folder+'Tiled_master_Lacey_notlog_flux.pkl', "rb") as f:
         obj = pickle.load(f)
 prior250=obj['psw']
 prior350=obj['pmw']    
