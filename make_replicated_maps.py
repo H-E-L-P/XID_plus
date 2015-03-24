@@ -59,7 +59,6 @@ hdulist.close()
 
 #calculate pointing matrix
 ##---------fit using Gaussian beam-----------------------
-pixsize=np.array([pixsize250,pixsize350,pixsize500])
 #point response function for the three bands
 prfsize=np.array([18.15,25.15,36.3])
 
@@ -67,7 +66,7 @@ prfsize=np.array([18.15,25.15,36.3])
 from astropy.convolution import Gaussian2DKernel
 prf250=Gaussian2DKernel(prfsize[0]/2.355,x_size=101,y_size=101)
 prf250.normalize(mode='peak')
-pind250=np.arange(0,101,1)*1.0/pixsize[0] #get 250 scale in terms of pixel scale of map
+pind250=np.arange(0,101,1)*1.0/pixsize250 #get 250 scale in terms of pixel scale of map
 prior250.set_prf(prf250.array,pind250,pind250)
 prior250.get_pointing_matrix()
 
@@ -90,6 +89,7 @@ def yrep_map(prior,fvec):
     return pred_map
 
 for i in range(0,samples*chains):
+    print 'making map '+ i 
     pred_map=yrep_map(prior250,flattened_posterior[i,:])
     fits_template.data=predmap
     fits_template.writeto(output_folder+'maps/SMAP250_'+str(i)+'.fits')
