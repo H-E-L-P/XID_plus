@@ -41,7 +41,7 @@ class prior(object):
         """Add background prior ($\mu$) and uncertianty ($\sigma$). Assumes normal distribution"""
         self.bkg=(mu,sigma)
 
-    def prior_cat(self,ra,dec,prior_cat_file,good_index=None):
+    def prior_cat(self,ra,dec,prior_cat_file,good_index=None,flux=None):
         """Input info for prior catalogue. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
         and converts RA and DEC to pixel positions"""
         #get positions of sources in terms of pixels
@@ -60,6 +60,8 @@ class prior(object):
         self.prior_cat=prior_cat_file
         if good_index != None:
             return sgood 
+        if flux !=None:
+            self.sflux=flux[sgood]
 
 
     def prior_cat_stack(self,ra,dec,prior_cat,good_index=None):
@@ -313,7 +315,68 @@ def lstdrv_stan(prior,chains=4,iter=1000):
     #return fit data
     return fit_data,chains,iter
 
+def lstdrv_SPIRE_prior_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
+    """Fit all three SPIRE maps using stan"""
+    import pystan
+    import pickle
 
+    # define function to initialise flux values to one
+    def initfun():
+        return dict(src_f=np.ones(snsrc))
+    #input data into a dictionary
+        
+    XID_data={'nsrc':SPIRE_250.nsrc,
+          'npix_psw':SPIRE_250.snpix,
+          'nnz_psw':SPIRE_250.amat_data.size,
+          'db_psw':SPIRE_250.sim,
+          'sigma_psw':SPIRE_250.snim,
+          'bkg_prior_psw':SPIRE_250.bkg[0],
+          'bkg_prior_sig_psw':SPIRE_250.bkg[1],
+          'Val_psw':SPIRE_250.amat_data,
+          'Row_psw': SPIRE_250.amat_row.astype(long),
+          'Col_psw': SPIRE_250.amat_col.astype(long),
+          'psw_prior': SPIRE_250.sflux,
+          'npix_pmw':SPIRE_350.snpix,
+          'nnz_pmw':SPIRE_350.amat_data.size,
+          'db_pmw':SPIRE_350.sim,
+          'sigma_pmw':SPIRE_350.snim,
+          'bkg_prior_pmw':SPIRE_350.bkg[0],
+          'bkg_prior_sig_pmw':SPIRE_350.bkg[1],
+          'Val_pmw':SPIRE_350.amat_data,
+          'Row_pmw': SPIRE_350.amat_row.astype(long),
+          'Col_pmw': SPIRE_350.amat_col.astype(long),
+          'pmw_prior': SPIRE_350.sflux,
+          'npix_plw':SPIRE_500.snpix,
+          'nnz_plw':SPIRE_500.amat_data.size,
+          'db_plw':SPIRE_500.sim,
+          'sigma_plw':SPIRE_500.snim,
+          'bkg_prior_plw':SPIRE_500.bkg[0],
+          'bkg_prior_sig_plw':SPIRE_500.bkg[1],
+          'Val_plw':SPIRE_500.amat_data,
+          'Row_plw': SPIRE_500.amat_row.astype(long),
+          'Col_plw': SPIRE_500.amat_col.astype(long),
+          'plw_prior': SPIRE_500.sflux}
+    
+    #see if model has already been compiled. If not, compile and save it
+    import os
+    model_file="./XID+SPIRE_prior.pkl"
+    try:
+       with open(model_file,'rb') as f:
+            # using the same model as before
+            print("%s found. Reusing" % model_file)
+            sm = pickle.load(f)
+            fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+    except IOError as e:
+        print("%s not found. Compiling" % model_file)
+        sm = pystan.StanModel(file=stan_path+'XID+SPIRE_prior.stan')
+        # save it to the file 'model.pkl' for later use
+        with open(model_file, 'wb') as f:
+            pickle.dump(sm, f)
+        fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+    #extract fit
+    fit_data=fit.extract(permuted=False, inc_warmup=False)
+    #return fit data
+    return fit_data,chains,iter
 
 class posterior_stan(object):
     def __init__(self,stan_fit,nsrc):
