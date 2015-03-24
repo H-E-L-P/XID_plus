@@ -68,7 +68,6 @@ for i in np.arange(0,len(tiles)):
 
 
 
-output_folder='/research/astro/fir/HELP/XID_plus_output/Tiling/uniform_prior/'
 
 #-------------since wcs info isnt saving properly, get it from original maps---------
 #Folder containing maps
