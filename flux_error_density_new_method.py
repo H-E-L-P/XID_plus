@@ -67,6 +67,11 @@ for i in range(0,nsources_xidp):
 
 for i in range(0,nsources_xid):
     error_percent_xid_250[i]=100.0*stats.norm.cdf(fcat_sim['S250'][idx][i],loc=fcat['F250'][i],scale=fcat['E250'][i])
-plt.hist(error_percent_xid_250, bins=np.arange(0,105,5), alpha=0.5)
-plt.hist(error_percent_xidp_250, bins=np.arange(0,105,5),alpha=0.5)
+
+bins=np.array([0.0032,0.135,2.275,15.87,50.0,84.13,97.725,99.865,99.9968])
+hist_xidp,bin_eges_xidp=np.histogram(error_percent_xidp_250,bins)
+hist_xid,bin_eges_xid=np.histogram(error_percent_xid_250,bins)
+sigma=np.arange(-3.5,4.0,1)
+plt.plot(sigma,hist_xid)
+plt.plot(sigma,hist_xidp)
 plt.savefig("error_density.pdf")
