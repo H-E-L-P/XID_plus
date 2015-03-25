@@ -59,6 +59,6 @@ nsources_xid=idx_xidp.size
 error_percent_xidp_250=np.empty((nsources_xidp))
 import scipy.stats.percentileofscore as percentileofscore
 for i in range(0,nsources_xidp):
-    error_percent_xidp_250[i]=percentileofscore(flattened_post[:,i],fcat_sim['S250'][idx_xidp][i]
+    error_percent_xidp_250[i]=percentileofscore(flattened_post[:,i],fcat_sim['S250'][idx_xidp][i])
 fig=plt.hist(error_percent_xidp_250)
 fig.savefig("error_density.pdf")
