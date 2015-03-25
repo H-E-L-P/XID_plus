@@ -83,7 +83,7 @@ def yrep_map(prior,fvec):
     return pred_map
 
 for i in range(0,samples*chains):
-    print 'making map '+ i 
+    print 'making map '+ str(i) 
     pred_map=yrep_map(prior250,flattened_posterior[i,:])
     fits_template.data=predmap
     fits_template.writeto(output_folder+'maps/SMAP250_'+str(i)+'.fits')
