@@ -56,9 +56,17 @@ posterior=obj['posterior']
 samples,chains,params=posterior.stan_fit.shape
 flattened_post=posterior.stan_fit.reshape(samples*chains,params)
 nsources_xidp=idx_xidp.size
+nsources_xid=idx.size
+
 error_percent_xidp_250=np.empty((nsources_xidp))
+error_percent_xid_250=np.empty((nsources_xid))
+
 import scipy.stats as stats
 for i in range(0,nsources_xidp):
     error_percent_xidp_250[i]=stats.percentileofscore(flattened_post[:,i],fcat_sim['S250'][idx_xidp][i])
-plt.hist(error_percent_xidp_250)
+
+for i in range(0,nsources_xid):
+    error_percent_xid_250[i]=stats.norm(loc=fcat['flux250'][i],scale=fcat['E250'][i]).cdf(fcat_sim['S250'][idx][i])
+plt.hist(error_percent_xid_250, bins=np.arange(0,100,5), alpha=0.5)
+plt.hist(error_percent_xidp_250, bins=np.arange(0,100,5),alpha=0.5)
 plt.savefig("error_density.pdf")
