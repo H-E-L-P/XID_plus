@@ -54,7 +54,7 @@ prior500=obj['plw']
 posterior=obj['posterior']
 
 samples,chains,params=posterior.stan_fit.shape
-flattened_post=np.log10(posterior.stan_fit.reshape(samples*chains,params))
+flattened_post=posterior.stan_fit.reshape(samples*chains,params)
 
 import triangle
 
