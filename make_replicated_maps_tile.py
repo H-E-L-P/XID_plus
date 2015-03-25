@@ -86,6 +86,6 @@ flattened_post=posterior.stan_fit.reshape(samples*chains,params)
 for i in range(0,samples*chains):
     print 'making map '+ str(i) 
     pred_map=yrep_map(prior250,flattened_post[i,0:prior250.nsrc+1])
-    fits_template.data=predmap
+    fits_template.data=pred_map
     fits_template.writeto(output_folder+'maps/SMAP250_'+str(i)+'.fits')
     
