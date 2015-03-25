@@ -56,8 +56,18 @@ posterior=obj['posterior']
 samples,chains,params=posterior.stan_fit.shape
 flattened_post=posterior.stan_fit.reshape(samples*chains,params)
 
+
+with open(output_folder+'Tiling_info.pkl', "rb") as f:
+        obj = pickle.load(f)
+
+tiles=obj['tiles']
+tiling_list=obj['tiling_list']
+
+
 import triangle
 sources=[773,39024]
+
+print tiling_list[sources,0],tiling_list[sources,1]
 truths=fcat_sim['S250'][idx_xidp]
 print truths[sources]
 figure = triangle.corner(flattened_post[:,sources],truths=truths[sources])
