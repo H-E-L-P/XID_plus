@@ -81,10 +81,11 @@ def yrep_map(prior,fvec):
     pred_map[prior.sy_pix,prior.sx_pix]=np.asarray(rmap_temp.todense()).reshape(-1)+np.random.randn(prior.snpix)*prior.snim
     
     return pred_map
-
+samples,chains,params=posterior.stan_fit.shape
+flattened_post=posterior.stan_fit.reshape(samples*chains,params)
 for i in range(0,samples*chains):
     print 'making map '+ str(i) 
-    pred_map=yrep_map(prior250,flattened_posterior[i,:])
+    pred_map=yrep_map(prior250,flattened_post[i,0:prior250.nsrc+1]])
     fits_template.data=predmap
     fits_template.writeto(output_folder+'maps/SMAP250_'+str(i)+'.fits')
     
