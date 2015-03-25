@@ -73,7 +73,7 @@ print truths[sources]
 print fcat_xidp[sources]
 
 xid=np.random.multivariate_normal(np.array([49.71,0.0]),np.array([[1.93,0],[0,238.702]]),5000)
-figure = triangle.corner(flattened_post[:,sources],truths=truths[sources],extents=[(0,50),(0,50)], color='r')
-figure = triangle.corner(xid,truths=truths[sources],extents=[(0,50),(0,50)],fig=figure,labels=[r"Source $1$", r"Source $2$"], color='b')
+figure = triangle.corner(flattened_post[:,sources],truths=truths[sources],extents=[(0,60),(0,60)], color='r')
+figure = triangle.corner(xid,truths=truths[sources],extents=[(0,60),(0,60)],fig=figure,labels=[r"Source $1$", r"Source $2$"], color='b')
 
 figure.savefig("triangle.pdf")
