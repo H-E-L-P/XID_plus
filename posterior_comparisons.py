@@ -59,4 +59,4 @@ flattened_post=np.log10(posterior.stan_fit.reshape(samples*chains,params))
 import triangle
 
 figure = triangle.corner(flattened_post[:,[465,533]])
-figure.savefig("triangle.png")
+figure.savefig("triangle.pdf")
