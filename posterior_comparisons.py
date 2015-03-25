@@ -1,6 +1,8 @@
 #---import modules---
 from astropy.io import fits
 import numpy as np
+import matplotlib
+matplotlib.use('PDF')
 import pylab as plt
 import sys
 sys.path.append('/research/astro/fir/HELP/XID_plus/')
