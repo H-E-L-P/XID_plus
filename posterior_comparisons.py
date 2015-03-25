@@ -57,6 +57,6 @@ samples,chains,params=posterior.stan_fit.shape
 flattened_post=posterior.stan_fit.reshape(samples*chains,params)
 
 import triangle
-
-figure = triangle.corner(flattened_post[:,[465,533]])
+sources=[591,11]
+figure = triangle.corner(flattened_post[:,sources],truths=fcat_sim['S250'][idx_xidp]][sources])
 figure.savefig("triangle.pdf")
