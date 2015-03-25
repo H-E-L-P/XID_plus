@@ -11,7 +11,7 @@ import os
 import sys
 
 #----output folder-----------------
-output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/uniform_prior/'
+output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior/'
 
 with open(output_folder+'Tiling_info.pkl', "rb") as f:
         obj = pickle.load(f)
