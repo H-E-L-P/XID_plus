@@ -54,7 +54,7 @@ prior500=obj['plw']
 posterior=obj['posterior']
 
 samples,chains,params=posterior.stan_fit.shape
-flattened_post=np.log10(posterior.stan_fit.reshape(samples*chains,params))
+flattened_post=posterior.stan_fit.reshape(samples*chains,params)
 
 
 with open(output_folder+'Tiling_info.pkl', "rb") as f:
@@ -65,11 +65,11 @@ tiling_list=obj['tiling_list']
 
 
 import triangle
-sources=[34477,50290]
+sources=[21446,31315]
 
 print tiling_list[sources,0],tiling_list[sources,1],
-truths=np.log10(fcat_sim['S250'][idx_xidp])
+truths=fcat_sim['S250'][idx_xidp]
 print truths[sources]
 print fcat_xidp[sources]
-figure = triangle.corner(flattened_post[:,sources],truths=truths[sources],extents=[(-1,2),(-1,2)])
+figure = triangle.corner(flattened_post[:,sources],truths=truths[sources],extents=[(0,50),(0,50)])
 figure.savefig("triangle.pdf")
