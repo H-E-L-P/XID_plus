@@ -72,7 +72,7 @@ bins=np.array([3.0E-5,0.0032,0.135,2.275,15.87,50.0,84.13,97.725,99.865,99.9968,
 hist_xidp,bin_eges_xidp=np.histogram(error_percent_xidp_250,bins)
 hist_xid,bin_eges_xid=np.histogram(error_percent_xid_250,bins)
 sigma=np.arange(-4.5,5.0,1)
-plt.plot(sigma,hist_xid/nsouces_xid, label='DESPHOT')
+plt.plot(sigma,hist_xid/nsources_xid, label='DESPHOT')
 plt.plot(sigma,hist_xidp/nsources_xidp, label='XID+')
 print hist_xid.sum(),hist_xidp.sum()
 plt.savefig("error_density.pdf")
