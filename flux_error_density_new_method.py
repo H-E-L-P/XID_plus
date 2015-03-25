@@ -72,7 +72,15 @@ bins=np.array([0.0,0.0032,0.135,2.275,15.87,50.0,84.13,97.725,99.865,99.9968,100
 hist_xidp,bin_eges_xidp=np.histogram(error_percent_xidp_250,bins)
 hist_xid,bin_eges_xid=np.histogram(error_percent_xid_250,bins)
 sigma=np.arange(-4.5,5.0,1)
+from matplotlib import rc
+rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
+## for Palatino and other serif fonts use:
+#rc('font',**{'family':'serif','serif':['Palatino']})
+rc('text', usetex=True)
 plt.plot(sigma,hist_xid, label='DESPHOT')
 plt.plot(sigma,hist_xidp, label='XID+')
 print hist_xid.sum(),hist_xidp.sum()
+plt.xlabel('$(S_{true}-S_{obs})/\sigma_{obs}$')
+
+plt.legend()
 plt.savefig("error_density.pdf")
