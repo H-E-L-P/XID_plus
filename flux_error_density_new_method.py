@@ -68,7 +68,7 @@ for i in range(0,nsources_xidp):
 for i in range(0,nsources_xid):
     error_percent_xid_250[i]=100.0*stats.norm.cdf(fcat_sim['S250'][idx][i],loc=fcat['F250'][i],scale=fcat['E250'][i])
 
-bins=np.array([3.0E-5,0.0032,0.135,2.275,15.87,50.0,84.13,97.725,99.865,99.9968,99.99997])
+bins=np.array([0.0,0.0032,0.135,2.275,15.87,50.0,84.13,97.725,99.865,99.9968,100.0])
 hist_xidp,bin_eges_xidp=np.histogram(error_percent_xidp_250,bins)
 hist_xid,bin_eges_xid=np.histogram(error_percent_xid_250,bins)
 sigma=np.arange(-4.5,5.0,1)
