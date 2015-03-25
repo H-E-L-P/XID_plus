@@ -71,5 +71,5 @@ print tiling_list[sources,0],tiling_list[sources,1],
 truths=np.log10(fcat_sim['S250'][idx_xidp])
 print truths[sources]
 print fcat_xidp[sources]
-figure = triangle.corner(flattened_post[:,sources],truths=truths[sources])
+figure = triangle.corner(flattened_post[:,sources],truths=truths[sources],extents=[(-1,2),(-1,2)])
 figure.savefig("triangle.pdf")
