@@ -83,9 +83,14 @@ def yrep_map(prior,fvec):
     return pred_map
 samples,chains,params=posterior.stan_fit.shape
 flattened_post=posterior.stan_fit.reshape(samples*chains,params)
+
+import matplotlib
+matplotlib.use('PS')
 for i in range(0,500):#samples*chains):
     print 'making map '+ str(i) 
     pred_map=yrep_map(prior250,flattened_post[i,0:prior250.nsrc+1])
+    plt.imshow(pred_map/1.0E03,interpolation='nearest',vmin=-1E5,vmax=1E-1)
+    plt.savefig(output_folder+'maps/SMAP250_'+str(i)+'.ps')
     fits_template.data=pred_map/1.0E03
     fits_template.writeto(output_folder+'maps/SMAP250_'+str(i)+'.fits')
     
