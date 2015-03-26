@@ -83,7 +83,7 @@ def yrep_map(prior,fvec):
     return pred_map
 samples,chains,params=posterior.stan_fit.shape
 flattened_post=posterior.stan_fit.reshape(samples*chains,params)
-for i in range(0,samples*chains):
+for i in range(0,500):#samples*chains):
     print 'making map '+ str(i) 
     pred_map=yrep_map(prior250,flattened_post[i,0:prior250.nsrc+1])
     fits_template.data=pred_map/1.0E03
