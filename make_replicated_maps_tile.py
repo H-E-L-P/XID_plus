@@ -86,6 +86,7 @@ flattened_post=posterior.stan_fit.reshape(samples*chains,params)
 
 import matplotlib
 matplotlib.use('PS')
+import pylab as plt
 for i in range(0,500):#samples*chains):
     print 'making map '+ str(i) 
     pred_map=yrep_map(prior250,flattened_post[i,0:prior250.nsrc+1])
