@@ -20,7 +20,7 @@ tiling_list=obj['tiling_list']
 nsources=tiling_list.shape[0]
 sources_percentile=np.empty((nsources,14))
 
-infile=output_folder+'lacy_uniform_log10fluxprior_149_5p1_6.pkl'
+infile=output_folder+'lacy_uniform_log10fluxprior_150_4p2_5.pkl'
 with open(infile, "rb") as f:
     dictname = pickle.load(f)
 prior250=dictname['psw']
@@ -77,21 +77,22 @@ def yrep_map(prior,fvec):
     A=coo_matrix((prior.amat_data, (prior.amat_row, prior.amat_col)), shape=(prior.snpix, prior.nsrc+1))
     rmap_temp=(A*f)
     pred_map=np.empty_like(prior.im)
-    pred_map[:,:]=0.0
-    pred_map[prior.sy_pix,prior.sx_pix]=np.asarray(rmap_temp.todense()).reshape(-1)+np.random.randn(prior.snpix)*prior.snim
+    pred_map[:,:]=prior.im
+    pred_map[prior.sy_pix,prior.sx_pix]=np.asarray(rmap_temp.todense()).reshape(-1)#+np.random.randn(prior.snpix)*prior.snim
     
     return pred_map
 samples,chains,params=posterior.stan_fit.shape
 flattened_post=posterior.stan_fit.reshape(samples*chains,params)
 
-import matplotlib
-matplotlib.use('PS')
-import pylab as plt
-for i in range(0,500):#samples*chains):
+#import matplotlib
+#matplotlib.use('PS')
+#import pylab as plt
+for i in range(0,50):#samples*chains):
     print 'making map '+ str(i) 
     pred_map=yrep_map(prior250,flattened_post[i,0:prior250.nsrc+1])
-    plt.imshow(pred_map/1.0E03,interpolation='nearest',vmin=-1E5,vmax=1E-1)
-    plt.savefig(output_folder+'maps/SMAP250_'+str(i)+'.ps')
-    fits_template.data=pred_map/1.0E03
-    fits_template.writeto(output_folder+'maps/SMAP250_'+str(i)+'.fits')
+    #plt.imshow(pred_map/1.0E03,interpolation='nearest',vmin=-1E-3,vmax=0.5E-1)
+    res = fits.open(output_folder+'maps/res250_'+str(i)+'.fits',mode='update')
+    #plt.savefig(output_folder+'maps/SMAP250_'+str(i)+'.eps')
+    res[1].data[prior250.sy_pix,prior250.sx_pix]=(pred_map[prior250.sy_pix,prior250.sx_pix]/1.0E03)-(im250[prior250.sy_pix,prior250.sx_pix]/1.0E3)
+    res.flush()
     

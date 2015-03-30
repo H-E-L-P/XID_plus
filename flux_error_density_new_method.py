@@ -24,7 +24,7 @@ fcat_sim=hdulist[1].data
 hdulist.close()
 
 #---Read in XID+ catalogue---
-folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior/'
+folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux/'
 hdulist=fits.open(folder+'Tiled_SPIRE_cat_flux_notlog.fits')
 fcat_xidp=hdulist[1].data
 hdulist.close()
@@ -42,7 +42,7 @@ c1=SkyCoord(ra=fcat_sim['RA']*u.degree,dec=fcat_sim['DEC']*u.degree)
 idx_xidp,d2d,d3d,= c.match_to_catalog_sky(c1)
 
 #----output folder-----------------
-output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior/'
+output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux/'
 
 infile=output_folder+'Tiled_master_Lacey_notlog_flux.pkl'
 with open(infile, "rb") as f:
@@ -79,4 +79,4 @@ print hist_xid.sum(),hist_xidp.sum()
 plt.xlabel('Flux error density (Sigma)')
 
 plt.legend()
-plt.savefig("error_density.pdf")
+plt.savefig("error_density_flux_prior.pdf")
