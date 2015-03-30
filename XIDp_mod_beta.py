@@ -5,7 +5,9 @@ from astropy.io import fits
 from astropy import wcs
 
 #path for where stan models lie
-stan_path='./stan_models/'
+import os
+dirname, filename = os.path.split(os.path.abspath(__file__))
+stan_path=dirname+'/stan_models/'
 
 
 class prior(object):
@@ -210,7 +212,7 @@ def lstdrv_SPIRE_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
     
     #see if model has already been compiled. If not, compile and save it
     import os
-    model_file="./XID+SPIRE.pkl"
+    model_file=dirname+"/XID+SPIRE.pkl"
     try:
        with open(model_file,'rb') as f:
             # using the same model as before
