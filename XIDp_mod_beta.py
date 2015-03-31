@@ -8,7 +8,7 @@ from astropy import wcs
 import os
 dirname, filename = os.path.split(os.path.abspath(__file__))
 stan_path=dirname+'/stan_models/'
-
+#this is a test
 
 class prior(object):
     def __init__(self,im,nim,wcs,imphdu):
