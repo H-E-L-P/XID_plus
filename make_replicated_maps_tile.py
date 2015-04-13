@@ -11,7 +11,7 @@ import os
 import sys
 
 #----output folder-----------------
-output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior/'
+output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior_test/'
 
 with open(output_folder+'Tiling_info.pkl', "rb") as f:
         obj = pickle.load(f)
@@ -20,7 +20,7 @@ tiling_list=obj['tiling_list']
 nsources=tiling_list.shape[0]
 sources_percentile=np.empty((nsources,14))
 
-infile=output_folder+'lacy_uniform_log10fluxprior_150_4p2_5.pkl'
+infile=output_folder+'lacy_log_uniform_prior_150_4p2_5.pkl'
 with open(infile, "rb") as f:
     dictname = pickle.load(f)
 prior250=dictname['psw']
@@ -31,7 +31,7 @@ print prior250.wcs._naxis1,prior250.wcs._naxis2
 print '---------------'
 posterior=dictname['posterior']
 posterior.stan_fit=np.power(10.0,posterior.stan_fit)
-
+posterior.stan_fit[:,:,[prior250.nsrc,2*prior250.nsrc+1,3*prior250.nsrc+1]]=np.log10(posterior.stan_fit[:,:,[prior250.nsrc,2*prior250.nsrc+1,3*prior250.nsrc+2]])
 
 
 
@@ -87,6 +87,7 @@ flattened_post=posterior.stan_fit.reshape(samples*chains,params)
 #import matplotlib
 #matplotlib.use('PS')
 #import pylab as plt
+output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior/'
 for i in range(0,50):#samples*chains):
     print 'making map '+ str(i) 
     pred_map=yrep_map(prior250,flattened_post[i,0:prior250.nsrc+1])

@@ -31,7 +31,7 @@ output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux
 #Folder containing prior input catalogue
 folder='/research/astro/fir/cclarke/lacey/released/'
 #prior catalogue
-prior_cat='lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS.fits'
+prior_cat='lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS_test.fits'
 hdulist = fits.open(folder+prior_cat)
 fcat=hdulist[1].data
 hdulist.close()
@@ -106,9 +106,9 @@ f500=f500[sgood]
 n_src=sgood.sum()
 
 for i in np.arange(0,n_src):
-    f250[i]=np.random.normal(loc=np.log10(f250[i]))
-    f350[i]=np.random.normal(loc=np.log10(f350[i]))
-    f500[i]=np.random.normal(loc=np.log10(f500[i]))
+    f250[i]=np.random.normal(loc=np.log10(f250[i]), scale=0.5)
+    f350[i]=np.random.normal(loc=np.log10(f350[i]), scale=0.5)
+    f500[i]=np.random.normal(loc=np.log10(f500[i]), scale=0.5)
 
 
 
@@ -212,7 +212,7 @@ posterior=xid_mod.posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
 
 #output_folder='/research/astro/fir/HELP/XID_plus_output/100micron'
 #thdulist.writeto(output_folder+'lacy_XIDp_SPIRE_beta_'+field+'_dat_small_0.08_Gauss.fits')
-outfile=output_folder+'Lacey_log10_norm1_'+str(prior250.tile[0,0]).replace('.','_')+'p'+str(prior250.tile[1,0]).replace('.','_')+'.pkl'
+outfile=output_folder+'Lacey_log10_norm0_5_'+str(prior250.tile[0,0]).replace('.','_')+'p'+str(prior250.tile[1,0]).replace('.','_')+'.pkl'
 #outfile=output_folder+'Lacey_rbandcut_19_8_log_flux.pkl'
 with open(outfile, 'wb') as f:
     pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)

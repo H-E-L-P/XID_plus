@@ -19,12 +19,13 @@ hdulist.close()
 
 #---Read in truth catalogue---
 folder='/research/astro/fir/cclarke/lacey/released/'
-hdulist=fits.open(folder+'lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS.fits')
+hdulist=fits.open(folder+'lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS_test.fits')
 fcat_sim=hdulist[1].data
 hdulist.close()
 
 #---Read in XID+ catalogue---
-folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior/'
+#folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior_test/'
+folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux/'
 hdulist=fits.open(folder+'Tiled_SPIRE_cat_flux_notlog.fits')
 fcat_xidp=hdulist[1].data
 hdulist.close()
@@ -42,7 +43,7 @@ c1=SkyCoord(ra=fcat_sim['RA']*u.degree,dec=fcat_sim['DEC']*u.degree)
 idx_xidp,d2d,d3d,= c.match_to_catalog_sky(c1)
 
 #----output folder-----------------
-output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior/'
+output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux/'
 
 infile=output_folder+'Tiled_master_Lacey_notlog_flux.pkl'
 with open(infile, "rb") as f:
@@ -65,15 +66,15 @@ tiling_list=obj['tiling_list']
 
 
 import triangle
-sources=[21446,31315]
+sources=[31315,21446]
 
 print tiling_list[sources,0],tiling_list[sources,1],
 truths=fcat_sim['S250'][idx_xidp]
 print truths[sources]
 print fcat_xidp[sources]
 
-xid=np.random.multivariate_normal(np.array([49.71,0.0]),np.array([[1.93,0],[0,238.702]]),5000)
-figure = triangle.corner(flattened_post[:,sources],truths=truths[sources],extents=[(0,60),(0,60)], color='r')
+xid=np.random.multivariate_normal(np.array([0.0,49.0404]),np.array([[15.634,0],[0,1.444]]),5000)
+figure = triangle.corner(flattened_post[:,sources],truths=truths[sources],extents=[(0,60),(0,60)], color='g',labels=[r"Source $1$", r"Source $2$"])
 figure = triangle.corner(xid,truths=truths[sources],extents=[(0,60),(0,60)],fig=figure,labels=[r"Source $1$", r"Source $2$"], color='b')
 
-figure.savefig("triangle.pdf")
+figure.savefig("triangle_test_prior.pdf")

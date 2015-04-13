@@ -67,9 +67,9 @@ model {
   bkg_plw ~normal(bkg_prior_plw,bkg_prior_sig_plw);
  
   //Prior on flux of sources
-  src_f_psw ~normal(psw_prior,1.0);
-  src_f_pmw ~normal(pmw_prior,1.0);
-  src_f_plw ~normal(plw_prior,1.0);
+  src_f_psw ~normal(psw_prior,0.5);
+  src_f_pmw ~normal(pmw_prior,0.5);
+  src_f_plw ~normal(plw_prior,0.5);
   
 
   //background is now contribution from confusion only!!

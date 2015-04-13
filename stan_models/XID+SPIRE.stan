@@ -34,11 +34,11 @@ data {
 
 }
 parameters {
-  vector<lower=0,upper=1000.0> [nsrc] src_f_psw;//source vector
+  vector<lower=-8.0,upper=3.0> [nsrc] src_f_psw;//source vector
   real bkg_psw;//background
-  vector<lower=0,upper=1000.0> [nsrc] src_f_pmw;//source vector
+  vector<lower=-8.0,upper=3.0> [nsrc] src_f_pmw;//source vector
   real bkg_pmw;//background
-  vector<lower=0,upper=1000.0> [nsrc] src_f_plw;//source vector
+  vector<lower=-8.0,upper=3.0> [nsrc] src_f_plw;//source vector
   real bkg_plw;//background
 
 }
@@ -48,9 +48,7 @@ model {
   vector[npix_psw] db_hat_psw;//model of map
   vector[npix_pmw] db_hat_pmw;//model of map
   vector[npix_plw] db_hat_plw;//model of map
-  vector[npix_psw] db_obs_psw;//model of observed map
-  vector[npix_pmw] db_obs_pmw;//model of observed map
-  vector[npix_plw] db_obs_plw;//model of observed map
+
 
   vector[nsrc+1] f_vec_psw;//vector of source fluxes and background
   vector[nsrc+1] f_vec_pmw;//vector of source fluxes and background
@@ -75,9 +73,9 @@ model {
 
   // Transform to normal space. As I am sampling variable then transforming I don't need a Jacobian adjustment
   for (n in 1:nsrc) {
-    f_vec_psw[n] <- src_f_psw[n];
-    f_vec_pmw[n] <- src_f_pmw[n];
-    f_vec_plw[n] <- src_f_plw[n];
+    f_vec_psw[n] <- pow(10.0,src_f_psw[n]);
+    f_vec_pmw[n] <- pow(10.0,src_f_pmw[n]);
+    f_vec_plw[n] <- pow(10.0,src_f_plw[n]);
 
 
   }

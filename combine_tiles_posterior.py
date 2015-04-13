@@ -11,7 +11,7 @@ import os
 import sys
 
 #----output folder-----------------
-output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux/'
+output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior_test/'
 
 with open(output_folder+'Tiling_info.pkl', "rb") as f:
         obj = pickle.load(f)
@@ -28,7 +28,7 @@ for i in np.arange(0,len(tiles)):
     #find which sources from master list are we interested in
     ind= (np.around(tiling_list[:,2],3) == np.around(tile[0,0],3)) & (np.around(tiling_list[:,3],3) == np.around(tile[1,0],3))
     if ind.sum() >0:
-	    infile=output_folder+'Lacey_log10_norm1_'+str(tile[0,0]).replace('.','_')+'p'+str(tile[1,0]).replace('.','_')+'.pkl'
+	    infile=output_folder+'lacy_log_uniform_prior_'+str(tile[0,0]).replace('.','_')+'p'+str(tile[1,0]).replace('.','_')+'.pkl'
 	    with open(infile, "rb") as f:
 		dictname = pickle.load(f)
 	    prior250=dictname['psw']
@@ -102,7 +102,7 @@ hdulist.close()
 #----------------------------------------------------------------------------------
 
 
-prior_cat_file='lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS.fits'
+prior_cat_file='lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS_test.fits'
 #---------create master classes------------------------
 prior250_master=xid_mod.prior(prior250.im,prior250.nim,w_250,prior250.imphdu)#Initialise with map, uncertianty map, wcs info and primary header
 #print help(prior250_master.prior_cat)
