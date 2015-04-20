@@ -11,7 +11,7 @@ import os
 import sys
 
 #----output folder-----------------
-output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior_test/'
+output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux/'
 
 with open(output_folder+'Tiling_info.pkl', "rb") as f:
         obj = pickle.load(f)
@@ -28,7 +28,7 @@ for i in np.arange(0,len(tiles)):
     #find which sources from master list are we interested in
     ind= (np.around(tiling_list[:,2],3) == np.around(tile[0,0],3)) & (np.around(tiling_list[:,3],3) == np.around(tile[1,0],3))
     if ind.sum() >0:
-	    infile=output_folder+'lacy_log_uniform_prior_'+str(tile[0,0]).replace('.','_')+'p'+str(tile[1,0]).replace('.','_')+'.pkl'
+	    infile=output_folder+'Lacey_log10_norm0_5_'+str(tile[0,0]).replace('.','_')+'p'+str(tile[1,0]).replace('.','_')+'.pkl'
 	    with open(infile, "rb") as f:
 		dictname = pickle.load(f)
 	    prior250=dictname['psw']
@@ -114,7 +114,7 @@ prior500_master.prior_cat(tiling_list[:,0],tiling_list[:,1],prior_cat_file)
 
 posterior_master=xid_mod.posterior_stan(stan_fit_master,nsources)
 
-with open(output_folder+'Tiled_master_Lacey_notlog_flux.pkl', 'wb') as f:
+with open(output_folder+'Tiled_master_Lacey_notlog_flux_norm0_5.pkl', 'wb') as f:
     pickle.dump({'psw':prior250_master,'pmw':prior350_master,'plw':prior500_master,'posterior':posterior_master},f)
 
 
