@@ -34,49 +34,54 @@ data {
 
 }
 parameters {
-  vector<lower=0.0,upper=300> [nsrc] src_f_psw;//source vector
+  vector<lower=-8.0,upper=3.0> [nsrc] src_f_psw;//source vector
   real bkg_psw;//background
-  vector<lower=0.0,upper=300> [nsrc] src_f_pmw;//source vector
+  vector<lower=-8.0,upper=3.0> [nsrc] src_f_pmw;//source vector
   real bkg_pmw;//background
-  vector<lower=0.0,upper=300> [nsrc] src_f_plw;//source vector
+  vector<lower=-8.0,upper=3.0> [nsrc] src_f_plw;//source vector
   real bkg_plw;//background
 
 }
+
 
 model {
   vector[npix_psw] db_hat_psw;//model of map
   vector[npix_pmw] db_hat_pmw;//model of map
   vector[npix_plw] db_hat_plw;//model of map
 
+
   vector[nsrc+1] f_vec_psw;//vector of source fluxes and background
   vector[nsrc+1] f_vec_pmw;//vector of source fluxes and background
   vector[nsrc+1] f_vec_plw;//vector of source fluxes and background
 
 
-
+  //Prior on background 
   bkg_psw ~normal(bkg_prior_psw,bkg_prior_sig_psw);
   bkg_pmw ~normal(bkg_prior_pmw,bkg_prior_sig_pmw);
   bkg_plw ~normal(bkg_prior_plw,bkg_prior_sig_plw);
+ 
+  //Prior on flux of sources (not being used yet)
+  //src_f_psw ~normal(-1,2.2);
+  //src_f_pmw ~normal(-1,2.2);
+  //src_f_plw ~normal(-1,2.2);
   
-  src_f_psw ~cauchy(0,10);
-  src_f_pmw ~cauchy(0,10);
-  src_f_plw ~cauchy(0,10);
 
-
-  for (n in 1:nsrc) {
-    f_vec_psw[n] <- src_f_psw[n];
-    f_vec_pmw[n] <- src_f_pmw[n];
-    f_vec_plw[n] <- src_f_plw[n];
-
-
-  }
+  //background is now contribution from confusion only!!
   f_vec_psw[nsrc+1] <-bkg_psw;
   f_vec_pmw[nsrc+1] <-bkg_pmw;
   f_vec_plw[nsrc+1] <-bkg_plw;
 
+  // Transform to normal space. As I am sampling variable then transforming I don't need a Jacobian adjustment
+  for (n in 1:nsrc) {
+    f_vec_psw[n] <- pow(10.0,src_f_psw[n]);
+    f_vec_pmw[n] <- pow(10.0,src_f_pmw[n]);
+    f_vec_plw[n] <- pow(10.0,src_f_plw[n]);
 
-  #src_f ~cauchy(0,10); // set cauchy distribution for fluxes i.e. expect lower
 
+  }
+   
+ 
+  // Create model maps (i.e. db_hat = A*f) using sparse multiplication
   for (k in 1:npix_psw) {
     db_hat_psw[k] <- 0;
   }
@@ -99,8 +104,18 @@ model {
       }
 
 
+
+  // likelihood of observed map|model map
   db_psw ~ normal(db_hat_psw,sigma_psw);
   db_pmw ~ normal(db_hat_pmw,sigma_pmw);
   db_plw ~ normal(db_hat_plw,sigma_plw);
 
+
+  // As actual maps are mean subtracted, requires a Jacobian adjustment
+  //db_psw <- db_obs_psw - mean(db_obs_psw)
+  //increment_log_prob(log((size(db_obs_psw)-1)/size(db_obs_psw)))
+  //db_pmw <- db_obs_pmw - mean(db_obs_pmw)
+  //increment_log_prob(log((size(db_obs_pmw)-1)/size(db_obs_pmw)))
+  //db_plw <- db_obs_plw - mean(db_obs_plw)
+  //increment_log_prob(log((size(db_obs_plw)-1)/size(db_obs_plw)))
     }

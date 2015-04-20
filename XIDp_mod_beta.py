@@ -5,8 +5,10 @@ from astropy.io import fits
 from astropy import wcs
 
 #path for where stan models lie
-stan_path='./stan_models/'
-
+import os
+dirname, filename = os.path.split(os.path.abspath(__file__))
+stan_path=dirname+'/stan_models/'
+#this is a test
 
 class prior(object):
     def __init__(self,im,nim,wcs,imphdu):
@@ -22,28 +24,46 @@ class prior(object):
         self.nim=nim
         self.wcs=wcs
         self.imphdu=imphdu
+        #add a boolean array 
+        ind=np.empty_like(im,dtype=bool)
+        ind[:]=True
+        print ind.shape
+        print self.wcs._naxis1,self.wcs._naxis2
+        #get x and y pixel position for each position
+        x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
+        #now cut down and flatten maps (default is to use all pixels, running segment will change the values below to pixels within segment)
+        self.sx_pix=x_pix[ind]
+        self.sy_pix=y_pix[ind]
+        self.snim=self.nim[ind]
+        self.sim=self.im[ind]
+        self.snpix=ind.sum()
+
 
     def prior_bkg(self,mu,sigma):
         """Add background prior ($\mu$) and uncertianty ($\sigma$). Assumes normal distribution"""
         self.bkg=(mu,sigma)
 
-    def prior_cat(self,ra,dec,prior_cat,good_index=None):
+    def prior_cat(self,ra,dec,prior_cat_file,good_index=None,flux=None):
         """Input info for prior catalogue. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
         and converts RA and DEC to pixel positions"""
         #get positions of sources in terms of pixels
         sx,sy=self.wcs.wcs_world2pix(ra,dec,0)
-        #check if sources are within map 
-        sgood=(sx > 0) & (sx < self.wcs._naxis1) & (sy > 0) & (sy < self.wcs._naxis2)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
-
+        #check if sources are within map
+        if hasattr(self, 'tile'):
+            sgood=(ra > self.tile[0,0]-self.buffer_size) & (ra < self.tile[0,2]+self.buffer_size) & (dec > self.tile[1,0]-self.buffer_size) & (dec < self.tile[1,2]+self.buffer_size)#
+        else:
+            sgood=(sx > 0) & (sx < self.wcs._naxis1) & (sy > 0) & (sy < self.wcs._naxis2)
         #Redefine prior list so it only contains sources in the map
         self.sx=sx[sgood]
         self.sy=sy[sgood]
         self.sra=ra[sgood]
         self.sdec=dec[sgood]
         self.nsrc=sgood.sum()
-        self.prior_cat=prior_cat
+        self.prior_cat=prior_cat_file
         if good_index != None:
             return sgood 
+        if flux !=None:
+            self.sflux=flux[sgood]
 
 
     def prior_cat_stack(self,ra,dec,prior_cat,good_index=None):
@@ -52,11 +72,11 @@ class prior(object):
         #get positions of sources in terms of pixels
         sx,sy=self.wcs.wcs_world2pix(ra,dec,0)
         #check if sources are within map 
-        sgood=(sx > 0) & (sx < self.wcs._naxis1) & (sy > 0) & (sy < self.wcs._naxis2)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
+        sgood=(ra > self.tile[0,0]-self.buffer_size) & (ra < self.tile[0,2]+self.buffer_size) & (dec > self.tile[1,0]-self.buffer_size) & (dec < self.tile[1,2]+self.buffer_size)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
 
                 
 
-        #Redefine prior list so it only contains sources in the map
+        #Redefine prior list so it only contains sources in the tile being fitted
         self.stack_sx=sx[sgood]
         self.stack_sy=sy[sgood]
         self.stack_sra=ra[sgood]
@@ -70,6 +90,28 @@ class prior(object):
         if good_index != None:
             return sgood 
     
+    def set_tile(self,tile,buffer_size):
+        """Segment map to tile region described by tile and buffer_size"""
+        #create polygon of tile (in format used by aplpy). Should be 2x4 array
+        self.tile=tile
+        #get vertices of polygon in terms of pixels
+        tile_x,tile_y=self.wcs.wcs_world2pix(tile[0,:],tile[1,:],0)
+
+        x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
+
+        npix=(x_pix < np.max(tile_x)) & (y_pix < np.max(tile_y)) & (y_pix >= np.min(tile_y)) & (x_pix >= np.min(tile_x))
+
+        #now cut down and flatten maps
+        self.sx_pix=x_pix[npix]
+        self.sy_pix=y_pix[npix]
+        self.snim=self.nim[npix]
+        self.sim=self.im[npix]
+        self.snpix=npix.sum()
+
+        
+        #store buffer size
+        self.buffer_size=buffer_size
+
 
     def set_prf(self,prf,pindx,pindy):
         """Add prf array and corresponding x and y scales (in terms of pixels in map). \n Array should be an n x n array, where n is an odd number, and the centre of the prf is at the centre of the array"""
@@ -80,23 +122,9 @@ class prior(object):
 
     def get_pointing_matrix(self):
         """get the pointing matrix"""
-        from scipy import interpolate
-        x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
-        
+        from scipy import interpolate        
         paxis1,paxis2=self.prf.shape
-        #cut down map to sources being fitted
-        #first get range around sources
-        mux=np.max(self.sx)
-        mlx=np.min(self.sx)
-        muy=np.max(self.sy)
-        mly=np.min(self.sy)
-        npix=(x_pix < mux+20) & (y_pix < muy+20) & (y_pix >= mly-20) & (x_pix >= mlx-20)
-        self.snpix=npix.sum()
-        #now cut down and flatten maps
-        self.sx_pix=x_pix[npix]
-        self.sy_pix=y_pix[npix]
-        self.snim=self.nim[npix]
-        self.sim=self.im[npix]
+
         amat_row=np.array([])
         amat_col=np.array([])
         amat_data=np.array([])
@@ -131,11 +159,10 @@ class prior(object):
                 amat_col=np.append(amat_col,np.full(ngood,s))#what source we are on
 
         #Add background contribution to pointing matrix: 
-        #only contributes to pixels within region of sources (i.e. not in the 20 pixel buffer space around edge)
-        good=(self.sx_pix < mux) & (self.sy_pix < muy) & (self.sy_pix >= mly) & (self.sx_pix >= mlx)
-        snpix_bkg=good.sum()
+        #only contributes to pixels within tile
+        snpix_bkg=self.snpix
         self.amat_data=np.append(amat_data,np.full(snpix_bkg,1))
-        self.amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long)[good])
+        self.amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long))
         self.amat_col=np.append(amat_col,np.full(snpix_bkg,s+1))
 
     def get_pointing_matrix_coo(self):
@@ -185,7 +212,7 @@ def lstdrv_SPIRE_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
     
     #see if model has already been compiled. If not, compile and save it
     import os
-    model_file="./XID+SPIRE.pkl"
+    model_file=dirname+"/XID+SPIRE.pkl"
     try:
        with open(model_file,'rb') as f:
             # using the same model as before
@@ -290,7 +317,68 @@ def lstdrv_stan(prior,chains=4,iter=1000):
     #return fit data
     return fit_data,chains,iter
 
+def lstdrv_SPIRE_prior_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
+    """Fit all three SPIRE maps using stan"""
+    import pystan
+    import pickle
 
+    # define function to initialise flux values to one
+    def initfun():
+        return dict(src_f=np.ones(snsrc))
+    #input data into a dictionary
+        
+    XID_data={'nsrc':SPIRE_250.nsrc,
+          'npix_psw':SPIRE_250.snpix,
+          'nnz_psw':SPIRE_250.amat_data.size,
+          'db_psw':SPIRE_250.sim,
+          'sigma_psw':SPIRE_250.snim,
+          'bkg_prior_psw':SPIRE_250.bkg[0],
+          'bkg_prior_sig_psw':SPIRE_250.bkg[1],
+          'Val_psw':SPIRE_250.amat_data,
+          'Row_psw': SPIRE_250.amat_row.astype(long),
+          'Col_psw': SPIRE_250.amat_col.astype(long),
+          'psw_prior': SPIRE_250.sflux,
+          'npix_pmw':SPIRE_350.snpix,
+          'nnz_pmw':SPIRE_350.amat_data.size,
+          'db_pmw':SPIRE_350.sim,
+          'sigma_pmw':SPIRE_350.snim,
+          'bkg_prior_pmw':SPIRE_350.bkg[0],
+          'bkg_prior_sig_pmw':SPIRE_350.bkg[1],
+          'Val_pmw':SPIRE_350.amat_data,
+          'Row_pmw': SPIRE_350.amat_row.astype(long),
+          'Col_pmw': SPIRE_350.amat_col.astype(long),
+          'pmw_prior': SPIRE_350.sflux,
+          'npix_plw':SPIRE_500.snpix,
+          'nnz_plw':SPIRE_500.amat_data.size,
+          'db_plw':SPIRE_500.sim,
+          'sigma_plw':SPIRE_500.snim,
+          'bkg_prior_plw':SPIRE_500.bkg[0],
+          'bkg_prior_sig_plw':SPIRE_500.bkg[1],
+          'Val_plw':SPIRE_500.amat_data,
+          'Row_plw': SPIRE_500.amat_row.astype(long),
+          'Col_plw': SPIRE_500.amat_col.astype(long),
+          'plw_prior': SPIRE_500.sflux}
+    
+    #see if model has already been compiled. If not, compile and save it
+    import os
+    model_file="./XID+SPIRE_prior.pkl"
+    try:
+       with open(model_file,'rb') as f:
+            # using the same model as before
+            print("%s found. Reusing" % model_file)
+            sm = pickle.load(f)
+            fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+    except IOError as e:
+        print("%s not found. Compiling" % model_file)
+        sm = pystan.StanModel(file=stan_path+'XID+SPIRE_prior.stan')
+        # save it to the file 'model.pkl' for later use
+        with open(model_file, 'wb') as f:
+            pickle.dump(sm, f)
+        fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+    #extract fit
+    fit_data=fit.extract(permuted=False, inc_warmup=False)
+    #return fit data
+    return fit_data,chains,iter
 
 class posterior_stan(object):
     def __init__(self,stan_fit,nsrc):
@@ -415,7 +503,7 @@ def create_XIDp_cat(posterior,prior):
     prihdr = fits.Header()
     prihdr['Prior_C'] = prior.prior_cat
     prihdr['TITLE']   = 'SPIRE XID catalogue'        
-    prihdr['OBJECT']  = prior.imphdu['OBJECT']                              
+    #prihdr['OBJECT']  = prior.imphdu['OBJECT']                              
     prihdr['CREATOR'] = 'WP5'                                 
     prihdr['VERSION'] = 'beta'                                 
     prihdr['DATE']    = datetime.datetime.now().isoformat()              
@@ -504,7 +592,7 @@ def create_XIDp_SPIREcat(posterior,prior250,prior350,prior500):
     prihdr = fits.Header()
     prihdr['Prior_C'] = prior250.prior_cat
     prihdr['TITLE']   = 'SPIRE XID catalogue'        
-    prihdr['OBJECT']  = prior250.imphdu['OBJECT']                              
+    #prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change                              
     prihdr['CREATOR'] = 'WP5'                                 
     prihdr['VERSION'] = 'beta'                                 
     prihdr['DATE']    = datetime.datetime.now().isoformat()              
@@ -562,5 +650,205 @@ def SPIRE_PSF(file,pixsize):
     return PSF_cut,pindx,pindy
 
 
+def Segmentation_scheme(inra,indec,tile_l):
+    """For a given prior catalogue, create a tiling scheme with given tile size. \n Returns tiles for which there are sources""" 
+    ra_min=np.floor(10.0*np.min(inra))/10.0
+    ra_max=np.floor(10.0*np.max(inra))/10.0
+    dec_min=np.floor(10.0*np.min(indec))/10.0
+    dec_max=np.floor(10.0*np.max(indec))/10.0
+
+    #Create array to store optimum tile for each source
+    tiling_list=np.empty((inra.size,5))
+    #Create tiles
+    tiles=[]
+    tiling_list[:,4]=tile_l
+    for ra in np.arange(ra_min,ra_max,0.75*tile_l):
+        for dec in np.arange(dec_min,dec_max,0.75*tile_l):
+            #create tile for this ra and dec
+            tile=np.array([[ra,dec],[ra+tile_l,dec],[ra+tile_l,dec+tile_l],[ra,dec+tile_l]]).T
+            #check how many sources are in this tile
+            sgood=(inra > tile[0,0]) & (inra < tile[0,1]) & (indec > tile[1,0]) & (indec < tile[1,2])
+
+            if sgood.sum() >0:
+                tiles.append(tile)
+                #work out distance from tile centre to each source in tile
+                dist=np.power(np.power((ra+tile_l/2.0)-inra[sgood],2)+np.power((dec+tile_l/2.0)-indec[sgood],2),0.5)
+                ii=0
+                for i in np.arange(0,inra.size)[sgood]:
+                    #store ra and dec of optimum tile as well as distance
+                    if tiling_list[i,4] > dist[ii]:
+                        tiling_list[i,:]=[inra[i],indec[i],ra,dec,dist[ii]]
+                    ii+=1
+    return tiles, tiling_list
     
+def create_empty_XIDp_SPIREcat(nsrc):
+    """creates the XIDp catalogue in fits format required by HeDaM"""
+    import datetime
+
+
+
+    #----table info-----------------------
+    #first define columns
+    c1 = fits.Column(name='XID', format='I', array=np.empty((nsrc), dtype=long))
+    c2 = fits.Column(name='ra', format='D', unit='degrees', array=np.empty((nsrc)))
+    c3 = fits.Column(name='dec', format='D', unit='degrees', array=np.empty((nsrc)))
+    c4 = fits.Column(name='flux250', format='E', unit='mJy', array=np.empty((nsrc)))
+    c5 = fits.Column(name='flux250_err_u', format='E', unit='mJy', array=np.empty((nsrc)))
+    c6 = fits.Column(name='flux250_err_l', format='E', unit='mJy', array=np.empty((nsrc)))
+    c7 = fits.Column(name='flux350', format='E', unit='mJy', array=np.empty((nsrc)))
+    c8 = fits.Column(name='flux350_err_u', format='E', unit='mJy', array=np.empty((nsrc)))
+    c9 = fits.Column(name='flux350_err_l', format='E', unit='mJy', array=np.empty((nsrc)))
+    c10 = fits.Column(name='flux500', format='E', unit='mJy', array=np.empty((nsrc)))
+    c11 = fits.Column(name='flux500_err_u', format='E', unit='mJy', array=np.empty((nsrc)))
+    c12 = fits.Column(name='flux500_err_l', format='E', unit='mJy', array=np.empty((nsrc)))
+    c13 = fits.Column(name='bkg250', format='E', unit='mJy', array=np.empty((nsrc)))
+    c14 = fits.Column(name='bkg350', format='E', unit='mJy', array=np.empty((nsrc)))
+    c15 = fits.Column(name='bkg500', format='E', unit='mJy', array=np.empty((nsrc)))
+
+    tbhdu = fits.new_table([c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15])
     
+    tbhdu.header.set('TUCD1','XID',after='TFORM1')      
+    tbhdu.header.set('TDESC1','ID of source which corresponds to i and j of cov matrix.',after='TUCD1')         
+
+    tbhdu.header.set('TUCD2','pos.eq.RA',after='TUNIT2')      
+    tbhdu.header.set('TDESC2','R.A. of object J2000',after='TUCD2') 
+
+    tbhdu.header.set('TUCD3','pos.eq.DEC',after='TUNIT3')      
+    tbhdu.header.set('TDESC3','Dec. of object J2000',after='TUCD3') 
+
+    tbhdu.header.set('TUCD4','phot.flux.density',after='TUNIT4')      
+    tbhdu.header.set('TDESC4','250 Flux (at 50th percentile)',after='TUCD4') 
+
+    tbhdu.header.set('TUCD5','phot.flux.density',after='TUNIT5')      
+    tbhdu.header.set('TDESC5','250 Flux (at 84.1 percentile) ',after='TUCD5') 
+
+    tbhdu.header.set('TUCD6','phot.flux.density',after='TUNIT6')      
+    tbhdu.header.set('TDESC6','250 Flux (at 25.9 percentile)',after='TUCD6') 
+
+    tbhdu.header.set('TUCD7','phot.flux.density',after='TUNIT7')      
+    tbhdu.header.set('TDESC7','350 Flux (at 50th percentile)',after='TUCD7') 
+
+    tbhdu.header.set('TUCD8','phot.flux.density',after='TUNIT8')      
+    tbhdu.header.set('TDESC8','350 Flux (at 84.1 percentile) ',after='TUCD8') 
+
+    tbhdu.header.set('TUCD9','phot.flux.density',after='TUNIT9')      
+    tbhdu.header.set('TDESC9','350 Flux (at 25.9 percentile)',after='TUCD9') 
+
+    tbhdu.header.set('TUCD10','phot.flux.density',after='TUNIT10')      
+    tbhdu.header.set('TDESC10','500 Flux (at 50th percentile)',after='TUCD10') 
+
+    tbhdu.header.set('TUCD11','phot.flux.density',after='TUNIT11')      
+    tbhdu.header.set('TDESC11','500 Flux (at 84.1 percentile) ',after='TUCD11') 
+
+    tbhdu.header.set('TUCD12','phot.flux.density',after='TUNIT12')      
+    tbhdu.header.set('TDESC12','500 Flux (at 25.9 percentile)',after='TUCD12')
+
+    tbhdu.header.set('TUCD13','phot.flux.density',after='TUNIT13')      
+    tbhdu.header.set('TDESC13','250 background',after='TUCD13') 
+
+    tbhdu.header.set('TUCD14','phot.flux.density',after='TUNIT14')      
+    tbhdu.header.set('TDESC14','350 background',after='TUCD14') 
+
+    tbhdu.header.set('TUCD15','phot.flux.density',after='TUNIT15')      
+    tbhdu.header.set('TDESC15','500 background',after='TUCD15')
+    
+    #----Primary header-----------------------------------
+    prihdr = fits.Header()
+    #prihdr['Prior_C'] = prior250.prior_cat
+    prihdr['TITLE']   = 'SPIRE XID catalogue'        
+    #prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change                              
+    prihdr['CREATOR'] = 'WP5'                                 
+    prihdr['VERSION'] = 'beta'                                 
+    prihdr['DATE']    = datetime.datetime.now().isoformat()              
+    prihdu = fits.PrimaryHDU(header=prihdr)
+    
+    thdulist = fits.HDUList([prihdu, tbhdu])
+    return thdulist
+
+def create_XIDp_SPIREcat_nocov(posterior,prior250,prior350,prior500):
+    """creates the XIDp catalogue in fits format required by HeDaM"""
+    import datetime
+    nsrc=posterior.nsrc
+    med_flux=posterior.quantileGet(50)
+    flux_low=posterior.quantileGet(15.87)
+    flux_high=posterior.quantileGet(84.1)
+
+
+
+    #----table info-----------------------
+    #first define columns
+    c1 = fits.Column(name='XID', format='I', array=np.arange(posterior.nsrc,dtype=long))
+    c2 = fits.Column(name='ra', format='D', unit='degrees', array=prior250.sra)
+    c3 = fits.Column(name='dec', format='D', unit='degrees', array=prior250.sdec)
+    c4 = fits.Column(name='flux250', format='E', unit='mJy', array=med_flux[0:nsrc])
+    c5 = fits.Column(name='flux250_err_u', format='E', unit='mJy', array=flux_high[0:nsrc])
+    c6 = fits.Column(name='flux250_err_l', format='E', unit='mJy', array=flux_low[0:nsrc])
+    c7 = fits.Column(name='flux350', format='E', unit='mJy', array=med_flux[nsrc+1:(2*nsrc)+1])
+    c8 = fits.Column(name='flux350_err_u', format='E', unit='mJy', array=flux_high[nsrc+1:(2*nsrc)+1])
+    c9 = fits.Column(name='flux350_err_l', format='E', unit='mJy', array=flux_low[nsrc+1:(2*nsrc)+1])
+    c10 = fits.Column(name='flux500', format='E', unit='mJy', array=med_flux[2*nsrc+2:(3*nsrc)+2])
+    c11 = fits.Column(name='flux500_err_u', format='E', unit='mJy', array=flux_high[2*nsrc+2:(3*nsrc)+2])
+    c12 = fits.Column(name='flux500_err_l', format='E', unit='mJy', array=flux_low[2*nsrc+2:(3*nsrc)+2])
+    c13 = fits.Column(name='bkg250', format='E', unit='mJy', array=np.full(nsrc,med_flux[nsrc]))
+    c14 = fits.Column(name='bkg350', format='E', unit='mJy', array=np.full(nsrc,med_flux[(2*nsrc)+1]))
+    c15 = fits.Column(name='bkg500', format='E', unit='mJy', array=np.full(nsrc,med_flux[(3*nsrc)+2]))
+
+    tbhdu = fits.new_table([c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15])
+    
+    tbhdu.header.set('TUCD1','XID',after='TFORM1')      
+    tbhdu.header.set('TDESC1','ID of source which corresponds to i and j of cov matrix.',after='TUCD1')         
+
+    tbhdu.header.set('TUCD2','pos.eq.RA',after='TUNIT2')      
+    tbhdu.header.set('TDESC2','R.A. of object J2000',after='TUCD2') 
+
+    tbhdu.header.set('TUCD3','pos.eq.DEC',after='TUNIT3')      
+    tbhdu.header.set('TDESC3','Dec. of object J2000',after='TUCD3') 
+
+    tbhdu.header.set('TUCD4','phot.flux.density',after='TUNIT4')      
+    tbhdu.header.set('TDESC4','250 Flux (at 50th percentile)',after='TUCD4') 
+
+    tbhdu.header.set('TUCD5','phot.flux.density',after='TUNIT5')      
+    tbhdu.header.set('TDESC5','250 Flux (at 84.1 percentile) ',after='TUCD5') 
+
+    tbhdu.header.set('TUCD6','phot.flux.density',after='TUNIT6')      
+    tbhdu.header.set('TDESC6','250 Flux (at 25.9 percentile)',after='TUCD6') 
+
+    tbhdu.header.set('TUCD7','phot.flux.density',after='TUNIT7')      
+    tbhdu.header.set('TDESC7','350 Flux (at 50th percentile)',after='TUCD7') 
+
+    tbhdu.header.set('TUCD8','phot.flux.density',after='TUNIT8')      
+    tbhdu.header.set('TDESC8','350 Flux (at 84.1 percentile) ',after='TUCD8') 
+
+    tbhdu.header.set('TUCD9','phot.flux.density',after='TUNIT9')      
+    tbhdu.header.set('TDESC9','350 Flux (at 25.9 percentile)',after='TUCD9') 
+
+    tbhdu.header.set('TUCD10','phot.flux.density',after='TUNIT10')      
+    tbhdu.header.set('TDESC10','500 Flux (at 50th percentile)',after='TUCD10') 
+
+    tbhdu.header.set('TUCD11','phot.flux.density',after='TUNIT11')      
+    tbhdu.header.set('TDESC11','500 Flux (at 84.1 percentile) ',after='TUCD11') 
+
+    tbhdu.header.set('TUCD12','phot.flux.density',after='TUNIT12')      
+    tbhdu.header.set('TDESC12','500 Flux (at 25.9 percentile)',after='TUCD12')
+
+    tbhdu.header.set('TUCD13','phot.flux.density',after='TUNIT13')      
+    tbhdu.header.set('TDESC13','250 background',after='TUCD13') 
+
+    tbhdu.header.set('TUCD14','phot.flux.density',after='TUNIT14')      
+    tbhdu.header.set('TDESC14','350 background',after='TUCD14') 
+
+    tbhdu.header.set('TUCD15','phot.flux.density',after='TUNIT15')      
+    tbhdu.header.set('TDESC15','500 background',after='TUCD15')
+    
+    #----Primary header-----------------------------------
+    prihdr = fits.Header()
+    prihdr['Prior_C'] = prior250.prior_cat
+    prihdr['TITLE']   = 'SPIRE XID catalogue'        
+    #prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change                              
+    prihdr['CREATOR'] = 'WP5'                                 
+    prihdr['VERSION'] = 'beta'                                 
+    prihdr['DATE']    = datetime.datetime.now().isoformat()              
+    prihdu = fits.PrimaryHDU(header=prihdr)
+    
+    thdulist = fits.HDUList([prihdu, tbhdu,fits.ImageHDU(header=prior250.imphdu), fits.ImageHDU(header=prior350.imphdu), fits.ImageHDU(header=prior500.imphdu)])
+    return thdulist

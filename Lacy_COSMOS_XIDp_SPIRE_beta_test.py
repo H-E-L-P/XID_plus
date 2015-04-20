@@ -5,6 +5,8 @@ from astropy import wcs
 import pickle
 import dill
 import XIDp_mod_beta as xid_mod
+import os
+import sys
 
 #Folder containing maps
 imfolder='/research/astro/fir/cclarke/lacey/released/'
@@ -21,18 +23,21 @@ pmwfits=imfolder+'cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PM
 plwfits=imfolder+'cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PLW_hipe.fits.gz'#SPIRE 500 map
 
 
+#----output folder-----------------
+#output_folder='/research/astro/fir/HELP/XID_plus_output/Tiling/log_uniform_prior_test/'
+output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior_test/'
 # In[8]:
 
 #Folder containing prior input catalogue
 folder='/research/astro/fir/cclarke/lacey/released/'
 #prior catalogue
-prior_cat='lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS.fits'
+prior_cat='lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS_test.fits'
 hdulist = fits.open(folder+prior_cat)
 fcat=hdulist[1].data
 hdulist.close()
 inra=fcat['RA']
 indec=fcat['DEC']
-f_src=fcat['S250']
+f_src=fcat['S100']#apparent r band mag
 df_src=f_src
 nrealcat=fcat.size
 bkg250=0#fcat['bkg250'][0]
@@ -68,21 +73,58 @@ w_500 = wcs.WCS(hdulist[1].header)
 pixsize500=3600.0*w_500.wcs.cd[1,1] #pixel size (in arcseconds)
 hdulist.close()
 
+
 # Since I am only testing, redo this so that I only fit sources within a given range of the mean ra and dec position of the prior list
 
 # In[12]:
 
-#define range
-ra_mean=np.mean(inra)
-dec_mean=np.mean(indec)
-p_range=0.08
-#check if sources are within range and if the nearest pixel has a finite value 
+##define range
+#ra_mean=np.mean(inra)
+#dec_mean=np.mean(indec)
+#p_range=0.1
+##check if sources are within range and if the nearest pixel has a finite value 
 
-sgood=(inra > ra_mean-p_range) & (inra < ra_mean+p_range) & (indec > dec_mean-p_range) & (indec < dec_mean+p_range)
+#sgood=(inra > ra_mean-p_range) & (inra < ra_mean+p_range) & (indec > dec_mean-p_range) & (indec < dec_mean+p_range)
+
+#--------flux cut on simulation----
+##
+sgood=f_src >0.050#cut so that only sources with a 100micron flux of > 50 micro janskys (Roseboom et al. 2010 cut 24 micron sources at 50microJys)
 inra=inra[sgood]
 indec=indec[sgood]
 n_src=sgood.sum()
 print 'fitting '+str(n_src)+' sources'
+
+#--------SEGMENTATION--------------------
+#how many tiles are there?
+tile_l=0.2
+tiles, tiling_list=xid_mod.Segmentation_scheme(inra,indec,tile_l)
+print '----- There are '+str(len(tiles))+' tiles required for input catalogue'
+try:
+    if sys.argv[1] == 'Tiling':
+        print '----- There are '+str(len(tiles))+' tiles required for input catalogue'
+        pickle.dump({'tiles':tiles,'tiling_list':tiling_list},open(output_folder+'Tiling_info.pkl', 'wb'))()
+        raise SystemExit()
+
+
+except:
+    pass
+
+try:
+    taskid = np.int(os.environ['SGE_TASK_ID'])
+    task_first=np.int(os.environ['SGE_TASK_FIRST'])
+    task_last=np.int(os.environ['SGE_TASK_LAST'])
+
+except KeyError:
+    print "Error: could not read SGE_TASK_ID from environment"
+    sys.exit(0)
+
+if task_last != len(tiles):
+    print '---------------------------'
+    print 'NOTE:Number of tasks does not equal number of tiles \n Stopping program'
+    #sys.exit(0)
+
+
+
 
 
 
@@ -96,16 +138,25 @@ prfsize=np.array([18.15,25.15,36.3])
 from astropy.convolution import Gaussian2DKernel
 
 
-
-prior250=xid_mod.prior(im250,nim250,w_250,im250phdu)
-prior250.prior_cat(inra,indec,prior_cat)
-prior250.prior_bkg(bkg250,2)
+#Set prior classes
+#---prior250--------
+prior250=xid_mod.prior(im250,nim250,w_250,im250phdu)#Initialise with map, uncertianty map, wcs info and primary header
+print tiles[taskid-1].shape
+prior250.set_tile(tiles[taskid-1],0.01)#Set tile, using a buffer size of 0.01 deg (36'' which is fwhm of PLW)
+prior250.prior_cat(inra,indec,prior_cat)#Set input catalogue
+prior250.prior_bkg(bkg250,5)#Set prior on background
+#---prior350--------
 prior350=xid_mod.prior(im350,nim350,w_350,im350phdu)
+prior350.set_tile(tiles[taskid-1],0.01)
 prior350.prior_cat(inra,indec,prior_cat)
-prior350.prior_bkg(bkg350,2)
+prior350.prior_bkg(bkg350,5)
+#---prior500--------
 prior500=xid_mod.prior(im500,nim500,w_500,im500phdu)
+prior500.set_tile(tiles[taskid-1],0.01)
 prior500.prior_cat(inra,indec,prior_cat)
-prior500.prior_bkg(bkg500,2)
+prior500.prior_bkg(bkg500,5)
+
+
 
 #thdulist,prior250,prior350,prior500,posterior=xid_mod.fit_SPIRE(prior250,prior350,prior500)
 
@@ -139,9 +190,11 @@ posterior=xid_mod.posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
 #----------------------------------------------------------
 
 
-output_folder='/research/astro/fir/HELP/XID_plus_output/'
+#output_folder='/research/astro/fir/HELP/XID_plus_output/Tiling/log_uniform_prior/'
+#output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/uniform_prior/'
 #thdulist.writeto(output_folder+'lacy_XIDp_SPIRE_beta_'+field+'_dat_small_0.08_Gauss.fits')
-outfile=output_folder+'lacy_XIDp_SPIRE_beta_test_small_0.08_Gauss_Cauchy.pkl'
+outfile=output_folder+'lacy_log_uniform_prior_'+str(prior250.tile[0,0]).replace('.','_')+'p'+str(prior250.tile[1,0]).replace('.','_')+'.pkl'
+#outfile=output_folder+'Lacey_rbandcut_19_8_log_flux.pkl'
 with open(outfile, 'wb') as f:
     pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)
 
