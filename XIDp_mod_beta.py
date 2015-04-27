@@ -11,7 +11,7 @@ stan_path=dirname+'/stan_models/'
 #this is a test
 
 class prior(object):
-    def __init__(self,im,nim,wcs,imphdu):
+    def __init__(self,im,nim,imphdu,imhdu):
         """class for SPIRE prior object. Initialise with map,uncertianty map and wcs"""
         #---for any bad pixels set map pixel to zero and uncertianty to 1----
         bad=np.logical_or(np.logical_or
@@ -22,15 +22,15 @@ class prior(object):
             nim[bad]=1.
         self.im=im
         self.nim=nim
-        self.wcs=wcs
+        self.imhdu=imhdu
+        wcs_temp=wcs.WCS(self.imhdu)
         self.imphdu=imphdu
+        self.imhdu=imhdu
         #add a boolean array 
         ind=np.empty_like(im,dtype=bool)
         ind[:]=True
-        print ind.shape
-        print self.wcs._naxis1,self.wcs._naxis2
         #get x and y pixel position for each position
-        x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
+        x_pix,y_pix=np.meshgrid(np.arange(0,wcs_temp._naxis1),np.arange(0,wcs_temp._naxis2))
         #now cut down and flatten maps (default is to use all pixels, running segment will change the values below to pixels within segment)
         self.sx_pix=x_pix[ind]
         self.sy_pix=y_pix[ind]
@@ -47,12 +47,13 @@ class prior(object):
         """Input info for prior catalogue. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
         and converts RA and DEC to pixel positions"""
         #get positions of sources in terms of pixels
-        sx,sy=self.wcs.wcs_world2pix(ra,dec,0)
+        wcs_temp=wcs.WCS(self.imhdu)
+        sx,sy=wcs_temp.wcs_world2pix(ra,dec,0)
         #check if sources are within map
         if hasattr(self, 'tile'):
             sgood=(ra > self.tile[0,0]-self.buffer_size) & (ra < self.tile[0,2]+self.buffer_size) & (dec > self.tile[1,0]-self.buffer_size) & (dec < self.tile[1,2]+self.buffer_size)#
         else:
-            sgood=(sx > 0) & (sx < self.wcs._naxis1) & (sy > 0) & (sy < self.wcs._naxis2)
+            sgood=(sx > 0) & (sx < wcs_temp._naxis1) & (sy > 0) & (sy < wcs_temp._naxis2)
         #Redefine prior list so it only contains sources in the map
         self.sx=sx[sgood]
         self.sy=sy[sgood]
@@ -70,7 +71,8 @@ class prior(object):
         """Input info for prior catalogue of sources being stacked. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
         and converts RA and DEC to pixel positions"""
         #get positions of sources in terms of pixels
-        sx,sy=self.wcs.wcs_world2pix(ra,dec,0)
+        wcs_temp=wcs.WCS(self.imhdu)
+        sx,sy=wcs_temp.wcs_world2pix(ra,dec,0)
         #check if sources are within map 
         sgood=(ra > self.tile[0,0]-self.buffer_size) & (ra < self.tile[0,2]+self.buffer_size) & (dec > self.tile[1,0]-self.buffer_size) & (dec < self.tile[1,2]+self.buffer_size)# & np.isfinite(im250[np.rint(sx250).astype(int),np.rint(sy250).astype(int)])#this gives boolean array for cat
 
@@ -95,9 +97,11 @@ class prior(object):
         #create polygon of tile (in format used by aplpy). Should be 2x4 array
         self.tile=tile
         #get vertices of polygon in terms of pixels
-        tile_x,tile_y=self.wcs.wcs_world2pix(tile[0,:],tile[1,:],0)
+        wcs_temp=wcs.WCS(self.imhdu)
 
-        x_pix,y_pix=np.meshgrid(np.arange(0,self.wcs._naxis1),np.arange(0,self.wcs._naxis2))
+        tile_x,tile_y=wcs_temp.wcs_world2pix(tile[0,:],tile[1,:],0)
+
+        x_pix,y_pix=np.meshgrid(np.arange(0,wcs_temp._naxis1),np.arange(0,wcs_temp._naxis2))
 
         npix=(x_pix < np.max(tile_x)) & (y_pix < np.max(tile_y)) & (y_pix >= np.min(tile_y)) & (x_pix >= np.min(tile_x))
 
