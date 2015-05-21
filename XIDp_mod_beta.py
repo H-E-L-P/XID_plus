@@ -8,7 +8,10 @@ from astropy import wcs
 import os
 dirname, filename = os.path.split(os.path.abspath(__file__))
 stan_path=dirname+'/stan_models/'
+output_dir=os.getcwd()
 #this is a test
+print dirname, filename
+print output_dir
 
 class prior(object):
     def __init__(self,im,nim,imphdu,imhdu):
@@ -124,8 +127,8 @@ class prior(object):
         self.pindy=pindy
         
 
-    def get_pointing_matrix(self):
-        """get the pointing matrix"""
+    def get_pointing_matrix(self, bkg=True):
+        """get the pointing matrix. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute"""
         from scipy import interpolate        
         paxis1,paxis2=self.prf.shape
 
@@ -159,21 +162,44 @@ class prior(object):
                 ipx2,ipy2=np.meshgrid(pindx,pindy)
                 atemp=interpolate.griddata((ipx2.ravel(),ipy2.ravel()),self.prf.ravel(), (dx[good],dy[good]), method='nearest')
                 amat_data=np.append(amat_data,atemp)
-                amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long)[good])#what pixels the source contributes to
+                amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=int)[good])#what pixels the source contributes to
                 amat_col=np.append(amat_col,np.full(ngood,s))#what source we are on
 
         #Add background contribution to pointing matrix: 
         #only contributes to pixels within tile
-        snpix_bkg=self.snpix
-        self.amat_data=np.append(amat_data,np.full(snpix_bkg,1))
-        self.amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=long))
-        self.amat_col=np.append(amat_col,np.full(snpix_bkg,s+1))
+        if bkg == True:
+            snpix_bkg=self.snpix
+            self.amat_data=np.append(amat_data,np.full(snpix_bkg,1))
+            self.amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=int))
+            self.amat_col=np.append(amat_col,np.full(snpix_bkg,s+1))
+        else:
+            ind=np.unique(amat_row).astype(int) # only add backround contribution to those pixels that prior sources contribute to
+            snpix_bkg=ind.size
+            self.amat_data=np.append(amat_data,np.full(snpix_bkg,1))
+            self.amat_row=np.append(amat_row,ind)
+            self.amat_col=np.append(amat_col,np.full(snpix_bkg,s+1))
+
+        
+
 
     def get_pointing_matrix_coo(self):
         """Get scipy coo version of pointing matrix. Useful for sparse matrix multiplication"""
         from scipy.sparse import coo_matrix
         self.A=coo_matrix((self.amat_data, (self.amat_row, self.amat_col)), shape=(self.snpix, self.nsrc+1))
-
+    
+    def cut_map_to_prior(self):
+        """If only interested in fitting around regions of prior objects, run this function to cut down amount of data being fitted to."""
+        ind=np.unique(self.amat_row).astype(int)
+        #Remove pixels from class that are not being fitted (i.e. which don't appear in the pointing matrix)
+        #now cut down and flatten maps
+        self.sx_pix=self.sx_pix[ind]
+        self.sy_pix=self.sy_pix[ind]
+        self.snim=self.snim[ind]
+        self.sim=self.sim[ind]
+        self.snpix=ind.size
+        self.get_pointing_matrix()
+        
+        
 
 def lstdrv_SPIRE_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
     """Fit all three SPIRE maps using stan"""
@@ -215,8 +241,7 @@ def lstdrv_SPIRE_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
           'Col_plw': SPIRE_500.amat_col.astype(long)}
     
     #see if model has already been compiled. If not, compile and save it
-    import os
-    model_file=dirname+"/XID+SPIRE.pkl"
+    model_file=output_dir+"/XID+SPIRE.pkl"
     try:
        with open(model_file,'rb') as f:
             # using the same model as before
@@ -233,7 +258,9 @@ def lstdrv_SPIRE_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
     #extract fit
     fit_data=fit.extract(permuted=False, inc_warmup=False)
     #return fit data
-    return fit_data,chains,iter
+    
+    return fit
+
 
 def lstdrv_stan_highz(prior,chains=4,iter=1000):
     #
@@ -385,39 +412,26 @@ def lstdrv_SPIRE_prior_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
     return fit_data,chains,iter
 
 class posterior_stan(object):
-    def __init__(self,stan_fit,nsrc):
+    def __init__(self,fit,nsrc):
         """ Class for dealing with posterior from stan"""
-        self.stan_fit=stan_fit
         self.nsrc=nsrc
+        self.convergence_stats(fit)
+        self.param_names=fit.constrained_param_names()
+        self.stan_fit=fit.extract(permuted=False, inc_warmup=False)
+        
     
-    def convergence_stats(self):
-        #function to calculate the between and within-sequence variance,
-        #marginal posterior variance, and R
-        #for one parameter, as described in DAT,sec 11.4
-        #(function will split each chain into two)
-        #chain is a n,m array, n=number of iterations,m=number of chains
-        #chain should not include warmup
-        #will return B,W,var_psi_y,R
-        R=np.array([])
-        n,m,s=self.stan_fit.shape
-        for i in range(0,s):
-            n_2=n/2.0
-            psi_j=np.empty((2*m))
-            s2_j=np.empty((2*m))
-            for j in range(0,m):
-                psi_j[j]=np.mean(self.stan_fit[0:n/2.0,j,i])
-                psi_j[j+m]=np.mean(self.stan_fit[n/2.0:,j,i])
-                #print np.power(chain[0:n/2.0,j]-psi_j[j],2)
-                #print np.power(chain[n/2.0:,j]-psi_j[j+m],2)
-                s2_j[j]=(1.0/((n/2.0)-1))*np.sum(np.power(self.stan_fit[0:n/2.0,j,i]-psi_j[j],2))
-                s2_j[j+m]=(1.0/((n/2.0)-1))*np.sum(np.power(self.stan_fit[n/2.0:,j,i]-psi_j[j+m],2))
-
-            psi=np.mean(psi_j)
-            B=((n/2.0)/(2.0*m-1))*np.sum(np.power(psi_j-psi,2))
-            W=np.mean(s2_j)
-            var_psi_y=(((n_2-1)/n_2)*W)
-            R=np.append(R,np.power(var_psi_y/W,0.5))
-        return R
+    def convergence_stats(self,fit):
+        converge=np.array(fit.summary(probs=[0.025, 0.15, 0.25, 0.5, 0.75, 0.84, 0.975])['summary'][:,:])
+        self.Rhat=converge[:,-1]
+        self.n_eff=converge[:,-2]
+        ind_Rhat=(self.Rhat < 0.8) | (self.Rhat > 1.2)
+        ind_n_eff=self.n_eff < 10.0*fit.sim['chains']
+        if ind_Rhat.sum() > 0:
+            print 'Not all your parameters have converged'
+            print self.Rhat[ind_Rhat], np.array(fit.constrained_param_names())[ind_Rhat]
+        if ind_n_eff.sum() > 0:
+            print 'Not all parameters have enough effective samples'
+            print ind_n_eff[ind_n_eff],np.array(fit.constrained_param_names())[ind_n_eff]
     
     # define a function to get percentile for a particular parameter
     def quantileGet(self,q):
