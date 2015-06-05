@@ -26,7 +26,7 @@ hdulist.close()
 #---Read in XID+ catalogue---
 #folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior_test/'
 folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux/'
-hdulist=fits.open(folder+'Tiled_SPIRE_cat_flux_notlog.fits')
+hdulist=fits.open(folder+'Tiled_SPIRE_cat_flux_notlog_norm1.fits')
 fcat_xidp=hdulist[1].data
 hdulist.close()
 
@@ -41,7 +41,8 @@ idx,d2d,d3d,= c.match_to_catalog_sky(c1)
 c= SkyCoord(ra=fcat_xidp['ra']*u.degree,dec=fcat_xidp['dec']*u.degree)
 c1=SkyCoord(ra=fcat_sim['RA']*u.degree,dec=fcat_sim['DEC']*u.degree)
 idx_xidp,d2d,d3d,= c.match_to_catalog_sky(c1)
-
+idx_xidp=fcat_sim['S100'] >0.050#cut so that only sources with a 100micron flux of > 50 micro janskys (Roseboom et al. 2010 cut 24 micron sources at 50microJys)
+#idx_xidpT=fcat_sim['S100'] >0.050
 #----output folder-----------------
 output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux/'
 

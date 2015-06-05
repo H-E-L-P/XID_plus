@@ -256,7 +256,7 @@ def lstdrv_SPIRE_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
             pickle.dump(sm, f)
         fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
     #extract fit
-    fit_data=fit.extract(permuted=False, inc_warmup=False)
+    #fit_data=fit.extract(permuted=False, inc_warmup=False)
     #return fit data
     
     return fit
@@ -407,9 +407,9 @@ def lstdrv_SPIRE_prior_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
             pickle.dump(sm, f)
         fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
     #extract fit
-    fit_data=fit.extract(permuted=False, inc_warmup=False)
+    #fit_data=fit.extract(permuted=False, inc_warmup=False)
     #return fit data
-    return fit_data,chains,iter
+    return fit
 
 class posterior_stan(object):
     def __init__(self,fit,nsrc):
@@ -431,7 +431,7 @@ class posterior_stan(object):
             print self.Rhat[ind_Rhat], np.array(fit.constrained_param_names())[ind_Rhat]
         if ind_n_eff.sum() > 0:
             print 'Not all parameters have enough effective samples'
-            print ind_n_eff[ind_n_eff],np.array(fit.constrained_param_names())[ind_n_eff]
+            print self.n_eff[ind_n_eff],np.array(fit.constrained_param_names())[ind_n_eff]
     
     # define a function to get percentile for a particular parameter
     def quantileGet(self,q):

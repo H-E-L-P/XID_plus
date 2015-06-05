@@ -6,9 +6,12 @@ from astropy.io import fits
 from astropy import wcs
 import pickle
 import dill
+import sys
+
+sys.path.append('/research/astro/fir/HELP/XID_plus/')
+
 import XIDp_mod_beta as xid_mod
 import os
-import sys
 
 #----output folder-----------------
 output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux/'
@@ -28,7 +31,7 @@ for i in np.arange(0,len(tiles)):
     #find which sources from master list are we interested in
     ind= (np.around(tiling_list[:,2],3) == np.around(tile[0,0],3)) & (np.around(tiling_list[:,3],3) == np.around(tile[1,0],3))
     if ind.sum() >0:
-	    infile=output_folder+'Lacey_log10_norm0_5_'+str(tile[0,0]).replace('.','_')+'p'+str(tile[1,0]).replace('.','_')+'.pkl'
+	    infile=output_folder+'Lacey_log10_norm1_'+str(tile[0,0]).replace('.','_')+'p'+str(tile[1,0]).replace('.','_')+'.pkl'
 	    with open(infile, "rb") as f:
 		dictname = pickle.load(f)
 	    prior250=dictname['psw']
@@ -84,16 +87,19 @@ plwfits=imfolder+'cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PL
 #-----250-------------
 hdulist = fits.open(pswfits)
 w_250 = wcs.WCS(hdulist[1].header)
+imhdu250=hdulist[1].header
 pixsize250=3600.0*w_250.wcs.cd[1,1] #pixel size (in arcseconds)
 hdulist.close()
 #-----350-------------
 hdulist = fits.open(pmwfits)
 w_350 = wcs.WCS(hdulist[1].header)
+imhdu350=hdulist[1].header
 pixsize350=3600.0*w_350.wcs.cd[1,1] #pixel size (in arcseconds)
 hdulist.close()
 #-----500-------------
 hdulist = fits.open(plwfits)
 w_500 = wcs.WCS(hdulist[1].header)
+imhdu500=hdulist[1].header
 pixsize500=3600.0*w_500.wcs.cd[1,1] #pixel size (in arcseconds)
 hdulist.close()
 
@@ -104,17 +110,17 @@ hdulist.close()
 
 prior_cat_file='lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS_test.fits'
 #---------create master classes------------------------
-prior250_master=xid_mod.prior(prior250.im,prior250.nim,w_250,prior250.imphdu)#Initialise with map, uncertianty map, wcs info and primary header
+prior250_master=xid_mod.prior(prior250.im,prior250.nim,prior250.imphdu,imhdu250)#Initialise with map, uncertianty map, wcs info and primary header
 #print help(prior250_master.prior_cat)
 prior250_master.prior_cat(tiling_list[:,0],tiling_list[:,1],prior_cat_file)
-prior350_master=xid_mod.prior(prior350.im,prior350.nim,w_350,prior350.imphdu)#Initialise with map, uncertianty map, wcs info and primary header
+prior350_master=xid_mod.prior(prior350.im,prior350.nim,prior350.imphdu,imhdu350)#Initialise with map, uncertianty map, wcs info and primary header
 prior350_master.prior_cat(tiling_list[:,0],tiling_list[:,1],prior_cat_file)
-prior500_master=xid_mod.prior(prior500.im,prior500.nim,w_500,prior500.imphdu)#Initialise with map, uncertianty map, wcs info and primary header
+prior500_master=xid_mod.prior(prior500.im,prior500.nim,prior500.imphdu,imhdu500)#Initialise with map, uncertianty map, wcs info and primary header
 prior500_master.prior_cat(tiling_list[:,0],tiling_list[:,1],prior_cat_file)
 
 posterior_master=xid_mod.posterior_stan(stan_fit_master,nsources)
 
-with open(output_folder+'Tiled_master_Lacey_notlog_flux_norm0_5.pkl', 'wb') as f:
+with open(output_folder+'Tiled_master_Lacey_notlog_flux_norm1.pkl', 'wb') as f:
     pickle.dump({'psw':prior250_master,'pmw':prior350_master,'plw':prior500_master,'posterior':posterior_master},f)
 
 
