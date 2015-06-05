@@ -59,7 +59,7 @@ hdulist.close()
 
 #---Read in XID+Tiling catalogue---
 folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux/'
-hdulist=fits.open(folder+'Tiled_SPIRE_cat_flux_notlog.fits')
+hdulist=fits.open(folder+'Tiled_SPIRE_cat_flux_notlog_old.fits')
 fcat_xidpT=hdulist[1].data
 hdulist.close()
 
