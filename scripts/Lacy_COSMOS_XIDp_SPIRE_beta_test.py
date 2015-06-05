@@ -32,6 +32,7 @@ output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_pr
 folder='/research/astro/fir/cclarke/lacey/released/'
 #prior catalogue
 prior_cat='lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS_test.fits'
+
 hdulist = fits.open(folder+prior_cat)
 fcat=hdulist[1].data
 hdulist.close()
@@ -96,7 +97,7 @@ print 'fitting '+str(n_src)+' sources'
 
 #--------SEGMENTATION--------------------
 #how many tiles are there?
-tile_l=0.2
+tile_l=0.1
 tiles, tiling_list=xid_mod.Segmentation_scheme(inra,indec,tile_l)
 print '----- There are '+str(len(tiles))+' tiles required for input catalogue'
 try:
@@ -184,8 +185,8 @@ prior250.get_pointing_matrix()
 prior350.get_pointing_matrix()
 prior500.get_pointing_matrix()
 
-fit_data,chains,iter=xid_mod.lstdrv_SPIRE_stan(prior250,prior350,prior500)
-posterior=xid_mod.posterior_stan(fit_data[:,:,0:-1],prior250.nsrc)
+fit=xid_mod.lstdrv_SPIRE_stan(prior250,prior350,prior500,iter=1500)
+posterior=xid_mod.posterior_stan(fit,prior250.nsrc)
 #thdulist=xid_mod.create_XIDp_SPIREcat(posterior,prior250,prior350,prior500)
 #----------------------------------------------------------
 

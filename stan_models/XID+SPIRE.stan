@@ -34,11 +34,11 @@ data {
 
 }
 parameters {
-  vector<lower=-8.0,upper=3.0> [nsrc] src_f_psw;//source vector
+  vector<lower=-2.0,upper=3.0> [nsrc] src_f_psw;//source vector
   real bkg_psw;//background
-  vector<lower=-8.0,upper=3.0> [nsrc] src_f_pmw;//source vector
+  vector<lower=-2.0,upper=3.0> [nsrc] src_f_pmw;//source vector
   real bkg_pmw;//background
-  vector<lower=-8.0,upper=3.0> [nsrc] src_f_plw;//source vector
+  vector<lower=-2.0,upper=3.0> [nsrc] src_f_plw;//source vector
   real bkg_plw;//background
 
 }
