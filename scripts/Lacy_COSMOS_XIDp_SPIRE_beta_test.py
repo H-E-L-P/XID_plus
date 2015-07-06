@@ -29,9 +29,9 @@ output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_pr
 # In[8]:
 
 #Folder containing prior input catalogue
-folder='/research/astro/fir/cclarke/lacey/released/'
+folder='/research/astro/fir/HELP/tphot/'
 #prior catalogue
-prior_cat='lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS_test.fits'
+prior_cat='lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS_test_pacs100_50cut.fits'
 
 hdulist = fits.open(folder+prior_cat)
 fcat=hdulist[1].data
@@ -52,6 +52,8 @@ bkg500=0#fcat['bkg500'][0]
 #-----250-------------
 hdulist = fits.open(pswfits)
 im250phdu=hdulist[0].header
+im250hdu=hdulist[1].header
+
 im250=hdulist[1].data*1.0E3
 nim250=hdulist[2].data*1.0E3
 w_250 = wcs.WCS(hdulist[1].header)
@@ -60,6 +62,8 @@ hdulist.close()
 #-----350-------------
 hdulist = fits.open(pmwfits)
 im350phdu=hdulist[0].header
+im350hdu=hdulist[1].header
+
 im350=hdulist[1].data*1.0E3
 nim350=hdulist[2].data*1.0E3
 w_350 = wcs.WCS(hdulist[1].header)
@@ -68,6 +72,7 @@ hdulist.close()
 #-----500-------------
 hdulist = fits.open(plwfits)
 im500phdu=hdulist[0].header
+im500hdu=hdulist[1].header
 im500=hdulist[1].data*1.0E3
 nim500=hdulist[2].data*1.0E3
 w_500 = wcs.WCS(hdulist[1].header)
@@ -141,18 +146,18 @@ from astropy.convolution import Gaussian2DKernel
 
 #Set prior classes
 #---prior250--------
-prior250=xid_mod.prior(im250,nim250,w_250,im250phdu)#Initialise with map, uncertianty map, wcs info and primary header
+prior250=xid_mod.prior(im250,nim250,im250phdu,im250hdu)#Initialise with map, uncertianty map, wcs info and primary header
 print tiles[taskid-1].shape
 prior250.set_tile(tiles[taskid-1],0.01)#Set tile, using a buffer size of 0.01 deg (36'' which is fwhm of PLW)
 prior250.prior_cat(inra,indec,prior_cat)#Set input catalogue
 prior250.prior_bkg(bkg250,5)#Set prior on background
 #---prior350--------
-prior350=xid_mod.prior(im350,nim350,w_350,im350phdu)
+prior350=xid_mod.prior(im350,nim350,im350phdu,im350hdu)
 prior350.set_tile(tiles[taskid-1],0.01)
 prior350.prior_cat(inra,indec,prior_cat)
 prior350.prior_bkg(bkg350,5)
 #---prior500--------
-prior500=xid_mod.prior(im500,nim500,w_500,im500phdu)
+prior500=xid_mod.prior(im500,nim500,im500phdu,im500hdu)
 prior500.set_tile(tiles[taskid-1],0.01)
 prior500.prior_cat(inra,indec,prior_cat)
 prior500.prior_bkg(bkg500,5)

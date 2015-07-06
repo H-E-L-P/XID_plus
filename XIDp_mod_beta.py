@@ -799,19 +799,25 @@ def create_XIDp_SPIREcat_nocov(posterior,prior250,prior350,prior500):
     c2 = fits.Column(name='ra', format='D', unit='degrees', array=prior250.sra)
     c3 = fits.Column(name='dec', format='D', unit='degrees', array=prior250.sdec)
     c4 = fits.Column(name='flux250', format='E', unit='mJy', array=med_flux[0:nsrc])
-    c5 = fits.Column(name='flux250_err_u', format='E', unit='mJy', array=flux_high[0:nsrc])
-    c6 = fits.Column(name='flux250_err_l', format='E', unit='mJy', array=flux_low[0:nsrc])
+    c5 = fits.Column(name='flux250_u', format='E', unit='mJy', array=flux_high[0:nsrc])
+    c6 = fits.Column(name='flux250_l', format='E', unit='mJy', array=flux_low[0:nsrc])
     c7 = fits.Column(name='flux350', format='E', unit='mJy', array=med_flux[nsrc+1:(2*nsrc)+1])
-    c8 = fits.Column(name='flux350_err_u', format='E', unit='mJy', array=flux_high[nsrc+1:(2*nsrc)+1])
-    c9 = fits.Column(name='flux350_err_l', format='E', unit='mJy', array=flux_low[nsrc+1:(2*nsrc)+1])
+    c8 = fits.Column(name='flux350_u', format='E', unit='mJy', array=flux_high[nsrc+1:(2*nsrc)+1])
+    c9 = fits.Column(name='flux350_l', format='E', unit='mJy', array=flux_low[nsrc+1:(2*nsrc)+1])
     c10 = fits.Column(name='flux500', format='E', unit='mJy', array=med_flux[2*nsrc+2:(3*nsrc)+2])
-    c11 = fits.Column(name='flux500_err_u', format='E', unit='mJy', array=flux_high[2*nsrc+2:(3*nsrc)+2])
-    c12 = fits.Column(name='flux500_err_l', format='E', unit='mJy', array=flux_low[2*nsrc+2:(3*nsrc)+2])
+    c11 = fits.Column(name='flux500_u', format='E', unit='mJy', array=flux_high[2*nsrc+2:(3*nsrc)+2])
+    c12 = fits.Column(name='flux500_l', format='E', unit='mJy', array=flux_low[2*nsrc+2:(3*nsrc)+2])
     c13 = fits.Column(name='bkg250', format='E', unit='mJy', array=np.full(nsrc,med_flux[nsrc]))
     c14 = fits.Column(name='bkg350', format='E', unit='mJy', array=np.full(nsrc,med_flux[(2*nsrc)+1]))
     c15 = fits.Column(name='bkg500', format='E', unit='mJy', array=np.full(nsrc,med_flux[(3*nsrc)+2]))
+    c16 = fits.Column(name='Rhat_250', format='E', array=posterior.Rhat[0:nsrc])
+    c17 = fits.Column(name='Rhat_350', format='E', array=posterior.Rhat[nsrc+1:(2*nsrc)+1])
+    c18 = fits.Column(name='Rhat_500', format='E', array=posterior.Rhat[2*nsrc+2:(3*nsrc)+2])
+    c19 = fits.Column(name='n_eff_250', format='E', array=posterior.n_eff[0:nsrc])
+    c20 = fits.Column(name='n_eff_350', format='E', array=posterior.n_eff[nsrc+1:(2*nsrc)+1])
+    c21 = fits.Column(name='n_eff_500', format='E', array=posterior.n_eff[2*nsrc+2:(3*nsrc)+2])
 
-    tbhdu = fits.new_table([c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15])
+    tbhdu = fits.new_table([c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20,c21])
     
     tbhdu.header.set('TUCD1','XID',after='TFORM1')      
     tbhdu.header.set('TDESC1','ID of source which corresponds to i and j of cov matrix.',after='TUCD1')         
@@ -829,7 +835,7 @@ def create_XIDp_SPIREcat_nocov(posterior,prior250,prior350,prior500):
     tbhdu.header.set('TDESC5','250 Flux (at 84.1 percentile) ',after='TUCD5') 
 
     tbhdu.header.set('TUCD6','phot.flux.density',after='TUNIT6')      
-    tbhdu.header.set('TDESC6','250 Flux (at 25.9 percentile)',after='TUCD6') 
+    tbhdu.header.set('TDESC6','250 Flux (at 15.9 percentile)',after='TUCD6') 
 
     tbhdu.header.set('TUCD7','phot.flux.density',after='TUNIT7')      
     tbhdu.header.set('TDESC7','350 Flux (at 50th percentile)',after='TUCD7') 
@@ -838,7 +844,7 @@ def create_XIDp_SPIREcat_nocov(posterior,prior250,prior350,prior500):
     tbhdu.header.set('TDESC8','350 Flux (at 84.1 percentile) ',after='TUCD8') 
 
     tbhdu.header.set('TUCD9','phot.flux.density',after='TUNIT9')      
-    tbhdu.header.set('TDESC9','350 Flux (at 25.9 percentile)',after='TUCD9') 
+    tbhdu.header.set('TDESC9','350 Flux (at 15.9 percentile)',after='TUCD9') 
 
     tbhdu.header.set('TUCD10','phot.flux.density',after='TUNIT10')      
     tbhdu.header.set('TDESC10','500 Flux (at 50th percentile)',after='TUCD10') 
@@ -847,7 +853,7 @@ def create_XIDp_SPIREcat_nocov(posterior,prior250,prior350,prior500):
     tbhdu.header.set('TDESC11','500 Flux (at 84.1 percentile) ',after='TUCD11') 
 
     tbhdu.header.set('TUCD12','phot.flux.density',after='TUNIT12')      
-    tbhdu.header.set('TDESC12','500 Flux (at 25.9 percentile)',after='TUCD12')
+    tbhdu.header.set('TDESC12','500 Flux (at 15.9 percentile)',after='TUCD12')
 
     tbhdu.header.set('TUCD13','phot.flux.density',after='TUNIT13')      
     tbhdu.header.set('TDESC13','250 background',after='TUCD13') 
@@ -857,7 +863,25 @@ def create_XIDp_SPIREcat_nocov(posterior,prior250,prior350,prior500):
 
     tbhdu.header.set('TUCD15','phot.flux.density',after='TUNIT15')      
     tbhdu.header.set('TDESC15','500 background',after='TUCD15')
-    
+
+    tbhdu.header.set('TUCD16','stat.value',after='TFORM16')      
+    tbhdu.header.set('TDESC16','250 MCMC Convergence statistic',after='TUCD16')
+
+    tbhdu.header.set('TUCD17','stat.value',after='TFORM17')      
+    tbhdu.header.set('TDESC17','350 MCMC Convergence statistic',after='TUCD17')
+
+    tbhdu.header.set('TUCD18','stat.value',after='TFORM18')      
+    tbhdu.header.set('TDESC18','500 MCMC Convergence statistic',after='TUCD18')
+
+    tbhdu.header.set('TUCD19','stat.value',after='TFORM19')      
+    tbhdu.header.set('TDESC19','250 MCMC independence statistic',after='TUCD19')
+
+    tbhdu.header.set('TUCD20','stat.value',after='TFORM20')      
+    tbhdu.header.set('TDESC20','350 MCMC independence statistic',after='TUCD20')
+
+    tbhdu.header.set('TUCD21','stat.value',after='TFORM21')      
+    tbhdu.header.set('TDESC21','500 MCMC independence statistic',after='TUCD21')
+
     #----Primary header-----------------------------------
     prihdr = fits.Header()
     prihdr['Prior_C'] = prior250.prior_cat
@@ -868,5 +892,5 @@ def create_XIDp_SPIREcat_nocov(posterior,prior250,prior350,prior500):
     prihdr['DATE']    = datetime.datetime.now().isoformat()              
     prihdu = fits.PrimaryHDU(header=prihdr)
     
-    thdulist = fits.HDUList([prihdu, tbhdu,fits.ImageHDU(header=prior250.imphdu), fits.ImageHDU(header=prior350.imphdu), fits.ImageHDU(header=prior500.imphdu)])
+    thdulist = fits.HDUList([prihdu, tbhdu])
     return thdulist

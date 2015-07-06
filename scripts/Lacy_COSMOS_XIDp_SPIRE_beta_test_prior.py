@@ -43,7 +43,7 @@ f350=fcat['S350']
 f500=fcat['S500']
 
 
-f_src=fcat['S100']#apparent r band mag
+ f_src=fcat['S100']#apparent r band mag
 
 
 
