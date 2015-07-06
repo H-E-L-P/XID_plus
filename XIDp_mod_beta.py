@@ -304,7 +304,7 @@ def lstdrv_stan_highz(prior,chains=4,iter=1000):
     #extract fit
     fit_data=fit.extract(permuted=False, inc_warmup=False)
     #return fit data
-    return fit_data,chains,iter
+    return fit
 
 def lstdrv_stan(prior,chains=4,iter=1000):
     #

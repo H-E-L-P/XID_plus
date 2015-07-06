@@ -13,11 +13,11 @@ data {
   int Col[nnz];//Cols of non neg values in image matrix
 }
 parameters {
-  vector<lower=0.0,upper=300> [nsrc-nsrc_z] src_f;//source vector
-  vector<lower=-5.0,upper=30> [nsrc_z] src_f_z;//source vector for high z sample
+  vector<lower=-2.0,upper=3> [nsrc-nsrc_z] src_f;//source vector
+  vector<lower=0.0,upper=60.0> [nsrc_z] src_f_z;//source vector for high z sample
   real bkg;//background
-  real <lower=-5.0.0,upper=30> highz_mu;//mean flux of highz sample
-  real <lower=0.0,upper=6> highz_sigma;//dispersion of highz sample
+  real <lower=0,upper=5> highz_mu;//mean flux of highz sample
+  real <lower=0.0,upper=2> highz_sigma;//dispersion of highz sample
 }
 
 model {
@@ -26,10 +26,10 @@ model {
   
 
   bkg ~normal(bkg_prior,bkg_prior_sig);//prior on background
-  src_f_z ~normal(highz_mu,highz_sigma);//distribution of flux from high z sample
+  src_f_z ~lognormal(highz_mu,highz_sigma);//distribution of flux from high z sample
   
   for (n in 1:nsrc-nsrc_z) {
-    f_vec[n] <- src_f[n];
+    f_vec[n] <- pow(10.0,src_f[n]);
   }
   for (n in 1:nsrc_z) {
     f_vec[n+nsrc-nsrc_z] <- src_f_z[n];

@@ -78,7 +78,26 @@ galaxies: statistics -- infrared: galaxies
 %
 %
 \section{Introduction}
-\section{Data}
+%Infrared astronomy
+Since the discovery of the far-infrared background with the \emph{Cosmic Background Explorer} (COBE) \citep{Puget:1996}, surveys have aimed to observe and detect the sources responsible for the emission
+
+%Herschel-SPIRE-HerMES-HATLAS-HELP
+
+
+The limited resolution of the SPIRE photometer and high source density at the SPIRE wavelengths introduces two problems when trying to combine SPIRE data with existing multi wavelength data. 
+
+The large beam size and low signal to noise of the SPIRE data results in large positional uncertainties for SPIRE detected sources. This makes matching to catalogues at other wavelengths difficult, as there may be more than one potential counterpart within the positional errors of the SPIRE detected source.
+
+The second problem is that of source confusion. At the wavelengths observed by SPIRE, there is a high source density. This can often result in multiple sources being located within the SPIRE beam and, in extreme cases, lead to multiple astronomical sources being associated with one SPIRE detected source. 
+
+To obtain accurate photometry from the SPIRE maps, overcoming the source confusion problem is essential. One way to solve the problem is to use prior information to accurately separate out the flux in the SPIRE maps to the underlying astronomical objects. For example, if we know the precise location of a galaxy (e.g. from an optical image where resolution is better), we expect a galaxy to be found in the SPIRE maps at the same location.
+
+Several techniques have been developed that utilise the positions of sources detected at other wavelengths, usually 24 $\mathrm{\mu m}$ and 1.4 GHz, to disentangle the various contributions from discrete sources to the SPIRE flux in a given beam element \citep[e.g.][]{Roseboom:2010, Roseboom:2011, Chapin:2011}. This process is made possible by the high correspondence between the 24-$\mathrm{\mu m}$ and 1.4-GHz populations and those observed at far-IR wavelengths; $>$80 per cent of the cosmic IR background at SPIRE wavelengths can be accounted for by 24-$\mathrm{\mu m}$ sources with S24 $>$ 25 $\mathrm{\mu Jy}$ \citep{Marsden:2009, Pascale:2009}, while the strong correlation between the far-IR and radio luminosity is known to hold across a wide range in redshift and luminosity \citep[e.g.][]{Ivison:2010}.
+
+The 24 $\mathrm{\mu m}$ XID algorithm, used by HerMES \citep{Roseboom:2010, Roseboom:2011} used a source list taken from the 24-$\mathrm{\mu m}$ source catalogue to introduce positional priors for sources in the 250, 350 and 500 $\mathrm{\mu m}$ maps. The same method was also used to produce HerMES DR2 source catalogues, with 250 $\mathrm{\mu m}$ sources as priors \citep[DESPHOT]{Wang:2014}. 
+
+ As part of the \emph{Herschel Extragalactic Legacy Project} (HELP), we have developed an alternative prior based approach for source extraction in confusion dominated maps. Our new method, \emph{XID+}, is built upon a Bayesian probabilistic framework which provides a natural framework in which to introduce additional prior information. By using the Bayesian inference tool, \citep[\emph{Stan}]{}, to sample full posterior distribution, we are also able to provide more accuracy flux estimates than \emph{DESPHOT}, whilst avoiding some of the issues associated with the maximum likelihood and L1-constrained fitting approach used by \emph{DESPHOT}.
+ 
 \section{XID+ Algorithm}
 The basic goal of XID+ is to use the SPIRE maps to infer the likely SPIRE flux of sources we already know about. Bayesian inference is well suited to these requirements. It allows the use of prior information and provides a posterior distribution of the parameter(s) after taking into account the observed data.  
 
@@ -150,12 +169,12 @@ In our probabilistic framework, we can illustrate our model for the map, defined
 Now we have our probabilistic model, we need a Bayesian inference tool capable of sampling from it to obtain the posterior. We use the Bayesian inference tool, \textit{Stan}, which is `a probabilistic programming language implementing full Bayesian statistical inference with MCMC sampling'. \textit{Stan} uses the adaptive Hamiltonian Monte Carlo (HMC) No-U-Turn Sampler (NUTS) of Hoffman & Gelman (In press) to efficiently sample from the posterior. It does this by using the gradient, which allows fast traversing of high dimensional and highly correlated joint posterior distributions. 
 
 \textit{Stan} has its own modelling language, in which one constructs probabilistic models. Our model for \textit{Stan} can be found in Appendix A.
-\subsubsection{Estimating Convergence}
+\subsubsection{Estimating Convergence}\label{sec:conv}
 As with all MCMC routines, one needs to run enough chains and run them long enough to be confident the global minimum has been found and that it has been thoroughly sampled. 
 
 As default, we run four separate chains from different initial positions. We also discard the first half of the chain as `warm up' to ensure the chains have converged to the posterior distribution. We then assess the convergence of each parameter by comparing the variation between and within chains using the diagnostics described in \cite{BDA3} which can be summarised as follows: Each chain is split in two and the between ($B$) and within chain ($W$) variance is calculated. $B$ and $W$ are then used to calculate the marginal posterior variance. This in turn can be used to estimate the potential scale reduction $\hat{R}$, which reduces to 1 as the number of iterations tends to infinity. An $\hat{R}$ value $\gt 1.2$ suggests chains require more samples. We provide $\hat{R}$ for each parameter.
 
-Due to the nature of MCMC, samples from MCMC routines are correlated. Inference from correlated samples is less precise than from the same number of independent draws. In order to check there are enough independent draws we estimate the effective number of samples $\hat{n_{eff}}$, defined in \cite{BDA3}. We require $\hat{n_{eff}}$ to be 10 times the number of chains and provide the estimate for each parameter.
+Due to the nature of MCMC, samples from MCMC routines are correlated. Inference from correlated samples is less precise than from the same number of independent draws. In order to check there are enough independent draws we estimate the effective number of samples $\hat{n_{eff}}$, defined in \cite{BDA3}. We require $\hat{n_{eff}}$ to be 5 times the number of chains and provide the estimate for each parameter.
 
 \subsection{Map segmentation}
 The survey fields in HELP vary in size from .... to ..... square degrees. Ideally, source photometry and background estimation would be done on the full image, in practice it is often computationally infeasible. DESPHOT segmented the map by locating islands of high SNR pixels enclosed by low SNR pixels. The segmentation algorithm operates thus:
@@ -181,7 +200,7 @@ We have settled on a tiling scheme that has tiles that overlap in the map. This 
 If DESPHOT is assumed to be linear\footnote{introducing LASSO and non-negative priors introduces a non-linearity}, then one can get a lower limit on the noise from $(\mathbf{A^TN_d^{-1}A})^{-1}$. This estimate only includes instrumental noise and degeneracies between sources. An estimate of the remaining residual confusion noise is is calculated by taking the standard deviation of the residual map pixels $\sigma{res}$ and removing the average instrumental noise in these pixels in quadrature, $\sigma^2_{conf} = \sigma^2_{res} - \sigma^2_{pix}$, where $\sigma_{pix}$ is calculated directly from the exposure time per pixel. The total noise $\sigma_{tot}$ for a point source is then calculated from both the instrumental noise (and confusion noise from the known sources), $\sigma_{i} = \sqrt{\mathrm{diag}((\mathbf{A^TN^{-1}_dA)^{-1})}}$, and confusion noise from the unknown sources in the residual map $\sigma_{conf}$ via $\sigma^2_{tot} = \sigma^2_{i} + \sigma^2_{conf}$. 
 
 %Details on what we get out of fit. e.g. marginalised estimate of fluxes, covariance information between sources
-For XID+ we are sampling directly from the posterior which give the uncertainty of the flux given the data. This includes the uncertainty from instrumental noise and confusion (I think). Unlike XID, we are not solving $\mathbf{f}=(\mathbf{A^TN_d^{-1}A})^{-1}\mathbf{A^TN_d^{-1}d}$, we are solving equation \ref{eq:map} and so variations in pixel flux from sources not in the prior list, i.e. from confusion, will directly affect our flux estimates. This is advantageous as DESPHOT was well known to underestimate the uncertainties.
+For XID+ we are sampling directly from the posterior which give the uncertainty of the flux given the data. This includes the uncertainty from instrumental noise. Unlike XID, we are not solving $\mathbf{f}=(\mathbf{A^TN_d^{-1}A})^{-1}\mathbf{A^TN_d^{-1}d}$, we are solving equation \ref{eq:map} and so variations in pixel flux from sources not in the prior list, i.e. from confusion, will directly affect our flux estimates. This is advantageous as DESPHOT was well known to underestimate the uncertainties.
 
 
 \section{Simulations}
@@ -190,16 +209,18 @@ In order to test and quantify XID+, we use simulated SPIRE maps, generated from 
 A mock 100 $\mathrm{\mu m}$ input catalogue, similar to that expected from a PACS catalogue, is generated by taking the mock catalogue and making a cut at a flux limit of 50 $\mathrm{mJy}$. We use this as our prior input catalogue for both XID+ and DESPHOT. In order to compare performance, we look at three measures: precision, flux accuracy, and flux error density.
 
 \subsection{Flux Precision}
-Precision is a measure of how well the flux is believed to be constrained. Figures \ref{} and \ref{} show how the precision of XID+ and DESPHOT change as a function of input flux for a deep (confusion noise dominated) and shallow (instrumental noise dominated ) simulation, for all three bands. 
+Precision is a measure of how well the flux is believed to be constrained. For our posterior sample, this relates to how spread out the sample is and so we use the interquartile range as our measure of precision. Figure \ref{} show how the precision of XID+ and DESPHOT change as a function of input flux for a deep (confusion noise dominated) simulation, for all three bands. 
 
 \subsection{Flux Accuracy}
-Flux accuracy is a measure of how far away the estimated flux is from the truth.
+Flux accuracy is a measure of how far away the estimated flux is from the truth. We use the difference between our median flux estimate from our posterior and the true flux from the simulation, normalised by true flux, as our estimate of flux accuracy. Figure \ref{} shows how flux accuracy changes as a function of input flux for a deep (confusion noise dominated) simulation, for all three bands. 
 
 
 \subsection{Flux Error density}
 Flux error density measures how well the estimated uncertainty is correct. For well estimated errors, the distribution of $S_{in} - S_{out}$ should be centred on zero, and for 68.27\% of the time, lie within one sigma, while 95.45\% lie within 2 sigma. Figure \ref{} shows the flux error density as a function of input flux. 
 
-flux accuracy (i.e. $S_{obs} - S_{True}$), measured across all recovered sources. Figure \ref{Fig:flux_acc} shows the flux accuracy for both XID+ and DESPHOT while Table \ref{} shows the mean flux accuracy for both methods.
+
+\subsection{Convergence}
+As described in Section \ref{sec:conv}, we provide $\hat{R}$ as an estimate of convergence and $\hat{n_{eff}}$ as a measure of independence within the sample. Figures \ref{} show the histogram for $\hat{R}$ and $\hat{n_{eff}}$ for the three bands, with our thresholds for the statistics shown by dotted lines. 
 
 \begin{figure}
 \includegraphics[width=8cm]{./Figures/Flux_accuracy}
@@ -213,24 +234,30 @@ It is also vital that our proposed method return reliable estimates of the flux 
 \caption{The Flux density error for DESPHOT, XID+ and XID+Tiling for the three SPIRE bands.}\label{Fig:flux_density_error}
 \end{figure}
 
+
+\subsection{Remaining Noise}
+%Why convolve the residual map with the PSF?: So that each pixel is then estimate of noise from all pixels that contribute to it
+%Do I want to add the confusion noise uncertainty to the each source?
+%How is my estimate of uncertainty better than DESPHOT? If non gaussian, I capture it, no longer 
+ 
 \subsection{Correlated Sources}
 For sources that lie close together, the uncertainty on the flux estimates is correlated between the sources. One of the advantages of obtaining the full posterior is we get a proper estimate of uncertainty and its correlation. This is particularly apparent when comparing with DESPHOT, which, by using the LASSO algorithm would force one source to have all the flux and the other nearby source to zero. Figure \ref{} shows an example of two nearby sources. The posterior provided by XID+, fully captures the correlated uncertainty, where as the `winner takes all' approach from DESPHOT clearly fails to estimate the true flux for both sources.
 
-\subsection{Real data}
+%\subsection{Real data}
 % inject sources into map and recover
 
 
 
 
-\section{XID+Science}
+%\section{XID+Science}
 %Show how framework allows users to do science with maps 
 %Posterior predictive checks comes in showing model is correct. This should really come when pushing model to do science
-\subsection{Stacking}
-Traditional stacking has been used on the Herschel maps to find fluxes for groups of objects. The traditional approach finds the mean flux.
+%\subsection{Stacking}
+%Traditional stacking has been used on the Herschel maps to find fluxes for groups of objects. The traditional approach finds the mean flux.
 
-With XID+, we can use a hierarchical structure to properly model the flux distribution sources wishing to be stacked. In principle, we can model what stacking does. 
+%With XID+, we can use a hierarchical structure to properly model the flux distribution sources wishing to be stacked. In principle, we can model what stacking does. 
 
-Other thoughts.. by having only one background, sources that are faint are not being modelled properly as they could sit under background level.
+%Other thoughts.. by having only one background, sources that are faint are not being modelled properly as they could sit under background level.
 \section{Conclusions}
 
 
