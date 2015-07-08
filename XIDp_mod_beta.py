@@ -86,11 +86,18 @@ class prior(object):
         self.stack_sy=sy[sgood]
         self.stack_sra=ra[sgood]
         self.stack_sdec=dec[sgood]
-        self.sx=np.append(self.sx,sx[sgood])
-        self.sy=np.append(self.sy,sy[sgood])
-        self.sra=np.append(self.sra,ra[sgood])
-        self.sdec=np.append(self.sdec,dec[sgood])
-        self.nsrc=self.nsrc+sgood.sum()
+        if hasattr(self, 'sx'):
+            self.sx=np.append(self.sx,sx[sgood])
+            self.sy=np.append(self.sy,sy[sgood])
+            self.sra=np.append(self.sra,ra[sgood])
+            self.sdec=np.append(self.sdec,dec[sgood])
+            self.nsrc=self.nsrc+sgood.sum()
+        else:
+            self.sx=sx[sgood]
+            self.sy=sy[sgood]
+            self.sra=ra[sgood]
+            self.sdec=dec[sgood]
+            self.nsrc=sgood.sum()
         self.stack_nsrc=sgood.sum()
         if good_index != None:
             return sgood 
@@ -302,7 +309,7 @@ def lstdrv_stan_highz(prior,chains=4,iter=1000):
         fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
 
     #extract fit
-    fit_data=fit.extract(permuted=False, inc_warmup=False)
+    #fit_data=fit.extract(permuted=False, inc_warmup=False)
     #return fit data
     return fit
 
@@ -424,14 +431,14 @@ class posterior_stan(object):
         converge=np.array(fit.summary(probs=[0.025, 0.15, 0.25, 0.5, 0.75, 0.84, 0.975])['summary'][:,:])
         self.Rhat=converge[:,-1]
         self.n_eff=converge[:,-2]
-        ind_Rhat=(self.Rhat < 0.8) | (self.Rhat > 1.2)
-        ind_n_eff=self.n_eff < 10.0*fit.sim['chains']
-        if ind_Rhat.sum() > 0:
-            print 'Not all your parameters have converged'
-            print self.Rhat[ind_Rhat], np.array(fit.constrained_param_names())[ind_Rhat]
-        if ind_n_eff.sum() > 0:
-            print 'Not all parameters have enough effective samples'
-            print self.n_eff[ind_n_eff],np.array(fit.constrained_param_names())[ind_n_eff]
+        #ind_Rhat=(self.Rhat < 0.8) | (self.Rhat > 1.2)
+        #ind_n_eff=self.n_eff < 10.0*fit.sim['chains']
+        #if ind_Rhat.sum() > 0:
+            #print 'Not all your parameters have converged'
+            #print self.Rhat[ind_Rhat], np.array(fit.constrained_param_names())[ind_Rhat]
+        #if ind_n_eff.sum() > 0:
+            #print 'Not all parameters have enough effective samples'
+            #print self.n_eff[ind_n_eff],np.array(fit.constrained_param_names())[ind_n_eff]
     
     # define a function to get percentile for a particular parameter
     def quantileGet(self,q):
