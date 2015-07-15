@@ -128,7 +128,7 @@ pdf_pages.savefig(fig2)
 
 
 #flux precision
-fig3=plt.subplots(3,sharex=True,sharey=True,figsize=(10,20))
+fig3, (ax1,ax2,ax3)=plt.subplots(3,sharex=True,sharey=True,figsize=(10,20))
 H,xedges,yedges=np.histogram2d(np.log10(fcat_sim['S250'][idx_xidp]),IQR_xidp_250,bins=[np.arange(0.5,2.2,0.01),np.arange(0,2,0.05)])
 ax1.imshow(H.T/np.sum(H.T,axis=0),interpolation='nearest',extent=[xedges[0],xedges[-1],yedges[0],yedges[-1]],origin='low',aspect='auto',vmin=0,vmax=1.0)
 H,xedges,yedges=np.histogram2d(np.log10(fcat_sim['S350'][idx_xidp]),IQR_xidp_350,bins=[np.arange(0.5,2.2,0.01),np.arange(0,2,0.05)])
@@ -145,11 +145,11 @@ cbar_ax=fig3.add_axes([0.85,0.15,0.05,0.7])
 fig3.colorbar(im,cax=cbar_ax)
 pdf_pages.savefig(fig3)
 
-fig4=plt.subplots(3,sharex=True,sharey=True,figsize=(10,20))
-H,xedges,yedges=np.histogram2d(np.log10(fcat_sim['S250'][idx_xidp]),accuracy_xidp_250,bins=[np.arange(0.5,2.2,0.01),np.arange(-2,2,0.01)],vmin=0,vmax=1.0)
-ax1.imshow(H.T/np.sum(H.T,axis=0),interpolation='nearest',extent=[xedges[0],xedges[-1],yedges[0],yedges[-1]],origin='low',aspect='auto')
-H,xedges,yedges=np.histogram2d(np.log10(fcat_sim['S350'][idx_xidp]),accuracy_xidp_350,bins=[np.arange(0.5,2.2,0.01),np.arange(-2,2,0.01)],vmin=0,vmax=1.0)
-ax2.imshow(H.T/np.sum(H.T,axis=0),interpolation='nearest',extent=[xedges[0],xedges[-1],yedges[0],yedges[-1]],origin='low',aspect='auto')
+fig4, (ax1,ax2,ax3)=plt.subplots(3,sharex=True,sharey=True,figsize=(10,20))
+H,xedges,yedges=np.histogram2d(np.log10(fcat_sim['S250'][idx_xidp]),accuracy_xidp_250,bins=[np.arange(0.5,2.2,0.01),np.arange(-2,2,0.01)])
+ax1.imshow(H.T/np.sum(H.T,axis=0),interpolation='nearest',extent=[xedges[0],xedges[-1],yedges[0],yedges[-1]],origin='low',aspect='auto',vmin=0,vmax=1.0)
+H,xedges,yedges=np.histogram2d(np.log10(fcat_sim['S350'][idx_xidp]),accuracy_xidp_350,bins=[np.arange(0.5,2.2,0.01),np.arange(-2,2,0.01)])
+ax2.imshow(H.T/np.sum(H.T,axis=0),interpolation='nearest',extent=[xedges[0],xedges[-1],yedges[0],yedges[-1]],origin='low',aspect='auto',vmin=0,vmax=1.0)
 H,xedges,yedges=np.histogram2d(np.log10(fcat_sim['S500'][idx_xidp]),accuracy_xidp_500,bins=[np.arange(0.5,2.2,0.01),np.arange(-2,2,0.01)])
 im=ax3.imshow(H.T/np.sum(H.T,axis=0),interpolation='nearest',extent=[xedges[0],xedges[-1],yedges[0],yedges[-1]],origin='low',aspect='auto',vmin=0,vmax=1.0)
 
