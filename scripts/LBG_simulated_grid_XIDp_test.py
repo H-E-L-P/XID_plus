@@ -9,7 +9,7 @@ import os
 import sys
 
 #Folder containing maps
-imfolder='/research/astro/fir/HELP/Simple_grid_sim/'
+imfolder='/research/astro/fir/HELP/Simple_rand_sim/'
 #field
 field='COSMOS'
 #SMAP version
@@ -46,10 +46,10 @@ bkg250=-3.0#fcat['bkg250'][0]
 bkg350=0#fcat['bkg350'][0]
 bkg500=0#fcat['bkg500'][0]
 print inra
-ra_min=np.min(inra)
-ra_max=np.max(inra)
-dec_min=np.min(indec)
-dec_max=np.max(indec)
+ra_min=150.0#np.min(inra)
+ra_max=150.3#np.max(inra)
+dec_min=2.0#np.min(indec)
+dec_max=2.3#np.max(indec)
 tile=np.array([[ra_min,dec_min],[ra_max,dec_min],[ra_max,dec_max],[ra_min,dec_max]]).T
 
 
