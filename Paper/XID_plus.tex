@@ -79,12 +79,13 @@ galaxies: statistics -- infrared: galaxies
 %
 \section{Introduction}
 %Infrared astronomy
-Since the discovery of the far-infrared background with the \emph{Cosmic Background Explorer} (COBE) \citep{Puget:1996}, surveys have aimed to observe and detect the sources responsible for the emission
+Ever since the discovery of the far-infrared background with the \emph{Cosmic Background Explorer} (COBE) \citep{Puget:1996}, surveys have aimed to observe and detect the sources responsible for the emission. Most of those sources are galaxies, with the far-infrared emission coming from dust. 
 
-%Herschel-SPIRE-HerMES-HATLAS-HELP
+While ground based observatories such as SCUBA, and more recently SCUBA2 and ALMA can make use of gaps in the infrared window to observe at the Rayleigh-Jeans tail of the far-infrared background, only space based facilities can observe at the peak. The first infrared space telescope, the InfraRed Astronomical Satellite (IRAS; \cite{Neugebauer:1984}), observed the whole sky in four bands centred at 12, 25, 60 and 100 $\mu m$ and revealed new populations of galaxies which were optically faint but luminous in the infrared \citep{Soifer:1984}.
 
+While the Infrared Space Observatory (ISO; \cite{Kessler:1996}) and the Spitzer Space Telescope \citep{Werner:2004} have provided deep near and mid-infrared photometry over small fields, other smaller space based facilities such as AKARI \citep{Murakami:2007} and the Wide-field Infrared Survey Explorer (WISE, \cite{Wright:2010}) have surveyed the entire sky at mid to far-infrared and near to mid infrared wavelengths respectively. The most recent advancement in infrared astronomy has been made with the ESA Herschel Space Observatory \citep{Pilbratt:2010}. Photometry from the PACS and SPIRE instruments has given an unprecedented view of the far-infrared Universe by providing observations that measure across the peak of the far-infrared background and at greater sensitivity and resolution than has been achieved at these wavelengths.
 
-The limited resolution of the SPIRE photometer and high source density at the SPIRE wavelengths introduces two problems when trying to combine SPIRE data with existing multi wavelength data. 
+With surveys such as the Herschel Multi-Tiered Extragalactic Survey (HerMES; \cite{Oliver:2012}) and the Herschel ATLAS survey (HATLAS; \cite{}), over 1000 square degrees of the sky has been observed by the SPIRE instrument. However, the limited resolution of the SPIRE photometer and high source density at the SPIRE wavelengths introduces two problems when trying to combine SPIRE data with existing multi wavelength data. 
 
 The large beam size and low signal to noise of the SPIRE data results in large positional uncertainties for SPIRE detected sources. This makes matching to catalogues at other wavelengths difficult, as there may be more than one potential counterpart within the positional errors of the SPIRE detected source.
 
@@ -101,11 +102,11 @@ The 24 $\mathrm{\mu m}$ XID algorithm, used by HerMES \citep{Roseboom:2010, Rose
 \section{XID+ Algorithm}
 The basic goal of XID+ is to use the SPIRE maps to infer the likely SPIRE flux of sources we already know about. Bayesian inference is well suited to these requirements. It allows the use of prior information and provides a posterior distribution of the parameter(s) after taking into account the observed data.  
 
-As discussed previously, we also want to provide a framework to do science directly with the maps rather than adding the additional step of first creating catalogues, which in essence is a form of data compression and introduces its own issues.
+As discussed previously, we also want to provide a framework to do science directly with the maps rather than adding the additional step of first creating catalogues, which in essence is a form of data compression.
 
 We therefore adopt a Bayesian probabilistic modelling approach for our XID+ algorithm. It aims to:
 \begin{itemize}
-\item map out the posterior rather than the traditional point estimate, thereby providing a precise measure of uncertainty. 
+\item map out the posterior rather than the traditional maximum likelihood point estimate, thereby providing a precise measure of uncertainty. 
 \item Extend the use of prior information beyond just using positional information about sources.
 \end{itemize}
 
@@ -142,16 +143,17 @@ where $\hat{\mathbf{d}}=\mathbf{A\hat{f}}$. The maximum likelihood solution to t
 \hat{\mathbf{f}}=(\mathbf{A^TN_d^{-1}A})^{-1}\mathbf{A^TN_d^{-1}A}\label{eq:mlm}
 \end{equation}
 
-Equation \ref{eq:mlm} can be solved directly, either by brute-force matrix inversion or via other linear methods. As discussed in \cite{Roseboom:2010, Roseboom:2011, Wang:2014}, linear approaches ignore prior knowledge that fluxes cannot have negative flux density, which in very degenerative cases can result in any symmetric pairing of positive and negative flux providing a good fit. They are also incapable of discriminating between real and spurious sources, which can result in overfitting. To overcome these issues, \cite{Roseboom:2011} used the non-negative weighted LASSO algorithm (Tibshirani 1996; Zou 2006; ter Braak et al 2010).
+Equation \ref{eq:mlm} can be solved directly, either by brute-force matrix inversion or via other linear methods. As discussed in \cite{Roseboom:2010, Roseboom:2011, Wang:2014}, linear approaches ignore prior knowledge that fluxes cannot have negative flux density.% which in very degenerative cases can result in any symmetric pairing of positive and negative flux providing a good fit.
+They are also incapable of discriminating between real and spurious sources, which can result in overfitting. To overcome these issues, \cite{Roseboom:2011} used the non-negative weighted LASSO algorithm (Tibshirani 1996; Zou 2006; ter Braak et al 2010).
 
-LASSO works by treating sources either `inactive' and flux density set to zero, or `active'. It switches sources on one at a time, with the order determined by reduction in chi-squared gained by turning them on. The process continues until some tolerance is reached.
+LASSO is a shrinkage and selection method for linear regression and works by treating sources either `inactive' and flux density set to zero, or `active'. It switches sources on one at a time, with the order determined by reduction in chi-squared gained by turning them on. The process continues until some tolerance is reached.
 
-In the first iteration, DESPHOT uses LASSO on each segment, to estimate the source fluxes. It then estimates a value for the background (B) via
-\begin{equation}
-B = \mathbf{d} - \sum\limits_{i=1}^n \mathbf{P_i}f_i
-\end{equation} 
-
-The estimate from B is subtracted, and the LASSO fitting is rerun to get the final flux density estimates.
+%In the first iteration, DESPHOT uses LASSO on each segment, to estimate the source fluxes. It then estimates a value for the background (B) via
+%\begin{equation}
+%B = \mathbf{d} - \sum\limits_{i=1}^n \mathbf{P_i}f_i
+%\end{equation} 
+%
+%The estimate from B is subtracted, and the LASSO fitting is rerun to get the final flux density estimates.
 
 For XID+, we want to map out the entire posterior, $p(\mathbf{f}|\mathbf{d})$, rather than find the maximum likelihood solution. This has the benefit that it gives us more accurate information about how certain we are about the predicted fluxes. The posterior can be defined as:
 \begin{equation}
@@ -159,7 +161,7 @@ p(\mathbf{f}|\mathbf{d}) \propto p(\mathbf{d}|\mathbf{f}) \times p(\mathbf{f})
 \end{equation}
 where $p(\mathbf{d}|\mathbf{f})$ is our likelihood, defined in equation \ref{eq:likelihood} and $p(\mathbf{f})$ is our prior on the fluxes. 
 
-In our probabilistic framework, we can illustrate our model for the map, defined in equation \ref{eq:map} via a probabilistic graphical model (PGM). Figure \ref{fig:graph_mod_xid+} shows our PGM for our basic XID+ model, where boxes represent dimensions, open circles as random variables, dots as deterministic or (fixed) variables. For our simplest model, the sky co-ordinates of our sources are treated as fixed, as is the PRF. Both these fixed variables are used to make the pointing matrix $A$ which gives the contribution each source makes to each pixel $j$ in the map. Each source has its own flux $f$ which is a random variable. By multiplying $f$, $A$ and adding our global estimate for the background $B$, we can make our model for the map, $M$. 
+In our probabilistic framework, we can illustrate our model for the map, defined in equation \ref{eq:map2} via a probabilistic graphical model (PGM). Figure \ref{fig:graph_mod_xid+} shows our PGM for our basic XID+ model, where boxes represent dimensions, open circles as random variables, dots as deterministic or (fixed) variables. For our simplest model, the sky co-ordinates of our sources are treated as fixed, as is the PRF. Both these fixed variables are used to make the pointing matrix $A$ which gives the contribution each source makes to each pixel $j$ in the map. Each source has its own flux $f$ which is a random variable. By multiplying $f$, $A$ and adding our global estimate for the background $B$, we can make our model for the map, $M$. 
 \begin{figure}
 \includegraphics[width=8.5cm]{./graphical_model.pdf}
 \caption{Our probabilistic model for XID+. Boxes represent dimensions, open circles as variables, dots as deterministic or (fixed) variables. Created with DAFT (\url{http://daft-pgm.org/})}\label{fig:graph_mod_xid+}
@@ -186,13 +188,13 @@ The survey fields in HELP vary in size from .... to ..... square degrees. Ideall
 Each of these independent regions of high SNR pixels is uniquely identified and processed separately by the source photometry component.
 \end{itemize}
 
-For XID+, we first investigated using the most optimum and transparent way of segmenting the map. This involves breaking the map into distinct tiles but fitting for sources within and beyond the tiling region. Using the fact that, conditional on the fluxes, the data from each tile is independent, the posterior from the different tiles can be combined to give an overall posterior for the whole map using the following formula:
+The most optimum and transparent way of segmenting the map would use distinct tiles but fitting for sources within and beyond the tiling region. Using the fact that, conditional on the fluxes, the data from each tile is independent, the posterior from the different tiles can be combined to give an overall posterior for the whole map using the following formula:
 
 \begin{equation}
 P(\mathbf{F}|D_1,..D_n,D_A)=a\frac{\prod_{i=1}^n P(\mathbf{F}|D_n,D_A)}{P(\mathbf{F}|D_A)^{n-1}}
 \end{equation}
 
-where $n$ is number of tiles and $P(\mathbf{F}|D_A)$ is our prior on the flux, given some ancillary data. As the number of dimensions is highly dimensional, the only feasible way of multiplying highly dimensional probability distribution functions is to model them as multivariate Gaussians. We investigated fitting the fluxes in both normal and log space in an attempt to make the multivariate Gaussian approximation appropriate. Unfortunately, neither succeeded and so we have to abandon the optimum scheme.
+where $n$ is number of tiles and $P(\mathbf{F}|D_A)$ is our prior on the flux, given some ancillary data. As the number of dimensions is highly dimensional, the only feasible way of multiplying highly dimensional probability distribution functions is to model them as multivariate Gaussians. We investigated fitting the fluxes in both normal and log space, however in neither case was the multivariate Gaussian approximation appropriate.
 
 We have settled on a tiling scheme that has tiles that overlap in the map. This makes sure sources that lie near the edge of a tile, will be nearer the centre of the adjacent tile. As before, for each tile, we fit to sources both in and beyond. For our final posterior, for each source, we take the posterior form the tile that is optimum, i.e. the tile in which the source lies closest to the centre.
 
