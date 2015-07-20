@@ -1,17 +1,20 @@
 
-Synopsis
+##Synopsis
 
 XID+ is the next generation deblender tool for Herschel SPIRE maps. Its uses a probabilistic framework which allows the use prior information about the sources.
 
-Code Example
+##Code Example
+XIDp_mod_beta.py is the main module file containing classes, definitions and functions.
 
+stan_models/* contains the stan models called by XID_plus_mod_beta.py. 
 
+An example script (using the tiling scheme on an hpc) can be found in:
+scripts/Lacy_COSMOS_XIDp_SPIRE_beta_test.py
+NOTE: if not running on hpc, you can define your own simple tile, where a tile is simply a transposed numpy array, with ra and dec co-ordinates for the four corners:
+ e.g. np.array([[ra,dec],[ra+tile_l,dec],[ra+tile_l,dec+tile_l],[ra,dec+tile_l]]).T
+ 
 
-Motivation
-
-XID+ 
-
-Installation
+##Installation
 
 Requires the following python modules (all can be installed via pip)
 1. pystan
@@ -22,13 +25,13 @@ Requires the following python modules (all can be installed via pip)
 6. astropy
 
 
-Tests
+##Tests
 
 Describe and show how to run the tests with code examples.
 
-Contributors
+##Contributors
 
 This code is being developed by Dr Peter Hurley. 
 
-License
+##License
 
