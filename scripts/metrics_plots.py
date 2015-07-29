@@ -162,4 +162,23 @@ cbar_ax=fig4.add_axes([0.85,0.15,0.05,0.7])
 fig4.colorbar(im,cax=cbar_ax)
 pdf_pages.savefig(fig4)
 
+
+fig5,(ax1,ax2,ax3)=plt.subplots(3,sharex=True,sharey=True,figsize=(10,20))
+#H,xedge,yedge=np.histogram2d(np.log10(fcat_sim['S250'][idx_xidp]),error_percent_xidp_250,bins=[np.arange(-3,3,0.25),bins])
+H,xedges,yedges=np.histogram2d(np.log10(fcat_sim['S250'][idx_xidp]),error_percent_xidp_250,bins=[np.arange(0.5,2.2,0.01),bins])
+im=ax1.imshow(H.T,interpolation='nearest',extent=[xedges[0],xedges[-1],sigma[0],sigma[-1]],origin='low',aspect='auto')
+H,xedges,yedges=np.histogram2d(np.log10(fcat_sim['S350'][idx_xidp]),error_percent_xidp_350,bins=[np.arange(0.5,2.2,0.01),bins])
+im=ax2.imshow(H.T,interpolation='nearest',extent=[xedges[0],xedges[-1],sigma[0],sigma[-1]],origin='low',aspect='auto')
+H,xedges,yedges=np.histogram2d(np.log10(fcat_sim['S500'][idx_xidp]),error_percent_xidp_500,bins=[np.arange(0.5,2.2,0.01),bins])
+im=ax3.imshow(H.T,interpolation='nearest',extent=[xedges[0],xedges[-1],sigma[0],sigma[-1]],origin='low',aspect='auto')
+
+ax3.set_xlabel('Flux mJy')
+ax2.set_ylabel('z score')
+fig5.subplots_adjust(hspace=0)
+
+fig5.subplots_adjust(right=0.8)
+cbar_ax=fig5.add_axes([0.85,0.15,0.05,0.7])
+fig5.colorbar(im,cax=cbar_ax)
+pdf_pages.savefig(fig5)
+
 pdf_pages.close()
