@@ -76,13 +76,13 @@ for i in range(0,nsources_xidp):
     IQR_xidp_250[i]=np.subtract(*np.percentile(flattened_post[:,i],[75.0,25.0]))/np.median(flattened_post[:,i])
     accuracy_xidp_250[i]=(np.median(flattened_post[:,i])-fcat_sim['S250'][idx_xidp][i])/fcat_sim['S250'][idx_xidp][i]
     #-----350
-    error_percent_xidp_350[i]=stats.percentileofscore(flattened_post[:,i+prior250.nsrc+1],fcat_sim['S250'][idx_xidp][i])
-    IQR_xidp_350[i]=np.subtract(*np.percentile(flattened_post[:,i+prior250.nsrc+1],[75.0,25.0]))/np.median(flattened_post[:,i])
-    accuracy_xidp_350[i]=(np.median(flattened_post[:,i+prior250.nsrc+1])-fcat_sim['S250'][idx_xidp][i])/fcat_sim['S250'][idx_xidp][i]
+    error_percent_xidp_350[i]=stats.percentileofscore(flattened_post[:,i+prior250.nsrc+1],fcat_sim['S350'][idx_xidp][i])
+    IQR_xidp_350[i]=np.subtract(*np.percentile(flattened_post[:,i+prior250.nsrc+1],[75.0,25.0]))/np.median(flattened_post[:,i+prior250.nsrc+1])
+    accuracy_xidp_350[i]=(np.median(flattened_post[:,i+prior250.nsrc+1])-fcat_sim['S350'][idx_xidp][i])/fcat_sim['S350'][idx_xidp][i]
     #---500---
-    error_percent_xidp_500[i]=stats.percentileofscore(flattened_post[:,2*prior250.nsrc+2+i],fcat_sim['S250'][idx_xidp][i])
-    IQR_xidp_500[i]=np.subtract(*np.percentile(flattened_post[:,2*prior250.nsrc+2+i],[75.0,25.0]))/np.median(flattened_post[:,i])
-    accuracy_xidp_500[i]=(np.median(flattened_post[:,2*prior250.nsrc+2+i])-fcat_sim['S250'][idx_xidp][i])/fcat_sim['S250'][idx_xidp][i]
+    error_percent_xidp_500[i]=stats.percentileofscore(flattened_post[:,2*prior250.nsrc+2+i],fcat_sim['S500'][idx_xidp][i])
+    IQR_xidp_500[i]=np.subtract(*np.percentile(flattened_post[:,2*prior250.nsrc+2+i],[75.0,25.0]))/np.median(flattened_post[:,2*prior250.nsrc+2+i])
+    accuracy_xidp_500[i]=(np.median(flattened_post[:,2*prior250.nsrc+2+i])-fcat_sim['S500'][idx_xidp][i])/fcat_sim['S500'][idx_xidp][i]
 #for i in range(0,nsources_xid):
 #    error_percent_xid_250[i]=100.0*stats.norm.cdf(fcat_sim['S250'][idx][i],loc=fcat['F250'][i],scale=fcat['E250'][i])
 ind_3mjy_250=fcat_sim['S250'][idx_xidp]>3
@@ -180,5 +180,6 @@ fig5.subplots_adjust(right=0.8)
 cbar_ax=fig5.add_axes([0.85,0.15,0.05,0.7])
 fig5.colorbar(im,cax=cbar_ax)
 pdf_pages.savefig(fig5)
+
 
 pdf_pages.close()
