@@ -125,10 +125,10 @@ prior350_master.prior_cat(tiling_list[:,0],tiling_list[:,1],prior_cat_file)
 prior500_master=xid_mod.prior(prior500.im,prior500.nim,prior500.imphdu,im500hdu)#Initialise with map, uncertianty map, wcs info and primary header
 prior500_master.prior_cat(tiling_list[:,0],tiling_list[:,1],prior_cat_file)
 
-posterior_master=xid_mod.posterior_stan(stan_fit_master,nsources)
+#posterior_master=xid_mod.posterior_stan(stan_fit_master,nsources)
 
 with open(output_folder+'Tiled_master_lacy_log_uniform_prior.pkl', 'wb') as f:
-    pickle.dump({'psw':prior250_master,'pmw':prior350_master,'plw':prior500_master,'posterior':posterior_master},f)
+    pickle.dump({'psw':prior250_master,'pmw':prior350_master,'plw':prior500_master,'posterior':stan_fit_master},f)
 
 
 
