@@ -14,7 +14,7 @@ import XIDp_mod_beta as xid_mod
 import os
 
 #----output folder-----------------
-output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux/'
+output_folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior_test/'
 
 with open(output_folder+'Tiling_info.pkl', "rb") as f:
         obj = pickle.load(f)
@@ -31,14 +31,14 @@ for i in np.arange(0,len(tiles)):
     #find which sources from master list are we interested in
     ind= (np.around(tiling_list[:,2],3) == np.around(tile[0,0],3)) & (np.around(tiling_list[:,3],3) == np.around(tile[1,0],3))
     if ind.sum() >0:
-	    infile=output_folder+'Lacey_log10_norm1_'+str(tile[0,0]).replace('.','_')+'p'+str(tile[1,0]).replace('.','_')+'.pkl'
+	    infile=output_folder+'lacy_log_uniform_prior_'+str(tile[0,0]).replace('.','_')+'p'+str(tile[1,0]).replace('.','_')+'.pkl'
 	    with open(infile, "rb") as f:
 		dictname = pickle.load(f)
 	    prior250=dictname['psw']
 	    prior350=dictname['pmw']    
 	    prior500=dictname['plw']
 	    print '----wcs----'
-	    print prior250.wcs._naxis1,prior250.wcs._naxis2
+	    
 	    print '---------------'
 	    posterior=dictname['posterior']
 	    posterior.stan_fit=np.power(10.0,posterior.stan_fit)
@@ -83,27 +83,35 @@ SMAPv='4.2'
 pswfits=imfolder+'cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PSW_hipe.fits.gz'#SPIRE 250 map
 pmwfits=imfolder+'cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PMW_hipe.fits.gz'#SPIRE 350 map
 plwfits=imfolder+'cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PLW_hipe.fits.gz'#SPIRE 500 map
-
 #-----250-------------
 hdulist = fits.open(pswfits)
+im250phdu=hdulist[0].header
+im250hdu=hdulist[1].header
+
+im250=hdulist[1].data*1.0E3
+nim250=hdulist[2].data*1.0E3
 w_250 = wcs.WCS(hdulist[1].header)
-imhdu250=hdulist[1].header
 pixsize250=3600.0*w_250.wcs.cd[1,1] #pixel size (in arcseconds)
 hdulist.close()
 #-----350-------------
 hdulist = fits.open(pmwfits)
+im350phdu=hdulist[0].header
+im350hdu=hdulist[1].header
+
+im350=hdulist[1].data*1.0E3
+nim350=hdulist[2].data*1.0E3
 w_350 = wcs.WCS(hdulist[1].header)
-imhdu350=hdulist[1].header
 pixsize350=3600.0*w_350.wcs.cd[1,1] #pixel size (in arcseconds)
 hdulist.close()
 #-----500-------------
 hdulist = fits.open(plwfits)
+im500phdu=hdulist[0].header
+im500hdu=hdulist[1].header
+im500=hdulist[1].data*1.0E3
+nim500=hdulist[2].data*1.0E3
 w_500 = wcs.WCS(hdulist[1].header)
-imhdu500=hdulist[1].header
 pixsize500=3600.0*w_500.wcs.cd[1,1] #pixel size (in arcseconds)
 hdulist.close()
-
-
 
 #----------------------------------------------------------------------------------
 
@@ -120,7 +128,7 @@ prior500_master.prior_cat(tiling_list[:,0],tiling_list[:,1],prior_cat_file)
 
 posterior_master=xid_mod.posterior_stan(stan_fit_master,nsources)
 
-with open(output_folder+'Tiled_master_Lacey_notlog_flux_norm1.pkl', 'wb') as f:
+with open(output_folder+'Tiled_master_lacy_log_uniform_prior.pkl', 'wb') as f:
     pickle.dump({'psw':prior250_master,'pmw':prior350_master,'plw':prior500_master,'posterior':posterior_master},f)
 
 
