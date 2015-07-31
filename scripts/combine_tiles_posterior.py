@@ -8,7 +8,6 @@ import pickle
 import dill
 import sys
 
-sys.path.append('/research/astro/fir/HELP/XID_plus/')
 
 import XIDp_mod_beta as xid_mod
 import os
@@ -24,7 +23,7 @@ tiling_list=obj['tiling_list']
 nsources=tiling_list.shape[0]
 sources_percentile=np.empty((nsources,14))
 #hdulist_master=xid_mod.create_empty_XIDp_SPIREcat(nsources)
-stan_fit_master=np.empty((500,4,(nsources+1.0)*3))
+stan_fit_master=np.empty((750,4,(nsources+1.0)*3))
 for i in np.arange(0,len(tiles)):
     print 'on tile '+str(i)+' of '+str(len(tiles))
     tile=tiles[i]
