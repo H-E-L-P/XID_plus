@@ -117,12 +117,12 @@ hdulist.close()
 
 prior_cat_file='lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS_test.fits'
 #---------create master classes------------------------
-prior250_master=xid_mod.prior(prior250.im,prior250.nim,prior250.imphdu,imhdu250)#Initialise with map, uncertianty map, wcs info and primary header
+prior250_master=xid_mod.prior(prior250.im,prior250.nim,prior250.imphdu,im250hdu)#Initialise with map, uncertianty map, wcs info and primary header
 #print help(prior250_master.prior_cat)
 prior250_master.prior_cat(tiling_list[:,0],tiling_list[:,1],prior_cat_file)
-prior350_master=xid_mod.prior(prior350.im,prior350.nim,prior350.imphdu,imhdu350)#Initialise with map, uncertianty map, wcs info and primary header
+prior350_master=xid_mod.prior(prior350.im,prior350.nim,prior350.imphdu,im350hdu)#Initialise with map, uncertianty map, wcs info and primary header
 prior350_master.prior_cat(tiling_list[:,0],tiling_list[:,1],prior_cat_file)
-prior500_master=xid_mod.prior(prior500.im,prior500.nim,prior500.imphdu,imhdu500)#Initialise with map, uncertianty map, wcs info and primary header
+prior500_master=xid_mod.prior(prior500.im,prior500.nim,prior500.imphdu,im500hdu)#Initialise with map, uncertianty map, wcs info and primary header
 prior500_master.prior_cat(tiling_list[:,0],tiling_list[:,1],prior_cat_file)
 
 posterior_master=xid_mod.posterior_stan(stan_fit_master,nsources)
