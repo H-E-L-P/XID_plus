@@ -18,7 +18,7 @@
 
 
 
-\documentclass[useAMS,usenatbib]{mn2e}
+\documentclass[useAMS,usenatbib]{mnras}
 
 \usepackage{rotating}
 \usepackage{lscape}
@@ -148,7 +148,7 @@ They are also incapable of discriminating between real and spurious sources, whi
 
 LASSO is a shrinkage and selection method for linear regression and works by treating sources either `inactive' and flux density set to zero, or `active'. It switches sources on one at a time, with the order determined by reduction in chi-squared gained by turning them on. The process continues until some tolerance is reached.
 
-%In the first iteration, DESPHOT uses LASSO on each segment, to estimate the source fluxes. It then estimates a value for the background (B) via
+%In the first iteration,\emph{DESPHOT}uses LASSO on each segment, to estimate the source fluxes. It then estimates a value for the background (B) via
 %\begin{equation}
 %B = \mathbf{d} - \sum\limits_{i=1}^n \mathbf{P_i}f_i
 %\end{equation} 
@@ -174,12 +174,12 @@ Now we have our probabilistic model, we need a Bayesian inference tool capable o
 \subsubsection{Estimating Convergence}\label{sec:conv}
 As with all MCMC routines, one needs to run enough chains and run them long enough to be confident the global minimum has been found and that it has been thoroughly sampled. 
 
-As default, we run four separate chains from different initial positions. We also discard the first half of the chain as `warm up' to ensure the chains have converged to the posterior distribution. We then assess the convergence of each parameter by comparing the variation between and within chains using the diagnostics described in \cite{BDA3} which can be summarised as follows: Each chain is split in two and the between ($B$) and within chain ($W$) variance is calculated. $B$ and $W$ are then used to calculate the marginal posterior variance. This in turn can be used to estimate the potential scale reduction $\hat{R}$, which reduces to 1 as the number of iterations tends to infinity. An $\hat{R}$ value $\gt 1.2$ suggests chains require more samples. We provide $\hat{R}$ for each parameter.
+As default, we run four separate chains from different initial positions. We also discard the first half of the chain as `warm up' to ensure the chains have converged to the posterior distribution. We then assess the convergence of each parameter by comparing the variation between and within chains using the diagnostics described in \cite{BDA3} which can be summarised as follows: Each chain is split in two and the between ($B$) and within chain ($W$) variance is calculated. $B$ and $W$ are then used to calculate the marginal posterior variance. This in turn can be used to estimate the potential scale reduction $\hat{R}$, which reduces to 1 as the number of iterations tends to infinity. An $\hat{R}$ value $> 1.2$ suggests chains require more samples. We provide $\hat{R}$ for each parameter.
 
 Due to the nature of MCMC, samples from MCMC routines are correlated. Inference from correlated samples is less precise than from the same number of independent draws. In order to check there are enough independent draws we estimate the effective number of samples $\hat{n_{eff}}$, defined in \cite{BDA3}. We require $\hat{n_{eff}}$ to be 5 times the number of chains and provide the estimate for each parameter.
 
 \subsection{Map segmentation}
-The survey fields in HELP vary in size from .... to ..... square degrees. Ideally, source photometry and background estimation would be done on the full image, in practice it is often computationally infeasible. DESPHOT segmented the map by locating islands of high SNR pixels enclosed by low SNR pixels. The segmentation algorithm operates thus:
+The survey fields in HELP vary in size from .... to ..... square degrees. Ideally, source photometry and background estimation would be done on the full image, in practice it is often computationally infeasible.\emph{DESPHOT}segmented the map by locating islands of high SNR pixels enclosed by low SNR pixels. The segmentation algorithm operates thus:
 \begin{itemize}
 \item Locates all pixels with a SNR above some threshold (default value of SNR= 1);
 \item Takes the first of these high SNR pixel starting in the bottom left corner of the image;
@@ -199,42 +199,63 @@ where $n$ is number of tiles and $P(\mathbf{F}|D_A)$ is our prior on the flux, g
 We have settled on a tiling scheme that has tiles that overlap in the map. This makes sure sources that lie near the edge of a tile, will be nearer the centre of the adjacent tile. As before, for each tile, we fit to sources both in and beyond. For our final posterior, for each source, we take the posterior form the tile that is optimum, i.e. the tile in which the source lies closest to the centre.
 
 \subsection{Uncertainties and Covariances}
-If DESPHOT is assumed to be linear\footnote{introducing LASSO and non-negative priors introduces a non-linearity}, then one can get a lower limit on the noise from $(\mathbf{A^TN_d^{-1}A})^{-1}$. This estimate only includes instrumental noise and degeneracies between sources. An estimate of the remaining residual confusion noise is is calculated by taking the standard deviation of the residual map pixels $\sigma{res}$ and removing the average instrumental noise in these pixels in quadrature, $\sigma^2_{conf} = \sigma^2_{res} - \sigma^2_{pix}$, where $\sigma_{pix}$ is calculated directly from the exposure time per pixel. The total noise $\sigma_{tot}$ for a point source is then calculated from both the instrumental noise (and confusion noise from the known sources), $\sigma_{i} = \sqrt{\mathrm{diag}((\mathbf{A^TN^{-1}_dA)^{-1})}}$, and confusion noise from the unknown sources in the residual map $\sigma_{conf}$ via $\sigma^2_{tot} = \sigma^2_{i} + \sigma^2_{conf}$. 
+If\emph{DESPHOT}is assumed to be linear\footnote{introducing LASSO and non-negative priors introduces a non-linearity}, then one can get a lower limit on the noise from $(\mathbf{A^TN_d^{-1}A})^{-1}$. This estimate only includes instrumental noise and degeneracies between sources. An estimate of the remaining residual confusion noise is is calculated by taking the standard deviation of the residual map pixels $\sigma{res}$ and removing the average instrumental noise in these pixels in quadrature, $\sigma^2_{conf} = \sigma^2_{res} - \sigma^2_{pix}$, where $\sigma_{pix}$ is calculated directly from the exposure time per pixel. The total noise $\sigma_{tot}$ for a point source is then calculated from both the instrumental noise (and confusion noise from the known sources), $\sigma_{i} = \sqrt{\mathrm{diag}((\mathbf{A^TN^{-1}_dA)^{-1})}}$, and confusion noise from the unknown sources in the residual map $\sigma_{conf}$ via $\sigma^2_{tot} = \sigma^2_{i} + \sigma^2_{conf}$. 
 
 %Details on what we get out of fit. e.g. marginalised estimate of fluxes, covariance information between sources
-For XID+ we are sampling directly from the posterior which give the uncertainty of the flux given the data. This includes the uncertainty from instrumental noise. Unlike XID, we are not solving $\mathbf{f}=(\mathbf{A^TN_d^{-1}A})^{-1}\mathbf{A^TN_d^{-1}d}$, we are solving equation \ref{eq:map} and so variations in pixel flux from sources not in the prior list, i.e. from confusion, will directly affect our flux estimates. This is advantageous as DESPHOT was well known to underestimate the uncertainties.
+For XID+ we are sampling directly from the posterior which give the uncertainty of the flux given the data. This includes the uncertainty from instrumental noise. Unlike XID, we are not solving $\mathbf{f}=(\mathbf{A^TN_d^{-1}A})^{-1}\mathbf{A^TN_d^{-1}d}$, we are solving equation \ref{eq:map} and so variations in pixel flux from sources not in the prior list, i.e. from confusion, will directly affect our flux estimates. This is advantageous as\emph{DESPHOT}was well known to underestimate the uncertainties.
 
 
 \section{Simulations}
 In order to test and quantify XID+, we use simulated SPIRE maps, generated from the Lacey simulations. NEED MORE DETAIL
 
+\begin{figure*}
+\centering 
+\subfloat{\includegraphics[width=6cm,page={4}]{metrics_XIDp.pdf}}
+\subfloat{\includegraphics[width=6cm,page={5}]{metrics_XIDp.pdf}}
+\subfloat{\includegraphics[width=6cm,page={6}]{metrics_XIDp.pdf}}\\
+\subfloat{\includegraphics[width=6cm,page={4}]{metrics_DESPHOT.pdf}}
+\subfloat{\includegraphics[width=6cm,page={5}]{metrics_DESPHOT.pdf}}
+\subfloat{\includegraphics[width=6cm,page={6}]{metrics_DESPHOT.pdf}}
+\caption{Precision, or IQR of \emph{XID+} and \emph{DEPSHOT} as a function true flux, for all three SPIRE bands. Red solid and dashed lines shows median and standard deviation respectively. Density of objects is illustrated via }\label{fig:precision}
+\end{figure*}
+
 A mock 100 $\mathrm{\mu m}$ input catalogue, similar to that expected from a PACS catalogue, is generated by taking the mock catalogue and making a cut at a flux limit of 50 $\mathrm{mJy}$. We use this as our prior input catalogue for both XID+ and DESPHOT. In order to compare performance, we look at three measures: precision, flux accuracy, and flux error density.
 
 \subsection{Flux Precision}
-Precision is a measure of how well the flux is believed to be constrained. For our posterior sample, this relates to how spread out the sample is and so we use the interquartile range as our measure of precision. Figure \ref{} show how the precision of XID+ and DESPHOT change as a function of input flux for a deep (confusion noise dominated) simulation, for all three bands. 
+Precision is a measure of how well the flux is believed to be constrained. For our posterior sample, this relates to how spread out the sample is and so we use the interquartile range as our measure of precision. Figure \ref{fig:precision} show how the precision of XID+ and\emph{DESPHOT}change as a function of input flux for a deep (confusion noise dominated) simulation, for all three bands. 
 
 \subsection{Flux Accuracy}
-Flux accuracy is a measure of how far away the estimated flux is from the truth. We use the difference between our median flux estimate from our posterior and the true flux from the simulation, normalised by true flux, as our estimate of flux accuracy. Figure \ref{} shows how flux accuracy changes as a function of input flux for a deep (confusion noise dominated) simulation, for all three bands. 
+Flux accuracy is a measure of how far away the estimated flux is from the truth. We use the difference between our median flux estimate from our posterior and the true flux from the simulation, normalised by true flux, as our estimate of flux accuracy. Figure \ref{fig:accuracy} shows how flux accuracy changes as a function of input flux for a deep (confusion noise dominated) simulation, for all three bands. 
 
+\begin{figure*}
+\centering 
+\subfloat{\includegraphics[width=6cm,page={7}]{metrics_XIDp.pdf}}
+\subfloat{\includegraphics[width=6cm,page={8}]{metrics_XIDp.pdf}}
+\subfloat{\includegraphics[width=6cm,page={9}]{metrics_XIDp.pdf}}\\
+\subfloat{\includegraphics[width=6cm,page={7}]{metrics_DESPHOT.pdf}}
+\subfloat{\includegraphics[width=6cm,page={8}]{metrics_DESPHOT.pdf}}
+\subfloat{\includegraphics[width=6cm,page={9}]{metrics_DESPHOT.pdf}}
+\caption{Accuracy of \emph{XID+} and \emph{DEPSHOT} as a function true flux, for all three SPIRE bands. Red solid and dashed lines shows median and standard deviation respectively. Density of objects is illustrated via }\label{fig:accuracy}
+\end{figure*}
 
 \subsection{Flux Error density}
-Flux error density measures how well the estimated uncertainty is correct. For well estimated errors, the distribution of $S_{in} - S_{out}$ should be centred on zero, and for 68.27\% of the time, lie within one sigma, while 95.45\% lie within 2 sigma. Figure \ref{} shows the flux error density as a function of input flux. 
+Flux error density measures how well the estimated uncertainty is correct. For well estimated errors, the estimated flux value should be within one sigma of the true value 68.27\% of the time and within 2 sigma 95.45\% of the time. Figure \ref{fig:zscore} shows the flux error density as a function of input flux for \emph{XID+} and \emph{DESPHOT}. For \emph{DESPHOT}, uncertainties are assumed to have a normal distribution, truncated at zero. With \emph{XID+}, we have the full posterior and no longer have to make an assumption on the shape of the uncertainty distribution. Instead, we calculate error density by taking the percentile at which the true flux value falls within the posterior, and express it in terms of the normal sigma level.
 
+\begin{figure*}
+\centering 
+\subfloat{\includegraphics[width=6cm,page={1}]{metrics_XIDp.pdf}}
+\subfloat{\includegraphics[width=6cm,page={2}]{metrics_XIDp.pdf}}
+\subfloat{\includegraphics[width=6cm,page={3}]{metrics_XIDp.pdf}}\\
+\subfloat{\includegraphics[width=6cm,page={1}]{metrics_DESPHOT.pdf}}
+\subfloat{\includegraphics[width=6cm,page={2}]{metrics_DESPHOT.pdf}}
+\subfloat{\includegraphics[width=6cm,page={3}]{metrics_DESPHOT.pdf}}
+\caption{Z score, or flux density error for \emph{XID+} and \emph{DEPSHOT} as a function true flux, for all three SPIRE bands. Red solid and dashed lines shows median and standard deviation respectively. Density of objects is illustrated via }\label{fig:zscore}
+\end{figure*}
 
 \subsection{Convergence}
 As described in Section \ref{sec:conv}, we provide $\hat{R}$ as an estimate of convergence and $\hat{n_{eff}}$ as a measure of independence within the sample. Figures \ref{} show the histogram for $\hat{R}$ and $\hat{n_{eff}}$ for the three bands, with our thresholds for the statistics shown by dotted lines. 
 
-\begin{figure}
-\includegraphics[width=8cm]{./Figures/Flux_accuracy}
-\caption{The Flux accuracy for DESPHOT, XID+ and XID+Tiling for the three SPIRE bands. The lines indicate median flux accuracy, the darker filled regions indicate the one sigma dispersion limit, while lighter filled regions indicate the three sigma limit of dispersion.}\label{Fig:flux_acc}
-\end{figure}
-
 It is also vital that our proposed method return reliable estimates of the flux density error, as for real applications we will not have knowledge of the true flux density of our sources. In Figure \ref{Fig:flux_density_error} we show the distribution of observed flux density error (i.e. $S_{obs}-S_{true}$), normalised by the error estimated by the photometric pipeline for the deep simulation. 
-
-\begin{figure}
-\includegraphics[width=8cm]{./Figures/Flux_density_error}
-\caption{The Flux density error for DESPHOT, XID+ and XID+Tiling for the three SPIRE bands.}\label{Fig:flux_density_error}
-\end{figure}
 
 
 \subsection{Remaining Noise}
@@ -243,25 +264,19 @@ It is also vital that our proposed method return reliable estimates of the flux 
 %How is my estimate of uncertainty better than DESPHOT? If non gaussian, I capture it, no longer 
  
 \subsection{Correlated Sources}
-For sources that lie close together, the uncertainty on the flux estimates is correlated between the sources. One of the advantages of obtaining the full posterior is we get a proper estimate of uncertainty and its correlation. This is particularly apparent when comparing with DESPHOT, which, by using the LASSO algorithm would force one source to have all the flux and the other nearby source to zero. Figure \ref{} shows an example of two nearby sources. The posterior provided by XID+, fully captures the correlated uncertainty, where as the `winner takes all' approach from DESPHOT clearly fails to estimate the true flux for both sources.
+For sources that lie close together, the uncertainty on the flux estimates is correlated between the sources. One of the advantages of obtaining the full posterior is we get a proper estimate of uncertainty and its correlation. This is particularly apparent when comparing with DESPHOT, which, by using the LASSO algorithm would force one source to have all the flux and the other nearby source to zero. Figure \ref{} shows an example two correlated sources sources from the simulation, and the estimate from both \emph{XID+} and \emph{DESPHOT}. The posterior provided by XID+, fully captures the correlated uncertainty, where as the `winner takes all' approach from\emph{DESPHOT}clearly fails to estimate the true flux for both sources.
+ 
 
 %\subsection{Real data}
 % inject sources into map and recover
 
-
-
-
-%\section{XID+Science}
-%Show how framework allows users to do science with maps 
-%Posterior predictive checks comes in showing model is correct. This should really come when pushing model to do science
-%\subsection{Stacking}
-%Traditional stacking has been used on the Herschel maps to find fluxes for groups of objects. The traditional approach finds the mean flux.
-
-%With XID+, we can use a hierarchical structure to properly model the flux distribution sources wishing to be stacked. In principle, we can model what stacking does. 
-
-%Other thoughts.. by having only one background, sources that are faint are not being modelled properly as they could sit under background level.
 \section{Conclusions}
+In this paper we have introduced the prior based source detection software, \emph{XID+}. By using the Bayesian inference tool \emph{Stan}, we are able to fully sample the posterior probability, which in turn gives a better understanding of the uncertainty associated with the source flux. 
 
+Having run XID+ on simulated maps, we have shown this is extremely advantageous for maps that are confusion limited, such as the \emph{Herschel} observations that are part of \emph{HerMES}. In comparison to the current maximum likelihood based software \emphg{DESPHOT}, XID+ performs far better in all the three main metrics; flux accuracy, precision and uncertainty accuracy.
+ 
+ 
+By using probabilistic approach, we can introduce prior information on the source fluxes in a transparent way. and obtain the full pos
 
 
 \section*{Acknowledgements} %
