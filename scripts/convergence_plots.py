@@ -19,6 +19,7 @@ from matplotlib import rc
 import pylab as plt
 from matplotlib.backends.backend_pdf import PdfPages
 pdf_pages=PdfPages("convergence_test.pdf")
+matplotlib.rcParams.update({'font.size':18})
 
 
 bins=np.arange(0.8,2,0.05)
