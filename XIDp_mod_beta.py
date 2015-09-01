@@ -171,28 +171,13 @@ class prior(object):
                 amat_data=np.append(amat_data,atemp)
                 amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=int)[good])#what pixels the source contributes to
                 amat_col=np.append(amat_col,np.full(ngood,s))#what source we are on
-
-        #Add background contribution to pointing matrix: 
-        #only contributes to pixels within tile
-        if bkg == True:
-            snpix_bkg=self.snpix
-            self.amat_data=np.append(amat_data,np.full(snpix_bkg,1))
-            self.amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=int))
-            self.amat_col=np.append(amat_col,np.full(snpix_bkg,s+1))
-        else:
-            ind=np.unique(amat_row).astype(int) # only add backround contribution to those pixels that prior sources contribute to
-            snpix_bkg=ind.size
-            self.amat_data=np.append(amat_data,np.full(snpix_bkg,1))
-            self.amat_row=np.append(amat_row,ind)
-            self.amat_col=np.append(amat_col,np.full(snpix_bkg,s+1))
-
         
 
 
     def get_pointing_matrix_coo(self):
         """Get scipy coo version of pointing matrix. Useful for sparse matrix multiplication"""
         from scipy.sparse import coo_matrix
-        self.A=coo_matrix((self.amat_data, (self.amat_row, self.amat_col)), shape=(self.snpix, self.nsrc+1))
+        self.A=coo_matrix((self.amat_data, (self.amat_row, self.amat_col)), shape=(self.snpix, self.nsrc))
     
     def cut_map_to_prior(self):
         """If only interested in fitting around regions of prior objects, run this function to cut down amount of data being fitted to."""
@@ -213,9 +198,6 @@ def lstdrv_SPIRE_stan(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
     import pystan
     import pickle
 
-    # define function to initialise flux values to one
-    def initfun():
-        return dict(src_f=np.ones(snsrc))
     #input data into a dictionary
         
     XID_data={'nsrc':SPIRE_250.nsrc,

@@ -50,9 +50,9 @@ model {
   vector[npix_plw] db_hat_plw;//model of map
 
 
-  vector[nsrc+1] f_vec_psw;//vector of source fluxes and background
-  vector[nsrc+1] f_vec_pmw;//vector of source fluxes and background
-  vector[nsrc+1] f_vec_plw;//vector of source fluxes and background
+  vector[nsrc] f_vec_psw;//vector of source fluxes and background
+  vector[nsrc] f_vec_pmw;//vector of source fluxes and background
+  vector[nsrc] f_vec_plw;//vector of source fluxes and background
 
 
   //Prior on background 
@@ -66,10 +66,6 @@ model {
   //src_f_plw ~normal(-1,2.2);
   
 
-  //background is now contribution from confusion only!!
-  f_vec_psw[nsrc+1] <-bkg_psw;
-  f_vec_pmw[nsrc+1] <-bkg_pmw;
-  f_vec_plw[nsrc+1] <-bkg_plw;
 
   // Transform to normal space. As I am sampling variable then transforming I don't need a Jacobian adjustment
   for (n in 1:nsrc) {
@@ -83,21 +79,21 @@ model {
  
   // Create model maps (i.e. db_hat = A*f) using sparse multiplication
   for (k in 1:npix_psw) {
-    db_hat_psw[k] <- 0;
+    db_hat_psw[k] <- bkg_psw;
   }
   for (k in 1:nnz_psw) {
     db_hat_psw[Row_psw[k]+1] <- db_hat_psw[Row_psw[k]+1] + Val_psw[k]*f_vec_psw[Col_psw[k]+1];
       }
 
   for (k in 1:npix_pmw) {
-    db_hat_pmw[k] <- 0;
+    db_hat_pmw[k] <- bkg_pmw;
   }
   for (k in 1:nnz_pmw) {
     db_hat_pmw[Row_pmw[k]+1] <- db_hat_pmw[Row_pmw[k]+1] + Val_pmw[k]*f_vec_pmw[Col_pmw[k]+1];
       }
 
   for (k in 1:npix_plw) {
-    db_hat_plw[k] <- 0;
+    db_hat_plw[k] <- bkg_plw;
   }
   for (k in 1:nnz_plw) {
     db_hat_plw[Row_plw[k]+1] <- db_hat_plw[Row_plw[k]+1] + Val_plw[k]*f_vec_plw[Col_plw[k]+1];

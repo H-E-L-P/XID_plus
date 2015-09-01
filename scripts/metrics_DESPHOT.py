@@ -61,13 +61,13 @@ plw_metrics_XIDp=metrics_XIDp(flattened_post_plw[:,ind_1mjy_plw],fcat_sim['S500'
 
 
 
-bins=np.logspace(0, 2.2, num=7)
-labels=[r'Z score', r'IQR ($\mathrm{mJy}$)', r'$S_{Obs}-S_{True}$ ($\mathrm{mJy}$)',]
+bins=np.logspace(0.477, 2.2, num=7)
+labels=[r'Z score', r'IQR/$S_{True}$ ($\mathrm{mJy}$)', r'$(S_{Obs}-S_{True})/S_{True}$ ($\mathrm{mJy}$)']
 scale=['linear', 'log', 'linear']
-ylims=[(-4,4),(1E0,1E1),(-20,20)]
+ylims=[(-4,4),(1E-2,1E1),(-1,1)]
 for i in range(0,3):
-    pdf_pages.savefig(metrics_plot(psw_metrics_XIDp[i],fcat_sim['S250'][ind_1mjy_psw],bins,[r'True $S_{250 \mathrm{\mu m}} \mathrm{mJy}$',labels[i]],ylims[i],yscale=scale[i]))
-    pdf_pages.savefig(metrics_plot(pmw_metrics_XIDp[i],fcat_sim['S350'][ind_1mjy_pmw],bins,[r'True $S_{350 \mathrm{\mu m}} \mathrm{mJy}$',labels[i]],ylims[i],yscale=scale[i]))
-    pdf_pages.savefig(metrics_plot(plw_metrics_XIDp[i],fcat_sim['S500'][ind_1mjy_plw],bins,[r'True $S_{500 \mathrm{\mu m}} \mathrm{mJy}$',labels[i]],ylims[i],yscale=scale[i]))
+    pdf_pages.savefig(metrics_plot(psw_metrics_XIDp[i],fcat_sim['S250'][ind_1mjy_psw],bins,[r'$S_{True}(250 \mathrm{\mu m}) \mathrm{mJy}$',labels[i]],ylims[i],yscale=scale[i]))
+    pdf_pages.savefig(metrics_plot(pmw_metrics_XIDp[i],fcat_sim['S350'][ind_1mjy_pmw],bins,[r'$S_{True}(350 \mathrm{\mu m}) \mathrm{mJy}$',labels[i]],ylims[i],yscale=scale[i],cmap=plt.get_cmap('Greens')))
+    pdf_pages.savefig(metrics_plot(plw_metrics_XIDp[i],fcat_sim['S500'][ind_1mjy_plw],bins,[r'$S_{True}(500 \mathrm{\mu m}) \mathrm{mJy}$',labels[i]],ylims[i],yscale=scale[i],cmap=plt.get_cmap('Reds')))
 
 pdf_pages.close()
