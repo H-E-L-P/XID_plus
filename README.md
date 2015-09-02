@@ -8,8 +8,13 @@ XIDp_mod_beta.py is the main module file containing classes, definitions and fun
 
 stan_models/* contains the stan models called by XID_plus_mod_beta.py. 
 
-An example script (using the tiling scheme on an hpc) can be found in:
-scripts/Lacy_COSMOS_XIDp_SPIRE_beta_test.py
+A very simple example can be found in ./scripts/test_run/Lacey_COSMOS_test.py, with test maps and catalogues in ./test_files/*. Run as follows:
+`python Lacey_COSMOS_test.py`
+
+This will generate a compiled stan model (XID+SPIRE.pkl), which can be used for other runs. The main output is stored in Lacy_test_file.pkl
+
+An example script using the tiling scheme on an hpc, can be found in:
+./scripts/run_scripts/Lacy_COSMOS_XIDp_SPIRE_beta_test.py
 NOTE: if not running on hpc, you can define your own simple tile, where a tile is simply a transposed numpy array, with ra and dec co-ordinates for the four corners:
  e.g. np.array([[ra,dec],[ra+tile_l,dec],[ra+tile_l,dec+tile_l],[ra,dec+tile_l]]).T
  

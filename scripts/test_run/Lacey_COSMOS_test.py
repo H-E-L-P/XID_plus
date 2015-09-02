@@ -78,20 +78,18 @@ pixsize500=3600.0*w_500.wcs.cd[1,1] #pixel size (in arcseconds)
 hdulist.close()
 
 
-# Since only testing, select sources within a given range of the mean ra and dec position of the prior list, and that they have a flux of greater than 50 microjanskys at 100 microns
+# Since only testing, select sources within a tile about given range of the mean ra and dec position of the prior list, and only use sources that have a flux of greater than 50 microjanskys at 100 microns
 
 ##define range
 ra_mean=np.mean(inra)
 dec_mean=np.mean(indec)
-p_range=0.05
- 
-
-sgood=(inra > ra_mean-p_range) & (inra < ra_mean+p_range) & (indec > dec_mean-p_range) & (indec < dec_mean+p_range) & (f_src >0.050)
+tile_l=0.02
+tile=np.array([[ra_mean,dec_mean],[ra_mean+tile_l,dec_mean],[ra_mean+tile_l,dec_mean+tile_l],[ra_mean,dec_mean+tile_l]]).T
+sgood=f_src >0.050
 
 inra=inra[sgood]
 indec=indec[sgood]
 n_src=sgood.sum()
-print 'fitting '+str(n_src)+' sources'
 
 
 
@@ -108,16 +106,22 @@ from astropy.convolution import Gaussian2DKernel
 #Set prior classes
 #---prior250--------
 prior250=xid_mod.prior(im250,nim250,im250phdu,im250hdu)#Initialise with map, uncertianty map, wcs info and primary header
+prior250.set_tile(tile,0.01)
 prior250.prior_cat(inra,indec,prior_cat)#Set input catalogue
 prior250.prior_bkg(bkg250,5)#Set prior on background
 #---prior350--------
 prior350=xid_mod.prior(im350,nim350,im350phdu,im350hdu)
+prior350.set_tile(tile,0.01)
 prior350.prior_cat(inra,indec,prior_cat)
 prior350.prior_bkg(bkg350,5)
 #---prior500--------
 prior500=xid_mod.prior(im500,nim500,im500phdu,im500hdu)
+prior500.set_tile(tile,0.01)
 prior500.prior_cat(inra,indec,prior_cat)
 prior500.prior_bkg(bkg500,5)
+
+print 'fitting '+ str(prior250.nsrc)+' sources \n In a tile defined by with ra and dec co-ordinates of:'
+print tile
 
 
 ##---------fit using Gaussian beam-----------------------
@@ -139,6 +143,7 @@ prior500.set_prf(prf500.array,pind500,pind500)
 prior250.get_pointing_matrix()
 prior350.get_pointing_matrix()
 prior500.get_pointing_matrix()
+
 
 fit=xid_mod.lstdrv_SPIRE_stan(prior250,prior350,prior500,iter=1500)
 posterior=xid_mod.posterior_stan(fit,prior250.nsrc)
