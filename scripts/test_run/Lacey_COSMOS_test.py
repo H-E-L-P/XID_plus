@@ -1,12 +1,12 @@
 import numpy as np
-import astropy
 from astropy.io import fits
 from astropy import wcs
 import pickle
 import dill
-import XIDp_mod_beta as xid_mod
-import os
 import sys
+sys.path.append('/Users/pdh21/HELP/XID_plus/')
+import xidplus
+
 
 #Folder containing maps
 imfolder='../../test_files/'
@@ -105,17 +105,17 @@ from astropy.convolution import Gaussian2DKernel
 
 #Set prior classes
 #---prior250--------
-prior250=xid_mod.prior(im250,nim250,im250phdu,im250hdu)#Initialise with map, uncertianty map, wcs info and primary header
+prior250=xidplus.prior(im250,nim250,im250phdu,im250hdu)#Initialise with map, uncertianty map, wcs info and primary header
 prior250.set_tile(tile,0.01)
 prior250.prior_cat(inra,indec,prior_cat)#Set input catalogue
 prior250.prior_bkg(bkg250,5)#Set prior on background
 #---prior350--------
-prior350=xid_mod.prior(im350,nim350,im350phdu,im350hdu)
+prior350=xidplus.prior(im350,nim350,im350phdu,im350hdu)
 prior350.set_tile(tile,0.01)
 prior350.prior_cat(inra,indec,prior_cat)
 prior350.prior_bkg(bkg350,5)
 #---prior500--------
-prior500=xid_mod.prior(im500,nim500,im500phdu,im500hdu)
+prior500=xidplus.prior(im500,nim500,im500phdu,im500hdu)
 prior500.set_tile(tile,0.01)
 prior500.prior_cat(inra,indec,prior_cat)
 prior500.prior_bkg(bkg500,5)
@@ -144,9 +144,9 @@ prior250.get_pointing_matrix()
 prior350.get_pointing_matrix()
 prior500.get_pointing_matrix()
 
-
-fit=xid_mod.lstdrv_SPIRE_stan(prior250,prior350,prior500,iter=1500)
-posterior=xid_mod.posterior_stan(fit,prior250.nsrc)
+from xidplus.stan_fit import SPIRE
+fit=SPIRE.all_bands(prior250,prior350,prior500,iter=1500)
+posterior=xidplus.posterior_stan(fit,prior250.nsrc)
 #----------------------------------------------------------
 
 outfile=output_folder+'Lacy_test_file.pkl'

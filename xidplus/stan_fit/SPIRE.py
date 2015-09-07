@@ -1,5 +1,6 @@
 __author__ = 'pdh21'
-
+import os
+output_dir=os.getcwd()
 import pystan
 import pickle
 
