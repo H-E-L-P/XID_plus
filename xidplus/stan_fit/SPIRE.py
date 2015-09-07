@@ -3,7 +3,7 @@ import os
 output_dir=os.getcwd()
 import pystan
 import pickle
-
+stan_path='./stan_models/'
 def all_bands(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
     """Fit all three SPIRE maps using stan"""
 
