@@ -17,7 +17,7 @@ def create_XIDp_SPIREcat_nocov(posterior,prior250,prior350,prior500):
 
     #----table info-----------------------
     #first define columns
-    c1 = fits.Column(name='XID', format='I', array=np.arange(posterior.nsrc,dtype=long))
+    c1 = fits.Column(name='ID', format='', array=prior250.ID)
     c2 = fits.Column(name='ra', format='D', unit='degrees', array=prior250.sra)
     c3 = fits.Column(name='dec', format='D', unit='degrees', array=prior250.sdec)
     c4 = fits.Column(name='flux250', format='E', unit='mJy', array=med_flux[0:nsrc])
@@ -41,8 +41,8 @@ def create_XIDp_SPIREcat_nocov(posterior,prior250,prior350,prior500):
 
     tbhdu = fits.new_table([c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20,c21])
     
-    tbhdu.header.set('TUCD1','XID',after='TFORM1')      
-    tbhdu.header.set('TDESC1','ID of source which corresponds to i and j of cov matrix.',after='TUCD1')         
+    tbhdu.header.set('TUCD1','ID',after='TFORM1')
+    tbhdu.header.set('TDESC1','ID of source',after='TUCD1')
 
     tbhdu.header.set('TUCD2','pos.eq.RA',after='TUNIT2')      
     tbhdu.header.set('TDESC2','R.A. of object J2000',after='TUCD2') 
@@ -125,7 +125,7 @@ def create_empty_XIDp_SPIREcat(nsrc):
 
     #----table info-----------------------
     #first define columns
-    c1 = fits.Column(name='XID', format='I', array=np.empty((nsrc), dtype=long))
+    c1 = fits.Column(name='ID', format='I', array=prior250.ID)
     c2 = fits.Column(name='ra', format='D', unit='degrees', array=np.empty((nsrc)))
     c3 = fits.Column(name='dec', format='D', unit='degrees', array=np.empty((nsrc)))
     c4 = fits.Column(name='flux250', format='E', unit='mJy', array=np.empty((nsrc)))
@@ -143,8 +143,8 @@ def create_empty_XIDp_SPIREcat(nsrc):
 
     tbhdu = fits.new_table([c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15])
     
-    tbhdu.header.set('TUCD1','XID',after='TFORM1')      
-    tbhdu.header.set('TDESC1','ID of source which corresponds to i and j of cov matrix.',after='TUCD1')         
+    tbhdu.header.set('TUCD1','ID',after='TFORM1')
+    tbhdu.header.set('TDESC1','ID of source',after='TUCD1')
 
     tbhdu.header.set('TUCD2','pos.eq.RA',after='TUNIT2')      
     tbhdu.header.set('TDESC2','R.A. of object J2000',after='TUCD2') 
