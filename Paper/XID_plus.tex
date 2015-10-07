@@ -79,17 +79,14 @@ galaxies: statistics -- infrared: galaxies
 %
 \section{Introduction}
 %Infrared astronomy
-Ever since the discovery of the far-infrared background with the \emph{Cosmic Background Explorer} (COBE) \citep{Puget:1996}, surveys have aimed to observe and detect the sources responsible for the emission. Most of those sources are galaxies, with the far-infrared emission coming from dust. 
+Ever since the discovery of the far-infrared background with the \emph{Cosmic Background Explorer} COBE; \citep{Puget:1996}, surveys have aimed to observe and detect the sources responsible for the emission. Most of those sources are galaxies, with the far-infrared emission coming from dust. 
 
-While ground based observatories such as SCUBA \citep{SCUBA}, and more recently SCUBA-2 \citep{SCUBA2} and ALMA can make use of gaps in the infrared window to observe at the Rayleigh-Jeans tail of the far-infrared background, only space based facilities can observe at the peak. The first infrared space telescope, the InfraRed Astronomical Satellite (IRAS; \cite{Neugebauer:1984}), observed the whole sky in four bands centred at 12, 25, 60 and 100 $\mu m$ and revealed new populations of galaxies which were optically faint but luminous in the infrared \citep{Soifer:1984}.
+While ground-based observatories such as SCUBA \citep{SCUBA}, and more recently SCUBA-2 \citep{SCUBA2} and ALMA can make use of infrared atmospheric transmission windows to observe at the tail of the cosmic infrared background, only space-borne facilities can observe at the peak. The first infrared space telescope, the InfraRed Astronomical Satellite (IRAS; \cite{Neugebauer:1984}), observed the whole sky in four bands centred at 12, 25, 60 and 100 $\mu m$ and revealed new populations of galaxies which were optically faint but luminous in the infrared \citep{Soifer:1984}.
 
-While the Infrared Space Observatory (ISO; \cite{Kessler:1996}) and the Spitzer Space Telescope \citep{Werner:2004} have provided deep near and mid-infrared photometry over small fields, other smaller space based facilities such as AKARI \citep{Murakami:2007} and the Wide-field Infrared Survey Explorer (WISE, \cite{Wright:2010}) have surveyed the entire sky at mid to far-infrared and near to mid infrared wavelengths respectively. The most recent advancement in infrared astronomy has been made with the ESA Herschel Space Observatory \citep{Pilbratt:2010}. Photometry from the Photoconductor Array Camera and Spectrometer \citep[PACS][]{Poglitsch:2010} and Spectral and Photometric Imaging Receiver \citep[SPIRE][]{Griffin:2010} instruments have given us an unprecedented view of the far-infrared Universe by providing observations that measure across the peak of the far-infrared background and at greater sensitivity and resolution than has been achieved at these wavelengths.
+While the Infrared Space Observatory, ISO; \cite{Kessler:1996} and the Spitzer Space Telescope \citep{Werner:2004} have provided deep near and mid-infrared photometry over small fields, other smaller space-borne facilities such as AKARI \citep{Murakami:2007} and the Wide-field Infrared Survey Explorer, WISE; \cite{Wright:2010} have surveyed the entire sky at mid to far-infrared and near to mid infrared wavelengths respectively. The most recent advance in infrared astronomy has been made with the ESA Herschel Space Observatory \citep{Pilbratt:2010}. Photometry from the Photoconductor Array Camera and Spectrometer \citep[PACS;][]{Poglitsch:2010} and Spectral and Photometric Imaging Receiver \citep[SPIRE;][]{Griffin:2010} instruments have given us an unprecedented view of the far-infrared Universe by providing observations that measure across the peak of the far-infrared background and at greater sensitivity and resolution than has been achieved at these wavelengths.
 
-With surveys such as the Herschel Multi-Tiered Extragalactic Survey (HerMES; \cite{Oliver:2012}) and the Herschel ATLAS survey (H-ATLAS; \cite{Eales:2010}), over 1000 square degrees of the sky has been observed by the SPIRE instrument. However, the limited resolution of the SPIRE photometer and high source density at the SPIRE wavelengths introduces two problems when trying to combine SPIRE data with existing multi wavelength data. 
+With surveys such as the Herschel Multi-Tiered Extragalactic Survey, HerMES; \cite{Oliver:2012} and the Herschel ATLAS survey, H-ATLAS; \cite{Eales:2010}, over 1000 square degrees of the sky has been observed by the SPIRE instrument. However, due to the large beam size of the SPIRE, and the galaxy density ($\approx 30$ per SPIRE beam for optical sources with B $<$ 28), multiple galaxies can be located within the SPIRE beam. This is referred to as the problem of source confusion, 
 
-The large beam size and low signal to noise of the SPIRE data results in large positional uncertainties for SPIRE detected sources. This makes matching to catalogues at other wavelengths difficult, as there may be more than one potential counterpart within the positional errors of the SPIRE detected source.
-
-The second problem is that of source confusion. At the wavelengths observed by SPIRE, there is a high source density. This can often result in multiple sources being located within the SPIRE beam and, in extreme cases, lead to multiple astronomical sources being associated with one SPIRE detected source. 
 
 To obtain accurate photometry from the SPIRE maps, overcoming the source confusion problem is essential. One way to solve the problem is to use prior information to accurately separate out the flux in the SPIRE maps to the underlying astronomical objects. For example, if we know the precise location of a galaxy (e.g. from an optical image where resolution is better), we expect a galaxy to be found in the SPIRE maps at the same location.
 
@@ -284,7 +281,11 @@ For sources that are close together, the uncertainty on the flux estimates can b
 \end{figure}
 %\subsection{Real data}
 % inject sources into map and recover
-
+\subsection{Profiling}
+\begin{figure} 
+\includegraphics[width=8cm]{profiletest.pdf}
+\caption{}\label{fig:prof}
+\end{figure}
 \section{Conclusions}\label{sec:conc}
 In this paper we have introduced the prior based source detection software, \emph{XID+}. By using the Bayesian inference tool \emph{Stan}, we are able to fully sample the posterior probability, which in turn gives a better understanding of the uncertainty associated with the source flux. 
 
