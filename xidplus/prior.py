@@ -52,8 +52,10 @@ class prior(object):
         self.sdec=dec[sgood]
         self.nsrc=sgood.sum()
         self.prior_cat=prior_cat_file
-        if ID != None:
-            self.ID=ID[sgood]
+        if ID is None:
+            ID=np.arange(1,ra.size,dtype='int64')
+        self.ID=ID[sgood]
+
         if good_index != None:
             return sgood 
         if flux !=None:
