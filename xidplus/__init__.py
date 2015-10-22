@@ -3,3 +3,4 @@
 
 from prior import *
 from posterior import *
+from segmentation import *
