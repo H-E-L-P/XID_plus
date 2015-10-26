@@ -83,7 +83,7 @@ hdulist.close()
 ##define range
 ra_mean=np.mean(inra)
 dec_mean=np.mean(indec)
-tile_l=0.02
+tile_l=0.03
 tile=np.array([[ra_mean,dec_mean],[ra_mean+tile_l,dec_mean],[ra_mean+tile_l,dec_mean+tile_l],[ra_mean,dec_mean+tile_l]]).T
 sgood=f_src >0.050
 
