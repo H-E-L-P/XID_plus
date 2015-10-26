@@ -35,9 +35,9 @@ def metrics_plot(metric,truth,bins,labels,ylim,yscale='linear',cmap=None):
     if cmap is None:
         cmap=plt.get_cmap('Blues')
 
-    ax.plot(bins[0:-1],mean[0],'k')
-    ax.plot(bins[0:-1],sig_plus[0],'k--')
-    ax.plot(bins[0:-1],sig_neg[0],'k--')
+    ax.plot(bins[0:-1],mean[0],'ko',linestyle='-')
+    ax.plot(bins[0:-1],sig_plus[0],'ko',linestyle='--')
+    ax.plot(bins[0:-1],sig_neg[0],'ko',linestyle='--')
     #ax.plot(bins[0:-1],mean[0]-std_dev[0],'r--')
     #ax.plot(bins[0:-1],mean[0]+std_dev[0],'r--')
     ax.set_xlabel(labels[0])
@@ -53,5 +53,6 @@ def metrics_plot(metric,truth,bins,labels,ylim,yscale='linear',cmap=None):
 
     ax.set_ylim(ylim)
 
-    fig.colorbar(tmp, ax=ax)
+    clrbar=fig.colorbar(tmp, ax=ax)
+    clrbar.set_label(r'$N_{Gal.}$')
     return fig

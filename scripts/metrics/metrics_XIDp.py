@@ -5,7 +5,7 @@ matplotlib.use('PDF')
 import pylab as plt
 from matplotlib.backends.backend_pdf import PdfPages
 import sys
-import XIDp_mod_beta
+from xidplus import XIDp_mod_beta
 import pickle
 import scipy.stats as stats
 from scipy.stats import norm
@@ -81,8 +81,8 @@ labels=[r'Z score', r'IQR/$S_{True}$ ($\mathrm{mJy}$)', r'$(S_{Obs}-S_{True})/S_
 scale=['linear', 'log', 'linear']
 ylims=[(-4,4),(1E-2,1E1),(-1,1)]
 for i in range(0,3):
-    pdf_pages.savefig(metrics_plot(psw_metrics_XIDp[i],fcat_sim['S250'][idx_xidp][ind_3mjy_psw],bins,[r'$S_{True}(250 \mathrm{\mu m}) \mathrm{mJy}$',labels[i]],ylims[i],yscale=scale[i]))
-    pdf_pages.savefig(metrics_plot(pmw_metrics_XIDp[i],fcat_sim['S350'][idx_xidp][ind_3mjy_pmw],bins,[r'$S_{True}(350 \mathrm{\mu m}) \mathrm{mJy}$',labels[i]],ylims[i],yscale=scale[i],cmap=plt.get_cmap('Greens')))
-    pdf_pages.savefig(metrics_plot(plw_metrics_XIDp[i],fcat_sim['S500'][idx_xidp][ind_3mjy_plw],bins,[r'$S_{True}(500 \mathrm{\mu m}) \mathrm{mJy}$',labels[i]],ylims[i],yscale=scale[i],cmap=plt.get_cmap('Reds')))
+    pdf_pages.savefig(metrics_plot(psw_metrics_XIDp[i],fcat_sim['S250'][idx_xidp][ind_3mjy_psw],bins,[r'$S_{True} (\mathrm{mJy})$',labels[i]],ylims[i],yscale=scale[i]))
+    pdf_pages.savefig(metrics_plot(pmw_metrics_XIDp[i],fcat_sim['S350'][idx_xidp][ind_3mjy_pmw],bins,[r'$S_{True} (\mathrm{mJy})$',labels[i]],ylims[i],yscale=scale[i],cmap=plt.get_cmap('Greens')))
+    pdf_pages.savefig(metrics_plot(plw_metrics_XIDp[i],fcat_sim['S500'][idx_xidp][ind_3mjy_plw],bins,[r'$S_{True} (\mathrm{mJy})$',labels[i]],ylims[i],yscale=scale[i],cmap=plt.get_cmap('Reds')))
 
 pdf_pages.close()
