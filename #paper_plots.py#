@@ -1,0 +1,87 @@
+from astropy.io import fits
+import numpy as np
+import matplotlib
+matplotlib.use('PDF')
+import pylab as plt
+from matplotlib.backends.backend_pdf import PdfPages
+import sys
+import XIDp_mod_beta
+import pickle
+import scipy.stats as stats
+
+
+
+
+
+pdf_pages=PdfPages("error_density_flux_test_uninform.pdf")
+
+def metrics_XIDp(samples,truth):
+    """ returns error percent, precision (IQR/median), and accuracy ((output-truth)/truth) from XIDp samples (no.samp,no. parameters)"""
+    nsamp,nparam = samples.shape
+    error_percent=np.empty((nparam))
+    IQR_med=np.empty((nparam))
+    accuracy=np.empty((nparam))
+    for i in range(0,nparam):
+        error_percent[i]=stats.percentileofscore(samples[:,i],truth[i])
+        IQR_med[i]=np.subtract(*np.percentile(samples[:,i],[75.0,25.0]))/np.median(samples[:,i])
+        accuracy[i]=(np.median(samples[:,i])-truth[i])/truth[i]
+    return error_percent,IQR_med,accuracy
+
+
+def metrics_plot(metric,truth,bins,labels):
+    fig,ax=plt.subplots(figsize=(10,10))
+    mean=stats.binned_statistic(truth,metric,bins_truth,statistic='mean',bins=bins)
+    std_dev=stats.binned_statistic(truth,metric,bins_truth,statistic=np.std,bins=bins)
+    blues=plt.get_cmap('Blues')
+    tmp = ax.hexbin(truth, metric, gridsize=40, cmap=blues)
+    ax.plot(bins,mean,'r')
+    ax.plot(bins,mean-std_dev,'r--')
+    ax.plot(bins,mean+std_dev,'r--')
+    ax.set_xlabel(labels[0])
+    ax.set_ylabel(labels[1])
+    fig.colorbar(tmp, ax=ax)
+    return fig
+
+
+
+    
+#---Read in truth catalogue---
+folder='/research/astro/fir/cclarke/lacey/released/'
+hdulist=fits.open(folder+'lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS_test.fits')
+fcat_sim=hdulist[1].data
+hdulist.close()
+
+fcat_sim=fcat_sim[fcat_sim['S100']>0.050]
+
+#---match DESPHOT and real catalogues---
+#from astropy.coordinates import SkyCoord
+#from astropy import units as u
+#c= SkyCoord(ra=fcat['INRA']*u.degree,dec=fcat['INDEC']*u.degree)
+#c1=SkyCoord(ra=fcat_sim['RA']*u.degree,dec=fcat_sim['DEC']*u.degree)
+#idx,d2d,d3d,= c.match_to_catalog_sky(c1)
+
+idx_xidp=fcat_sim['S100'] >0.050#cut so that only sources with a 100micron flux of > 50 micro janskys (Roseboom et al. 2010 cut 24 micron sources at 50microJys)
+idx_xidpT=fcat_sim['S100'] >0.050#cut so that only sources with a 100micron flux of > 50 micro janskys (Roseboom et al. 2010 cut 24 micron sources at 50microJys)
+
+
+#---Read in XID+ posterior---
+
+#folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux/'
+folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior_test/old/'
+infile=folder+'Tiled_master_Lacey_notlog_flux.pkl'
+with open(infile, "rb") as f:
+    obj = pickle.load(f)
+prior250=obj['psw']
+prior350=obj['pmw']    
+prior500=obj['plw']
+
+posterior=obj['posterior']
+
+samples,chains,params=posterior.stan_fit.shape
+flattened_post=posterior.stan_fit.reshape(samples*chains,params)
+nsources_xidp=idx_xidp.size
+    
+
+psw_metrics_XIDp=metrics_XIDp(flattened_post,fcat_sim['S250'][idx_xidp])
+pmw_metrics_XIDp=metrics_XIDp(flattened_post[:,prior250.nsrc+1::(2*prior250.nsrc)+1],fcat_sim['S350'][idx_xidp])
+plw_metrics_XIDp=metrics_XIDp(flattened_post[:,2*prior250.nsrc+2:(3*prior250.nsrc)+2],fcat_sim['S500'][idx_xidp])

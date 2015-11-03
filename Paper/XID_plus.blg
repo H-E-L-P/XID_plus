@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2015)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: XID_plus.aux
+The style file: mn2eNicola.bst
+Database file #1: HELP_bib.bib
+Warning--empty note in Oliver:2016
+You've used 41 entries,
+            2773 wiz_defined-function locations,
+            891 strings with 35562 characters,
+and the built_in function-call counts, 60885 in all, are:
+= -- 4277
+> -- 8135
+< -- 8
++ -- 3218
+- -- 3166
+* -- 7047
+:= -- 11711
+add.period$ -- 2
+call.type$ -- 41
+change.case$ -- 1700
+chr.to.int$ -- 40
+cite$ -- 42
+duplicate$ -- 729
+empty$ -- 1051
+format.name$ -- 3255
+if$ -- 10355
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 37
+newline$ -- 127
+num.names$ -- 164
+pop$ -- 1687
+preamble$ -- 1
+purify$ -- 1696
+quote$ -- 0
+skip$ -- 620
+stack$ -- 0
+substring$ -- 801
+swap$ -- 43
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 363
+warning$ -- 1
+while$ -- 157
+width$ -- 0
+write$ -- 408
+(There was 1 warning)

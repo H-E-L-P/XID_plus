@@ -1,8 +1,10 @@
 import numpy as np
 from astropy import wcs
+from xidplus import moc_routines
+
 
 class prior(object):
-    def __init__(self,im,nim,imphdu,imhdu):
+    def __init__(self,im,nim,imphdu,imhdu,moc=None):
         """class for SPIRE prior object. Initialise with map,uncertianty map and wcs"""
         #---for any bad pixels set map pixel to zero and uncertianty to 1----
         bad=np.logical_or(np.logical_or
@@ -11,56 +13,81 @@ class prior(object):
         if(bad.sum() >0):
             im[bad]=0.
             nim[bad]=1.
-        self.im=im
-        self.nim=nim
         self.imhdu=imhdu
         wcs_temp=wcs.WCS(self.imhdu)
         self.imphdu=imphdu
         self.imhdu=imhdu
-        #add a boolean array 
-        ind=np.empty_like(im,dtype=bool)
-        ind[:]=True
-        #get x and y pixel position for each position
+
+        if moc is None:
+            self.moc=moc_routines.create_MOC_from_map(np.logical_not(bad),wcs_temp)
+        else:
+            self.moc=moc
+
         x_pix,y_pix=np.meshgrid(np.arange(0,wcs_temp._naxis1),np.arange(0,wcs_temp._naxis2))
+        self.sx_pix=x_pix.flatten()
+        self.sy_pix=y_pix.flatten()
+        self.snim=nim.flatten()
+        self.sim=im.flatten()
+        self.snpix=self.sim.size
+
+    def cut_down_prior(self):
+        wcs_temp=wcs.WCS(self.imhdu)
+        ra,dec= wcs_temp.wcs_pix2world(self.sx_pix,self.sy_pix,0)
+        ind_map=np.array(moc_routines.check_in_moc(ra,dec,self.moc,keep_inside=True))
         #now cut down and flatten maps (default is to use all pixels, running segment will change the values below to pixels within segment)
-        self.sx_pix=x_pix[ind]
-        self.sy_pix=y_pix[ind]
-        self.snim=self.nim[ind]
-        self.sim=self.im[ind]
-        self.snpix=ind.sum()
+        self.sx_pix=self.sx_pix[ind_map]
+        self.sy_pix=self.sy_pix[ind_map]
+        self.snim=self.snim[ind_map]
+        self.sim=self.sim[ind_map]
+        self.snpix=sum(ind_map)
+
+
+
+        sgood=np.array(moc_routines.check_in_moc(self.sra,self.sdec,self.moc,keep_inside=True))
+
+        self.sx=self.sx[sgood]
+        self.sy=self.sy[sgood]
+        self.sra=self.sra[sgood]
+        self.sdec=self.sdec[sgood]
+        self.nsrc=sum(sgood)
+        self.ID=self.ID[sgood]
+
 
 
     def prior_bkg(self,mu,sigma):
         """Add background prior ($\mu$) and uncertianty ($\sigma$). Assumes normal distribution"""
         self.bkg=(mu,sigma)
 
-    def prior_cat(self,ra,dec,prior_cat_file,ID=None,good_index=None,flux=None):
+    def prior_cat(self,ra,dec,prior_cat_file,ID=None,moc=None):
         """Input info for prior catalogue. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
         and converts RA and DEC to pixel positions"""
         #get positions of sources in terms of pixels
         wcs_temp=wcs.WCS(self.imhdu)
         sx,sy=wcs_temp.wcs_world2pix(ra,dec,0)
-        #check if sources are within map
-        if hasattr(self, 'tile'):
-            sgood=(ra > self.tile[0,0]-self.buffer_size) & (ra < self.tile[0,2]+self.buffer_size) & (dec > self.tile[1,0]-self.buffer_size) & (dec < self.tile[1,2]+self.buffer_size)#
+        if moc is None:
+            cat_moc=moc_routines.create_MOC_from_cat(ra,dec)
         else:
-            sgood=(sx > 0) & (sx < wcs_temp._naxis1) & (sy > 0) & (sy < wcs_temp._naxis2)
+            cat_moc=moc
+
+
         #Redefine prior list so it only contains sources in the map
-        self.sx=sx[sgood]
-        self.sy=sy[sgood]
-        self.sra=ra[sgood]
-        self.sdec=dec[sgood]
-        self.nsrc=sgood.sum()
+        self.sx=sx
+        self.sy=sy
+        self.sra=ra
+        self.sdec=dec
+        self.nsrc=self.sra.size
         self.prior_cat=prior_cat_file
         if ID is None:
-            ID=np.arange(1,ra.size,dtype='int64')
-        self.ID=ID[sgood]
+            ID=np.arange(1,ra.size+1,dtype='int64')
+        self.ID=ID
 
-        if good_index != None:
-            return sgood 
-        if flux !=None:
-            self.sflux=flux[sgood]
 
+        self.moc=self.moc.intersection(cat_moc)
+        self.cut_down_prior()
+
+    def set_tile(self,moc):
+        self.moc=self.moc.intersection(moc)
+        self.cut_down_prior()
 
     def prior_cat_stack(self,ra,dec,prior_cat,good_index=None):
         """Input info for prior catalogue of sources being stacked. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
@@ -93,30 +120,6 @@ class prior(object):
         self.stack_nsrc=sgood.sum()
         if good_index != None:
             return sgood 
-    
-    def set_tile(self,tile,buffer_size):
-        """Segment map to tile region described by tile and buffer_size"""
-        #create polygon of tile (in format used by aplpy). Should be 2x4 array
-        self.tile=tile
-        #get vertices of polygon in terms of pixels
-        wcs_temp=wcs.WCS(self.imhdu)
-
-        tile_x,tile_y=wcs_temp.wcs_world2pix(tile[0,:],tile[1,:],0)
-
-        x_pix,y_pix=np.meshgrid(np.arange(0,wcs_temp._naxis1),np.arange(0,wcs_temp._naxis2))
-
-        npix=(x_pix < np.max(tile_x)) & (y_pix < np.max(tile_y)) & (y_pix >= np.min(tile_y)) & (x_pix >= np.min(tile_x))
-
-        #now cut down and flatten maps
-        self.sx_pix=x_pix[npix]
-        self.sy_pix=y_pix[npix]
-        self.snim=self.nim[npix]
-        self.sim=self.im[npix]
-        self.snpix=npix.sum()
-
-        
-        #store buffer size
-        self.buffer_size=buffer_size
 
 
     def set_prf(self,prf,pindx,pindy):
@@ -131,8 +134,8 @@ class prior(object):
         from scipy import interpolate        
         paxis1,paxis2=self.prf.shape
 
-        amat_row=np.array([])
-        amat_col=np.array([])
+        amat_row=np.array([],dtype=np.int64)
+        amat_col=np.array([],dtype=np.int64)
         amat_data=np.array([])
         
         #------Deal with PRF array----------
@@ -161,7 +164,7 @@ class prior(object):
                 ipx2,ipy2=np.meshgrid(pindx,pindy)
                 atemp=interpolate.griddata((ipx2.ravel(),ipy2.ravel()),self.prf.ravel(), (dx[good],dy[good]), method='nearest')
                 amat_data=np.append(amat_data,atemp)
-                amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=int)[good])#what pixels the source contributes to
+                amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=np.int64)[good])#what pixels the source contributes to
                 amat_col=np.append(amat_col,np.full(ngood,s))#what source we are on
         
 
@@ -175,14 +178,8 @@ class prior(object):
         from scipy.sparse import coo_matrix
         self.A=coo_matrix((self.amat_data, (self.amat_row, self.amat_col)), shape=(self.snpix, self.nsrc))
 
-    def cut_map_to_prior(self):
-        """If only interested in fitting around regions of prior objects, run this function to cut down amount of data being fitted to."""
-        ind=np.unique(self.amat_row).astype(int)
-        #Remove pixels from class that are not being fitted (i.e. which don't appear in the pointing matrix)
-        #now cut down and flatten maps
-        self.sx_pix=self.sx_pix[ind]
-        self.sy_pix=self.sy_pix[ind]
-        self.snim=self.snim[ind]
-        self.sim=self.sim[ind]
-        self.snpix=ind.size
-        self.get_pointing_matrix()
+    def upper_lim_map(self):
+        for i in range(0,self.nsrc):
+            ind=self.amat_col == i
+            if ind.sum() >0:
+                self.prior_flux_upper=np.log10(np.max(self.sim[self.amat_row[ind]])-(self.bkg[0]-5*self.bkg[1]))

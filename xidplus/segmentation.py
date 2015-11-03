@@ -112,3 +112,11 @@ def make_master_posterior(output_folder,tile_file_name):
                 stan_fit_master[:,:,stan_ind]=posterior.stan_fit[:,:,idx_allbands]
     with open(output_folder+'master_posterior.pkl', 'wb') as f:
         pickle.dump({'posterior':stan_fit_master},f)
+
+
+
+
+
+
+
+
