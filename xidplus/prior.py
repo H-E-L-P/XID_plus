@@ -18,10 +18,10 @@ class prior(object):
         self.imphdu=imphdu
         self.imhdu=imhdu
 
-        if moc is None:
-            self.moc=moc_routines.create_MOC_from_map(np.logical_not(bad),wcs_temp)
-        else:
-            self.moc=moc
+        #if moc is None:
+        #    self.moc=moc_routines.create_MOC_from_map(np.logical_not(bad),wcs_temp)
+        #else:
+        #    self.moc=moc
 
         x_pix,y_pix=np.meshgrid(np.arange(0,wcs_temp._naxis1),np.arange(0,wcs_temp._naxis2))
         self.sx_pix=x_pix.flatten()
@@ -82,7 +82,7 @@ class prior(object):
         self.ID=ID
 
 
-        self.moc=self.moc.intersection(cat_moc)
+        self.moc=cat_moc
         self.cut_down_prior()
 
     def set_tile(self,moc):
@@ -134,8 +134,8 @@ class prior(object):
         from scipy import interpolate        
         paxis1,paxis2=self.prf.shape
 
-        amat_row=np.array([],dtype=np.int64)
-        amat_col=np.array([],dtype=np.int64)
+        amat_row=np.array([],dtype=int)
+        amat_col=np.array([],dtype=int)
         amat_data=np.array([])
         
         #------Deal with PRF array----------
@@ -164,13 +164,13 @@ class prior(object):
                 ipx2,ipy2=np.meshgrid(pindx,pindy)
                 atemp=interpolate.griddata((ipx2.ravel(),ipy2.ravel()),self.prf.ravel(), (dx[good],dy[good]), method='nearest')
                 amat_data=np.append(amat_data,atemp)
-                amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=np.int64)[good])#what pixels the source contributes to
+                amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=int)[good])#what pixels the source contributes to
                 amat_col=np.append(amat_col,np.full(ngood,s))#what source we are on
         
 
-            self.amat_data=amat_data
-            self.amat_row=amat_row
-            self.amat_col=amat_col
+        self.amat_data=amat_data
+        self.amat_row=amat_row
+        self.amat_col=amat_col
 
 
     def get_pointing_matrix_coo(self):
@@ -179,7 +179,55 @@ class prior(object):
         self.A=coo_matrix((self.amat_data, (self.amat_row, self.amat_col)), shape=(self.snpix, self.nsrc))
 
     def upper_lim_map(self):
+        self.prior_flux_upper=np.full((self.nsrc), 3.0)
         for i in range(0,self.nsrc):
             ind=self.amat_col == i
             if ind.sum() >0:
-                self.prior_flux_upper=np.log10(np.max(self.sim[self.amat_row[ind]])-(self.bkg[0]-5*self.bkg[1]))
+                self.prior_flux_upper[i]=np.log10(np.max(self.sim[self.amat_row[ind]])-(self.bkg[0]-2*self.bkg[1]))
+
+    def get_pointing_matrix_map(self, bkg=True):
+        """get the pointing matrix. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute"""
+        from scipy import interpolate
+        paxis1,paxis2=self.prf.shape
+
+        amat_row=np.array([],dtype=int)
+        amat_col=np.array([],dtype=int)
+        amat_data=np.array([])
+
+        #------Deal with PRF array----------
+        centre=((paxis1-1)/2)
+        #create pointing array
+        for s in range(0,self.snpix):
+
+
+
+            #diff from centre of beam for each pixel in x
+            dx = -np.rint(self.sx_pix[s]).astype(long)+self.pindx[(paxis1-1.)/2]+self.sx_pix
+            #diff from centre of beam for each pixel in y
+            dy = -np.rint(self.sy_pix[s]).astype(long)+self.pindy[(paxis2-1.)/2]+self.sy_pix
+            #diff from each pixel in prf
+            pindx=self.pindx+self.sx_pix[s]-np.rint(self.sx_pix[s]).astype(long)
+            pindy=self.pindy+self.sy_pix[s]-np.rint(self.sy_pix[s]).astype(long)
+            #diff from pixel centre
+            px=self.sx_pix[s]-np.rint(self.sx_pix[s]).astype(long)+(paxis1-1.)/2.
+            py=self.sy_pix[s]-np.rint(self.sy_pix[s]).astype(long)+(paxis2-1.)/2.
+
+            good = (dx >= 0) & (dx < self.pindx[paxis1-1]) & (dy >= 0) & (dy < self.pindy[paxis2-1])
+            ngood = good.sum()
+            bad = np.asarray(good)==False
+            nbad=bad.sum()
+            if ngood > 0.5*self.pindx[-1]*self.pindy[-1]:
+                ipx2,ipy2=np.meshgrid(pindx,pindy)
+                atemp=interpolate.griddata((ipx2.ravel(),ipy2.ravel()),self.prf.ravel(), (dx[good],dy[good]), method='nearest')
+                amat_data=np.append(amat_data,atemp)
+                amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=int)[good])#what pixels the source contributes to
+                amat_col=np.append(amat_col,np.full(ngood,s))#what source we are on
+
+        ind=amat_row <= amat_col
+        self.amat_data_map=amat_data#[ind]
+        self.amat_row_map=amat_row#[ind]
+        self.amat_col_map=amat_col#[ind]
+
+    def conf_noise(self):
+        import confusion_noise as conf
+        (self.Row_sig_conf,self.Col_sig_conf,self.Val_sig_conf,self.n_sig_conf)=conf.select_confusion_cov_max_pixels(4,self)

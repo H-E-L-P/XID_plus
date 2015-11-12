@@ -39,9 +39,9 @@ indec=fcat['DEC']
 f_src=fcat['S100']#100 micron flux
 df_src=f_src
 nrealcat=fcat.size
-bkg250=0
-bkg350=0
-bkg500=0
+bkg250=-5
+bkg350=-5
+bkg500=-5
 
 # Open images and noise maps and use WCS module in astropy to get header information
 
@@ -78,13 +78,9 @@ pixsize500=3600.0*w_500.wcs.cd[1,1] #pixel size (in arcseconds)
 hdulist.close()
 
 
-# Since only testing, select sources within a tile about given range of the mean ra and dec position of the prior list, and only use sources that have a flux of greater than 50 microjanskys at 100 microns
+#only use sources that have a flux of greater than 50 microjanskys at 100 microns
 
-##define range
-ra_mean=np.mean(inra)
-dec_mean=np.mean(indec)
-tile_l=0.02
-tile=np.array([[ra_mean,dec_mean],[ra_mean+tile_l,dec_mean],[ra_mean+tile_l,dec_mean+tile_l],[ra_mean,dec_mean+tile_l]]).T
+
 sgood=f_src >0.050
 
 inra=inra[sgood]
@@ -106,22 +102,19 @@ from astropy.convolution import Gaussian2DKernel
 #Set prior classes
 #---prior250--------
 prior250=xidplus.prior(im250,nim250,im250phdu,im250hdu)#Initialise with map, uncertianty map, wcs info and primary header
-prior250.set_tile(tile,0.01)
 prior250.prior_cat(inra,indec,prior_cat)#Set input catalogue
 prior250.prior_bkg(bkg250,5)#Set prior on background
 #---prior350--------
 prior350=xidplus.prior(im350,nim350,im350phdu,im350hdu)
-prior350.set_tile(tile,0.01)
 prior350.prior_cat(inra,indec,prior_cat)
 prior350.prior_bkg(bkg350,5)
+
 #---prior500--------
 prior500=xidplus.prior(im500,nim500,im500phdu,im500hdu)
-prior500.set_tile(tile,0.01)
 prior500.prior_cat(inra,indec,prior_cat)
 prior500.prior_bkg(bkg500,5)
 
-print 'fitting '+ str(prior250.nsrc)+' sources \n In a tile defined by with ra and dec co-ordinates of:'
-print tile
+print 'fitting '+ str(prior250.nsrc)+' sources \n'
 
 
 ##---------fit using Gaussian beam-----------------------
@@ -140,9 +133,43 @@ prior250.set_prf(prf250.array,pind250,pind250)
 prior350.set_prf(prf350.array,pind350,pind350)
 prior500.set_prf(prf500.array,pind500,pind500)
 
+#from moc, get healpix pixels at a given order
+from xidplus import moc_routines
+
+tiles=moc_routines.get_HEALPix_pixels(10,prior250.sra,prior250.sdec,unique=True)
+print 'There are '+str(len(tiles))+' tiles'
+moc=moc_routines.get_fitting_region(10,tiles[100])
+moc.write('/Users/pdh21/HELP/XID_plus/scripts/test_run/MOC_tile_100.fits')
+print prior250.snpix
+prior250.set_tile(moc)
+prior350.set_tile(moc)
+prior500.set_tile(moc)
+
+prior250.moc.write('/Users/pdh21/HELP/XID_plus/scripts/test_run/MOC_tile_100_fit.fits')
+
+print 'fitting '+ str(prior250.nsrc)+' sources \n'
+print 'there are '+ str(prior250.snpix)+' pixels'
+
 prior250.get_pointing_matrix()
+prior250.get_pointing_matrix_map()
+print ' done '
 prior350.get_pointing_matrix()
+#prior350.get_pointing_matrix_map()
+print ' done '
 prior500.get_pointing_matrix()
+#prior500.get_pointing_matrix_map()
+
+print ' done '
+
+print 'set prior upper limit'
+prior250.upper_lim_map()
+prior350.upper_lim_map()
+prior500.upper_lim_map()
+print prior250.prior_flux_upper
+
+
+#prior250.conf_noise()
+
 
 from xidplus.stan_fit import SPIRE
 fit=SPIRE.all_bands(prior250,prior350,prior500,iter=1500)

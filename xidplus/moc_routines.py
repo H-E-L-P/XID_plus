@@ -43,7 +43,6 @@ def get_fitting_region(order,pixel):
     pix_fit=pixelfunc.ang2pix(new_nside, theta+offset_theta, phi+offset_phi, nest=True)
     #get neighbouring pixels and remove duplicates
     moc_tile=MOC()
-    print np.unique(pixelfunc.get_all_neighbours(new_nside, pix_fit,nest=True))
     moc_tile.add_pix_list(order+1,np.unique(pixelfunc.get_all_neighbours(new_nside, pix_fit,nest=True)), nest=True)
     return moc_tile
 
@@ -58,9 +57,9 @@ def create_MOC_from_map(good,wcs):
     return map_moc
 
 def create_MOC_from_cat(ra,dec):
-    pixels=get_HEALPix_pixels(12,ra,dec)
+    pixels=get_HEALPix_pixels(11,ra,dec)
     cat_moc=MOC()
-    cat_moc.add_pix_list(12,pixels, nest=True)
+    cat_moc.add_pix_list(11,pixels, nest=True)
     return cat_moc
 
 def check_in_moc(ra,dec,moc,keep_inside=True):

@@ -24,6 +24,11 @@ def all_bands(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
           'Val_psw':SPIRE_250.amat_data,
           'Row_psw': SPIRE_250.amat_row.astype(long),
           'Col_psw': SPIRE_250.amat_col.astype(long),
+          'f_up_lim_psw': SPIRE_250.prior_flux_upper,
+          'nnz_sig_conf_psw_tot':SPIRE_250.amat_row_map.size,
+          'Row_sig_conf_psw': SPIRE_250.amat_row_map.astype(long)+1,
+          'Col_sig_conf_psw': SPIRE_250.amat_col_map.astype(long)+1,
+          'Val_sig_conf_psw': SPIRE_250.amat_data_map.astype(long),
           'npix_pmw':SPIRE_350.snpix,
           'nnz_pmw':SPIRE_350.amat_data.size,
           'db_pmw':SPIRE_350.sim,
@@ -33,6 +38,7 @@ def all_bands(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
           'Val_pmw':SPIRE_350.amat_data,
           'Row_pmw': SPIRE_350.amat_row.astype(long),
           'Col_pmw': SPIRE_350.amat_col.astype(long),
+          'f_up_lim_pmw': SPIRE_350.prior_flux_upper,
           'npix_plw':SPIRE_500.snpix,
           'nnz_plw':SPIRE_500.amat_data.size,
           'db_plw':SPIRE_500.sim,
@@ -41,7 +47,8 @@ def all_bands(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
           'bkg_prior_sig_plw':SPIRE_500.bkg[1],
           'Val_plw':SPIRE_500.amat_data,
           'Row_plw': SPIRE_500.amat_row.astype(long),
-          'Col_plw': SPIRE_500.amat_col.astype(long)}
+          'Col_plw': SPIRE_500.amat_col.astype(long),
+          'f_up_lim_plw': SPIRE_500.prior_flux_upper}
 
     #see if model has already been compiled. If not, compile and save it
     model_file=output_dir+"/XID+SPIRE.pkl"
