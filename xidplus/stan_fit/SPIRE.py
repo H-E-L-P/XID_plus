@@ -64,7 +64,7 @@ def all_bands(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
         # save it to the file 'model.pkl' for later use
         with open(model_file, 'wb') as f:
             pickle.dump(sm, f)
-        fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+        fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True)
     #return fit data
     return fit
 

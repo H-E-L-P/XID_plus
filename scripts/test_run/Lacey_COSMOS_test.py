@@ -136,9 +136,9 @@ prior500.set_prf(prf500.array,pind500,pind500)
 #from moc, get healpix pixels at a given order
 from xidplus import moc_routines
 
-tiles=moc_routines.get_HEALPix_pixels(10,prior250.sra,prior250.sdec,unique=True)
+tiles=moc_routines.get_HEALPix_pixels(11,prior250.sra,prior250.sdec,unique=True)
 print 'There are '+str(len(tiles))+' tiles'
-moc=moc_routines.get_fitting_region(10,tiles[100])
+moc=moc_routines.get_fitting_region(11,tiles[100])
 moc.write('/Users/pdh21/HELP/XID_plus/scripts/test_run/MOC_tile_100.fits')
 print prior250.snpix
 prior250.set_tile(moc)
@@ -168,8 +168,21 @@ prior500.upper_lim_map()
 print prior250.prior_flux_upper
 
 
-#prior250.conf_noise()
+sigma_conf=5.0
+prior250.amat_data_map=prior250.amat_data_map*sigma_conf
+prior250.amat_data_map[prior250.amat_col_map==prior250.amat_row_map]=prior250.amat_data_map[prior250.amat_col_map==prior250.amat_row_map]+prior250.snim**2
+Sig_tot=np.empty((prior250.snpix,prior250.snpix))
+Sig_tot[:,:]=0.0
+for i in range(0,prior250.amat_data_map.size):
+    Sig_tot[prior250.amat_col_map[i],prior250.amat_row_map[i]]=prior250.amat_data_map[i]
 
+import pylab as plt
+cholesky=np.linalg.cholesky(Sig_tot)
+ind=cholesky>0
+x,y=np.meshgrid(np.arange(0,prior250.snpix),np.arange(0,prior250.snpix))
+prior250.amat_col_map=x[ind]
+prior250.amat_row_map=y[ind]
+prior250.amat_data_map=cholesky[ind]
 
 from xidplus.stan_fit import SPIRE
 fit=SPIRE.all_bands(prior250,prior350,prior500,iter=1500)

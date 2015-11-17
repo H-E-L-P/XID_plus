@@ -216,7 +216,7 @@ class prior(object):
             ngood = good.sum()
             bad = np.asarray(good)==False
             nbad=bad.sum()
-            if ngood > 0.5*self.pindx[-1]*self.pindy[-1]:
+            if ngood > 0:#0.5*self.pindx[-1]*self.pindy[-1]:
                 ipx2,ipy2=np.meshgrid(pindx,pindy)
                 atemp=interpolate.griddata((ipx2.ravel(),ipy2.ravel()),self.prf.ravel(), (dx[good],dy[good]), method='nearest')
                 amat_data=np.append(amat_data,atemp)

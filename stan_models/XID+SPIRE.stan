@@ -40,20 +40,21 @@ data {
   vector[nsrc] f_up_lim_plw;//upper limit of flux (in log10)
 
 }
-
 transformed data {
-  matrix[npix_psw,npix_psw] Corr_conf;
-  matrix[npix_psw,npix_psw] L;
-  for (j in 1:npix_psw){
-    for (k in 1:npix_psw){
-      Corr_conf[j,k] <- 0.0;
+  cholesky_factor_cov[npix_psw] L;
+
+  for (i in 1:npix_psw) {
+    for (j in 1:npix_psw) {
+      L[i,j]<-0.0;
     }
   }
-  for (k in 1:nnz_sig_conf_psw_tot) {
-    Corr_conf[Row_sig_conf_psw[k],Col_sig_conf_psw[k]] <-Val_sig_conf_psw[k];
+  for (i in 1:nnz_sig_conf_psw_tot) {
+    L[Row_sig_conf_psw[i],Col_sig_conf_psw[i]]<- Val_sig_conf_psw[i];
   }
-  L <- cholesky_decompose(Corr_conf);  
+
+
 }
+
 parameters {
   vector<lower=0.0,upper=1.0>[nsrc] src_f_psw;//source vector
   real bkg_psw;//background
@@ -61,8 +62,7 @@ parameters {
   real bkg_pmw;//background
   vector<lower=0.0,upper=1.0>[nsrc] src_f_plw;//source vector
   real bkg_plw;//background
-  real<lower=2.0,upper=6.0> sigma2_conf;//sigma
-
+  real<lower=1.0,upper=8> sigma_conf;
 }
 
 
@@ -70,12 +70,11 @@ model {
   vector[npix_psw] db_hat_psw;//model of map
   vector[npix_pmw] db_hat_pmw;//model of map
   vector[npix_plw] db_hat_plw;//model of map
-  matrix[npix_psw,npix_psw] Sig_tot;//
-
 
   vector[nsrc] f_vec_psw;//vector of source fluxes and background
   vector[nsrc] f_vec_pmw;//vector of source fluxes and background
   vector[nsrc] f_vec_plw;//vector of source fluxes
+
 
   //Prior on background 
   bkg_psw ~normal(bkg_prior_psw,bkg_prior_sig_psw);
@@ -91,14 +90,10 @@ model {
     f_vec_plw[n] <- pow(10.0,-2.0+(f_up_lim_plw[n]+2.0)*src_f_plw[n]);
 
 
-  }
-  Sig_tot<- sigma2_conf*multiply_lower_tri_self_transpose(L);
-  
+  }  
   // Create model maps (i.e. db_hat = A*f) using sparse multiplication
   for (k in 1:npix_psw) {
     db_hat_psw[k] <- bkg_psw;
-    //Sig_tot[k] <-0.0;
-    Sig_tot[k,k] <- Sig_tot[k,k]+pow(sigma_psw[k],2);
   }
   for (k in 1:nnz_psw) {
     db_hat_psw[Row_psw[k]+1] <- db_hat_psw[Row_psw[k]+1] + Val_psw[k]*f_vec_psw[Col_psw[k]+1];
@@ -118,10 +113,8 @@ model {
     db_hat_plw[Row_plw[k]+1] <- db_hat_plw[Row_plw[k]+1] + Val_plw[k]*f_vec_plw[Col_plw[k]+1];
       }
 
-
-
   // likelihood of observed map|model map
-  db_psw ~ multi_normal(db_hat_psw,Sig_tot);
+  db_psw ~ multi_normal_cholesky(db_hat_psw,L);
   db_pmw ~ normal(db_hat_pmw,sigma_pmw);
   db_plw ~ normal(db_hat_plw,sigma_plw);
 
