@@ -4,6 +4,7 @@ import matplotlib
 import pylab as plt
 import scipy.stats as stats
 from scipy.stats import norm
+matplotlib.rcParams.update({'font.size': 18})
 
 
 
@@ -26,7 +27,7 @@ def metrics_plot(metric,truth,bins,labels,ylim,yscale='linear',cmap=None):
     def lower(x):
         return np.percentile(x,[15.9])
         
-    fig,ax=plt.subplots(figsize=(5.5,5))
+    fig,ax=plt.subplots(figsize=(8,7))
     ind_good=np.isfinite(metric)
     mean=stats.binned_statistic(truth[ind_good],metric[ind_good],statistic='median',bins=bins)
     std_dev=stats.binned_statistic(truth[ind_good],metric[ind_good],statistic=np.std,bins=bins)
@@ -50,9 +51,8 @@ def metrics_plot(metric,truth,bins,labels,ylim,yscale='linear',cmap=None):
         tmp = ax.hexbin(truth[ind_good_hex], metric[ind_good_hex], gridsize=40, cmap=cmap,xscale = 'log',yscale='log')#,extent=(np.min(truth),np.max(truth),np.min(mean[0])-2*np.max(std_dev[0]),np.max(mean[0])+2*np.max(std_dev[0])))
     else:
         tmp = ax.hexbin(truth[ind_good_hex], metric[ind_good_hex], gridsize=40, cmap=cmap,xscale = 'log')#,extent=(np.min(truth),np.max(truth),np.min(mean[0])-2*np.max(std_dev[0]),np.max(mean[0])+2*np.max(std_dev[0])))
-
+        ax.axhline(linewidth=4, color='k',alpha=0.5)
     ax.set_ylim(ylim)
-
     clrbar=fig.colorbar(tmp, ax=ax)
     clrbar.set_label(r'$N_{Gal.}$')
     return fig

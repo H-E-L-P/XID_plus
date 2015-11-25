@@ -67,7 +67,7 @@ plw_metrics_XIDp=metrics_XIDp(flattened_post_plw[:,ind_1mjy_plw],fcat_sim['S500'
 
 
 bins=np.logspace(0.477, 2.2, num=7)
-labels=[r'Z score', r'IQR/$S_{True}$ ($\mathrm{mJy}$)', r'$(S_{Obs}-S_{True})/S_{True}$ ($\mathrm{mJy}$)']
+labels=[r'Z score', r'IQR/$S_{True}$', r'$(S_{Obs}-S_{True})/S_{True}$']
 scale=['linear', 'log', 'linear']
 ylims=[(-4,4),(1E-2,1E1),(-1,1)]
 for i in range(0,3):
