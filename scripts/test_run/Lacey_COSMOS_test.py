@@ -138,7 +138,7 @@ from xidplus import moc_routines
 
 tiles=moc_routines.get_HEALPix_pixels(11,prior250.sra,prior250.sdec,unique=True)
 print 'There are '+str(len(tiles))+' tiles'
-moc=moc_routines.get_fitting_region(11,tiles[100])
+moc=moc_routines.get_fitting_region(11,tiles[2000])
 moc.write('/Users/pdh21/HELP/XID_plus/scripts/test_run/MOC_tile_100.fits')
 print prior250.snpix
 prior250.set_tile(moc)
@@ -151,7 +151,6 @@ print 'fitting '+ str(prior250.nsrc)+' sources \n'
 print 'there are '+ str(prior250.snpix)+' pixels'
 
 prior250.get_pointing_matrix()
-prior250.get_pointing_matrix_map()
 print ' done '
 prior350.get_pointing_matrix()
 #prior350.get_pointing_matrix_map()
@@ -165,31 +164,27 @@ print 'set prior upper limit'
 prior250.upper_lim_map()
 prior350.upper_lim_map()
 prior500.upper_lim_map()
-print prior250.prior_flux_upper
 
-
-sigma_conf=5.0
-prior250.amat_data_map=prior250.amat_data_map*sigma_conf
-prior250.amat_data_map[prior250.amat_col_map==prior250.amat_row_map]=prior250.amat_data_map[prior250.amat_col_map==prior250.amat_row_map]+prior250.snim**2
-Sig_tot=np.empty((prior250.snpix,prior250.snpix))
-Sig_tot[:,:]=0.0
-for i in range(0,prior250.amat_data_map.size):
-    Sig_tot[prior250.amat_col_map[i],prior250.amat_row_map[i]]=prior250.amat_data_map[i]
-
-import pylab as plt
-cholesky=np.linalg.cholesky(Sig_tot)
-ind=cholesky>0
-x,y=np.meshgrid(np.arange(0,prior250.snpix),np.arange(0,prior250.snpix))
-prior250.amat_col_map=x[ind]
-prior250.amat_row_map=y[ind]
-prior250.amat_data_map=cholesky[ind]
+for i in range(0,prior250.nsrc):
+    print fcat[sgood][prior250.ID[i]-1],prior250.prior_flux_upper[i]
 
 from xidplus.stan_fit import SPIRE
 fit=SPIRE.all_bands(prior250,prior350,prior500,iter=1500)
-posterior=xidplus.posterior_stan(fit,prior250.nsrc)
+print fit
+print prior250.ID
+import pylab as plt
+
+print fcat[sgood][prior250.ID-1]
+print prior250.sra,prior250.sdec
+plt.plot(fcat['S250'][sgood][prior250.ID-1],10.00**fit['src_f_psw'][0],'o')
+plt.show()
+
+
+
+#posterior=xidplus.posterior_stan(fit,prior250.nsrc)
 #----------------------------------------------------------
 
-outfile=output_folder+'Lacy_test_file.pkl'
-with open(outfile, 'wb') as f:
-    pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)
+#outfile=output_folder+'Lacy_test_file.pkl'
+#with open(outfile, 'wb') as f:
+#    pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)
 

@@ -24,7 +24,7 @@ def get_HEALPix_pixels(order,ra,dec,unique=True):
 
 def get_fitting_region(order,pixel):
     """
-    expand tile by half a pixel for fitting
+    expand tile by quarter of a pixel for fitting
     :param order:the HEALPix resolution level
     :param pixel:given HEALPix pixel that needs to be fit
     :return: HEALPix pixels that need to be fit
