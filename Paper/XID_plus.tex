@@ -115,7 +115,7 @@ In the following section, we describe our \textsc{XID+} algorithm. As this algor
 %uncertianties and covariances: DESPHOT---XID+
 
 \subsection{Basic Model}
-Our data ($\mathbf{d}$) are maps with $n_1 \times n_2 = M$ pixels. Our model assumes the maps are formed from $S$ known sources, with flux density $\mathbf{f}$ and a background term accounting for unknown sources. The point response function (PRF) tells us the contribution each source makes to each pixel in the map. Our map can therefore be described as follows:
+Our data ($\mathbf{d}$) are maps with $n_1 \times n_2 = M$ pixels. Our model assumes the maps are formed from $S$ known sources, with flux density $\mathbf{f}$ and a background term accounting for unknown sources. The point response function (PRF) tells us the contribution each source makes to each pixel in the map and is assumed to be a Gaussian, with full-width half-maximum (FWHM) of 18.15, 25.15 and 36.3 arcsec for 250, 350 and 500 $\mathrm{\mu m}$ respectively \citep{Griffin:2010}. Our map can therefore be described as follows:
 
 \begin{equation}
 \mathbf{d} = \sum\limits_{i=1}^S \mathbf{P f_i} + N(0,\Sigma_{instrumental}) + N(B,\Sigma_{confusion})
@@ -130,7 +130,7 @@ We can rewrite the above equation in the linear form:
 \end{equation}
 Where $\mathbf{d}$ is flattened ta a vector with $M$ pixels, $A$ is a sparse $M \times S$ matrix giving the contribution each source makes to each pixel.
 
-As instrumental and confusion noise are independent, we can combine the two noise terms into one covariance matrix such that $\mathbf{N_d} = \Sigma_{instrumental}+\Sigma_{confusion}$. If we assume the only correlated noise between pixels is from the PSF acting on confusion noise, then diagonal entries of $\mathbf{N_d}$ are simply $\sigma_{inst.}^2+\sigma_{conf.}^2$), and off diagonal entries given by combining the PSF and $\sigma_{conf.}^2$.
+As instrumental and confusion noise are independent, we can combine the two noise terms into one covariance matrix such that $\mathbf{N_d} = \Sigma_{instrumental}+\Sigma_{confusion}$. Confusion noise will be correlated across nearby pixels due to the PRF and across the three SPIRE bands. Taking these correlations into account requires the full $M \times M$ covariance matrix, which vastly increases computational time. For simplicity we currently ignore the correlations and assume the confusion noise is constant across the map. The covariance matrix becomes a diagonal matrix i.e. $\mathbf{N_{d,ii}} =\sigma_{inst.,ii}^2+\sigma_{conf.}^2$. 
 
  We can now define the likelihood as the Gaussian probability function for the data given the flux densities
 \begin{equation}
@@ -260,24 +260,24 @@ As described in Section \ref{sec:conv}, we provide $\hat{R}$ as an estimate of c
 \end{figure}
 
 
-\subsection{Remaining Noise}
-The purpose of using prior based source extraction is to overcome the confusion noise in the SPIRE maps, which, as measured by \cite{Nguyen:2010} is 5.8, 6.3 and 6.8 $\mathrm{mJy}$ at 250, 350 and 500 $\mathrm{\mu m}$, respectively. By looking at the residual map (i.e. $\mathbf{d}-(\mathbf{Af}+B)$), we can estimate the remaining residual confusion noise in the maps.
-
-We do this by measuring the standard deviation of the pixels in the residual map, convolved with the PRF \footnote{The best way to find point sources in a noisy map is to convolve with the PRF, as described in \cite{Chapin:2011}}. This provides an estimate of the total noise remaining in the residual map ($\sigma_{tot.}$). In order to obtain an estimate of the confusion noise ($\sigma_{conf.}$), an estimate of the instrumental noise is made from the uncertainty map, and then removed in quadrature, such that $\sigma_{conf.}^2 = \sigma_{tot.}^2 - \sigma_{inst.}^2$. Table \ref{tab:remaining_noise} shows the total and confusion noise from the residual Lacey simulated maps, for both \textsc{DESPHOT} and \textsc{XID+}, and for all three SPIRE bands. For \textsc{XID+}, we calculate a residual map (and remaining noise estimate) for each sample in the posterior, Table \ref{tab:remaining_noise} shows the median from the sample.
-
-\begin{table}
-\centering
-\begin{tabular}{l|l|l|l|l|l|l|}
-\cline{2-7}
-                                       & \multicolumn{2}{l|}{$250\mathrm{\mu m}$} & \multicolumn{2}{l|}{$350\mathrm{\mu m}$} & \multicolumn{2}{l|}{$500\mathrm{\mu m}$} \\ \cline{2-7} 
-                                       & $\sigma_{tot.}$     & $\sigma_{conf.}$    & $\sigma_{tot.}$    & $\sigma_{conf.}$    & $\sigma_{tot.}$   & $\sigma_{conf.}$    \\ \hline
-\multicolumn{1}{|l|}{\textsc{XID+}}    & 1.9                   & 1.3                   & 2.2                   &  1.9                   & 2.6                   &  1.9                   \\ \hline
-\multicolumn{1}{|l|}{\textsc{DESPHOT}} & 2.4                   & 1.9                 & 3.5                  &  3.3                 &  3.4                  &  2.9                   \\ \hline
-\end{tabular}
-\caption{Table showing the remaining total and confusion noise for the three SPIRE bands (in $\mathrm{mJy}$), from running \textsc{XID+} and \textsc{DESPHOT} on the Lacey simulated COSMOS maps.}
-\label{tab:remaining_noise}
-\end{table}
-As demonstrated by the values in Table \ref{tab:remaining_noise}, \textsc{XID+} reaches a confusion noise level substantially lower than that present in the maps. It is also lower than that achieved by \textsc{DESPHOT}. This could be due to the fact we fit the background simultaneously with the sources and/or the LASSO algorithm in \textsc{DESPHOT} restricting the fit of close-by sources, hence increasing the flux variations in the residual map. 
+%\subsection{Remaining Noise}
+%The purpose of using prior based source extraction is to overcome the confusion noise in the SPIRE maps, which, as measured by \cite{Nguyen:2010} is 5.8, 6.3 and 6.8 $\mathrm{mJy}$ at 250, 350 and 500 $\mathrm{\mu m}$, respectively. By looking at the residual map (i.e. $\mathbf{d}-(\mathbf{Af}+B)$), we can estimate the remaining residual confusion noise in the maps.
+%
+%We do this by measuring the standard deviation of the pixels in the residual map, convolved with the PRF \footnote{The best way to find point sources in a noisy map is to convolve with the PRF, as described in \cite{Chapin:2011}}. This provides an estimate of the total noise remaining in the residual map ($\sigma_{tot.}$). In order to obtain an estimate of the confusion noise ($\sigma_{conf.}$), an estimate of the instrumental noise is made from the uncertainty map, and then removed in quadrature, such that $\sigma_{conf.}^2 = \sigma_{tot.}^2 - \sigma_{inst.}^2$. Table \ref{tab:remaining_noise} shows the total and confusion noise from the residual Lacey simulated maps, for both \textsc{DESPHOT} and \textsc{XID+}, and for all three SPIRE bands. For \textsc{XID+}, we calculate a residual map (and remaining noise estimate) for each sample in the posterior, Table \ref{tab:remaining_noise} shows the median from the sample.
+%
+%\begin{table}
+%\centering
+%\begin{tabular}{l|l|l|l|l|l|l|}
+%\cline{2-7}
+%                                       & \multicolumn{2}{l|}{$250\mathrm{\mu m}$} & \multicolumn{2}{l|}{$350\mathrm{\mu m}$} & \multicolumn{2}{l|}{$500\mathrm{\mu m}$} \\ \cline{2-7} 
+%                                       & $\sigma_{tot.}$     & $\sigma_{conf.}$    & $\sigma_{tot.}$    & $\sigma_{conf.}$    & $\sigma_{tot.}$   & $\sigma_{conf.}$    \\ \hline
+%\multicolumn{1}{|l|}{\textsc{XID+}}    & 1.9                   & 1.3                   & 2.2                   &  1.9                   & 2.6                   &  1.9                   \\ \hline
+%\multicolumn{1}{|l|}{\textsc{DESPHOT}} & 2.4                   & 1.9                 & 3.5                  &  3.3                 &  3.4                  &  2.9                   \\ \hline
+%\end{tabular}
+%\caption{Table showing the remaining total and confusion noise for the three SPIRE bands (in $\mathrm{mJy}$), from running \textsc{XID+} and \textsc{DESPHOT} on the Lacey simulated COSMOS maps.}
+%\label{tab:remaining_noise}
+%\end{table}
+%As demonstrated by the values in Table \ref{tab:remaining_noise}, \textsc{XID+} reaches a confusion noise level substantially lower than that present in the maps. It is also lower than that achieved by \textsc{DESPHOT}. This could be due to the fact we fit the background simultaneously with the sources and/or the LASSO algorithm in \textsc{DESPHOT} restricting the fit of close-by sources, hence increasing the flux variations in the residual map. 
 
 \subsection{Correlated Sources}
 For sources that are close together (i.e. within FWHM of the PRF), the uncertainty on the flux estimates can be correlated. One of the advantages of obtaining the full posterior is that we get a proper estimate of uncertainty and its correlation. This is particularly apparent when comparing flux estimates with \textsc{DESPHOT}, which, by using the LASSO algorithm forces one source to have all the flux and the other nearby source to zero. Figure \ref{fig:corr} shows an example of two sources which are 2'' apart. The 250 $\mathrm{\mu m}$ flux estimate from both \textsc{XID+} and \textsc{DESPHOT} are shown in green and blue respectively. The posterior provided by XID+, fully captures the correlated uncertainty, where as the `winner takes all' approach from \textsc{DESPHOT} clearly fails to estimate the true flux for both sources.
