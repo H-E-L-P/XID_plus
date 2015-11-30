@@ -4,6 +4,7 @@ from astropy import wcs
 import pickle
 import dill
 import sys
+import os
 sys.path.append('/Users/pdh21/HELP/XID_plus/')
 import xidplus
 
@@ -135,56 +136,64 @@ prior500.set_prf(prf500.array,pind500,pind500)
 
 #from moc, get healpix pixels at a given order
 from xidplus import moc_routines
+order=11
+tiles=moc_routines.get_HEALPix_pixels(order,prior250.sra,prior250.sdec,unique=True)
 
-tiles=moc_routines.get_HEALPix_pixels(11,prior250.sra,prior250.sdec,unique=True)
-print 'There are '+str(len(tiles))+' tiles'
-moc=moc_routines.get_fitting_region(11,tiles[2000])
-moc.write('/Users/pdh21/HELP/XID_plus/scripts/test_run/MOC_tile_100.fits')
-print prior250.snpix
+try:
+    if sys.argv[1] == 'Master':
+        print '----- There are '+str(len(tiles))+' tiles required for input catalogue'
+        outfile=output_folder+'Master_prior.pkl'
+        with open(outfile, 'wb') as f:
+            pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'tiles':tiles,'order':order},f)
+        raise SystemExit()
+
+
+except:
+    pass
+
+try:
+    taskid = np.int(os.environ['SGE_TASK_ID'])
+    task_first=np.int(os.environ['SGE_TASK_FIRST'])
+    task_last=np.int(os.environ['SGE_TASK_LAST'])
+
+except KeyError:
+    print "Error: could not read SGE_TASK_ID from environment"
+    taskid = int(raw_input("Please enter task id: "))
+    print "you entered", taskid
+
+
+moc=moc_routines.get_fitting_region(order,tiles[taskid-1])
 prior250.set_tile(moc)
 prior350.set_tile(moc)
 prior500.set_tile(moc)
-
-prior250.moc.write('/Users/pdh21/HELP/XID_plus/scripts/test_run/MOC_tile_100_fit.fits')
 
 print 'fitting '+ str(prior250.nsrc)+' sources \n'
 print 'there are '+ str(prior250.snpix)+' pixels'
 
 prior250.get_pointing_matrix()
-print ' done '
 prior350.get_pointing_matrix()
-#prior350.get_pointing_matrix_map()
-print ' done '
 prior500.get_pointing_matrix()
-#prior500.get_pointing_matrix_map()
-
-print ' done '
 
 print 'set prior upper limit'
 prior250.upper_lim_map()
+prior250.lower_lim_flux(-2.0)
 prior350.upper_lim_map()
+prior350.lower_lim_flux(-2.0)
 prior500.upper_lim_map()
+prior500.lower_lim_flux(-2.0)
 
-for i in range(0,prior250.nsrc):
-    print fcat[sgood][prior250.ID[i]-1],prior250.prior_flux_upper[i]
 
 from xidplus.stan_fit import SPIRE
 fit=SPIRE.all_bands(prior250,prior350,prior500,iter=1500)
-print fit
-print prior250.ID
-import pylab as plt
-
-print fcat[sgood][prior250.ID-1]
-print prior250.sra,prior250.sdec
-plt.plot(fcat['S250'][sgood][prior250.ID-1],10.00**fit['src_f_psw'][0],'o')
-plt.show()
 
 
 
-#posterior=xidplus.posterior_stan(fit,prior250.nsrc)
-#----------------------------------------------------------
 
-#outfile=output_folder+'Lacy_test_file.pkl'
-#with open(outfile, 'wb') as f:
-#    pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)
+
+
+posterior=xidplus.posterior_stan(fit,prior250.nsrc)
+
+outfile=output_folder+'Lacy_test_file_'+str(tiles[taskid-1])+'_'+str(order)+'.pkl'
+with open(outfile, 'wb') as f:
+   pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)
 

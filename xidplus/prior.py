@@ -185,6 +185,10 @@ class prior(object):
             if ind.sum() >0:
                 self.prior_flux_upper[i]=np.log10(np.max(self.sim[self.amat_row[ind]])-(self.bkg[0]-2*self.bkg[1]))
 
+    def lower_lim_flux(self,prior_flux_lower):
+        """Set flux lower limit (in log10)"""
+        self.prior_flux_lower=np.full((self.nsrc),prior_flux_lower)
+
     def get_pointing_matrix_map(self, bkg=True):
         """get the pointing matrix. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute"""
         from scipy import interpolate

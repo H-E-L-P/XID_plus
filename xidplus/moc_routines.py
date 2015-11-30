@@ -31,19 +31,20 @@ def get_fitting_region(order,pixel):
     """
     #define old and new order
     old_nside=2**order
-    new_nside=2**(order+1)
+    new_nside=2**(order+2)
 
     #get co-ord of main pixel
     theta,phi=pixelfunc.pix2ang(old_nside, pixel, nest=True)
     #define offsets such that main pixel is split into four sub pixels
     scale=pixelfunc.max_pixrad(old_nside)
-    offset_theta=np.array([-0.25,0.0,0.25,0.0])*scale
-    offset_phi=np.array([0.0,-0.25,0.0,0.25])*scale
+    offset_theta=np.array([-0.125,0.0,0.125,0.0])*scale
+    offset_phi=np.array([0.0,-0.125,0.0,0.125])*scale
     #convert co-ords to pixels at higher order
     pix_fit=pixelfunc.ang2pix(new_nside, theta+offset_theta, phi+offset_phi, nest=True)
     #get neighbouring pixels and remove duplicates
     moc_tile=MOC()
-    moc_tile.add_pix_list(order+1,np.unique(pixelfunc.get_all_neighbours(new_nside, pix_fit,nest=True)), nest=True)
+    pixels=np.unique(pixelfunc.get_all_neighbours(new_nside, pix_fit,nest=True))
+    moc_tile.add_pix_list(order+2,np.unique(pixelfunc.get_all_neighbours(new_nside, pixels,nest=True)), nest=True)
     return moc_tile
 
 

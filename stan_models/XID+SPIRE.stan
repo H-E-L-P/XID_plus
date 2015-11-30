@@ -11,6 +11,7 @@ data {
   vector[nnz_psw] Val_psw;//non neg values in image matrix
   int Row_psw[nnz_psw];//Rows of non neg valies in image matrix
   int Col_psw[nnz_psw];//Cols of non neg values in image matrix
+  vector[nsrc] f_low_lim_psw;//upper limit of flux (in log10)
   vector[nsrc] f_up_lim_psw;//upper limit of flux (in log10)
   //----PMW----
   int<lower=0> npix_pmw;//number of pixels
@@ -22,6 +23,7 @@ data {
   vector[nnz_pmw] Val_pmw;//non neg values in image matrix
   int Row_pmw[nnz_pmw];//Rows of non neg valies in image matrix
   int Col_pmw[nnz_pmw];//Cols of non neg values in image matrix
+  vector[nsrc] f_low_lim_pmw;//upper limit of flux (in log10)
   vector[nsrc] f_up_lim_pmw;//upper limit of flux (in log10)
   //----PLW----
   int<lower=0> npix_plw;//number of pixels
@@ -33,6 +35,7 @@ data {
   vector[nnz_plw] Val_plw;//non neg values in image matrix
   int Row_plw[nnz_plw];//Rows of non neg valies in image matrix
   int Col_plw[nnz_plw];//Cols of non neg values in image matrix
+  vector[nsrc] f_low_lim_plw;//upper limit of flux (in log10)
   vector[nsrc] f_up_lim_plw;//upper limit of flux (in log10)
 
 }
@@ -63,22 +66,6 @@ parameters {
   real<lower=1.0,upper=8> sigma_conf_plw;
 
 }
-transformed parameters {
-  vector[nsrc] f_vec_psw;//vector of source fluxes
-  vector[nsrc] f_vec_pmw;//vector of source fluxes
-  vector[nsrc] f_vec_plw;//vector of source fluxes
-  // Transform to normal space. As I am sampling variable then transforming I don't need a Jacobian adjustment
-  for (n in 1:nsrc) {
-    f_vec_psw[n] <- pow(10.0,-2.0+(f_up_lim_psw[n]+2.0)*src_f_psw[n]);
-    f_vec_pmw[n] <- pow(10.0,-2.0+(f_up_lim_pmw[n]+2.0)*src_f_pmw[n]);
-    f_vec_plw[n] <- pow(10.0,-2.0+(f_up_lim_plw[n]+2.0)*src_f_plw[n]);
-
-
-  }
-
-}
-
-
 
 model {
   vector[npix_psw] db_hat_psw;//model of map
@@ -90,7 +77,17 @@ model {
   vector[npix_pmw] sigma_tot_pmw;
   vector[npix_plw] sigma_tot_plw;
 
+  vector[nsrc] f_vec_psw;//vector of source fluxes
+  vector[nsrc] f_vec_pmw;//vector of source fluxes
+  vector[nsrc] f_vec_plw;//vector of source fluxes
+  // Transform to normal space. As I am sampling variable then transforming I don't need a Jacobian adjustment
+  for (n in 1:nsrc) {
+    f_vec_psw[n] <- pow(10.0,f_low_lim_psw[n]+(f_up_lim_psw[n]-f_low_lim_psw[n])*src_f_psw[n]);
+    f_vec_pmw[n] <- pow(10.0,f_low_lim_pmw[n]+(f_up_lim_pmw[n]-f_low_lim_pmw[n])*src_f_pmw[n]);
+    f_vec_plw[n] <- pow(10.0,f_low_lim_plw[n]+(f_up_lim_plw[n]-f_low_lim_plw[n])*src_f_plw[n]);
 
+
+  }
   //Prior on background 
   bkg_psw ~normal(bkg_prior_psw,bkg_prior_sig_psw);
   bkg_pmw ~normal(bkg_prior_pmw,bkg_prior_sig_pmw);
