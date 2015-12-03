@@ -136,7 +136,7 @@ prior500.set_prf(prf500.array,pind500,pind500)
 
 #from moc, get healpix pixels at a given order
 from xidplus import moc_routines
-order=11
+order=9
 tiles=moc_routines.get_HEALPix_pixels(order,prior250.sra,prior250.sdec,unique=True)
 
 try:
