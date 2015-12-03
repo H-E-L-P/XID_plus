@@ -190,7 +190,6 @@ fit=SPIRE.all_bands(prior250,prior350,prior500,iter=1500)
 
 
 
-
 posterior=xidplus.posterior_stan(fit,prior250.nsrc)
 
 outfile=output_folder+'Lacy_test_file_'+str(tiles[taskid-1])+'_'+str(order)+'.pkl'
