@@ -72,3 +72,10 @@ def check_in_moc(ra,dec,moc,keep_inside=True):
     for ipix in pix:
         kept_rows.append((ipix in pixels_best_res) == keep_inside)
     return kept_rows
+
+def sources_in_tile(pixel,order,ra,dec):
+    moc_pix=MOC()
+    moc_pix.add_pix_list(11,pixels, nest=True)
+    kept_sources=check_in_moc(ra.dec,moc_pix)
+    return kept_sources
+
