@@ -113,7 +113,7 @@ def make_master_posterior(output_folder,tile_file_name):
     with open(output_folder+'master_posterior.pkl', 'wb') as f:
         pickle.dump({'posterior':stan_fit_master},f)
 
-def make_master_posterior_HEALpix(output_folder,Master_filename,chains=4,iter=1500):
+def make_master_posterior_HEALpix(output_folder,Master_filename,chains=4,iters=750):
     """function to combine a tiled run of XID+, based on the HEALPix pixelisation scheme"""
     #load in master posterior,
     #load up each tile, return sources in healpix pixel only: need a routine for this as will need to redo this numerous times
@@ -127,11 +127,12 @@ def make_master_posterior_HEALpix(output_folder,Master_filename,chains=4,iter=15
     tiles=Master['tiles']
     order=Master['order']
     prior250=Master['psw']
-    stan_fit_master=np.empty((iter,chains,(nsources+2.0)*3))
+    stan_fit_master=np.empty((iters,chains,(prior250.nsrc+2.0)*3))
     for i in range(0,len(tiles)):
+        print 'On tile '+str(i)+' out of '+str(len(tiles))
+        infile=output_folder+'Lacy_test_file_'+str(tiles[i])+'_'+str(order)+'.pkl'
         with open(infile, "rb") as f:
             obj = pickle.load(f)
-        outfile=output_folder+'Lacy_test_file_'+str(tiles[i])+'_'+str(order)+'.pkl'
         tmp_prior250=obj['psw']
         tmp_prior350=obj['pmw']
         tmp_prior500=obj['plw']
@@ -140,14 +141,15 @@ def make_master_posterior_HEALpix(output_folder,Master_filename,chains=4,iter=15
         #work out what sources in tile to keep
         kept_sources=moc_routines.sources_in_tile(tiles[i],order,tmp_prior250.sra,tmp_prior250.sdec)
         #create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
-        ind_tmp=kept_sources+[True]+kept_sources+[True]+kept_sources+[True]+[True,True,True]
+        ind_tmp=np.array(kept_sources+[False]+kept_sources+[False]+kept_sources+[False]+[False,False,False])
 
         #work out what sources in master list to keep
         kept_sources=moc_routines.sources_in_tile(tiles[i],order,prior250.sra,prior250.sdec)
         #create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
-        ind_mast=kept_sources+[True]+kept_sources+[True]+kept_sources+[True]+[True,True,True]
-
-        stan_fit_master[:,:,ind_mast]=posterior.stan_fit[:,:,int_tmp]
+        ind_mast=np.array(kept_sources+[False]+kept_sources+[False]+kept_sources+[False]+[False,False,False])
+        print sum(ind_mast),len(ind_mast),sum(ind_tmp),len(ind_tmp),tmp_prior250.nsrc
+        print stan_fit_master[:,:,ind_mast].shape,tmp_posterior.stan_fit[:,:,ind_tmp].shape
+        stan_fit_master[:,:,ind_mast]=tmp_posterior.stan_fit[:,:,ind_tmp]
 
     with open(output_folder+'master_posterior.pkl', 'wb') as f:
         pickle.dump({'posterior':stan_fit_master},f)

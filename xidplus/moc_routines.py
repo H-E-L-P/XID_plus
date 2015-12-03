@@ -75,7 +75,7 @@ def check_in_moc(ra,dec,moc,keep_inside=True):
 
 def sources_in_tile(pixel,order,ra,dec):
     moc_pix=MOC()
-    moc_pix.add_pix_list(11,pixels, nest=True)
-    kept_sources=check_in_moc(ra.dec,moc_pix)
+    moc_pix.add_pix(order,pixel, nest=True)
+    kept_sources=check_in_moc(ra,dec,moc_pix,keep_inside=True)
     return kept_sources
 
