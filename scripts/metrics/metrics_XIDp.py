@@ -5,7 +5,7 @@ matplotlib.use('PDF')
 import pylab as plt
 from matplotlib.backends.backend_pdf import PdfPages
 import sys
-from xidplus import XIDp_mod_beta
+import xidplus
 import pickle
 import scipy.stats as stats
 from scipy.stats import norm
@@ -44,20 +44,25 @@ idx_xidpT=fcat_sim['S100'] >0.050#cut so that only sources with a 100micron flux
 #---Read in XID+ posterior---
 
 #folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux/'
-folder='/Users/pdh21/HELP/XID_plus_output/100micron/old/'
+folder='/Users/pdh21/HELP/XID_plus_output/100micron/conf_noise/'
 #'/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior_test/old/'
-infile=folder+'Tiled_master_Lacey_notlog_flux.pkl'
+infile=folder+'Master_prior.pkl'
 with open(infile, "rb") as f:
     obj = pickle.load(f)
 prior250=obj['psw']
 prior350=obj['pmw']    
 prior500=obj['plw']
 
+folder='/Users/pdh21/HELP/XID_plus_output/100micron/conf_noise/'
+infile=folder+'master_posterior.pkl'
+
+with open(infile, "rb") as f:
+    obj = pickle.load(f)
 posterior=obj['posterior']
 
-samples,chains,params=posterior.stan_fit.shape
+samples,chains,params=posterior.shape
 
-flattened_post=posterior.stan_fit.reshape(samples*chains,params)
+flattened_post=posterior.reshape(samples*chains,params)
 nsources_xidp=idx_xidp.size
 ind_3mjy_psw=np.median(flattened_post[:,0:prior250.nsrc],axis=0) >1   
 ind_3mjy_pmw=np.median(flattened_post[:,prior250.nsrc+1:(2*prior250.nsrc)+1],axis=0) >1

@@ -50,8 +50,11 @@ def metrics_plot(metric,truth,bins,labels,ylim,yscale='linear',cmap=None):
         ax.set_yscale('log')
         tmp = ax.hexbin(truth[ind_good_hex], metric[ind_good_hex], gridsize=40, cmap=cmap,xscale = 'log',yscale='log')#,extent=(np.min(truth),np.max(truth),np.min(mean[0])-2*np.max(std_dev[0]),np.max(mean[0])+2*np.max(std_dev[0])))
     else:
-        tmp = ax.hexbin(truth[ind_good_hex], metric[ind_good_hex], gridsize=40, cmap=cmap,xscale = 'log')#,extent=(np.min(truth),np.max(truth),np.min(mean[0])-2*np.max(std_dev[0]),np.max(mean[0])+2*np.max(std_dev[0])))
-        ax.axhline(linewidth=4, color='k',alpha=0.5)
+        try:
+            tmp = ax.hexbin(truth[ind_good_hex], metric[ind_good_hex], gridsize=40, cmap=cmap,xscale = 'log')#,extent=(np.min(truth),np.max(truth),np.min(mean[0])-2*np.max(std_dev[0]),np.max(mean[0])+2*np.max(std_dev[0])))
+            ax.axhline(linewidth=4, color='k',alpha=0.5)
+        except ValueError:  #raised if `y` is empty.
+            pass
     ax.set_ylim(ylim)
     clrbar=fig.colorbar(tmp, ax=ax)
     clrbar.set_label(r'$N_{Gal.}$')
