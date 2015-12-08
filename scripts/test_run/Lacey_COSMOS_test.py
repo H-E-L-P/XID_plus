@@ -176,11 +176,11 @@ prior500.get_pointing_matrix()
 
 print 'set prior upper limit'
 prior250.upper_lim_map()
-prior250.lower_lim_flux(-2.0)
+prior250.lower_lim_flux(0.01)
 prior350.upper_lim_map()
-prior350.lower_lim_flux(-2.0)
+prior350.lower_lim_flux(0.01)
 prior500.upper_lim_map()
-prior500.lower_lim_flux(-2.0)
+prior500.lower_lim_flux(0.01)
 
 
 from xidplus.stan_fit import SPIRE

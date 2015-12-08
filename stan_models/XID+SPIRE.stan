@@ -11,8 +11,8 @@ data {
   vector[nnz_psw] Val_psw;//non neg values in image matrix
   int Row_psw[nnz_psw];//Rows of non neg valies in image matrix
   int Col_psw[nnz_psw];//Cols of non neg values in image matrix
-  vector[nsrc] f_low_lim_psw;//upper limit of flux (in log10)
-  vector[nsrc] f_up_lim_psw;//upper limit of flux (in log10)
+  vector[nsrc] f_low_lim_psw;//upper limit of flux 
+  vector[nsrc] f_up_lim_psw;//upper limit of flux 
   //----PMW----
   int<lower=0> npix_pmw;//number of pixels
   int<lower=0> nnz_pmw; //number of non neg entries in A
@@ -35,8 +35,8 @@ data {
   vector[nnz_plw] Val_plw;//non neg values in image matrix
   int Row_plw[nnz_plw];//Rows of non neg valies in image matrix
   int Col_plw[nnz_plw];//Cols of non neg values in image matrix
-  vector[nsrc] f_low_lim_plw;//upper limit of flux (in log10)
-  vector[nsrc] f_up_lim_plw;//upper limit of flux (in log10)
+  vector[nsrc] f_low_lim_plw;//upper limit of flux 
+  vector[nsrc] f_up_lim_plw;//upper limit of flux 
 
 }
 //transformed data {
@@ -82,9 +82,9 @@ model {
   vector[nsrc] f_vec_plw;//vector of source fluxes
   // Transform to normal space. As I am sampling variable then transforming I don't need a Jacobian adjustment
   for (n in 1:nsrc) {
-    f_vec_psw[n] <- pow(10.0,f_low_lim_psw[n]+(f_up_lim_psw[n]-f_low_lim_psw[n])*src_f_psw[n]);
-    f_vec_pmw[n] <- pow(10.0,f_low_lim_pmw[n]+(f_up_lim_pmw[n]-f_low_lim_pmw[n])*src_f_pmw[n]);
-    f_vec_plw[n] <- pow(10.0,f_low_lim_plw[n]+(f_up_lim_plw[n]-f_low_lim_plw[n])*src_f_plw[n]);
+    f_vec_psw[n] <- f_low_lim_psw[n]+(f_up_lim_psw[n]-f_low_lim_psw[n])*src_f_psw[n];
+    f_vec_pmw[n] <- f_low_lim_pmw[n]+(f_up_lim_pmw[n]-f_low_lim_pmw[n])*src_f_pmw[n];
+    f_vec_plw[n] <- f_low_lim_plw[n]+(f_up_lim_plw[n]-f_low_lim_plw[n])*src_f_plw[n];
 
 
   }
