@@ -61,9 +61,9 @@ parameters {
   real bkg_pmw;//background
   vector<lower=0.0,upper=1.0>[nsrc] src_f_plw;//source vector
   real bkg_plw;//background
-  real<lower=1.0,upper=8> sigma_conf_psw;
-  real<lower=1.0,upper=8> sigma_conf_pmw;
-  real<lower=1.0,upper=8> sigma_conf_plw;
+  real<lower=0.0,upper=8> sigma_conf_psw;
+  real<lower=0.0,upper=8> sigma_conf_pmw;
+  real<lower=0.0,upper=8> sigma_conf_plw;
 
 }
 

@@ -56,20 +56,18 @@ def all_bands(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000,optimise=False):
             # using the same model as before
             print("%s found. Reusing" % model_file)
             sm = pickle.load(f)
-            if optimise is True:
-                fit=sm.optimizing(data=XID_data,verbose=True)
-            else:
-                fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True)
+
+            
+       fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True)
     except IOError as e:
         print("%s not found. Compiling" % model_file)
         sm = pystan.StanModel(file=stan_path+'XID+SPIRE.stan')
         # save it to the file 'model.pkl' for later use
         with open(model_file, 'wb') as f:
             pickle.dump(sm, f)
-            if optimise is True:
-                fit=sm.optimizing(data=XID_data)
-            else:
-                fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True)
+           
+            
+        fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True)
     #return fit data
     return fit
 
