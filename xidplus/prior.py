@@ -51,6 +51,8 @@ class prior(object):
         self.sdec=self.sdec[sgood]
         self.nsrc=sum(sgood)
         self.ID=self.ID[sgood]
+        self.z_mean=self.z_mean[sgood]
+        self.z_std=self.z_std[sgood]
 
 
 
@@ -58,7 +60,7 @@ class prior(object):
         """Add background prior ($\mu$) and uncertianty ($\sigma$). Assumes normal distribution"""
         self.bkg=(mu,sigma)
 
-    def prior_cat(self,ra,dec,prior_cat_file,ID=None,moc=None):
+    def prior_cat(self,ra,dec,z_mean,z_std,prior_cat_file,ID=None,moc=None):
         """Input info for prior catalogue. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
         and converts RA and DEC to pixel positions"""
         #get positions of sources in terms of pixels
@@ -80,7 +82,8 @@ class prior(object):
         if ID is None:
             ID=np.arange(1,ra.size+1,dtype='int64')
         self.ID=ID
-
+        self.z_mean=z_mean
+        self.z_std=z_std
 
         self.moc=cat_moc
         self.cut_down_prior()

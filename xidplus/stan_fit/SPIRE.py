@@ -171,3 +171,71 @@ def flux_prior_all_bands(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
         fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
     #return fit data
     return fit
+
+
+def all_bands_kcorr(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000,optimise=False):
+    """Fit all three SPIRE maps using stan"""
+
+
+    #input data into a dictionary
+
+    XID_data={'nsrc':SPIRE_250.nsrc,
+          'npix_psw':SPIRE_250.snpix,
+          'nnz_psw':SPIRE_250.amat_data.size,
+          'db_psw':SPIRE_250.sim,
+          'sigma_psw':SPIRE_250.snim,
+          'bkg_prior_psw':SPIRE_250.bkg[0],
+          'bkg_prior_sig_psw':SPIRE_250.bkg[1],
+          'Val_psw':SPIRE_250.amat_data,
+          'Row_psw': SPIRE_250.amat_row.astype(long),
+          'Col_psw': SPIRE_250.amat_col.astype(long),
+          'f_low_lim_psw': SPIRE_250.prior_flux_lower,
+          'f_up_lim_psw': SPIRE_250.prior_flux_upper,
+          'npix_pmw':SPIRE_350.snpix,
+          'nnz_pmw':SPIRE_350.amat_data.size,
+          'db_pmw':SPIRE_350.sim,
+          'sigma_pmw':SPIRE_350.snim,
+          'bkg_prior_pmw':SPIRE_350.bkg[0],
+          'bkg_prior_sig_pmw':SPIRE_350.bkg[1],
+          'Val_pmw':SPIRE_350.amat_data,
+          'Row_pmw': SPIRE_350.amat_row.astype(long),
+          'Col_pmw': SPIRE_350.amat_col.astype(long),
+          'f_low_lim_pmw': SPIRE_350.prior_flux_lower,
+          'f_up_lim_pmw': SPIRE_350.prior_flux_upper,
+          'npix_plw':SPIRE_500.snpix,
+          'nnz_plw':SPIRE_500.amat_data.size,
+          'db_plw':SPIRE_500.sim,
+          'sigma_plw':SPIRE_500.snim,
+          'bkg_prior_plw':SPIRE_500.bkg[0],
+          'bkg_prior_sig_plw':SPIRE_500.bkg[1],
+          'Val_plw':SPIRE_500.amat_data,
+          'Row_plw': SPIRE_500.amat_row.astype(long),
+          'Col_plw': SPIRE_500.amat_col.astype(long),
+          'f_low_lim_plw': SPIRE_500.prior_flux_lower,
+          'f_up_lim_plw': SPIRE_500.prior_flux_upper,
+          'z_mean': SPIRE250.z_mean,
+          'z_std': SPIRE250.z_std}
+
+    #see if model has already been compiled. If not, compile and save it
+    model_file=output_dir+"/XID+SPIRE_kcorr.pkl"
+    try:
+       with open(model_file,'rb') as f:
+            # using the same model as before
+            print("%s found. Reusing" % model_file)
+            sm = pickle.load(f)
+            if optimise is True:
+                fit=sm.optimizing(data=XID_data,verbose=True)
+            else:
+                fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True)
+    except IOError as e:
+        print("%s not found. Compiling" % model_file)
+        sm = pystan.StanModel(file=stan_path+'XID+SPIRE_kcorr.stan')
+        # save it to the file 'model.pkl' for later use
+        with open(model_file, 'wb') as f:
+            pickle.dump(sm, f)
+            if optimise is True:
+                fit=sm.optimizing(data=XID_data)
+            else:
+                fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True)
+    #return fit data
+    return fit
