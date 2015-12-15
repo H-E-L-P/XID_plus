@@ -4,6 +4,7 @@ output_dir=os.getcwd()
 import pystan
 import pickle
 import inspect
+import numpy as np
 full_path = os.path.realpath(__file__)
 path, file = os.path.split(full_path)
 
@@ -213,8 +214,17 @@ def all_bands_kcorr(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000,optimise=Fa
           'Col_plw': SPIRE_500.amat_col.astype(long),
           'f_low_lim_plw': SPIRE_500.prior_flux_lower,
           'f_up_lim_plw': SPIRE_500.prior_flux_upper,
-          'z_mean': SPIRE250.z_mean,
-          'z_std': SPIRE250.z_std}
+          'z_mean': SPIRE_250.z_mean,
+          'z_sig': SPIRE_250.z_std,
+          'ncol': 15,
+          'z_kcorr':np.arange(0,1.5,0.1)
+          'col_psw_pmw_pred':,
+          'col_psw_plw_pred':,
+          'col_pmw_plw_pred':,
+          'eta_sq':,
+          'inv_rho_sq': ,
+          'sigma_sq':
+    }
 
     #see if model has already been compiled. If not, compile and save it
     model_file=output_dir+"/XID+SPIRE_kcorr.pkl"

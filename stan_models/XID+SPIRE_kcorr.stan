@@ -37,8 +37,17 @@ data {
   int Col_plw[nnz_plw];//Cols of non neg values in image matrix
   vector[nsrc] f_low_lim_plw;//upper limit of flux (in log10)
   vector[nsrc] f_up_lim_plw;//upper limit of flux (in log10)
+  //---colour---
   vector[nsrc] z_mean;// mean for redshift prior
   vector[nsrc] z_sig;//std_dev for redshift prior
+  int<lower=0> ncol;//number of points for kcorr prior curves
+  vector<lower=0>[ncol] z_kcorr;//redshift for kcorr curve prior
+  vector<lower=0.0>[ncol] col_psw_pmw_pred;//prior colour
+  vector<lower=0.0>[ncol] col_psw_plw_pred;//prior colour
+  vector<lower=0.0>[ncol] col_pmw_plw_pred;//prior colour
+  real<lower=0.1> eta_sq;// how much function is allowed to vary from mean                 
+  real<lower=1> inv_rho_sq;// correlation length
+  real<lower=0.1,upper=1> sigma_sq;// noise i.e. how much variance in SED??
 
 }
 //transformed data {
@@ -57,9 +66,10 @@ data {
 // }
 
 transformed data {
-  vector[N] mu;
-
-  mu <- rep_vector(0, N);                        # mean function
+  vector[nsrc+ncol] mu;
+  real<lower=0> rho_sq;
+  rho_sq <- inv(inv_rho_sq);
+  mu <- rep_vector(1, nsrc+ncol);                        # mean function
 }
 
 parameters {
@@ -72,16 +82,8 @@ parameters {
   real<lower=0.0,upper=8> sigma_conf_psw;
   real<lower=0.0,upper=8> sigma_conf_pmw;
   real<lower=0.0,upper=8> sigma_conf_plw;
-  vector<lower=0.0,upper=7> z;
-  real<lower=0> eta_sq;// how much function is allowed to vary from mean                       
-  real<lower=0.1> inv_rho_sq;// correlation length
-  real<lower=0.1> sigma_sq;// noise i.e. how much variance in SED??
+  vector<lower=0.0,upper=7>[nsrc] z;
 
-}
-
-transformed parameters {
-  real<lower=0> rho_sq;
-  rho_sq <- inv(inv_rho_sq);
 }
 
 model {
@@ -97,25 +99,38 @@ model {
   vector[nsrc] f_vec_psw;//vector of source fluxes
   vector[nsrc] f_vec_pmw;//vector of source fluxes
   vector[nsrc] f_vec_plw;//vector of source fluxes
+  vector[nsrc+ncol] col_psw_pmw;
+  vector[nsrc+ncol] col_pmw_plw;
+  vector[nsrc+ncol] col_psw_plw;
+  vector[nsrc+ncol] z_all;
 
-  matrix[N,N] Sigma;
+  matrix[nsrc+ncol,nsrc+ncol] Sigma;
+  matrix[nsrc+ncol,nsrc+ncol] L;
 
+  //prior on redshift
+  z~normal(z_mean,z_sig);
 
   // Transform to normal space. As I am sampling variable then transforming I don't need a Jacobian adjustment
   for (n in 1:nsrc) {
-    f_vec_psw[n] <- pow(10.0,f_low_lim_psw[n]+(f_up_lim_psw[n]-f_low_lim_psw[n])*src_f_psw[n]);
-    f_vec_pmw[n] <- pow(10.0,f_low_lim_pmw[n]+(f_up_lim_pmw[n]-f_low_lim_pmw[n])*src_f_pmw[n]);
-    f_vec_plw[n] <- pow(10.0,f_low_lim_plw[n]+(f_up_lim_plw[n]-f_low_lim_plw[n])*src_f_plw[n]);
-
-
+    f_vec_psw[n] <- f_low_lim_psw[n]+(f_up_lim_psw[n]-f_low_lim_psw[n])*src_f_psw[n];
+    f_vec_pmw[n] <- f_low_lim_pmw[n]+(f_up_lim_pmw[n]-f_low_lim_pmw[n])*src_f_pmw[n];
+    f_vec_plw[n] <- f_low_lim_plw[n]+(f_up_lim_plw[n]-f_low_lim_plw[n])*src_f_plw[n];
+    col_psw_pmw[n] <- f_vec_psw[n]/f_vec_pmw[n];
+    col_psw_plw[n] <- f_vec_psw[n]/f_vec_plw[n];
+    col_pmw_plw[n] <- f_vec_pmw[n]/f_vec_plw[n];
+    z_all[n] <- z[n];
+  }
+  for (n in 1:ncol) {
+    col_psw_pmw[n+nsrc] <- col_psw_pmw_pred[n];
+    col_psw_plw[n+nsrc] <- col_psw_plw_pred[n];
+    col_pmw_plw[n+nsrc] <- col_pmw_plw_pred[n];
+    z_all[n+nsrc] <- z_kcorr[n];
   }
   //Prior on background 
   bkg_psw ~normal(bkg_prior_psw,bkg_prior_sig_psw);
   bkg_pmw ~normal(bkg_prior_pmw,bkg_prior_sig_pmw);
   bkg_plw ~normal(bkg_prior_plw,bkg_prior_sig_plw);
 
-  //prior on redshift
-  z~normal(z_mean,z_sig)
  
    
   // Create model maps (i.e. db_hat = A*f) using sparse multiplication
@@ -146,26 +161,23 @@ model {
 
 
 # off-diagonal elements for covariance matrix
-  for (i in 1:(N-1)) {
-    for (j in (i+1):N) {
-      Sigma[i,j] <- eta_sq * exp(-rho_sq * pow(z[i] - z[j],2));
+  for (i in 1:(nsrc+ncol-1)) {
+    for (j in (i+1):nsrc+ncol) {
+      Sigma[i,j] <- eta_sq * exp(-rho_sq * pow(z_all[i] - z_all[j],2));
       Sigma[j,i] <- Sigma[i,j];
     }
   }
 
   # diagonal elements
-  for (k in 1:N)
+  for (k in 1:nsrc+ncol)
     Sigma[k,k] <- eta_sq + sigma_sq;             # + jitter for pos def
 
-  # priors
-  eta_sq ~ cauchy(0,5);
-  inv_rho_sq ~ cauchy(0,5);
-  sigma_sq ~ cauchy(0,5);
+  L <- cholesky_decompose(Sigma);
 
   # sampling distribution
-  f_vec_psw/f_vec_pmw  ~ multi_normal(mu,Sigma);
-  f_vec_psw/f_vec_plw  ~ multi_normal(mu,Sigma);
-  f_vec_pmw/f_vec_plw  ~ multi_normal(mu,Sigma);
+  col_psw_pmw  ~ multi_normal_cholesky(mu,L);
+  col_psw_plw  ~ multi_normal_cholesky(mu,L);
+  col_pmw_plw  ~ multi_normal_cholesky(mu,L);
   
   // likelihood of observed map|model map
   db_psw ~ normal(db_hat_psw,sigma_tot_psw);
@@ -173,11 +185,4 @@ model {
   db_plw ~ normal(db_hat_plw,sigma_tot_plw);
 
 
-  // As actual maps are mean subtracted, requires a Jacobian adjustment
-  //db_psw <- db_obs_psw - mean(db_obs_psw)
-  //increment_log_prob(log((size(db_obs_psw)-1)/size(db_obs_psw)))
-  //db_pmw <- db_obs_pmw - mean(db_obs_pmw)
-  //increment_log_prob(log((size(db_obs_pmw)-1)/size(db_obs_pmw)))
-  //db_plw <- db_obs_plw - mean(db_obs_plw)
-  //increment_log_prob(log((size(db_obs_plw)-1)/size(db_obs_plw)))
     }

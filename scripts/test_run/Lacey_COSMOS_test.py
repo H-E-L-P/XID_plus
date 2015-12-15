@@ -38,8 +38,6 @@ hdulist.close()
 inra=fcat['RA']
 indec=fcat['DEC']
 f_src=fcat['S100']#100 micron flux
-z_mean=np.random.normal(loc=fcat['Z_OBS'],scale=0.1)
-z_mean[z_mean<0]=0.0
 df_src=f_src
 nrealcat=fcat.size
 bkg250=-5
@@ -89,7 +87,8 @@ sgood=f_src >0.050
 inra=inra[sgood]
 indec=indec[sgood]
 n_src=sgood.sum()
-
+z_mean=np.random.normal(loc=fcat['Z_OBS'][sgood],scale=0.1)
+z_mean[z_mean<0]=0.0
 
 
 # Point response information, at the moment its 2D Gaussian,
@@ -105,16 +104,16 @@ from astropy.convolution import Gaussian2DKernel
 #Set prior classes
 #---prior250--------
 prior250=xidplus.prior(im250,nim250,im250phdu,im250hdu)#Initialise with map, uncertianty map, wcs info and primary header
-prior250.prior_cat(inra,indec,z_mean,0.1,prior_cat)#Set input catalogue
+prior250.prior_cat(inra,indec,z_mean,np.full(z_mean.size,0.1),prior_cat)#Set input catalogue
 prior250.prior_bkg(bkg250,5)#Set prior on background
 #---prior350--------
 prior350=xidplus.prior(im350,nim350,im350phdu,im350hdu)
-prior350.prior_cat(inra,indec,,z_mean,0.1,prior_cat)
+prior350.prior_cat(inra,indec,z_mean,np.full(z_mean.size,0.1),prior_cat)
 prior350.prior_bkg(bkg350,5)
 
 #---prior500--------
 prior500=xidplus.prior(im500,nim500,im500phdu,im500hdu)
-prior500.prior_cat(inra,indec,z_mean,0.1,prior_cat)
+prior500.prior_cat(inra,indec,z_mean,np.full(z_mean.size,0.1),prior_cat)
 prior500.prior_bkg(bkg500,5)
 
 print 'fitting '+ str(prior250.nsrc)+' sources \n'
@@ -138,7 +137,7 @@ prior500.set_prf(prf500.array,pind500,pind500)
 
 #from moc, get healpix pixels at a given order
 from xidplus import moc_routines
-order=12
+order=11
 tiles=moc_routines.get_HEALPix_pixels(order,prior250.sra,prior250.sdec,unique=True)
 
 try:
@@ -178,11 +177,11 @@ prior500.get_pointing_matrix()
 
 print 'set prior upper limit'
 prior250.upper_lim_map()
-prior250.lower_lim_flux(-2.0)
+prior250.lower_lim_flux(0.01)
 prior350.upper_lim_map()
-prior350.lower_lim_flux(-2.0)
+prior350.lower_lim_flux(0.01)
 prior500.upper_lim_map()
-prior500.lower_lim_flux(-2.0)
+prior500.lower_lim_flux(0.01)
 
 
 from xidplus.stan_fit import SPIRE
