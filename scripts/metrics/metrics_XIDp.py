@@ -14,7 +14,7 @@ from scipy.stats import norm
 
 
 
-pdf_pages=PdfPages("error_density_flux_test_uninform.pdf")
+pdf_pages=PdfPages("error_density_flux_test_uninform_uniform.pdf")
 
 from metrics_module import *
 
@@ -44,7 +44,7 @@ idx_xidpT=fcat_sim['S100'] >0.050#cut so that only sources with a 100micron flux
 #---Read in XID+ posterior---
 
 #folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux/'
-folder='/Users/pdh21/HELP/XID_plus_output/100micron/conf_noise/'
+folder='/Users/pdh21/HELP/XID_plus_output/100micron/conf_noise/uniform_prior/'
 #'/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior_test/old/'
 infile=folder+'Master_prior.pkl'
 with open(infile, "rb") as f:
@@ -53,7 +53,7 @@ prior250=obj['psw']
 prior350=obj['pmw']    
 prior500=obj['plw']
 
-folder='/Users/pdh21/HELP/XID_plus_output/100micron/conf_noise/'
+folder='/Users/pdh21/HELP/XID_plus_output/100micron/conf_noise/uniform_prior/'
 infile=folder+'master_posterior.pkl'
 
 with open(infile, "rb") as f:
