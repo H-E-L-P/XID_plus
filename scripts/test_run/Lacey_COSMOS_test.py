@@ -25,7 +25,7 @@ plwfits=imfolder+'cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PL
 
 
 #----output folder-----------------
-output_folder='./'
+output_folder='./SPM/'
 
 #Folder containing prior input catalogue
 folder='../../test_files/'
@@ -185,7 +185,12 @@ prior500.lower_lim_flux(0.01)
 
 
 from xidplus.stan_fit import SPIRE
-fit=SPIRE.all_bands_kcorr(prior250,prior350,prior500,iter=1500)
+
+
+with open('./arp220_m82_GP_prior.pkl','rb') as f:
+    # using the same model as before
+    SPM = pickle.load(f)
+fit=SPIRE.all_bands_kcorr(prior250,prior350,prior500,SPM,iter=1500)
 
 
 

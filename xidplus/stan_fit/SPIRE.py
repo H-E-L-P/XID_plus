@@ -174,7 +174,7 @@ def flux_prior_all_bands(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
     return fit
 
 
-def all_bands_kcorr(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000,optimise=False):
+def all_bands_kcorr(SPIRE_250,SPIRE_350,SPIRE_500,SPM,chains=4,iter=1000,optimise=False):
     """Fit all three SPIRE maps using stan"""
 
 
@@ -216,14 +216,14 @@ def all_bands_kcorr(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000,optimise=Fa
           'f_up_lim_plw': SPIRE_500.prior_flux_upper,
           'z_mean': SPIRE_250.z_mean,
           'z_sig': SPIRE_250.z_std,
-          'ncol': 15,
-          'z_kcorr':np.arange(0,1.5,0.1)
-          'col_psw_pmw_pred':,
-          'col_psw_plw_pred':,
-          'col_pmw_plw_pred':,
-          'eta_sq':,
-          'inv_rho_sq': ,
-          'sigma_sq':
+          'ncol': SPM['zpred'].size,
+          'z_kcorr':SPM['zpred'],
+          'col_pmw_psw_pred':SPM['S350_S250_pred'],
+          'col_plw_psw_pred':SPM['S500_S250_pred'],
+          'col_plw_pmw_pred':SPM['S500_S350_pred'],
+          'eta_sq':1.0,
+          'inv_rho_sq':4,
+          'sigma_sq':0.1
     }
 
     #see if model has already been compiled. If not, compile and save it
