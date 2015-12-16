@@ -130,7 +130,7 @@ def make_master_posterior_HEALpix(output_folder,Master_filename,chains=4,iters=7
     stan_fit_master=np.empty((iters,chains,(prior250.nsrc+2.0)*3))
     for i in range(0,len(tiles)):
         print 'On tile '+str(i)+' out of '+str(len(tiles))
-        infile=output_folder+'Tile_'+str(tiles[i])+'_'+str(order)+'.pkl'
+        infile=output_folder+'Lacy_test_file_'+str(tiles[i])+'_'+str(order)+'.pkl'
         with open(infile, "rb") as f:
             obj = pickle.load(f)
         tmp_prior250=obj['psw']
@@ -152,7 +152,7 @@ def make_master_posterior_HEALpix(output_folder,Master_filename,chains=4,iters=7
         ind_mast=np.array(kept_sources+[False]+kept_sources+[False]+kept_sources+[False]+[False,False,False])
 
         print sum(ind_mast),len(ind_mast),sum(ind_tmp),len(ind_tmp),tmp_prior250.nsrc,lower.size,upper.size
-        stan_fit_master[:,:,ind_mast]=np.power(10.0,lower+(upper-lower)*tmp_posterior.stan_fit[:,:,ind_tmp])
+        stan_fit_master[:,:,ind_mast]=lower+(upper-lower)*tmp_posterior.stan_fit[:,:,ind_tmp]
     with open(output_folder+'master_posterior.pkl', 'wb') as f:
         pickle.dump({'posterior':stan_fit_master},f)
 
