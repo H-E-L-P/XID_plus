@@ -47,10 +47,15 @@
 
 \usepackage{hyperref}
 \title[HELP:XID+]
-  {HELP: XID+, The Probabilistic De-blender for \emph{Herschel} SPIRE maps}\author[P.D. Hurley et al.]{P.D.~Hurley,$^1$\thanks{Email: p.d.hurley@sussex.ac.uk} S.~Oliver,$^1$ J.M.~Scudder,$^1$ M.~Griffin,$^2$ S.~Duivenvoorden,$^1$ M.~Sargent,$^1$ \newauthor L.~Wang$^3$\\
+  {HELP: XID+, The Probabilistic De-blender for \emph{Herschel} SPIRE maps}\author[P.D. Hurley et al.]{P.D.~Hurley,$^1$\thanks{Email: p.d.hurley@sussex.ac.uk} S.~Oliver,$^1$ J.M.~Scudder,$^1$ M.~Betancourt,$^2$ S.~Duivenvoorden,$^1$ \newauthor 
+ D.~Farrah,$^3$ M.~Griffin,$^4$ E.~Le Floc'h,$^5$ M.~Sargent,$^1$ I.~Valtchanov,$^6$ L.~Wang$^7$\\
 $^1$Astronomy Centre, Department of Physics and Astronomy, University of Sussex, Falmer, Brighton BN1 9QH, UK\\
-$^2$Cardiff School of Physics and Astronomy, Cardiff University, Queens Buildings, The Parade, Cardiff CF24 3AA\\
-$^3$SRON Netherlands Institute for Space Research, Landleven 12, 9747 AD, Groningen, The Netherlands}
+$^2$Department of Statistics, University of Warwick, Coventry, CV4 7AL, UK\\
+$^3$Virginia Polytechnic Institute \& State University, Department of Physics, MC 0435, 910 Drillfield Drive, Blacksburg, VA 24061, USA\\
+$^4$Cardiff School of Physics and Astronomy, Cardiff University, Queens Buildings, The Parade, Cardiff CF24 3AA\\
+$^5$Service d'Astrophysique, CEA-Saclay, Orme des Merisiers, Bat.709, 91191 Gif-sur-Yvette, France\\
+$^6$ESA; Villafranca del Castillo, Madrid, Spain\\
+$^7$SRON Netherlands Institute for Space Research, Landleven 12, 9747 AD, Groningen, The Netherlands}
 \date{Released 2002 Xxxxx XX}
 
 \pagerange{\pageref{firstpage}--\pageref{lastpage}} \pubyear{2002}
@@ -80,9 +85,9 @@ galaxies: statistics -- infrared: galaxies
 %Infrared astronomy
 Ever since the discovery of the far-infrared background by the \emph{Cosmic Background Explorer} COBE; \citep{Puget:1996}, surveys have aimed to observe and detect the sources responsible. Most of those sources are galaxies, with the far-infrared emission coming from dust. 
 
-While ground-based observatories such as SCUBA \citep{SCUBA}, and more recently SCUBA-2 \citep{SCUBA2} and ALMA can make use of infrared atmospheric transmission windows to observe at the tail of the cosmic infrared background, only space-borne facilities can observe at the peak. The first infrared space telescope, the InfraRed Astronomical Satellite (IRAS; \cite{Neugebauer:1984}), observed the whole sky in four bands centred at 12, 25, 60 and 100 $\mu m$ and revealed new populations of galaxies which were optically faint but luminous in the infrared \citep{Soifer:1984}.
+While ground-based observatories such as SCUBA \citep{SCUBA}, and more recently SCUBA-2 \citep{SCUBA2} and ALMA can make use of infrared atmospheric transmission windows to observe at the tail of the cosmic infrared background (CIB), only space-borne facilities can observe at the peak ($\approx140\mathrm{\mu m}$). The first infrared space telescope, the InfraRed Astronomical Satellite (IRAS; \cite{Neugebauer:1984}), observed the whole sky in four bands centred at 12, 25, 60 and 100 $\mu m$ and revealed new populations of galaxies which were optically faint but luminous in the infrared \citep{Soifer:1984}.
 
-While the Infrared Space Observatory, ISO; \cite{Kessler:1996} and the Spitzer Space Telescope \citep{Werner:2004} have provided deep near and mid-infrared photometry over small fields, other smaller space-borne facilities such as AKARI \citep{Murakami:2007} and the Wide-field Infrared Survey Explorer, WISE; \cite{Wright:2010} have surveyed the entire sky at mid to far-infrared and near to mid infrared wavelengths respectively. The most recent advance in infrared astronomy has been made with the ESA \emph{Herschel} Space Observatory \citep{Pilbratt:2010}. Photometry from the Photoconductor Array Camera and Spectrometer \citep[PACS;][]{Poglitsch:2010} and Spectral and Photometric Imaging Receiver \citep[SPIRE;][]{Griffin:2010} have given us an unprecedented view of the far-infrared Universe by providing observations that measure across the peak of the far-infrared background and at greater sensitivity and resolution than has been achieved previously at these wavelengths.
+While the Infrared Space Observatory, ISO; \cite{Kessler:1996} and the Spitzer Space Telescope \citep{Werner:2004} have provided deep near and mid-infrared photometry over small fields, other smaller space-borne facilities such as AKARI \citep{Murakami:2007} and the Wide-field Infrared Survey Explorer, WISE; \cite{Wright:2010} have surveyed the entire sky at mid to far-infrared and near to mid infrared wavelengths respectively. The most recent advance in infrared astronomy has been made with the ESA \emph{Herschel} Space Observatory \citep{Pilbratt:2010}. Photometry from the Photoconductor Array Camera and Spectrometer \citep[PACS;][]{Poglitsch:2010} and Spectral and Photometric Imaging Receiver \citep[SPIRE;][]{Griffin:2010} have given us an unprecedented view of the far-infrared Universe by providing observations that measure across the peak of the far-infrared background and at greater sensitivity and resolution than has been achieved previously at these wavelengths, thereby definitively setting the origin of the CIB.
 
 With surveys such as the \emph{Herschel} Multi-Tiered Extragalactic Survey, HerMES; \cite{Oliver:2012} and the \emph{Herschel} ATLAS survey, H-ATLAS; \cite{Eales:2010}, over 1000 square degrees of the sky has been observed by the SPIRE instrument. However, due to the relatively large beam size of the SPIRE, and the galaxy density ($\approx 30$ per SPIRE beam for optical sources with B $<$ 28), multiple galaxies can be located within the SPIRE beam. This is referred to as the problem of source confusion, 
 

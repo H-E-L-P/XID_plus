@@ -59,3 +59,50 @@ def metrics_plot(metric,truth,bins,labels,ylim,yscale='linear',cmap=None):
     clrbar=fig.colorbar(tmp, ax=ax)
     clrbar.set_label(r'$N_{Gal.}$')
     return fig
+
+def metrics_plot_nodensity(metric,truth,metricDES,truthDES,bins,labels,ylim,yscale='linear',cmap=None):
+    def upper(x):
+        return np.percentile(x,[84.1])
+    def lower(x):
+        return np.percentile(x,[15.9])
+
+    fig,ax=plt.subplots(figsize=(8,7))
+    ind_good=np.isfinite(metric)
+    mean=stats.binned_statistic(truth[ind_good],metric[ind_good],statistic='median',bins=bins)
+    std_dev=stats.binned_statistic(truth[ind_good],metric[ind_good],statistic=np.std,bins=bins)
+    sig_plus=stats.binned_statistic(truth[ind_good],metric[ind_good],statistic=upper,bins=bins)
+    sig_neg=stats.binned_statistic(truth[ind_good],metric[ind_good],statistic=lower,bins=bins)
+
+    ind_goodDES=np.isfinite(metricDES)
+    meanDES=stats.binned_statistic(truthDES[ind_goodDES],metricDES[ind_goodDES],statistic='median',bins=bins)
+    std_dev=stats.binned_statistic(truthDES[ind_goodDES],metricDES[ind_goodDES],statistic=np.std,bins=bins)
+    sig_plusDES=stats.binned_statistic(truthDES[ind_goodDES],metricDES[ind_goodDES],statistic=upper,bins=bins)
+    sig_negDES=stats.binned_statistic(truthDES[ind_goodDES],metricDES[ind_goodDES],statistic=lower,bins=bins)
+
+    if cmap is None:
+        cmap=plt.get_cmap('Blues')
+
+    ax.plot(bins[0:-1],mean[0],'o',linestyle='-',color=cmap(0.9)[0:3])
+    #ax.plot(bins[0:-1],sig_plus[0],'o',linestyle='--',color=cmap(0.9)[0:3])
+    #ax.plot(bins[0:-1],sig_neg[0],'o',linestyle='--',color=cmap)
+    ax.fill_between(bins[0:-1],sig_plus[0],sig_neg[0],color=cmap(0.9)[0:3],alpha=0.5)
+    #ax.plot(bins[0:-1],mean[0]-std_dev[0],'r--')
+    #ax.plot(bins[0:-1],mean[0]+std_dev[0],'r--')
+    print 'am i ok here'
+    ax.plot(bins[0:-1],meanDES[0],'ko',linestyle='--')
+    ax.plot(bins[0:-1],sig_plusDES[0],'ko',linestyle='--')
+    ax.plot(bins[0:-1],sig_negDES[0],'ko',linestyle='--')
+    ax.set_xlabel(labels[0])
+    ax.set_xscale('log')
+    ax.set_ylabel(labels[1])
+    ax.set_xlim((3.0,np.max(bins)))
+    if yscale !='linear':
+        ax.set_yscale('log')
+    else:
+        try:
+            ax.axhline(linewidth=4, color='k',alpha=0.5)
+        except ValueError:  #raised if `y` is empty.
+            pass
+    ax.set_ylim(ylim)
+
+    return fig
