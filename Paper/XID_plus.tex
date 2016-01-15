@@ -209,35 +209,44 @@ The choice of HEALPix pixel size affects the computational time of \textsc{XID+}
 
 \begin{figure*}
 \centering 
-\subfloat[\textsc{XID+} $250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={4}]{metrics_XIDp.pdf}}
-\subfloat[\textsc{XID+} $350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={5}]{metrics_XIDp.pdf}}
-\subfloat[\textsc{XID+} $500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={6}]{metrics_XIDp.pdf}}\\[-2ex]
-\subfloat[\textsc{DESPHOT} $250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={4}]{metrics_DESPHOT.pdf}}
-\subfloat[\textsc{DESPHOT} $350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={5}]{metrics_DESPHOT.pdf}}
-\subfloat[\textsc{DESPHOT} $500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={6}]{metrics_DESPHOT.pdf}}
-\caption{Inverse precision, or IQR of \textsc{XID+} (top) and \textsc{DESPHOT} (bottom) as a function of true flux, for the 250 (blue), 350 (green) and 500 (red) $\mathrm{\mu m}$ SPIRE bands. Black solid and dashed lines shows median and standard deviation respectively. Density of objects is illustrated via underlying colour. }\label{fig:precision}
+%\subfloat[\textsc{XID+} $250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={4}]{metrics_XIDp.pdf}}
+%\subfloat[\textsc{XID+} $350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={5}]{metrics_XIDp.pdf}}
+%\subfloat[\textsc{XID+} $500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={6}]{metrics_XIDp.pdf}}\\[-2ex]
+%\subfloat[\textsc{DESPHOT} $250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={4}]{metrics_DESPHOT.pdf}}
+%\subfloat[\textsc{DESPHOT} $350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={5}]{metrics_DESPHOT.pdf}}
+%\subfloat[\textsc{DESPHOT} $500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={6}]{metrics_DESPHOT.pdf}}
+\subfloat[$250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={4}]{metrics_both.pdf}}
+\subfloat[$350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={5}]{metrics_both.pdf}}
+\subfloat[$500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={6}]{metrics_both.pdf}}
+\caption{The 16th, 50th and 84th percentiles for inverse precision, or IQR of \textsc{XID+} (coloured line and shaded region) and \textsc{DESPHOT}  (black solid and dashed lines), as a function of true flux, for the 250 (blue), 350 (green) and 500 (red) $\mathrm{\mu m}$ SPIRE bands. }\label{fig:precision}
 \end{figure*}
 
 \begin{figure*}
 \centering 
-\subfloat[\textsc{XID+} $250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={7}]{metrics_XIDp.pdf}}
-\subfloat[\textsc{XID+} $350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={8}]{metrics_XIDp.pdf}}
-\subfloat[\textsc{XID+} $500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={9}]{metrics_XIDp.pdf}}\\[-2ex]
-\subfloat[\textsc{DESPHOT} $250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={7}]{metrics_DESPHOT.pdf}}
-\subfloat[\textsc{DESPHOT} $350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={8}]{metrics_DESPHOT.pdf}}
-\subfloat[\textsc{DESPHOT} $500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={9}]{metrics_DESPHOT.pdf}}
-\caption{Accuracy of \textsc{XID+} (top) and \textsc{DESPHOT} (bottom) as a function of true flux, for the 250 (blue), 350 (green) and 500 (red) $\mathrm{\mu m}$ SPIRE bands. Black solid and dashed lines with markers shows the median and standard deviation for the 6 bins respectively. Density of objects is illustrated via underlying colour and a horizontal thick line is shown at zero is added for clarity.}\label{fig:accuracy}
+%\subfloat[\textsc{XID+} $250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={7}]{metrics_XIDp.pdf}}
+%\subfloat[\textsc{XID+} $350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={8}]{metrics_XIDp.pdf}}
+%\subfloat[\textsc{XID+} $500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={9}]{metrics_XIDp.pdf}}\\[-2ex]
+%\subfloat[\textsc{DESPHOT} $250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={7}]{metrics_DESPHOT.pdf}}
+%\subfloat[\textsc{DESPHOT} $350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={8}]{metrics_DESPHOT.pdf}}
+%\subfloat[\textsc{DESPHOT} $500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={9}]{metrics_DESPHOT.pdf}}
+\subfloat[$250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={7}]{metrics_both.pdf}}
+\subfloat[$350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={8}]{metrics_both.pdf}}
+\subfloat[$500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={9}]{metrics_both.pdf}}
+\caption{The 16th, 50th and 84th percentiles for flux accuracy of \textsc{XID+} (coloured line and shaded region) and \textsc{DESPHOT} (black solid and dashed lines), as a function of true flux, for the 250 (blue), 350 (green) and 500 (red) $\mathrm{\mu m}$ SPIRE bands. A horizontal thick line is shown at zero for clarity.}\label{fig:accuracy}
 \end{figure*}
 
 \begin{figure*}
 \centering 
-\subfloat[\textsc{XID+} $250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={1}]{metrics_XIDp.pdf}}
-\subfloat[\textsc{XID+} $350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={2}]{metrics_XIDp.pdf}}
-\subfloat[\textsc{XID+} $500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={3}]{metrics_XIDp.pdf}}\\[-2ex]
-\subfloat[\textsc{DESPHOT} $250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={1}]{metrics_DESPHOT.pdf}}
-\subfloat[\textsc{DESPHOT} $350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={2}]{metrics_DESPHOT.pdf}}
-\subfloat[\textsc{DESPHOT} $500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={3}]{metrics_DESPHOT.pdf}}
-\caption{Z score, or flux density error for \textsc{XID+} (top) and \textsc{DESPHOT} (bottom) as a function of true flux, for the 250 (blue), 350 (green) and 500 (red) $\mathrm{\mu m}$ SPIRE bands. Black solid and dashed lines shows median and standard deviation respectively. Density of objects is illustrated via underlying colour and a horizontal thick line is shown at zero is added for clarity.}\label{fig:zscore}
+%\subfloat[\textsc{XID+} $250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={1}]{metrics_XIDp.pdf}}
+%\subfloat[\textsc{XID+} $350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={2}]{metrics_XIDp.pdf}}
+%\subfloat[\textsc{XID+} $500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={3}]{metrics_XIDp.pdf}}\\[-2ex]
+%\subfloat[\textsc{DESPHOT} $250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={1}]{metrics_DESPHOT.pdf}}
+%\subfloat[\textsc{DESPHOT} $350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={2}]{metrics_DESPHOT.pdf}}
+%\subfloat[\textsc{DESPHOT} $500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={3}]{metrics_DESPHOT.pdf}}
+\subfloat[$250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={1}]{metrics_both.pdf}}
+\subfloat[$350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={2}]{metrics_both.pdf}}
+\subfloat[$500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={3}]{metrics_both.pdf}}
+\caption{The 16th, 50th and 84th percentiles for Z score, or flux density error of \textsc{XID+} (coloured line and shaded region) and \textsc{DESPHOT}  (black solid and dashed lines), as a function of true flux, for the 250 (blue), 350 (green) and 500 (red) $\mathrm{\mu m}$ SPIRE bands. A horizontal thick line is shown at zero for clarity.}\label{fig:zscore}
 \end{figure*}
 
 \section{Simulations}\label{sec:sims}
@@ -328,7 +337,7 @@ We have run \textsc{XID+} on the HerMES COSMOS SPIRE maps from the 2nd Data rele
  
 
 \section*{Acknowledgements}%
-%
+The research leading to these results has received funding from the European Union Seventh Framework Programme FP7/2007-2013/ under grant agreement n° 607254. This publication reflects only the author’s view and the European Union is not responsible for any use that may be made of the information contained therein.
 %%
 %
 %
