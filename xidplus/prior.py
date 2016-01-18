@@ -185,6 +185,10 @@ class prior(object):
             if ind.sum() >0:
                 self.prior_flux_upper[i]=np.max(self.sim[self.amat_row[ind]])-(self.bkg[0]-2*self.bkg[1])
 
+    def upper_lim_flux(self,prior_flux_upper):
+        """Set flux lower limit (in log10)"""
+        self.prior_flux_upper=np.full((self.nsrc),prior_flux_upper
+                                       )
     def lower_lim_flux(self,prior_flux_lower):
         """Set flux lower limit (in log10)"""
         self.prior_flux_lower=np.full((self.nsrc),prior_flux_lower)
