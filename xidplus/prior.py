@@ -162,7 +162,7 @@ class prior(object):
             nbad=bad.sum()
             if ngood > 0.5*self.pindx[-1]*self.pindy[-1]:
                 ipx2,ipy2=np.meshgrid(pindx,pindy)
-                atemp=interpolate.griddata((ipx2.ravel(),ipy2.ravel()),self.prf.ravel(), (dx[good],dy[good]), method='nearest')
+                atemp=interpolate.griddata((ipx2.ravel(),ipy2.ravel()),self.prf.ravel(), (dx[good],dy[good]), method='linear')
                 amat_data=np.append(amat_data,atemp)
                 amat_row=np.append(amat_row,np.arange(0,self.snpix,dtype=int)[good])#what pixels the source contributes to
                 amat_col=np.append(amat_col,np.full(ngood,s))#what source we are on
