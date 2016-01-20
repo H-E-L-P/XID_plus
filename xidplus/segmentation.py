@@ -186,8 +186,8 @@ def make_tile_catalogues(output_folder,Master_filename,chains=4,iters=750):
         #ind_tmp=np.array(kept_sources+[False]+kept_sources+[False]+kept_sources+[False]+[False,False,False])
         kept_sources=np.array(kept_sources)
 
-        hdulist.data=hdulist.data[kept_sources]
-        hdulist.writeto(output_folder+'Tile_'+str(tiles[i])+'_'+str(order)+'.fits')
+        hdulist[1].data=hdulist.data[kept_sources]
+        hdulist[1].writeto(output_folder+'Tile_'+str(tiles[i])+'_'+str(order)+'.fits')
 
 
 
