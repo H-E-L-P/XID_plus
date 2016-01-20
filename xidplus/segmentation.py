@@ -168,7 +168,6 @@ def make_tile_catalogues(output_folder,Master_filename,chains=4,iters=750):
     tiles=Master['tiles']
     order=Master['order']
     prior250=Master['psw']
-    stan_fit_master=np.empty((iters,chains,(prior250.nsrc+2.0)*3))
     for i in range(0,len(tiles)):
         print 'On tile '+str(i)+' out of '+str(len(tiles))
         infile=output_folder+'Tile_'+str(tiles[i])+'_'+str(order)+'.pkl'
@@ -180,7 +179,7 @@ def make_tile_catalogues(output_folder,Master_filename,chains=4,iters=750):
         tmp_posterior=obj['posterior']
 
 
-        hdulist=catalogue.create_XIDp_SPIREcat_nocov(posterior,prior250,prior350,prior500)
+        hdulist=catalogue.create_XIDp_SPIREcat_nocov(tmp_posterior,tmp_prior250,tmp_prior350,tmp_prior500)
         #work out what sources in tile to keep
         kept_sources=moc_routines.sources_in_tile(tiles[i],order,tmp_prior250.sra,tmp_prior250.sdec)
         ##create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
