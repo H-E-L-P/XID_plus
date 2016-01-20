@@ -158,7 +158,7 @@ def make_master_posterior_HEALpix(output_folder,Master_filename,chains=4,iters=7
 
 
 
-    def make_tile_catalogues(output_folder,Master_filename,chains=4,iters=750):
+def make_tile_catalogues(output_folder,Master_filename,chains=4,iters=750):
     import pickle
     import dill
     from xidplus import moc_routines, catalogue
