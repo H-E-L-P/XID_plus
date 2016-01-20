@@ -158,8 +158,37 @@ def make_master_posterior_HEALpix(output_folder,Master_filename,chains=4,iters=7
 
 
 
+    def make_tile_catalogues(output_folder,Master_filename,chains=4,iters=750):
+    import pickle
+    import dill
+    from xidplus import moc_routines, catalogue
+    with open(output_folder+Master_filename, "rb") as f:
+        Master = pickle.load(f)
+
+    tiles=Master['tiles']
+    order=Master['order']
+    prior250=Master['psw']
+    stan_fit_master=np.empty((iters,chains,(prior250.nsrc+2.0)*3))
+    for i in range(0,len(tiles)):
+        print 'On tile '+str(i)+' out of '+str(len(tiles))
+        infile=output_folder+'Tile_'+str(tiles[i])+'_'+str(order)+'.pkl'
+        with open(infile, "rb") as f:
+            obj = pickle.load(f)
+        tmp_prior250=obj['psw']
+        tmp_prior350=obj['pmw']
+        tmp_prior500=obj['plw']
+        tmp_posterior=obj['posterior']
 
 
+        hdulist=catalogue.create_XIDp_SPIREcat_nocov(posterior,prior250,prior350,prior500)
+        #work out what sources in tile to keep
+        kept_sources=moc_routines.sources_in_tile(tiles[i],order,tmp_prior250.sra,tmp_prior250.sdec)
+        ##create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
+        #ind_tmp=np.array(kept_sources+[False]+kept_sources+[False]+kept_sources+[False]+[False,False,False])
+        kept_sources=np.array(kept_sources)
+
+        hdulist.data=hdulist.data[kept_sources]
+        hdulist.writeto(output_folder+'Tile_'+str(tiles[i])+'_'+str(order)+'.fits')
 
 
 

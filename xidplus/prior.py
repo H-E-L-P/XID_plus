@@ -187,8 +187,7 @@ class prior(object):
 
     def upper_lim_flux(self,prior_flux_upper):
         """Set flux lower limit (in log10)"""
-        self.prior_flux_upper=np.full((self.nsrc),prior_flux_upper
-                                       )
+        self.prior_flux_upper=np.full((self.nsrc),prior_flux_upper)
     def lower_lim_flux(self,prior_flux_lower):
         """Set flux lower limit (in log10)"""
         self.prior_flux_lower=np.full((self.nsrc),prior_flux_lower)
