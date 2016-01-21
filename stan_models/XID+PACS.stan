@@ -25,7 +25,7 @@ data {
   int Col_pmw[nnz_pmw];//Cols of non neg values in image matrix
   vector[nsrc] f_low_lim_pmw;//upper limit of flux (in log10)
   vector[nsrc] f_up_lim_pmw;//upper limit of flux (in log10)
-
+}
 parameters {
   vector<lower=0.0,upper=1.0>[nsrc] src_f_psw;//source vector
   real bkg_psw;//background
