@@ -179,7 +179,7 @@ def make_tile_catalogues(output_folder,Master_filename,chains=4,iters=750):
         tmp_posterior=obj['posterior']
 
         #create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
-        ind=np.full((tmp_prior250.nsrc),True)
+        ind=[True]*tmp_prior250.nsrc
         ind_tmp=np.array(ind+[False]+ind+[False]+ind+[False]+[False,False,False])
         kept_sources=np.array(kept_sources)
         #scale from 0-1 to flux values:
