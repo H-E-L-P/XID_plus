@@ -47,7 +47,7 @@ def all_bands(PACS_100,PACS_160,chains=4,iter=1000,optimise=False):
             sm = pickle.load(f)
 
             
-       fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True)
+       fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True,init='random')
     except IOError as e:
         print("%s not found. Compiling" % model_file)
         sm = pystan.StanModel(file=stan_path+'XID+PACS.stan')
@@ -56,6 +56,6 @@ def all_bands(PACS_100,PACS_160,chains=4,iter=1000,optimise=False):
             pickle.dump(sm, f)
            
             
-        fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True)
+        fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True,init='random')
     #return fit data
     return fit
