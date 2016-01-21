@@ -181,7 +181,6 @@ def make_tile_catalogues(output_folder,Master_filename,chains=4,iters=750):
         #create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
         ind=[True]*tmp_prior250.nsrc
         ind_tmp=np.array(ind+[False]+ind+[False]+ind+[False]+[False,False,False])
-        kept_sources=np.array(kept_sources)
         #scale from 0-1 to flux values:
         lower=np.append(np.append(tmp_prior250.prior_flux_lower,tmp_prior350.prior_flux_lower),tmp_prior500.prior_flux_lower)
         upper=np.append(np.append(tmp_prior250.prior_flux_upper,tmp_prior350.prior_flux_upper),tmp_prior500.prior_flux_upper)
@@ -198,6 +197,7 @@ def make_tile_catalogues(output_folder,Master_filename,chains=4,iters=750):
 
         hdulist[1].data=hdulist[1].data[kept_sources]
         hdulist.writeto(output_folder+'Tile_'+str(tiles[i])+'_'+str(order)+'.fits')
+        hdulist.close()
 
 
 
