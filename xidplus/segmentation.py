@@ -187,7 +187,7 @@ def make_tile_catalogues(output_folder,Master_filename,chains=4,iters=750):
         upper=np.append(np.append(tmp_prior250.prior_flux_upper,tmp_prior350.prior_flux_upper),tmp_prior500.prior_flux_upper)
 
 
-        tmp_posterior.stan_fit[:,:,ind_tmp]=lower+(upper-lower)*tmp_posterior.stan_fit[:,:,ind_tmp]
+        tmp_posterior.stan_fit[:,:,ind_tmp]=np.power(10.0,lower+(upper-lower)*tmp_posterior.stan_fit[:,:,ind_tmp])
 
         hdulist=catalogue.create_XIDp_SPIREcat_nocov(tmp_posterior,tmp_prior250,tmp_prior350,tmp_prior500)
         #work out what sources in tile to keep
