@@ -1,10 +1,10 @@
 __author__ = 'pdh21'
 import numpy as np
 
-def ymod_map(prior250,prior350,prior500,posterior_sample):
+def ymod_map(prior,posterior_sample):
     from scipy.sparse import coo_matrix
 
-    f=coo_matrix((posterior_sample[0:prior250.nsrc], (range(0,prior250.nsrc),np.zeros(prior250.nsrc))), shape=(prior250.nsrc, 1))
+    f=coo_matrix((posterior_sample[0:prior.nsrc], (range(0,prior.nsrc),np.zeros(prior.nsrc))), shape=(prior.nsrc, 1))
     A=coo_matrix((prior.amat_data, (prior.amat_row, prior.amat_col)), shape=(prior.snpix, prior.nsrc))
     rmap_temp=(A*f)
     pred_map=np.empty_like(prior.im)
