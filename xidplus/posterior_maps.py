@@ -7,11 +7,11 @@ def ymod_map(prior,posterior_sample):
     f=coo_matrix((posterior_sample[0:prior.nsrc], (range(0,prior.nsrc),np.zeros(prior.nsrc))), shape=(prior.nsrc, 1))
     A=coo_matrix((prior.amat_data, (prior.amat_row, prior.amat_col)), shape=(prior.snpix, prior.nsrc))
     rmap_temp=(A*f)
-    pred_map=np.empty_like(prior.im)
-    pred_map[:,:]=0.0
-    pred_map[prior.sy_pix,prior.sx_pix]=np.asarray(rmap_temp.todense()).reshape(-1)#+np.random.randn(prior.snpix)*prior.snim
+    #pred_map=np.empty_like(prior.im)
+    #pred_map[:,:]=0.0
+    #pred_map[prior.sy_pix,prior.sx_pix]=np.asarray(rmap_temp.todense()).reshape(-1)#+np.random.randn(prior.snpix)*prior.snim
 
-    return pred_map,np.asarray(rmap_temp.todense())
+    return np.asarray(rmap_temp.todense())
 
 
 def yrep_map(prior,fvec,conf_noise):
