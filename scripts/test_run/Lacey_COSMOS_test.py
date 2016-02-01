@@ -136,7 +136,7 @@ prior500.set_prf(prf500.array,pind500,pind500)
 
 #from moc, get healpix pixels at a given order
 from xidplus import moc_routines
-order=9
+order=12
 tiles=moc_routines.get_HEALPix_pixels(order,prior250.sra,prior250.sdec,unique=True)
 
 try:
@@ -185,12 +185,7 @@ prior500.lower_lim_flux(0.01)
 
 from xidplus.stan_fit import SPIRE
 fit=SPIRE.all_bands(prior250,prior350,prior500,iter=1500)
-
-
-
-
-
-posterior=xidplus.posterior_stan(fit,prior250.nsrc)
+posterior=xidplus.posterior_stan(fit,[prior250,prior350,prior500])
 
 outfile=output_folder+'Lacy_test_file_'+str(tiles[taskid-1])+'_'+str(order)+'.pkl'
 with open(outfile, 'wb') as f:

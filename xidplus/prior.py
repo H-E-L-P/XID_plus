@@ -179,18 +179,29 @@ class prior(object):
         self.A=coo_matrix((self.amat_data, (self.amat_row, self.amat_col)), shape=(self.snpix, self.nsrc))
 
     def upper_lim_map(self):
+        self.flux_scale()
         self.prior_flux_upper=np.full((self.nsrc), 3.0)
         for i in range(0,self.nsrc):
             ind=self.amat_col == i
             if ind.sum() >0:
-                self.prior_flux_upper[i]=np.max(self.sim[self.amat_row[ind]])-(self.bkg[0]-2*self.bkg[1])
+                self.prior_flux_upper[i]=np.log10(np.max(self.sim[self.amat_row[ind]])-(self.bkg[0]-2*self.bkg[1]))
+        if self.scale == 'linear':
+            self.prior_flux_upper=np.power(10.0,self.prior_flux_upper)
 
     def upper_lim_flux(self,prior_flux_upper):
+        self.flux_scale()
         """Set flux lower limit (in log10)"""
         self.prior_flux_upper=np.full((self.nsrc),prior_flux_upper)
+
     def lower_lim_flux(self,prior_flux_lower):
         """Set flux lower limit (in log10)"""
         self.prior_flux_lower=np.full((self.nsrc),prior_flux_lower)
+
+    def flux_scale(self,log=True):
+        if log is False:
+            self.scale='linear'
+        else:
+            self.scale='log'
 
     def get_pointing_matrix_map(self, bkg=True):
         """get the pointing matrix. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute"""
