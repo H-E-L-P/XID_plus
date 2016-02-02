@@ -24,27 +24,27 @@ def get_HEALPix_pixels(order,ra,dec,unique=True):
 
 def get_fitting_region(order,pixel):
     """
-    expand tile by half a pixel for fitting
+    expand tile by quarter of a pixel for fitting
     :param order:the HEALPix resolution level
     :param pixel:given HEALPix pixel that needs to be fit
     :return: HEALPix pixels that need to be fit
     """
     #define old and new order
     old_nside=2**order
-    new_nside=2**(order+1)
+    new_nside=2**(order+2)
 
     #get co-ord of main pixel
     theta,phi=pixelfunc.pix2ang(old_nside, pixel, nest=True)
     #define offsets such that main pixel is split into four sub pixels
     scale=pixelfunc.max_pixrad(old_nside)
-    offset_theta=np.array([-0.25,0.0,0.25,0.0])*scale
-    offset_phi=np.array([0.0,-0.25,0.0,0.25])*scale
+    offset_theta=np.array([-0.125,0.0,0.125,0.0])*scale
+    offset_phi=np.array([0.0,-0.125,0.0,0.125])*scale
     #convert co-ords to pixels at higher order
     pix_fit=pixelfunc.ang2pix(new_nside, theta+offset_theta, phi+offset_phi, nest=True)
     #get neighbouring pixels and remove duplicates
     moc_tile=MOC()
-    print np.unique(pixelfunc.get_all_neighbours(new_nside, pix_fit,nest=True))
-    moc_tile.add_pix_list(order+1,np.unique(pixelfunc.get_all_neighbours(new_nside, pix_fit,nest=True)), nest=True)
+    pixels=np.unique(pixelfunc.get_all_neighbours(new_nside, pix_fit,nest=True))
+    moc_tile.add_pix_list(order+2,np.unique(pixelfunc.get_all_neighbours(new_nside, pixels,nest=True)), nest=True)
     return moc_tile
 
 
@@ -58,9 +58,9 @@ def create_MOC_from_map(good,wcs):
     return map_moc
 
 def create_MOC_from_cat(ra,dec):
-    pixels=get_HEALPix_pixels(12,ra,dec)
+    pixels=get_HEALPix_pixels(11,ra,dec)
     cat_moc=MOC()
-    cat_moc.add_pix_list(12,pixels, nest=True)
+    cat_moc.add_pix_list(11,pixels, nest=True)
     return cat_moc
 
 def check_in_moc(ra,dec,moc,keep_inside=True):
@@ -72,3 +72,10 @@ def check_in_moc(ra,dec,moc,keep_inside=True):
     for ipix in pix:
         kept_rows.append((ipix in pixels_best_res) == keep_inside)
     return kept_rows
+
+def sources_in_tile(pixel,order,ra,dec):
+    moc_pix=MOC()
+    moc_pix.add_pix(order,pixel, nest=True)
+    kept_sources=check_in_moc(ra,dec,moc_pix,keep_inside=True)
+    return kept_sources
+

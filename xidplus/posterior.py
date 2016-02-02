@@ -1,13 +1,13 @@
 import numpy as np
 
 class posterior_stan(object):
-    def __init__(self,fit,nsrc):
+    def __init__(self,fit,priors):
         """ Class for dealing with posterior from stan"""
-        self.nsrc=nsrc
+        self.nsrc=priors[0].nsrc
         self.convergence_stats(fit)
         self.param_names=fit.constrained_param_names()
         self.stan_fit=fit.extract(permuted=False, inc_warmup=False)
-        
+        self.scale_posterior(priors)
     
     def convergence_stats(self,fit):
         converge=np.array(fit.summary(probs=[0.025, 0.15, 0.25, 0.5, 0.75, 0.84, 0.975])['summary'][:,:])
@@ -59,3 +59,48 @@ class posterior_stan(object):
         self.Band_k=k_cov[index]
         self.Band_l=l_cov[index]
         self.sigma_i_j_k_l=cov[index]
+
+    def scale_posterior(self,priors):
+        #create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
+        ind=[True]*self.nsrc
+        ind_tmp=np.array(ind+[False]+ind+[False]+ind+[False]+[False,False,False,False])
+
+        lower=np.array([])
+        upper=np.array([])
+
+        #scale from 0-1 to flux values:
+        for i in priors:
+            lower=np.append(lower,i.prior_flux_lower)
+            upper=np.append(upper,i.prior_flux_upper)
+
+        # lower=np.append(np.append(tmp_prior250.prior_flux_lower,tmp_prior350.prior_flux_lower),tmp_prior500.prior_flux_lower)
+        # upper=np.append(np.append(tmp_prior250.prior_flux_upper,tmp_prior350.prior_flux_upper),tmp_prior500.prior_flux_upper)
+
+        if priors[0].scale == 'linear':
+            self.stan_fit[:, :, ind_tmp] = lower + (upper - lower) * self.stan_fit[:, :, ind_tmp]
+        else:
+            self.stan_fit[:, :, ind_tmp] = np.power(10.0, lower + (upper - lower) * self.stan_fit[:, :, ind_tmp])
+
+
+
+def scale_posterior(priors, posterior,log=True):
+    #create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
+    ind=[True]*posterior.nsrc
+    ind_tmp=np.array(ind+[False]+ind+[False]+ind+[False]+[False,False,False,False])
+
+    lower=np.array([])
+    upper=np.array([])
+
+    #scale from 0-1 to flux values:
+    for i in priors:
+        lower=np.append(lower,i.prior_flux_lower)
+        upper=np.append(upper,i.prior_flux_upper)
+
+    # lower=np.append(np.append(tmp_prior250.prior_flux_lower,tmp_prior350.prior_flux_lower),tmp_prior500.prior_flux_lower)
+    # upper=np.append(np.append(tmp_prior250.prior_flux_upper,tmp_prior350.prior_flux_upper),tmp_prior500.prior_flux_upper)
+
+    if log is False:
+        posterior.stan_fit[:, :, ind_tmp] = lower + (upper - lower) * posterior.stan_fit[:, :, ind_tmp]
+    else:
+        posterior.stan_fit[:, :, ind_tmp] = np.power(10.0, lower + (upper - lower) * posterior.stan_fit[:, :, ind_tmp])
+    return posterior
