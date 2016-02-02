@@ -5,7 +5,7 @@ matplotlib.use('PDF')
 import pylab as plt
 from matplotlib.backends.backend_pdf import PdfPages
 import sys
-import XIDp_mod_beta
+import xidplus
 import pickle
 import scipy.stats as stats
 from scipy.stats import norm
@@ -14,7 +14,7 @@ from scipy.stats import norm
 
 
 
-pdf_pages=PdfPages("error_density_flux_test_uninform.pdf")
+pdf_pages=PdfPages("error_density_flux_test_uninform_uniform.pdf")
 
 from metrics_module import *
 
@@ -44,20 +44,25 @@ idx_xidpT=fcat_sim['S100'] >0.050#cut so that only sources with a 100micron flux
 #---Read in XID+ posterior---
 
 #folder='/research/astro/fir/HELP/XID_plus_output/100micron/log_prior_flux/'
-folder='/Users/pdh21/HELP/XID_plus_output/100micron/old/'
+folder='/Users/pdh21/HELP/XID_plus_output/100micron/conf_noise/uniform_prior/'
 #'/research/astro/fir/HELP/XID_plus_output/100micron/log_uniform_prior_test/old/'
-infile=folder+'Tiled_master_Lacey_notlog_flux.pkl'
+infile=folder+'Master_prior.pkl'
 with open(infile, "rb") as f:
     obj = pickle.load(f)
 prior250=obj['psw']
 prior350=obj['pmw']    
 prior500=obj['plw']
 
+folder='/Users/pdh21/HELP/XID_plus_output/100micron/conf_noise/uniform_prior/'
+infile=folder+'master_posterior.pkl'
+
+with open(infile, "rb") as f:
+    obj = pickle.load(f)
 posterior=obj['posterior']
 
-samples,chains,params=posterior.stan_fit.shape
+samples,chains,params=posterior.shape
 
-flattened_post=posterior.stan_fit.reshape(samples*chains,params)
+flattened_post=posterior.reshape(samples*chains,params)
 nsources_xidp=idx_xidp.size
 ind_3mjy_psw=np.median(flattened_post[:,0:prior250.nsrc],axis=0) >1   
 ind_3mjy_pmw=np.median(flattened_post[:,prior250.nsrc+1:(2*prior250.nsrc)+1],axis=0) >1
@@ -77,12 +82,12 @@ plw_metrics_XIDp=metrics_XIDp(flattened_post[:,np.arange(2*prior250.nsrc+2,(3*pr
 
 
 bins=np.logspace(0.477, 2.2, num=7)
-labels=[r'Z score', r'IQR/$S_{True}$ ($\mathrm{mJy}$)', r'$(S_{Obs}-S_{True})/S_{True}$ ($\mathrm{mJy}$)']
+labels=[r'Z score', r'IQR/$S_{True}$', r'$(S_{Obs}-S_{True})/S_{True}$']
 scale=['linear', 'log', 'linear']
 ylims=[(-4,4),(1E-2,1E1),(-1,1)]
 for i in range(0,3):
-    pdf_pages.savefig(metrics_plot(psw_metrics_XIDp[i],fcat_sim['S250'][idx_xidp][ind_3mjy_psw],bins,[r'$S_{True}(250 \mathrm{\mu m}) \mathrm{mJy}$',labels[i]],ylims[i],yscale=scale[i]))
-    pdf_pages.savefig(metrics_plot(pmw_metrics_XIDp[i],fcat_sim['S350'][idx_xidp][ind_3mjy_pmw],bins,[r'$S_{True}(350 \mathrm{\mu m}) \mathrm{mJy}$',labels[i]],ylims[i],yscale=scale[i],cmap=plt.get_cmap('Greens')))
-    pdf_pages.savefig(metrics_plot(plw_metrics_XIDp[i],fcat_sim['S500'][idx_xidp][ind_3mjy_plw],bins,[r'$S_{True}(500 \mathrm{\mu m}) \mathrm{mJy}$',labels[i]],ylims[i],yscale=scale[i],cmap=plt.get_cmap('Reds')))
+    pdf_pages.savefig(metrics_plot(psw_metrics_XIDp[i],fcat_sim['S250'][idx_xidp][ind_3mjy_psw],bins,[r'$S_{True} (\mathrm{mJy})$',labels[i]],ylims[i],yscale=scale[i]))
+    pdf_pages.savefig(metrics_plot(pmw_metrics_XIDp[i],fcat_sim['S350'][idx_xidp][ind_3mjy_pmw],bins,[r'$S_{True} (\mathrm{mJy})$',labels[i]],ylims[i],yscale=scale[i],cmap=plt.get_cmap('Greens')))
+    pdf_pages.savefig(metrics_plot(plw_metrics_XIDp[i],fcat_sim['S500'][idx_xidp][ind_3mjy_plw],bins,[r'$S_{True} (\mathrm{mJy})$',labels[i]],ylims[i],yscale=scale[i],cmap=plt.get_cmap('Reds')))
 
 pdf_pages.close()

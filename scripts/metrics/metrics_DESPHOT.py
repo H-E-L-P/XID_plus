@@ -6,7 +6,7 @@ matplotlib.use('PDF')
 import pylab as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
-import XIDp_mod_beta
+#import XIDp_mod_beta
 import pickle
 pdf_pages=PdfPages("error_density_flux_test_DESPHOT.pdf")
 
@@ -52,22 +52,27 @@ ind_1mjy_psw=fcat['F250']> 1
 ind_1mjy_pmw=fcat['F350']> 1
 ind_1mjy_plw=fcat['F500']> 1
 
-psw_metrics_XIDp=metrics_XIDp(flattened_post_psw[:,ind_1mjy_psw],fcat_sim['S250'][ind_1mjy_psw])
-pmw_metrics_XIDp=metrics_XIDp(flattened_post_pmw[:,ind_1mjy_pmw],fcat_sim['S350'][ind_1mjy_pmw])
-plw_metrics_XIDp=metrics_XIDp(flattened_post_plw[:,ind_1mjy_plw],fcat_sim['S500'][ind_1mjy_plw])
+psw_metrics_XID=metrics_XIDp(flattened_post_psw[:,ind_1mjy_psw],fcat_sim['S250'][ind_1mjy_psw])
+pmw_metrics_XID=metrics_XIDp(flattened_post_pmw[:,ind_1mjy_pmw],fcat_sim['S350'][ind_1mjy_pmw])
+plw_metrics_XID=metrics_XIDp(flattened_post_plw[:,ind_1mjy_plw],fcat_sim['S500'][ind_1mjy_plw])
 
-
+#ind_z_strange=psw_metrics_XIDp[0]>2.9
+#print psw_metrics_XIDp[0][ind_z_strange]
+#print fcat['F250'][ind_1mjy_psw][ind_z_strange]
+#print fcat_sim['S250'][ind_1mjy_psw][ind_z_strange]
+#plt.plot(psw_metrics_XIDp[0],fcat_sim['S250'][ind_1mjy_psw],'o')
+#quit()
 
 
 
 
 bins=np.logspace(0.477, 2.2, num=7)
-labels=[r'Z score', r'IQR/$S_{True}$ ($\mathrm{mJy}$)', r'$(S_{Obs}-S_{True})/S_{True}$ ($\mathrm{mJy}$)']
+labels=[r'Z score', r'IQR/$S_{True}$', r'$(S_{Obs}-S_{True})/S_{True}$']
 scale=['linear', 'log', 'linear']
 ylims=[(-4,4),(1E-2,1E1),(-1,1)]
 for i in range(0,3):
-    pdf_pages.savefig(metrics_plot(psw_metrics_XIDp[i],fcat_sim['S250'][ind_1mjy_psw],bins,[r'$S_{True}(250 \mathrm{\mu m}) \mathrm{mJy}$',labels[i]],ylims[i],yscale=scale[i]))
-    pdf_pages.savefig(metrics_plot(pmw_metrics_XIDp[i],fcat_sim['S350'][ind_1mjy_pmw],bins,[r'$S_{True}(350 \mathrm{\mu m}) \mathrm{mJy}$',labels[i]],ylims[i],yscale=scale[i],cmap=plt.get_cmap('Greens')))
-    pdf_pages.savefig(metrics_plot(plw_metrics_XIDp[i],fcat_sim['S500'][ind_1mjy_plw],bins,[r'$S_{True}(500 \mathrm{\mu m}) \mathrm{mJy}$',labels[i]],ylims[i],yscale=scale[i],cmap=plt.get_cmap('Reds')))
+    pdf_pages.savefig(metrics_plot(psw_metrics_XID[i],fcat_sim['S250'][ind_1mjy_psw],bins,[r'$S_{True} (\mathrm{mJy})$',labels[i]],ylims[i],yscale=scale[i]))
+    pdf_pages.savefig(metrics_plot(pmw_metrics_XID[i],fcat_sim['S350'][ind_1mjy_pmw],bins,[r'$S_{True} (\mathrm{mJy})$',labels[i]],ylims[i],yscale=scale[i],cmap=plt.get_cmap('Greens')))
+    pdf_pages.savefig(metrics_plot(plw_metrics_XID[i],fcat_sim['S500'][ind_1mjy_plw],bins,[r'$S_{True} (\mathrm{mJy})$',labels[i]],ylims[i],yscale=scale[i],cmap=plt.get_cmap('Reds')))
 
 pdf_pages.close()
