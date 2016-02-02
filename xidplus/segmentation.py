@@ -178,21 +178,10 @@ def make_tile_catalogues(output_folder,Master_filename,chains=4,iters=750):
         tmp_prior500=obj['plw']
         tmp_posterior=obj['posterior']
 
-        #create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
-        ind=[True]*tmp_prior250.nsrc
-        ind_tmp=np.array(ind+[False]+ind+[False]+ind+[False]+[False,False,False])
-        #scale from 0-1 to flux values:
-        lower=np.append(np.append(tmp_prior250.prior_flux_lower,tmp_prior350.prior_flux_lower),tmp_prior500.prior_flux_lower)
-        upper=np.append(np.append(tmp_prior250.prior_flux_upper,tmp_prior350.prior_flux_upper),tmp_prior500.prior_flux_upper)
-
-
-        tmp_posterior.stan_fit[:,:,ind_tmp]=np.power(10.0,lower+(upper-lower)*tmp_posterior.stan_fit[:,:,ind_tmp])
-
         hdulist=catalogue.create_XIDp_SPIREcat_nocov(tmp_posterior,tmp_prior250,tmp_prior350,tmp_prior500)
         #work out what sources in tile to keep
         kept_sources=moc_routines.sources_in_tile(tiles[i],order,tmp_prior250.sra,tmp_prior250.sdec)
-        ##create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
-        #ind_tmp=np.array(kept_sources+[False]+kept_sources+[False]+kept_sources+[False]+[False,False,False])
+
         kept_sources=np.array(kept_sources)
 
         hdulist[1].data=hdulist[1].data[kept_sources]
