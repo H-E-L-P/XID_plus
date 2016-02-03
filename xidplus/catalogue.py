@@ -491,9 +491,9 @@ def create_XIDp_PACScat_nocov(posterior,prior100,prior160):
 
     #----table info-----------------------
     #first define columns
-    c1 = fits.Column(name='ID', format='15A', array=prior250.ID)
-    c2 = fits.Column(name='RA', format='D', unit='degrees', array=prior250.sra)
-    c3 = fits.Column(name='Dec', format='D', unit='degrees', array=prior250.sdec)
+    c1 = fits.Column(name='ID', format='15A', array=prior100.ID)
+    c2 = fits.Column(name='RA', format='D', unit='degrees', array=prior100.sra)
+    c3 = fits.Column(name='Dec', format='D', unit='degrees', array=prior100.sdec)
     c4 = fits.Column(name='F_PACS_100', format='E', unit='mJy', array=med_flux[0:nsrc])
     c5 = fits.Column(name='FErr_PACS_100_u', format='E', unit='mJy', array=flux_high[0:nsrc])
     c6 = fits.Column(name='FErr_PACS_100_l', format='E', unit='mJy', array=flux_low[0:nsrc])
