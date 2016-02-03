@@ -543,7 +543,7 @@ def create_XIDp_PACScat_nocov(posterior,prior100,prior160):
     tbhdu.header.set('TDESC10','100 background',after='TUCD10')
 
     tbhdu.header.set('TUCD11','phot.flux.density',after='TUNIT11')
-    tbhdu.header.set('TDESC11','160 background',after='TUCD14')
+    tbhdu.header.set('TDESC11','160 background',after='TUCD11')
 
     tbhdu.header.set('TUCD12','phot.flux.density',after='TUNIT12')
     tbhdu.header.set('TDESC12','100 residual confusion noise',after='TUCD12')
