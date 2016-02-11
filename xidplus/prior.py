@@ -179,7 +179,6 @@ class prior(object):
         self.A=coo_matrix((self.amat_data, (self.amat_row, self.amat_col)), shape=(self.snpix, self.nsrc))
 
     def upper_lim_map(self):
-        self.flux_scale()
         self.prior_flux_upper=np.full((self.nsrc), 3.0)
         for i in range(0,self.nsrc):
             ind=self.amat_col == i
