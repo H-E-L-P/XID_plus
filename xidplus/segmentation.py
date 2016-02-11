@@ -190,4 +190,3 @@ def make_tile_catalogues(output_folder,Master_filename,chains=4,iters=750):
 
 
 
-def concatenate_tile_catalogues()
