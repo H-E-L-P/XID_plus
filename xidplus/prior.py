@@ -76,7 +76,7 @@ class prior(object):
         self.sra=ra
         self.sdec=dec
         self.nsrc=self.sra.size
-        self.prior_cat=prior_cat_file
+        self.prior_cat_file=prior_cat_file
         if ID is None:
             ID=np.arange(1,ra.size+1,dtype='int64')
         self.ID=ID
@@ -188,7 +188,6 @@ class prior(object):
             self.prior_flux_upper=np.power(10.0,self.prior_flux_upper)
 
     def upper_lim_flux(self,prior_flux_upper):
-        self.flux_scale()
         """Set flux lower limit (in log10)"""
         self.prior_flux_upper=np.full((self.nsrc),prior_flux_upper)
 
