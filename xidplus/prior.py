@@ -4,6 +4,7 @@ from xidplus import moc_routines
 
 
 class prior(object):
+    
     def __init__(self,im,nim,imphdu,imhdu,moc=None):
         """class for SPIRE prior object. Initialise with map,uncertianty map and wcs"""
         #---for any bad pixels set map pixel to zero and uncertianty to 1----
@@ -29,7 +30,7 @@ class prior(object):
         self.snim=nim.flatten()
         self.sim=im.flatten()
         self.snpix=self.sim.size
-
+    
     def cut_down_prior(self):
         wcs_temp=wcs.WCS(self.imhdu)
         ra,dec= wcs_temp.wcs_pix2world(self.sx_pix,self.sy_pix,0)
@@ -57,7 +58,7 @@ class prior(object):
     def prior_bkg(self,mu,sigma):
         """Add background prior ($\mu$) and uncertianty ($\sigma$). Assumes normal distribution"""
         self.bkg=(mu,sigma)
-
+    
     def prior_cat(self,ra,dec,prior_cat_file,ID=None,moc=None):
         """Input info for prior catalogue. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
         and converts RA and DEC to pixel positions"""
@@ -128,7 +129,7 @@ class prior(object):
         self.pindx=pindx
         self.pindy=pindy
         
-
+    
     def get_pointing_matrix(self, bkg=True):
         """get the pointing matrix. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute"""
         from scipy import interpolate        
