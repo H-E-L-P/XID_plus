@@ -79,3 +79,8 @@ def sources_in_tile(pixel,order,ra,dec):
     kept_sources=check_in_moc(ra,dec,moc_pix,keep_inside=True)
     return kept_sources
 
+def tile_in_tile(order_small,tile_small,order_large):
+    """Routine to find our what larger tile to load data from when fitting from smaller tiles. Returns larger tile no."""
+    theta, phi =pix2ang(2**order_small, tile_small, nest=True)
+    ipix = pixelfunc.ang2pix(2**order_large, theta, phi, nest=True)
+    return ipix
