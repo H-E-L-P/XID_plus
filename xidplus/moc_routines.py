@@ -81,6 +81,6 @@ def sources_in_tile(pixel,order,ra,dec):
 
 def tile_in_tile(order_small,tile_small,order_large):
     """Routine to find our what larger tile to load data from when fitting from smaller tiles. Returns larger tile no."""
-    theta, phi =pix2ang(2**order_small, tile_small, nest=True)
+    theta, phi =pixelfunc.pix2ang(2**order_small, tile_small, nest=True)
     ipix = pixelfunc.ang2pix(2**order_large, theta, phi, nest=True)
     return ipix
