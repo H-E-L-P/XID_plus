@@ -5,6 +5,7 @@ from xidplus import moc_routines
 
 
 class prior(object):
+
     def __init__(self, im, nim, imphdu, imhdu, moc=None):
         """class for SPIRE prior object. Initialise with map,uncertianty map and wcs"""
         # ---for any bad pixels set map pixel to zero and uncertianty to 1----
@@ -53,6 +54,7 @@ class prior(object):
 
     def prior_bkg(self, mu, sigma):
         """Add background prior ($\mu$) and uncertianty ($\sigma$). Assumes normal distribution"""
+
         self.bkg = (mu, sigma)
 
     def prior_cat(self, ra, dec, prior_cat_file, ID=None, moc=None):
@@ -121,6 +123,7 @@ class prior(object):
 
     def set_prf(self, prf, pindx, pindy):
         """Add prf array and corresponding x and y scales (in terms of pixels in map). \n Array should be an n x n array, where n is an odd number, and the centre of the prf is at the centre of the array"""
+
         self.prf = prf
         self.pindx = pindx
         self.pindy = pindy
@@ -242,5 +245,6 @@ class prior(object):
 
     def conf_noise(self):
         import confusion_noise as conf
+
         (self.Row_sig_conf, self.Col_sig_conf, self.Val_sig_conf,
          self.n_sig_conf) = conf.select_confusion_cov_max_pixels(4, self)
