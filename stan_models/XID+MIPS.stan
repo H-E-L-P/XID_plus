@@ -16,15 +16,15 @@ data {
  }
 parameters {
   vector<lower=0.0,upper=1.0>[nsrc] src_f_psw;//source vector
-  real<lower=0.0> bkg_psw;//background
-  real<lower=0.0,upper=8> sigma_conf_psw;
+  real bkg_psw;//background
+  real<lower=0.0,upper=0.00001> sigma_conf_psw;
 }
 
 model {
   vector[npix_psw] db_hat_psw;//model of map
-  vector[npix_psw] sigma_tot_psw;
+  //vector[npix_psw] sigma_tot_psw;
   vector[nsrc] f_vec_psw;//vector of source fluxes
-
+  
   // Transform to normal space. As I am sampling variable then transforming I don't need a Jacobian adjustment
   for (n in 1:nsrc) {
     f_vec_psw[n] <- f_low_lim_psw[n]+(f_up_lim_psw[n]-f_low_lim_psw[n])*src_f_psw[n];
@@ -33,19 +33,18 @@ model {
 
   }
   //Prior on background 
-  bkg_psw ~normal(bkg_prior_psw,bkg_prior_sig_psw);
- 
+  bkg_psw ~normal(bkg_prior_psw,bkg_prior_sig_psw); 
    
   // Create model maps (i.e. db_hat = A*f) using sparse multiplication
   for (k in 1:npix_psw) {
     db_hat_psw[k] <- bkg_psw;
-    sigma_tot_psw[k]<-sqrt(square(sigma_psw[k])+square(sigma_conf_psw));
+  //  sigma_tot_psw[k]<-sqrt(square(sigma_psw[k])+square(sigma_conf_psw));
   }
   for (k in 1:nnz_psw) {
     db_hat_psw[Row_psw[k]+1] <- db_hat_psw[Row_psw[k]+1] + Val_psw[k]*f_vec_psw[Col_psw[k]+1];
       }
 
   // likelihood of observed map|model map
-  db_psw ~ normal(db_hat_psw,sigma_tot_psw);
+  db_psw ~ normal(db_hat_psw,sigma_psw);
 
     }
