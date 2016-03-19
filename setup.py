@@ -9,7 +9,7 @@ setup(name='XID_plus',
       description='XID+ is the next generation deblender tool for Herschel SPIRE maps. Its uses a probabilistic framework which allows the use prior information about the sources.',
       package_dir={'': 'xidplus'},
       py_modules=['xidplus'],
-      requires=['astropy','pystan','pickle','dill', 'numpy','scipy'],
+      requires=['astropy','pystan','pickle','dill', 'numpy','scipy', 'healpy', 'mocpy'],
       keywords='',
       license='Lesser Affero General Public License v3',
 
