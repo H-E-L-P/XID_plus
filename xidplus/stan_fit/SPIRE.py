@@ -50,7 +50,7 @@ def all_bands(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000,optimise=False):
           'f_up_lim_plw': SPIRE_500.prior_flux_upper}
 
     #see if model has already been compiled. If not, compile and save it
-    model_file=output_dir+"/XID+SPIRE.pkl"
+    model_file=output_dir+"/XID+SPIRE_lin.pkl"
     try:
        with open(model_file,'rb') as f:
             # using the same model as before
@@ -61,7 +61,7 @@ def all_bands(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000,optimise=False):
        fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True)
     except IOError as e:
         print("%s not found. Compiling" % model_file)
-        sm = pystan.StanModel(file=stan_path+'XID+SPIRE.stan')
+        sm = pystan.StanModel(file=stan_path+'XID+SPIRE_lin.stan')
         # save it to the file 'model.pkl' for later use
         with open(model_file, 'wb') as f:
             pickle.dump(sm, f)
@@ -210,7 +210,7 @@ def all_bands_stack(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000,optimise=Fa
           'Col_plw': SPIRE_500.amat_col.astype(long),
           'f_low_lim_plw': SPIRE_500.prior_flux_lower,
           'f_up_lim_plw': SPIRE_500.prior_flux_upper,
-          'nstack': SPIRE250.nstacl}
+          'nstack': SPIRE_250.nstack.astype(long)}
 
     #see if model has already been compiled. If not, compile and save it
     model_file=output_dir+"/XID+SPIRE+hierStack.pkl"

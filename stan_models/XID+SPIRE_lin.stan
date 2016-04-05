@@ -27,7 +27,7 @@ data {
   vector[nsrc] f_up_lim_pmw;//upper limit of flux (in log10)
   //----PLW----
   int<lower=0> npix_plw;//number of pixels
-    int<lower=0> nnz_plw; //number of non neg entries in A
+  int<lower=0> nnz_plw; //number of non neg entries in A
   vector[npix_plw] db_plw;//flattened map
   vector[npix_plw] sigma_plw;//flattened uncertianty map (assuming no covariance between pixels)
   real bkg_prior_plw;//prior estimate of background
@@ -37,10 +37,22 @@ data {
   int Col_plw[nnz_plw];//Cols of non neg values in image matrix
   vector[nsrc] f_low_lim_plw;//upper limit of flux 
   vector[nsrc] f_up_lim_plw;//upper limit of flux 
-  //----hierStack----
-  int<lower=0> nstack; 
 
 }
+//transformed data {
+//  cholesky_factor_cov[npix_psw] L;
+
+//   for (i in 1:npix_psw) {
+//     for (j in 1:npix_psw) {
+//       L[i,j]<-0.0;
+//     }
+//   }
+//   for (i in 1:nnz_sig_conf_psw_tot) {
+//     L[Row_sig_conf_psw[i],Col_sig_conf_psw[i]]<- Val_sig_conf_psw[i];
+//   }
+
+
+// }
 
 parameters {
   vector<lower=0.0,upper=1.0>[nsrc] src_f_psw;//source vector
@@ -52,12 +64,6 @@ parameters {
   real<lower=0.0,upper=8> sigma_conf_psw;
   real<lower=0.0,upper=8> sigma_conf_pmw;
   real<lower=0.0,upper=8> sigma_conf_plw;
-  real <lower=0,upper=10> stack_mu_psw;//mean flux of highz sample
-  real <lower=0.0,upper=4> stack_sigma_psw;//dispersion of highz sample
-  real <lower=0,upper=10> stack_mu_pmw;//mean flux of highz sample
-  real <lower=0.0,upper=4> stack_sigma_pmw;//dispersion of highz sample
-  real <lower=0,upper=10> stack_mu_plw;//mean flux of highz sample
-  real <lower=0.0,upper=4> stack_sigma_plw;//dispersion of highz sample
 
 }
 
@@ -86,15 +92,6 @@ model {
   bkg_psw ~normal(bkg_prior_psw,bkg_prior_sig_psw);
   bkg_pmw ~normal(bkg_prior_pmw,bkg_prior_sig_pmw);
   bkg_plw ~normal(bkg_prior_plw,bkg_prior_sig_plw);
-
-  //Hierarchical Stacking priors
-  
-  for (n in 1:nstack) {
-    f_vec_psw[nsrc-nstack+n] ~lognormal(stack_mu_psw,stack_sigma_psw);//distribution of flux from high z sample
-    f_vec_pmw[nsrc-nstack+n] ~lognormal(stack_mu_pmw,stack_sigma_pmw);//distribution of flux from high z sample
-    f_vec_plw[nsrc-nstack+n] ~lognormal(stack_mu_plw,stack_sigma_plw);//distribution of flux from high z sample
-  }
-
  
    
   // Create model maps (i.e. db_hat = A*f) using sparse multiplication

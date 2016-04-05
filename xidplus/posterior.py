@@ -63,7 +63,9 @@ class posterior_stan(object):
     def scale_posterior(self,priors):
         #create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
         ind=[True]*self.nsrc
-        ind_tmp=np.array((ind+[False])*len(priors)+[False]*len(priors)+[False])
+        ind_tmp=np.array((ind+[False])*len(priors)+[False]*len(priors))
+        add_param=len(self.param_names)-ind_tmp.size
+        ind_tmp=np.append(ind_tmp,np.array(add_param*[False]+[False]))
         lower=np.array([])
         upper=np.array([])
 
