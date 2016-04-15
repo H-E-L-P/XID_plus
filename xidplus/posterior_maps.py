@@ -1,4 +1,6 @@
 __author__ = 'pdh21'
+from astropy.io import fits
+
 import numpy as np
 
 def ymod_map(prior,posterior_sample):
@@ -28,3 +30,19 @@ def yrep_map(prior,fvec,conf_noise):
     pred_map[prior.sy_pix,prior.sx_pix]=np.asarray(rmap_temp.todense()).reshape(-1)+np.random.randn(prior.snpix)*np.sqrt(np.square(prior.snim)+np.square(conf_noise))
 
     return pred_map,np.asarray(rmap_temp.todense())+np.random.randn(prior.snpix)*np.sqrt(np.square(prior.snim)+np.square(conf_noise))
+
+def make_fits_image(prior,pixel_values):
+    """
+    :param prior: prior class for XID+
+    :param pixel_values:this is the pixel values returned from ymod_map
+    :return: fits hdulist
+    """
+    x_range=np.max(prior.sx_pix)-np.min(prior.sx_pix)
+    y_range=np.max(prior.sy_pix)-np.min(prior.sy_pix)
+    data=np.full((y_range,x_range),np.nan)
+    data[prior.sy_pix-np.min(prior.sy_pix)-1,prior.sx_pix-np.min(prior.sx_pix)-1]=pixel_values
+    hdulist = fits.HDUList([fits.PrimaryHDU(header=prior.imphdu),fits.ImageHDU(data=data,header=prior.imhdu)])
+    hdulist[1].header['CRPIX1']=hdulist[1].header['CRPIX1']-np.min(prior.sx_pix)-1
+    hdulist[1].header['CRPIX2']=hdulist[1].header['CRPIX2']-np.min(prior.sy_pix)-1
+
+    return hdulist

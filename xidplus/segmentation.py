@@ -1,4 +1,7 @@
 import numpy as np
+from sklearn.neighbors import NearestNeighbors
+from astropy import units as u
+from astropy.coordinates import SkyCoord
 
 
 def Segmentation_scheme(inra,indec,inID,tile_l):
@@ -187,6 +190,49 @@ def make_tile_catalogues(output_folder,Master_filename,chains=4,iters=750):
         hdulist[1].data=hdulist[1].data[kept_sources]
         hdulist.writeto(output_folder+'Tile_'+str(tiles[i])+'_'+str(order)+'.fits')
         hdulist.close()
+
+
+
+
+def match_samples(prior,posterior,prior_tile,c,master_posterior,master_Rhat,master_n_eff,thresh=0.1):
+    ind_mast=[]
+    c_prior = SkyCoord(ra=prior.sra*u.degree, dec=prior.sdec*u.degree, frame='icrs')
+    s=c.match_to_catalog_sky(c_prior)[0]
+    chains,iters,nparam=posterior.stan_fit.shape
+    cov=np.triu(np.corrcoef(posterior.stan_fit[:,:,:-3].reshape((chains*iters,nparam-3)).T),0)
+    index=np.abs(cov[:,s])>thresh
+    for i in posterior.ID[index[:,0]]:
+        ind_mast.append(np.arange(0,prior_tile.nsrc)[prior_tile.ID == i][0])
+    match_id=[]
+    for i in ind_mast:
+        match_id.append(np.isfinite(master_posterior[0,i,0]))
+
+    if sum(match_id) >0:
+        neigh = NearestNeighbors(n_neighbors=1)
+        neigh.fit(master_posterior[:,np.array(ind_mast)[np.array(match_id)],0])
+
+        icp_ind=neigh.kneighbors(posterior.stan_fit[:,:,np.array(np.arange(0,prior.nsrc)[index[:,0]])[np.array(match_id)]].reshape(chains*iters,np.array(ind_mast)[np.array(match_id)].size))[1]
+        fitted_s=s == np.array(np.arange(0,prior.nsrc)[index[:,0]])[np.array(match_id)]
+        mast_ind=[not i for i in match_id]+fitted_s
+        master_posterior[icp_ind,np.array(ind_mast)[mast_ind],0]=posterior.stan_fit[:,:,np.array(np.arange(0,prior.nsrc)[index[:,0]])[mast_ind]].reshape(chains*iters,sum(mast_ind))
+        master_posterior[icp_ind,np.array(ind_mast)[mast_ind],1]=posterior.stan_fit[:,:,-3].reshape(chains*iters,1)
+        master_posterior[icp_ind,np.array(ind_mast)[mast_ind],2]=posterior.stan_fit[:,:,-2].reshape(chains*iters,1)
+
+
+    else:
+        master_posterior[:,prior_tile.ID == prior.ID[s],0]=posterior.stan_fit[:,:,s].reshape(chains*iters,1)
+        master_posterior[:,prior_tile.ID == prior.ID[s],1]=posterior.stan_fit[:,:,-3].reshape(chains*iters,1)
+        master_posterior[:,prior_tile.ID == prior.ID[s],2]=posterior.stan_fit[:,:,-2].reshape(chains*iters,1)
+    master_Rhat[prior_tile.ID == prior.ID[s],0]=posterior.Rhat[s]
+    master_Rhat[prior_tile.ID == prior.ID[s],1]=posterior.Rhat[-3]
+    master_Rhat[prior_tile.ID == prior.ID[s],2]=posterior.Rhat[-2]
+    master_n_eff[prior_tile.ID == prior.ID[s],0]=posterior.n_eff[s]
+    master_n_eff[prior_tile.ID == prior.ID[s],1]=posterior.n_eff[-3]
+    master_n_eff[prior_tile.ID == prior.ID[s],2]=posterior.n_eff[-2]
+
+    return master_posterior,master_Rhat,master_n_eff
+
+
 
 
 
