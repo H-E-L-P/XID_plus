@@ -52,11 +52,11 @@ parameters {
   real<lower=0.0,upper=8> sigma_conf_psw;
   real<lower=0.0,upper=8> sigma_conf_pmw;
   real<lower=0.0,upper=8> sigma_conf_plw;
-  real <lower=0,upper=10> stack_mu_psw;//mean flux of highz sample
+  real <lower=-10,upper=10> stack_mu_psw;//mean flux of highz sample
   real <lower=0.0,upper=4> stack_sigma_psw;//dispersion of highz sample
-  real <lower=0,upper=10> stack_mu_pmw;//mean flux of highz sample
+  real <lower=-10,upper=10> stack_mu_pmw;//mean flux of highz sample
   real <lower=0.0,upper=4> stack_sigma_pmw;//dispersion of highz sample
-  real <lower=0,upper=10> stack_mu_plw;//mean flux of highz sample
+  real <lower=-10,upper=10> stack_mu_plw;//mean flux of highz sample
   real <lower=0.0,upper=4> stack_sigma_plw;//dispersion of highz sample
 
 }
