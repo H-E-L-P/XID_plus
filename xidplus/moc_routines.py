@@ -1,6 +1,7 @@
 __author__ = 'pdh21'
-from mocpy import MOC
+from pymoc import MOC
 from healpy import pixelfunc
+from pymoc.util import catalog
 
 import numpy as np
 def get_HEALPix_pixels(order,ra,dec,unique=True):
@@ -44,7 +45,7 @@ def get_fitting_region(order,pixel):
     #get neighbouring pixels and remove duplicates
     moc_tile=MOC()
     pixels=np.unique(pixelfunc.get_all_neighbours(new_nside, pix_fit,nest=True))
-    moc_tile.add_pix_list(order+2,np.unique(pixelfunc.get_all_neighbours(new_nside, pixels,nest=True)), nest=True)
+    moc_tile.add(order+2,np.unique(pixelfunc.get_all_neighbours(new_nside, pixels,nest=True)))
     return moc_tile
 
 
@@ -54,28 +55,30 @@ def create_MOC_from_map(good,wcs):
 
     pixels=get_HEALPix_pixels(12,ra[good],dec[good])
     map_moc=MOC()
-    map_moc.add_pix_list(12,pixels, nest=True)
+    map_moc.add(12,pixels)
     return map_moc
 
 def create_MOC_from_cat(ra,dec):
     pixels=get_HEALPix_pixels(11,ra,dec)
     cat_moc=MOC()
-    cat_moc.add_pix_list(11,pixels, nest=True)
+    cat_moc.add(11,pixels)
     return cat_moc
 
 def check_in_moc(ra,dec,moc,keep_inside=True):
-    pixels_best_res = set()
     kept_rows = []
-    for val in moc.best_res_pixels_iterator():
-        pixels_best_res.add(val)
-    pix=get_HEALPix_pixels(moc.max_order,ra,dec,unique=False)
+    pix=get_HEALPix_pixels(moc.order,ra,dec,unique=False)
     for ipix in pix:
-        kept_rows.append((ipix in pixels_best_res) == keep_inside)
+        kept_rows.append(moc.contains(moc.order,ipix, include_smaller=False))
     return kept_rows
 
 def sources_in_tile(pixel,order,ra,dec):
     moc_pix=MOC()
-    moc_pix.add_pix(order,pixel, nest=True)
+    moc_pix.add(order,pixel)
     kept_sources=check_in_moc(ra,dec,moc_pix,keep_inside=True)
     return kept_sources
 
+def tile_in_tile(order_small,tile_small,order_large):
+    """Routine to find our what larger tile to load data from when fitting from smaller tiles. Returns larger tile no."""
+    theta, phi =pixelfunc.pix2ang(2**order_small, tile_small, nest=True)
+    ipix = pixelfunc.ang2pix(2**order_large, theta, phi, nest=True)
+    return ipix
