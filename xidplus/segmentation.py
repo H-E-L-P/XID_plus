@@ -223,7 +223,7 @@ def match_samples(prior,posterior,prior_tile,c,master_posterior,master_Rhat,mast
         #find the index of the nearest neighbours in posterior
         fitted_s=s == np.array(np.arange(0,prior.nsrc)[index[:,0]])[np.array(match_id)]
         #those sources not already in master list
-        print len(fitted_s),len([not i for i in match_id])
+        print fitted_s,len(fitted_s),len([not i for i in match_id])
         mast_ind=[not i for i in match_id]+fitted_s
         master_posterior[icp_ind,np.array(ind_mast)[mast_ind],0]=posterior.stan_fit[:,:,np.array(np.arange(0,prior.nsrc)[index[:,0]])[mast_ind]].reshape(chains*iters,sum(mast_ind))[icp_ind].reshape(chains*iters,sum(mast_ind))
         master_posterior[icp_ind,np.array(ind_mast)[mast_ind],1]=posterior.stan_fit[:,:,-3].reshape(chains*iters)[icp_ind_2]
