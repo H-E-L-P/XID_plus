@@ -221,7 +221,7 @@ def match_samples(prior,posterior,prior_tile,c,master_posterior,master_Rhat,mast
 
         icp_ind=np.argsort(master_posterior[:,prior_tile.ID == prior.ID[s],0],axis=0)
         #which source in match_id is the fitted source??
-        fitted_s=s == np.array(np.arange(0,prior.nsrc)[index[:,0]])
+        fitted_s=np.where(s == np.array(np.arange(0,prior.nsrc)[index[:,0]]))[0]
 
         #those sources not already in master list
         mast_ind=[not i for i in match_id]
