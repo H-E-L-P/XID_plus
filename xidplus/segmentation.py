@@ -226,7 +226,7 @@ def match_samples(prior,posterior,prior_tile,c,master_posterior,master_Rhat,mast
         #those sources not already in master list
         mast_ind=[not i for i in match_id]
         print fitted_s,np.array(np.arange(0,prior.nsrc)[index[:,0]])[mast_ind],s,mast_ind,match_id,ind_mast
-        mast_ind[fitted_s]=True
+        print mast_ind[fitted_s],mast_ind
         print np.array(ind_mast)[mast_ind],np.array(np.arange(0,prior.nsrc)[index[:,0]])[mast_ind]
         print master_posterior[icp_ind,np.array(ind_mast)[mast_ind],0].shape,posterior.stan_fit[:,:,np.array(np.arange(0,prior.nsrc)[index[:,0]])[mast_ind]].shape#.reshape(chains*iters,sum(mast_ind)).shape
         master_posterior[icp_ind,np.array(ind_mast)[mast_ind],0]=posterior.stan_fit[:,:,np.array(np.arange(0,prior.nsrc)[index[:,0]])[mast_ind]].reshape(chains*iters,sum(mast_ind))[icp_ind_2]#.reshape(chains*iters,sum(mast_ind))
