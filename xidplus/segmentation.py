@@ -228,8 +228,8 @@ def match_samples(prior,posterior,prior_tile,c,master_posterior,master_Rhat,mast
         print fitted_s,np.array(np.arange(0,prior.nsrc)[index[:,0]])[mast_ind],s,mast_ind,match_id,ind_mast
         mast_ind[fitted_s]=True
         print np.array(ind_mast)[mast_ind],np.array(np.arange(0,prior.nsrc)[index[:,0]])[mast_ind]
-        print master_posterior[icp_ind,np.array(ind_mast)[mast_ind],0].shape,posterior.stan_fit[:,:,np.array(np.arange(0,prior.nsrc)[index[:,0]])[mast_ind]].reshape(chains*iters,sum(mast_ind)).shape
-        master_posterior[icp_ind,np.array(ind_mast)[mast_ind],0]=posterior.stan_fit[:,:,np.array(np.arange(0,prior.nsrc)[index[:,0]])[mast_ind]].reshape(chains*iters,sum(mast_ind))[icp_ind_2,:]
+        print master_posterior[icp_ind,np.array(ind_mast)[mast_ind],0].shape,posterior.stan_fit[:,:,np.array(np.arange(0,prior.nsrc)[index[:,0]])[mast_ind]].reshape(chains*iters,sum(mast_ind))[icp_ind_2,:].reshape(chains*iters,sum(mast_ind))
+        master_posterior[icp_ind,np.array(ind_mast)[mast_ind],0]=posterior.stan_fit[:,:,np.array(np.arange(0,prior.nsrc)[index[:,0]])[mast_ind]].reshape(chains*iters,sum(mast_ind))[icp_ind_2,:].reshape(chains*iters,sum(mast_ind))
         master_posterior[icp_ind,np.array(ind_mast)[mast_ind],1]=posterior.stan_fit[:,:,-3].reshape(chains*iters)[icp_ind_2]
         master_posterior[icp_ind,np.array(ind_mast)[mast_ind],2]=posterior.stan_fit[:,:,-2].reshape(chains*iters)[icp_ind_2]
 
