@@ -204,9 +204,13 @@ def match_samples(prior,posterior,prior_tile,c,master_posterior,master_Rhat,mast
     chains,iters,nparam=posterior.stan_fit.shape
     #get correlation coeffiecient, and only take uper tri of matrix
     print np.corrcoef(posterior.stan_fit[:,:,:-3].reshape((chains*iters,nparam-3)).T),posterior.stan_fit.shape
-    cov=np.triu(np.corrcoef(posterior.stan_fit[:,:,:-3].reshape((chains*iters,nparam-3)).T),0)
+    cor=np.corrcoef(posterior.stan_fit[:,:,:-3].reshape((chains*iters,nparam-3)).T)
+    if cor.size>0:
+        cov=np.triu(np.corrcoef(cor,0)
     #select those sources where correlation is above threshold
-    index=np.abs(cov[:,s])>thresh
+        index=np.abs(cov[:,s])>thresh
+    else:
+        index=np.array([True]).reshape((1,1))
     #select where in prior list of the tile, those correlated sources are
     for i in posterior.ID[index[:,0]]:
         ind_mast.append(np.arange(0,prior_tile.nsrc)[prior_tile.ID == i][0])
