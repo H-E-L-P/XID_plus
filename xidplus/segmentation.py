@@ -203,7 +203,6 @@ def match_samples(prior,posterior,prior_tile,c,master_posterior,master_Rhat,mast
     s=c.match_to_catalog_sky(c_prior)[0]
     chains,iters,nparam=posterior.stan_fit.shape
     #get correlation coeffiecient, and only take uper tri of matrix
-    print np.corrcoef(posterior.stan_fit[:,:,:-3].reshape((chains*iters,nparam-3)).T),posterior.stan_fit.shape
     cor=np.corrcoef(posterior.stan_fit[:,:,:-3].reshape((chains*iters,nparam-3)).T)
     if cor.size>1:
         cov=np.triu(cor,0)
