@@ -206,8 +206,8 @@ def match_samples(prior,posterior,prior_tile,c,master_posterior,master_Rhat,mast
     print np.corrcoef(posterior.stan_fit[:,:,:-3].reshape((chains*iters,nparam-3)).T),posterior.stan_fit.shape
     cor=np.corrcoef(posterior.stan_fit[:,:,:-3].reshape((chains*iters,nparam-3)).T)
     if cor.size>0:
-        cov=np.triu(np.corrcoef(cor,0)
-    #select those sources where correlation is above threshold
+        cov=np.triu(cor,0)
+        #select those sources where correlation is above threshold
         index=np.abs(cov[:,s])>thresh
     else:
         index=np.array([True]).reshape((1,1))
