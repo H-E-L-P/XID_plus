@@ -653,13 +653,13 @@ def create_XIDp_MIPScat_nocov(posterior,prior24):
 def create_XIDp_MIPScat(samples,Rhat,n_eff,prior24):
     """creates the XIDp catalogue in fits format required by HeDaM"""
     import datetime
-    
+
 
 
 
     #----table info-----------------------
     #first define columns
-    c1 = fits.Column(name='HELP-ID', format='15A', array=prior24.ID)
+    c1 = fits.Column(name='HELP-ID', format='100A', array=prior24.ID)
     c2 = fits.Column(name='RA', format='D', unit='degrees', array=prior24.sra)
     c3 = fits.Column(name='Dec', format='D', unit='degrees', array=prior24.sdec)
     c4 = fits.Column(name='F_MIPS_24', format='E', unit='mJy', array=np.percentile(samples[:,:,0],50,axis=0))
