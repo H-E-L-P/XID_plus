@@ -653,10 +653,7 @@ def create_XIDp_MIPScat_nocov(posterior,prior24):
 def create_XIDp_MIPScat(samples,Rhat,n_eff,prior24):
     """creates the XIDp catalogue in fits format required by HeDaM"""
     import datetime
-    med_flux=np.percentile(samples[:,:,0],50,axis=1)
-    flux_low=np.percentile(samples[:,:,0],15.87,axis=1)
-    flux_high=np.percentile(samples[:,:,0],84.1,axis=1)
-
+    
 
 
 
@@ -665,11 +662,11 @@ def create_XIDp_MIPScat(samples,Rhat,n_eff,prior24):
     c1 = fits.Column(name='HELP-ID', format='15A', array=prior24.ID)
     c2 = fits.Column(name='RA', format='D', unit='degrees', array=prior24.sra)
     c3 = fits.Column(name='Dec', format='D', unit='degrees', array=prior24.sdec)
-    c4 = fits.Column(name='F_MIPS_24', format='E', unit='mJy', array=np.percentile(samples[:,:,0],50,axis=1))
-    c5 = fits.Column(name='FErr_MIPS_24_u', format='E', unit='mJy', array=np.percentile(samples[:,:,0],84.1,axis=1))
-    c6 = fits.Column(name='FErr_MIPS_24_l', format='E', unit='mJy', array=np.percentile(samples[:,:,0],15.87,axis=1))
-    c7 = fits.Column(name='Bkg_MIPS_24', format='E', unit='mJy/Beam', array=np.percentile(samples[:,:,1],50,axis=1))
-    c8 = fits.Column(name='Sig_conf_MIPS_24', format='E',unit='mJy/Beam', array=np.percentile(samples[:,:,2],50,axis=1))
+    c4 = fits.Column(name='F_MIPS_24', format='E', unit='mJy', array=np.percentile(samples[:,:,0],50,axis=0))
+    c5 = fits.Column(name='FErr_MIPS_24_u', format='E', unit='mJy', array=np.percentile(samples[:,:,0],84.1,axis=0))
+    c6 = fits.Column(name='FErr_MIPS_24_l', format='E', unit='mJy', array=np.percentile(samples[:,:,0],15.87,axis=0))
+    c7 = fits.Column(name='Bkg_MIPS_24', format='E', unit='mJy/Beam', array=np.percentile(samples[:,:,1],50,axis=0))
+    c8 = fits.Column(name='Sig_conf_MIPS_24', format='E',unit='mJy/Beam', array=np.percentile(samples[:,:,2],50,axis=0))
     c9 = fits.Column(name='Rhat_MIPS_24', format='E', array=Rhat[:,0])
     c10 = fits.Column(name='n_eff_MIPS_24', format='E', array=n_eff[:,0])
 
