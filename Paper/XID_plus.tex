@@ -47,8 +47,8 @@
 
 \usepackage{hyperref}
 \title[HELP:XID+]
-  {HELP: XID+, The Probabilistic De-blender for \emph{Herschel} SPIRE maps}\author[P.D. Hurley et al.]{P.D.~Hurley,$^1$\thanks{Email: p.d.hurley@sussex.ac.uk} S.~Oliver,$^1$ J.M.~Scudder,$^1$ M.~Betancourt,$^2$ S.~Duivenvoorden,$^1$ \newauthor 
- D.~Farrah,$^3$ M.~Griffin,$^4$ E.~Le Floc'h,$^5$ A.~Papadopoulos,$^6$ M.~Sargent,$^1$ M.~Vaccari,$^7$\newauthor I. ~Valtchanov,$^8$ L.~Wang$^9$\\
+  {HELP: XID+, The Probabilistic De-blender for \emph{Herschel} SPIRE maps}\author[P.D. Hurley et al.]{P.D.~Hurley,$^1$\thanks{Email: p.d.hurley@sussex.ac.uk} S.~Oliver,$^1$ M.~Betancourt,$^2$ C.~Clarke,$^1$ S.~Duivenvoorden,$^1$ \newauthor 
+ D.~Farrah,$^3$ M.~Griffin,$^4$ E.~Le Floc'h,$^5$ A.~Papadopoulos,$^6$ M.~Sargent,$^1$\newauthor J.M.~Scudder,$^1$ M.~Vaccari,$^7$ I. ~Valtchanov,$^8$ L.~Wang$^9$\\
 $^1$Astronomy Centre, Department of Physics and Astronomy, University of Sussex, Falmer, Brighton BN1 9QH, UK\\
 $^2$Department of Statistics, University of Warwick, Coventry, CV4 7AL, UK\\
 $^3$Virginia Polytechnic Institute \& State University, Department of Physics, MC 0435, 910 Drillfield Drive, Blacksburg, VA 24061, USA\\
@@ -165,7 +165,7 @@ For \textsc{XID+}, we want to map out the entire posterior, $p(\mathbf{f}|\mathb
 \begin{equation}
 p(\mathbf{f}|\mathbf{d}) \propto p(\mathbf{d}|\mathbf{f}) \times p(\mathbf{f})
 \end{equation}
-where $p(\mathbf{d}|\mathbf{f})$ is our likelihood, defined in equation \ref{eq:likelihood} and $p(\mathbf{f})$ is our prior on the fluxes. 
+where $p(\mathbf{d}|\mathbf{f})$ is our likelihood, defined in equation \ref{eq:likelihood} and $p(\mathbf{f})$ is our prior on the fluxes. \textcolor{red}{For our simplest model, we use a uniform distribution for $p(\mathbf{f})$, with an upper bound of 1000 mJy and lower bound of 0.01mJy.} 
 
 In our probabilistic framework, we can illustrate our model for the map, defined in equation \ref{eq:map2} via a probabilistic graphical model (PGM). Figure \ref{fig:graph_mod_xid+} shows a plate diagram \citep{Bishop:2006} for our PGM of the basic XID+ model, where boxes  indicate repeated values such as source ($i$), pixel ($j$) and band ($\lambda$). Open circles correspond to random variables and dots are deterministic (or fixed) variables, with their relative positions in the boxes indicating what indices they repeat over. For our simplest model, the positional vector of sources ($\mathbf{r_i}$) can be described by sky co-ordinates, $\alpha_i$ and $\delta_i$ and are treated as deterministic (i.e. known). The PRF is assumed to be a Gaussian, with full-width half-maximum (FWHM) of 18.15, 25.15 and 36.3 arcsec for 250, 350 and 500 $\mathrm{\mu m}$ respectively \citep{Griffin:2010}. Both these deterministic variables are used to make the pointing matrix $A_{i,j,\lambda}$ which gives the contribution source $i$ makes to each pixel $j$ in the map at wavelength $\lambda$. Each source has its own flux $f_{i,\lambda}$ which is a random variable. By multiplying $f$, $A$ for all sources and pixels, and adding our global estimate for the background $B$, we can make our model for the map, $m$, which we can compare to the data $D$. 
 \begin{figure}
@@ -221,7 +221,7 @@ The choice of HEALPix pixel size affects the computational time of \textsc{XID+}
 \subfloat[$250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={4}]{metrics_both.pdf}}
 \subfloat[$350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={5}]{metrics_both.pdf}}
 \subfloat[$500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={6}]{metrics_both.pdf}}
-\caption{The 16th, 50th and 84th percentiles for inverse precision, or IQR of \textsc{XID+} (coloured line and shaded region) and \textsc{DESPHOT}  (black solid and dashed lines), as a function of true flux, for the 250 (blue), 350 (green) and 500 (red) $\mathrm{\mu m}$ SPIRE bands. }\label{fig:precision}
+\caption{The 16th, 50th and 84th percentiles for inverse precision, or IQR of \textsc{XID+} (coloured line and shaded region) and \textsc{DESPHOT}  (\textcolor{red}{black dashed lines}), as a function of true flux, for the 250 (blue), 350 (green) and 500 (red) $\mathrm{\mu m}$ SPIRE bands. }\label{fig:precision}
 \end{figure*}
 
 \begin{figure*}
@@ -235,7 +235,7 @@ The choice of HEALPix pixel size affects the computational time of \textsc{XID+}
 \subfloat[$250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={7}]{metrics_both.pdf}}
 \subfloat[$350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={8}]{metrics_both.pdf}}
 \subfloat[$500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={9}]{metrics_both.pdf}}
-\caption{The 16th, 50th and 84th percentiles for flux accuracy of \textsc{XID+} (coloured line and shaded region) and \textsc{DESPHOT} (black solid and dashed lines), as a function of true flux, for the 250 (blue), 350 (green) and 500 (red) $\mathrm{\mu m}$ SPIRE bands. A horizontal thick line is shown at zero for clarity.}\label{fig:accuracy}
+\caption{The 16th, 50th and 84th percentiles for flux accuracy of \textsc{XID+} (coloured line and shaded region) and \textsc{DESPHOT} (\textcolor{red}{black dashed lines}), as a function of true flux, for the 250 (blue), 350 (green) and 500 (red) $\mathrm{\mu m}$ SPIRE bands. A horizontal thick line is shown at zero for clarity.}\label{fig:accuracy}
 \end{figure*}
 
 \begin{figure*}
@@ -249,7 +249,7 @@ The choice of HEALPix pixel size affects the computational time of \textsc{XID+}
 \subfloat[$250\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={1}]{metrics_both.pdf}}
 \subfloat[$350\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={2}]{metrics_both.pdf}}
 \subfloat[$500\mathrm{\mu m}$]{\includegraphics[width=5.5cm,page={3}]{metrics_both.pdf}}
-\caption{The 16th, 50th and 84th percentiles for Z score, or flux density error of \textsc{XID+} (coloured line and shaded region) and \textsc{DESPHOT}  (black solid and dashed lines), as a function of true flux, for the 250 (blue), 350 (green) and 500 (red) $\mathrm{\mu m}$ SPIRE bands. A horizontal thick line is shown at zero for clarity.}\label{fig:zscore}
+\caption{The 16th, 50th and 84th percentiles for Z score, or flux density error of \textsc{XID+} (coloured line and shaded region) and \textsc{DESPHOT}  (\textcolor{red}{black dashed lines}), as a function of true flux, for the 250 (blue), 350 (green) and 500 (red) $\mathrm{\mu m}$ SPIRE bands. A horizontal thick line is shown at zero for clarity.}\label{fig:zscore}
 \end{figure*}
 
 \section{Simulations}\label{sec:sims}
@@ -301,7 +301,7 @@ For sources that are close together (i.e. within FWHM of the PRF), the uncertain
  
 \begin{figure} 
 \includegraphics[width=6cm]{example_tri_DESHPOT_XIDp.pdf}
-\caption{Posterior triangle plot of two correlated sources that are 2'' apart, with one and two sigma contours over-plotted and true fluxes indicated via the vertical and horizontal line. \textsc{DESPHOT} (blue) assigns all the flux to one source, where as with \textsc{XID+} we get the full uncertainty information from the posterior. Plot created with \protect\cite{triangle}.}\label{fig:corr}
+\caption{Posterior triangle plot of two correlated sources that are 2'' apart, with one and two sigma contours over-plotted and true fluxes indicated via the vertical and horizontal line. \textsc{DESPHOT} (blue) assigns all the flux to one source, where as with \textsc{XID+} we get the full uncertainty information from the posterior. Plot created with the \textcolor{red}{\textit{corner} python module}\protect\cite{triangle}.}\label{fig:corr}
 \end{figure}
 
 \section{COSMOS field}\label{sec:COSMOS}

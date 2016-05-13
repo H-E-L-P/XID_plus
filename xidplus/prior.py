@@ -59,7 +59,7 @@ class prior(object):
 
         self.bkg = (mu, sigma)
 
-    def prior_cat(self, ra, dec, prior_cat_file,flux_lower,flux_upper, ID=None, moc=None,flux_scale=False):
+    def prior_cat(self, ra, dec, prior_cat_file,flux_lower=None,flux_upper=None, ID=None, moc=None,flux_scale=False):
         """Input info for prior catalogue. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
         and converts RA and DEC to pixel positions"""
         # get positions of sources in terms of pixels
@@ -78,6 +78,9 @@ class prior(object):
         self.sdec = dec
         self.nsrc = self.sra.size
         self.prior_cat = prior_cat_file
+        if flux_lower is None:
+            flux_lower=np.full((ra.size),0.01)
+            flux_upper=np.full((ra.size),1000.0)
         self.prior_flux_lower=flux_lower
         self.prior_flux_upper=flux_upper
         self.flux_scale(log=flux_scale)

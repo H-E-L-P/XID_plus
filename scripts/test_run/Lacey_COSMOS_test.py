@@ -136,7 +136,7 @@ prior500.set_prf(prf500.array,pind500,pind500)
 
 #from moc, get healpix pixels at a given order
 from xidplus import moc_routines
-order=12
+order=10
 tiles=moc_routines.get_HEALPix_pixels(order,prior250.sra,prior250.sdec,unique=True)
 
 try:
@@ -160,6 +160,7 @@ except KeyError:
     print "Error: could not read SGE_TASK_ID from environment"
     taskid = int(raw_input("Please enter task id: "))
     print "you entered", taskid
+
 
 
 moc=moc_routines.get_fitting_region(order,tiles[taskid-1])
