@@ -1,4 +1,6 @@
 __author__ = 'pdh21'
+from astropy.io import fits
+
 import numpy as np
 from astropy.io import fits
 

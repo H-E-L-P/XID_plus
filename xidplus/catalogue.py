@@ -491,7 +491,7 @@ def create_XIDp_PACScat_nocov(posterior,prior100,prior160):
 
     #----table info-----------------------
     #first define columns
-    c1 = fits.Column(name='ID', format='15A', array=prior100.ID)
+    c1 = fits.Column(name='ID', format='100A', array=prior100.ID)
     c2 = fits.Column(name='RA', format='D', unit='degrees', array=prior100.sra)
     c3 = fits.Column(name='Dec', format='D', unit='degrees', array=prior100.sdec)
     c4 = fits.Column(name='F_PACS_100', format='E', unit='mJy', array=med_flux[0:nsrc])
@@ -608,6 +608,74 @@ def create_XIDp_MIPScat_nocov(posterior,prior24):
 
     tbhdu.header.set('TUCD1','ID',after='TFORM1')
     tbhdu.header.set('TDESC1','ID of source',after='TUCD1')
+
+    tbhdu.header.set('TUCD2','pos.eq.RA',after='TUNIT2')
+    tbhdu.header.set('TDESC2','R.A. of object J2000',after='TUCD2')
+
+    tbhdu.header.set('TUCD3','pos.eq.DEC',after='TUNIT3')
+    tbhdu.header.set('TDESC3','Dec. of object J2000',after='TUCD3')
+
+    tbhdu.header.set('TUCD4','phot.flux.density',after='TUNIT4')
+    tbhdu.header.set('TDESC4','24 Flux (at 50th percentile)',after='TUCD4')
+
+    tbhdu.header.set('TUCD5','phot.flux.density',after='TUNIT5')
+    tbhdu.header.set('TDESC5','24 Flux (at 84.1 percentile) ',after='TUCD5')
+
+    tbhdu.header.set('TUCD6','phot.flux.density',after='TUNIT6')
+    tbhdu.header.set('TDESC6','24 Flux (at 15.9 percentile)',after='TUCD6')
+
+    tbhdu.header.set('TUCD7','phot.flux.density',after='TUNIT7')
+    tbhdu.header.set('TDESC7','24 background',after='TUCD7')
+
+    tbhdu.header.set('TUCD8','phot.flux.density',after='TUNIT8')
+    tbhdu.header.set('TDESC8','24 residual confusion noise',after='TUCD8')
+
+    tbhdu.header.set('TUCD9','stat.value',after='TFORM9')
+    tbhdu.header.set('TDESC9','24 MCMC Convergence statistic',after='TUCD9')
+
+    tbhdu.header.set('TUCD10','stat.value',after='TFORM10')
+    tbhdu.header.set('TDESC10','24 MCMC independence statistic',after='TUCD10')
+
+
+    #----Primary header-----------------------------------
+    prihdr = fits.Header()
+    prihdr['Prior_Cat'] = prior24.prior_cat
+    prihdr['TITLE']   = 'MIPS XID+ catalogue'
+    #prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change
+    prihdr['CREATOR'] = 'WP5'
+    prihdr['XID+VERSION'] = git_version()
+    prihdr['DATE']    = datetime.datetime.now().isoformat()
+    prihdu = fits.PrimaryHDU(header=prihdr)
+
+    thdulist = fits.HDUList([prihdu, tbhdu])
+    return thdulist
+
+def create_XIDp_MIPScat(samples,Rhat,n_eff,prior24):
+    """creates the XIDp catalogue in fits format required by HeDaM"""
+    import datetime
+
+
+
+
+    #----table info-----------------------
+    #first define columns
+    c1 = fits.Column(name='HELP-ID', format='100A', array=prior24.ID)
+    c2 = fits.Column(name='RA', format='D', unit='degrees', array=prior24.sra)
+    c3 = fits.Column(name='Dec', format='D', unit='degrees', array=prior24.sdec)
+    c4 = fits.Column(name='F_MIPS_24', format='E', unit='mJy', array=np.percentile(samples[:,:,0],50,axis=0))
+    c5 = fits.Column(name='FErr_MIPS_24_u', format='E', unit='mJy', array=np.percentile(samples[:,:,0],84.1,axis=0))
+    c6 = fits.Column(name='FErr_MIPS_24_l', format='E', unit='mJy', array=np.percentile(samples[:,:,0],15.87,axis=0))
+    c7 = fits.Column(name='Bkg_MIPS_24', format='E', unit='mJy/Beam', array=np.percentile(samples[:,:,1],50,axis=0))
+    c8 = fits.Column(name='Sig_conf_MIPS_24', format='E',unit='mJy/Beam', array=np.percentile(samples[:,:,2],50,axis=0))
+    c9 = fits.Column(name='Rhat_MIPS_24', format='E', array=Rhat[:,0])
+    c10 = fits.Column(name='n_eff_MIPS_24', format='E', array=n_eff[:,0])
+
+
+
+    tbhdu = fits.new_table([c1,c2,c3,c4,c5,c6,c7,c8,c9,c10])
+
+    tbhdu.header.set('TUCD1','ID',after='TFORM1')
+    tbhdu.header.set('TDESC1','HELP ID of source',after='TUCD1')
 
     tbhdu.header.set('TUCD2','pos.eq.RA',after='TUNIT2')
     tbhdu.header.set('TDESC2','R.A. of object J2000',after='TUCD2')

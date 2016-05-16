@@ -8,9 +8,11 @@ class posterior_stan(object):
         self.param_names=fit.constrained_param_names()
         self.stan_fit=fit.extract(permuted=False, inc_warmup=False)
         self.scale_posterior(priors)
+        self.ID=priors[0].ID
     
     def convergence_stats(self,fit):
         converge=np.array(fit.summary(probs=[0.025, 0.15, 0.25, 0.5, 0.75, 0.84, 0.975])['summary'][:,:])
+        self.converge=converge
         self.Rhat=converge[:,-1]
         self.n_eff=converge[:,-2]
 
@@ -63,7 +65,9 @@ class posterior_stan(object):
     def scale_posterior(self,priors):
         #create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
         ind=[True]*self.nsrc
-        ind_tmp=np.array((ind+[False])*len(priors)+[False]*len(priors)+[False])
+        ind_tmp=np.array((ind+[False])*len(priors)+[False]*len(priors))
+        add_param=len(self.param_names)-ind_tmp.size
+        ind_tmp=np.append(ind_tmp,np.array(add_param*[False]+[False]))
         lower=np.array([])
         upper=np.array([])
 
