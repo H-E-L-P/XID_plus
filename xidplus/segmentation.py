@@ -127,13 +127,17 @@ def make_master_posterior_HEALpix(output_folder,Master_filename,chains=4,iters=7
     with open(output_folder+Master_filename, "rb") as f:
         Master = pickle.load(f)
 
-    tiles=Master['tiles']
-    order=Master['order']
+
     prior250=Master['psw']
     stan_fit_master=np.empty((iters,chains,(prior250.nsrc+2.0)*3))
+    with open(output_folder+'Tiles.pkl', "rb") as f:
+        Master = pickle.load(f)
+    tiles=Master['tiles']
+    order=Master['order']
+
     for i in range(0,len(tiles)):
         print 'On tile '+str(i)+' out of '+str(len(tiles))
-        infile=output_folder+'Lacy_test_file_'+str(tiles[i])+'_'+str(order)+'.pkl'
+        infile=output_folder+'Tile_'+str(tiles[i])+'_'+str(order)+'.pkl'
         with open(infile, "rb") as f:
             obj = pickle.load(f)
         tmp_prior250=obj['psw']
@@ -142,20 +146,15 @@ def make_master_posterior_HEALpix(output_folder,Master_filename,chains=4,iters=7
         tmp_posterior=obj['posterior']
 
         #work out what sources in tile to keep
-        kept_sources=moc_routines.sources_in_tile(tiles[i],order,tmp_prior250.sra,tmp_prior250.sdec)
+        kept_sources=moc_routines.sources_in_tile([tiles[i]],order,tmp_prior250.sra,tmp_prior250.sdec)
         #create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
         ind_tmp=np.array(kept_sources+[False]+kept_sources+[False]+kept_sources+[False]+[False,False,False])
-        kept_sources=np.array(kept_sources)
-        #scale from 0-1 to flux values:
-        lower=np.append(np.append(tmp_prior250.prior_flux_lower[kept_sources],tmp_prior350.prior_flux_lower[kept_sources]),tmp_prior500.prior_flux_lower[kept_sources])
-        upper=np.append(np.append(tmp_prior250.prior_flux_upper[kept_sources],tmp_prior350.prior_flux_upper[kept_sources]),tmp_prior500.prior_flux_upper[kept_sources])
         #work out what sources in master list to keep
-        kept_sources=moc_routines.sources_in_tile(tiles[i],order,prior250.sra,prior250.sdec)
+        kept_sources=moc_routines.sources_in_tile([tiles[i]],order,prior250.sra,prior250.sdec)
         #create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
         ind_mast=np.array(kept_sources+[False]+kept_sources+[False]+kept_sources+[False]+[False,False,False])
-
-        print sum(ind_mast),len(ind_mast),sum(ind_tmp),len(ind_tmp),tmp_prior250.nsrc,lower.size,upper.size
-        stan_fit_master[:,:,ind_mast]=lower+(upper-lower)*tmp_posterior.stan_fit[:,:,ind_tmp]
+        print sum(ind_tmp),sum(ind_mast)
+        stan_fit_master[:,:,ind_mast]=tmp_posterior.stan_fit[:,:,ind_tmp]
     with open(output_folder+'master_posterior.pkl', 'wb') as f:
         pickle.dump({'posterior':stan_fit_master},f)
 
