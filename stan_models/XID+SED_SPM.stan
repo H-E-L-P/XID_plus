@@ -36,24 +36,25 @@ data {
   int Row_plw[nnz_plw];//Rows of non neg valies in image matrix
   int Col_plw[nnz_plw];//Cols of non neg values in image matrix
   vector[nsrc] f_low_lim_plw;//upper limit of flux 
-  vector[nsrc] f_up_lim_plw;//upper limit of flux 
-
+  vector[nsrc] f_up_lim_plw;//upper limit of flux
+  //-----SED-prior--------
+  int<lower=0> nz;// number of points in zpdf
+  vector[nz] logpz[nsrc];///logpdf for each source
+  int<lower=0> nlam;//number of points in SED
+  int<lower=0> nSED;//number of SED temps
+  real SEDs[nlam,nSED]; // SEDs
+  vector[3] sigma;
+ 
 }
-//transformed data {
-//  cholesky_factor_cov[npix_psw] L;
-
-//   for (i in 1:npix_psw) {
-//     for (j in 1:npix_psw) {
-//       L[i,j]<-0.0;
-//     }
-//   }
-//   for (i in 1:nnz_sig_conf_psw_tot) {
-//     L[Row_sig_conf_psw[i],Col_sig_conf_psw[i]]<- Val_sig_conf_psw[i];
-//   }
-
-
-// }
-
+transformed data {
+  vector[3] tmp_sed[nz,nSED];
+  for (s in 1:nSED){
+      for (z in 1:nz) {
+	tmp_sed[z,s,1] <- SEDs[z+2*nz,s]/SEDs[z,s];
+	tmp_sed[z,s,2] <- SEDs[z+2*nz,s]/SEDs[z+nz,s];
+	tmp_sed[z,s,3] <- SEDs[z+nz,s]/SEDs[z,s];
+      }}
+}
 
 parameters {
   vector<lower=0.0,upper=1.0>[nsrc] src_f_psw;//source vector
@@ -65,6 +66,7 @@ parameters {
   real<lower=0.0,upper=8> sigma_conf_psw;
   real<lower=0.0,upper=8> sigma_conf_pmw;
   real<lower=0.0,upper=8> sigma_conf_plw;
+  
 
 }
 
@@ -78,15 +80,28 @@ model {
   vector[npix_pmw] sigma_tot_pmw;
   vector[npix_plw] sigma_tot_plw;
 
-  vector[nsrc] f_vec_psw;//vector of source fluxes
-  vector[nsrc] f_vec_pmw;//vector of source fluxes
-  vector[nsrc] f_vec_plw;//vector of source fluxes
+  row_vector[3] f_vec[nsrc];//matrix of source fluxes
+
+  vector[nz] ps;//log probs
+
+  vector[3] tmp_fvec;
+ 
+
+  
   // Transform to normal space. As I am sampling variable then transforming I don't need a Jacobian adjustment
   for (n in 1:nsrc) {
-    f_vec_psw[n] <- f_low_lim_psw[n]+(f_up_lim_psw[n]-f_low_lim_psw[n])*src_f_psw[n];
-    f_vec_pmw[n] <- f_low_lim_pmw[n]+(f_up_lim_pmw[n]-f_low_lim_pmw[n])*src_f_pmw[n];
-    f_vec_plw[n] <- f_low_lim_plw[n]+(f_up_lim_plw[n]-f_low_lim_plw[n])*src_f_plw[n];
-
+    f_vec[n,1] <- f_low_lim_psw[n]+(f_up_lim_psw[n]-f_low_lim_psw[n])*src_f_psw[n];
+    f_vec[n,2] <- f_low_lim_pmw[n]+(f_up_lim_pmw[n]-f_low_lim_pmw[n])*src_f_pmw[n];
+    f_vec[n,3] <- f_low_lim_plw[n]+(f_up_lim_plw[n]-f_low_lim_plw[n])*src_f_plw[n];
+    tmp_fvec[1] <- f_vec[n,3]/f_vec[n,1];
+    tmp_fvec[2] <- f_vec[n,3]/f_vec[n,2];
+    tmp_fvec[3] <- f_vec[n,2]/f_vec[n,1];
+    for (s in 1:nSED){
+      for (z in 1:nz) {
+	ps[z]<-logpz[n,z]+normal_log(tmp_fvec,tmp_sed[z,s],sigma);	
+      }
+      increment_log_prob(log_sum_exp(ps));
+    }
 
   }
   //Prior on background 
@@ -101,7 +116,7 @@ model {
     sigma_tot_psw[k]<-sqrt(square(sigma_psw[k])+square(sigma_conf_psw));
   }
   for (k in 1:nnz_psw) {
-    db_hat_psw[Row_psw[k]+1] <- db_hat_psw[Row_psw[k]+1] + Val_psw[k]*f_vec_psw[Col_psw[k]+1];
+    db_hat_psw[Row_psw[k]+1] <- db_hat_psw[Row_psw[k]+1] + Val_psw[k]*f_vec[Col_psw[k]+1,1];
       }
 
   for (k in 1:npix_pmw) {
@@ -109,7 +124,7 @@ model {
     sigma_tot_pmw[k]<-sqrt(square(sigma_pmw[k])+square(sigma_conf_pmw));
   }
   for (k in 1:nnz_pmw) {
-    db_hat_pmw[Row_pmw[k]+1] <- db_hat_pmw[Row_pmw[k]+1] + Val_pmw[k]*f_vec_pmw[Col_pmw[k]+1];
+    db_hat_pmw[Row_pmw[k]+1] <- db_hat_pmw[Row_pmw[k]+1] + Val_pmw[k]*f_vec[Col_pmw[k]+1,2];
       }
 
   for (k in 1:npix_plw) {
@@ -117,7 +132,7 @@ model {
     sigma_tot_plw[k]<-sqrt(square(sigma_plw[k])+square(sigma_conf_plw));
   }
   for (k in 1:nnz_plw) {
-    db_hat_plw[Row_plw[k]+1] <- db_hat_plw[Row_plw[k]+1] + Val_plw[k]*f_vec_plw[Col_plw[k]+1];
+    db_hat_plw[Row_plw[k]+1] <- db_hat_plw[Row_plw[k]+1] + Val_plw[k]*f_vec[Col_plw[k]+1,3];
       }
 
   // likelihood of observed map|model map
@@ -126,6 +141,8 @@ model {
   db_plw ~ normal(db_hat_plw,sigma_tot_plw);
 
 
+
+  
   // As actual maps are mean subtracted, requires a Jacobian adjustment
   //db_psw <- db_obs_psw - mean(db_obs_psw)
   //increment_log_prob(log((size(db_obs_psw)-1)/size(db_obs_psw)))
