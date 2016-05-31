@@ -68,7 +68,7 @@ def check_in_moc(ra,dec,moc,keep_inside=True):
     kept_rows = []
     pix=get_HEALPix_pixels(moc.order,ra,dec,unique=False)
     for ipix in pix:
-        kept_rows.append(moc.contains(moc.order,ipix, include_smaller=False))
+        kept_rows.append(moc.contains(moc.order,ipix, include_smaller=True))
     return kept_rows
 
 def sources_in_tile(pixel,order,ra,dec):
