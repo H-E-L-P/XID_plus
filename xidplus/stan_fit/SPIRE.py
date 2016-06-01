@@ -215,7 +215,7 @@ def all_bands_SPM_prior(SPIRE_250,SPIRE_350,SPIRE_500,redshifts,SEDs,chains=4,it
     #return fit data
     return fit
 
-def all_bands_SPM(SPIRE_250,SPIRE_350,SPIRE_500,redshifts,SEDs,chains=4,iter=1000,optimise=False):
+def all_bands_SPM(SPIRE_250,SPIRE_350,SPIRE_500,redshifts,SEDs,sigmas,chains=4,iter=1000,optimise=False):
     """Fit all three SPIRE maps using stan"""
 
 
@@ -260,7 +260,7 @@ def all_bands_SPM(SPIRE_250,SPIRE_350,SPIRE_500,redshifts,SEDs,chains=4,iter=100
           'nlam':SEDs.shape[0],
           'nSED':SEDs.shape[1],
           'SEDs':SEDs,
-          'sigma':[0.1,0.1,0.1]}
+          'sigma':sigmas}
 
     #see if model has already been compiled. If not, compile and save it
     model_file=output_dir+"/XID+SED_SPM.stan.pkl"
@@ -366,7 +366,7 @@ def SED_FIR(MIPS_24,SPIRE_250,SPIRE_350,SPIRE_500,redshifts,SEDs,chains=4,iter=1
           'npix_mips':MIPS_24.snpix,
           'nnz_mips':MIPS_24.amat_data.size,
           'db_mips':MIPS_24.sim,
-          'sigma_mips';MIPS24.snim,
+          'sigma_mips':MIPS24.snim,
           'bkg_prior_mips':MIPS_24.bkg[0],
           'bkg_prior_sig_mips':MIPS_24.bkg[1],
           'Val_mips':MIPS_24.amat_data,

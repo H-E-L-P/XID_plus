@@ -174,23 +174,17 @@ prior250.get_pointing_matrix()
 prior350.get_pointing_matrix()
 prior500.get_pointing_matrix()
 
-print 'set prior upper limit'
-prior250.flux_scale(log=False)
+print 'update prior upper limit from map'
 prior250.upper_lim_map()
-prior250.lower_lim_flux(0.01)
-prior350.flux_scale(log=False)
 prior350.upper_lim_map()
-prior350.lower_lim_flux(0.01)
-prior500.flux_scale(log=False)
 prior500.upper_lim_map()
-prior500.lower_lim_flux(0.01)
 
 
 from xidplus.stan_fit import SPIRE
 fit=SPIRE.all_bands(prior250,prior350,prior500,iter=1500)
 posterior=xidplus.posterior_stan(fit,[prior250,prior350,prior500])
 
-outfile=output_folder+'Lacy_test_file_'+str(tiles[taskid-1])+'_'+str(order)+'.pkl'
+outfile=output_folder+'Tile_'+str(tiles[taskid-1])+'_'+str(order)+'.pkl'
 with open(outfile, 'wb') as f:
    pickle.dump({'psw':prior250,'pmw':prior350,'plw':prior500,'posterior':posterior},f)
 

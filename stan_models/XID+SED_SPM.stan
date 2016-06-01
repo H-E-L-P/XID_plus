@@ -43,7 +43,7 @@ data {
   int<lower=0> nlam;//number of points in SED
   int<lower=0> nSED;//number of SED temps
   real SEDs[nlam,nSED]; // SEDs
-  vector[3] sigma;
+  vector[3] sigma[nz,nSED];
  
 }
 transformed data {
@@ -98,7 +98,7 @@ model {
     tmp_fvec[3] <- f_vec[n,2]/f_vec[n,1];
     for (s in 1:nSED){
       for (z in 1:nz) {
-	ps[z]<-logpz[n,z]+normal_log(tmp_fvec,tmp_sed[z,s],sigma);	
+	ps[z]<-logpz[n,z]+normal_log(tmp_fvec,tmp_sed[z,s],sigma[z,s]);
       }
       increment_log_prob(log_sum_exp(ps));
     }

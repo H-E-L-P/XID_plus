@@ -74,7 +74,7 @@ class prior(object):
 
         self.bkg = (mu, sigma)
 
-    def prior_cat(self, ra, dec, prior_cat_file, ID=None, moc=None):
+    def prior_cat(self, ra, dec, prior_cat_file,flux_lower=None,flux_upper=None, ID=None, moc=None):
         """Input info for prior catalogue. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
         and converts RA and DEC to pixel positions"""
         # get positions of sources in terms of pixels
@@ -93,6 +93,12 @@ class prior(object):
         self.sdec = dec
         self.nsrc = self.sra.size
         self.prior_cat = prior_cat_file
+        if flux_lower is None:
+            flux_lower=np.full((ra.size),0.01)
+            flux_upper=np.full((ra.size),1000.0)
+        self.prior_flux_lower=flux_lower
+        self.prior_flux_upper=flux_upper
+
         if ID is None:
             ID = np.arange(1, ra.size + 1, dtype='int64')
         self.ID = ID
@@ -102,7 +108,7 @@ class prior(object):
         self.cut_down_prior()
 
     def set_tile(self, moc):
-        self.moc = self.moc.intersection(moc)
+        self.moc =self.moc.intersection(moc)
         self.cut_down_prior()
 
     def prior_cat_stack(self, ra, dec, prior_cat, ID=None):
@@ -184,29 +190,20 @@ class prior(object):
         self.A = coo_matrix((self.amat_data, (self.amat_row, self.amat_col)), shape=(self.snpix, self.nsrc))
 
 
-    def flux_scale(self, log=True):
-        if log is False:
-            self.scale = 'linear'
-        else:
-            self.scale = 'log'
 
     def upper_lim_map(self):
-        self.prior_flux_upper = np.full((self.nsrc), 3.0)
+        self.prior_flux_upper = np.full((self.nsrc), 1000.0)
         for i in range(0, self.nsrc):
             ind = self.amat_col == i
             if ind.sum() > 0:
-                self.prior_flux_upper[i] = np.log10(
-                    np.max(self.sim[self.amat_row[ind]]) - (self.bkg[0] - 2 * self.bkg[1]))
-        if self.scale == 'linear':
-            self.prior_flux_upper = np.power(10.0, self.prior_flux_upper)
+                self.prior_flux_upper[i] = np.max(self.sim[self.amat_row[ind]]) - (self.bkg[0] - 2 * self.bkg[1])
+
 
     def upper_lim_flux(self, prior_flux_upper):
         self.flux_scale()
-        """Set flux lower limit (in log10)"""
         self.prior_flux_upper = np.full((self.nsrc), prior_flux_upper)
 
     def lower_lim_flux(self, prior_flux_lower):
-        """Set flux lower limit (in log10)"""
         self.prior_flux_lower = np.full((self.nsrc), prior_flux_lower)
 
 
