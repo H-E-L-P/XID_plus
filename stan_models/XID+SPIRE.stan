@@ -39,20 +39,7 @@ data {
   vector[nsrc] f_up_lim_plw;//upper limit of flux 
 
 }
-//transformed data {
-//  cholesky_factor_cov[npix_psw] L;
 
-//   for (i in 1:npix_psw) {
-//     for (j in 1:npix_psw) {
-//       L[i,j]<-0.0;
-//     }
-//   }
-//   for (i in 1:nnz_sig_conf_psw_tot) {
-//     L[Row_sig_conf_psw[i],Col_sig_conf_psw[i]]<- Val_sig_conf_psw[i];
-//   }
-
-
-// }
 
 parameters {
   vector<lower=0.0,upper=1.0>[nsrc] src_f_psw;//source vector
@@ -124,12 +111,4 @@ model {
   db_pmw ~ normal(db_hat_pmw,sigma_tot_pmw);
   db_plw ~ normal(db_hat_plw,sigma_tot_plw);
 
-
-  // As actual maps are mean subtracted, requires a Jacobian adjustment
-  //db_psw <- db_obs_psw - mean(db_obs_psw)
-  //increment_log_prob(log((size(db_obs_psw)-1)/size(db_obs_psw)))
-  //db_pmw <- db_obs_pmw - mean(db_obs_pmw)
-  //increment_log_prob(log((size(db_obs_pmw)-1)/size(db_obs_pmw)))
-  //db_plw <- db_obs_plw - mean(db_obs_plw)
-  //increment_log_prob(log((size(db_obs_plw)-1)/size(db_obs_plw)))
     }
