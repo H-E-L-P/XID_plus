@@ -2,18 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5590fe4e-d0bd-4215-be50-d94133f988ab" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Paper/XID_plus.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/metrics/error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Paper/Detections.pdf" afterPath="$PROJECT_DIR$/Paper/Detections.pdf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Paper/Stacking.pdf" afterPath="$PROJECT_DIR$/Paper/Stacking.pdf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Paper/XID+_vs_DESPHOT_joint.pdf" afterPath="$PROJECT_DIR$/Paper/XID+_vs_DESPHOT_joint.pdf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Paper/XID_plus.synctex.gz" afterPath="$PROJECT_DIR$/Paper/XID_plus.synctex.gz" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Paper/error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf" afterPath="$PROJECT_DIR$/Paper/error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Paper/Detections.ipynb" afterPath="$PROJECT_DIR$/Paper/Detections.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Paper/HELP_bib.bib" afterPath="$PROJECT_DIR$/Paper/HELP_bib.bib" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stan_models/XID+SPIRE.stan" afterPath="$PROJECT_DIR$/stan_models/XID+SPIRE.stan" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Paper/XID_plus.aux" afterPath="$PROJECT_DIR$/Paper/XID_plus.aux" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Paper/XID_plus.bbl" afterPath="$PROJECT_DIR$/Paper/XID_plus.bbl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Paper/XID_plus.blg" afterPath="$PROJECT_DIR$/Paper/XID_plus.blg" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Paper/XID_plus.log" afterPath="$PROJECT_DIR$/Paper/XID_plus.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Paper/XID_plus.out" afterPath="$PROJECT_DIR$/Paper/XID_plus.out" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Paper/XID_plus.tex" afterPath="$PROJECT_DIR$/Paper/XID_plus.tex" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/catalogue.py" afterPath="$PROJECT_DIR$/xidplus/catalogue.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/prior.py" afterPath="$PROJECT_DIR$/xidplus/prior.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/setup.py" afterPath="$PROJECT_DIR$/setup.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="XID_plus.iws" />
@@ -82,8 +85,8 @@
       <file leaf-file-name="prior.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/xidplus/prior.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.06535948">
-              <caret line="131" column="22" selection-start-line="131" selection-start-column="22" selection-end-line="131" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.21791768">
+              <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -149,11 +152,11 @@
         <option value="$PROJECT_DIR$/xidplus/__init__.py" />
         <option value="$PROJECT_DIR$/xidplus/confusion_noise.py" />
         <option value="$PROJECT_DIR$/xidplus/posterior_maps.py" />
-        <option value="$PROJECT_DIR$/xidplus/prior.py" />
         <option value="$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py" />
         <option value="$PROJECT_DIR$/xidplus/stan_fit/SPIRE.py" />
         <option value="$PROJECT_DIR$/xidplus/moc_routines.py" />
         <option value="$PROJECT_DIR$/xidplus/segmentation.py" />
+        <option value="$PROJECT_DIR$/xidplus/prior.py" />
       </list>
     </option>
   </component>
@@ -161,10 +164,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="159" />
+    <option name="x" value="131" />
     <option name="y" value="23" />
     <option name="width" value="1228" />
-    <option name="height" value="795" />
+    <option name="height" value="836" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -301,7 +304,7 @@
       <recent name="$PROJECT_DIR$/xidplus/stan_fit" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Lacey_COSMOS_test">
+  <component name="RunManager" selected="Python.prior">
     <configuration default="false" name="Lacey_COSMOS_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -332,6 +335,23 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="XID_plus" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scripts/test_run/test_HEALPix_tile.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="prior" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/xidplus" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="XID_plus" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/xidplus/prior.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -458,14 +478,16 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="2">
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Python.Lacey_COSMOS_test" />
       <item index="1" class="java.lang.String" itemvalue="Python.test_HEALPix_tile" />
+      <item index="2" class="java.lang.String" itemvalue="Python.prior" />
     </list>
     <recent_temporary>
-      <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="Python.Lacey_COSMOS_test" />
-        <item index="1" class="java.lang.String" itemvalue="Python.test_HEALPix_tile" />
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="Python.prior" />
+        <item index="1" class="java.lang.String" itemvalue="Python.Lacey_COSMOS_test" />
+        <item index="2" class="java.lang.String" itemvalue="Python.test_HEALPix_tile" />
       </list>
     </recent_temporary>
   </component>
@@ -483,7 +505,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="159" y="23" width="1228" height="795" extended-state="0" />
+    <frame x="131" y="23" width="1228" height="836" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -491,11 +513,11 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39944905" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4250326" sideWeight="0.49674267" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292011" sideWeight="0.8786645" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3292011" sideWeight="0.12133551" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4250326" sideWeight="0.50325733" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -522,16 +544,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/xidplus/posterior_maps.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -936,10 +948,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33171913">
+          <caret line="1777" column="0" selection-start-line="1777" selection-start-column="0" selection-end-line="1777" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/xidplus/prior.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.06535948">
-          <caret line="131" column="22" selection-start-line="131" selection-start-column="22" selection-end-line="131" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.21791768">
+          <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

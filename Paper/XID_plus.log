@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.8.6)  11 JUN 2016 21:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.8.6)  15 JUN 2016 14:22
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -566,26 +566,26 @@ File: lstmisc.sty 2014/09/06 1.5e (Carsten Heinz)
 (./XID_plus.aux)
 \openout1 = `XID_plus.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 92.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 92.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 94.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 94.
  (/usr/local/texlive/2015/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    ... okay on input line 94.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -622,7 +622,7 @@ LaTeX Font Info:    ... okay on input line 92.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \AtBeginShipoutBox=\box37
-Package hyperref Info: Link coloring ON on input line 92.
+Package hyperref Info: Link coloring ON on input line 94.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
@@ -631,9 +631,9 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count139
 )
-LaTeX Info: Redefining \ref on input line 92.
-LaTeX Info: Redefining \pageref on input line 92.
-LaTeX Info: Redefining \nameref on input line 92.
+LaTeX Info: Redefining \ref on input line 94.
+LaTeX Info: Redefining \pageref on input line 94.
+LaTeX Info: Redefining \nameref on input line 94.
 
 (./XID_plus.out) (./XID_plus.out)
 \@outlinefile=\write3
@@ -658,26 +658,26 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count146
-LaTeX Font Info:    Try loading font information for U+eur on input line 95.
+LaTeX Font Info:    Try loading font information for U+eur on input line 97.
  (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/ueur.fd
 File: ueur.fd 2013/01/14 v3.01 Euler Roman
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 95.
+LaTeX Font Info:    Try loading font information for U+msa on input line 97.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 95.
+LaTeX Font Info:    Try loading font information for U+msb on input line 97.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Overfull \hbox (8.0546pt too wide) in paragraph at lines 95--95
+Overfull \hbox (16.24619pt too wide) in paragraph at lines 97--97
 [][]  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 97--98
+Underfull \hbox (badness 10000) in paragraph at lines 99--100
 
  []
 
@@ -686,7 +686,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-LaTeX Warning: Reference `lastpage' on page 1 undefined on input line 115.
+LaTeX Warning: Reference `lastpage' on page 1 undefined on input line 116.
 
 [1{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
@@ -697,127 +697,123 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/sc' undefined
-(Font)              using `OT1/cmr/bx/n' instead on input line 129.
+(Font)              using `OT1/cmr/bx/n' instead on input line 131.
 
 
-LaTeX Warning: Reference `lastpage' on page 2 undefined on input line 141.
+LaTeX Warning: Reference `lastpage' on page 2 undefined on input line 138.
 
 [2] <./graphical_model.pdf, id=240, 569.05513pt x 569.05513pt>
 File: ./graphical_model.pdf Graphic file (type pdf)
 
 <use ./graphical_model.pdf>
-Package pdftex.def Info: ./graphical_model.pdf used on input line 194.
+Package pdftex.def Info: ./graphical_model.pdf used on input line 196.
 (pdftex.def)             Requested size: 241.84842pt x 241.84956pt.
 
-Overfull \hbox (1.84842pt too wide) in paragraph at lines 194--195
+Overfull \hbox (1.84842pt too wide) in paragraph at lines 196--197
 [][]
  []
 
 
-LaTeX Warning: Reference `lastpage' on page 3 undefined on input line 201.
+LaTeX Warning: Reference `lastpage' on page 3 undefined on input line 202.
 
-[3] <metrics_both.pdf, id=272, page=4, 578.16pt x 505.89pt>
+[3] <metrics_both.pdf, id=270, page=4, 578.16pt x 505.89pt>
 File: metrics_both.pdf Graphic file (type pdf)
 
 <use metrics_both.pdf, page 4>
-Package pdftex.def Info: metrics_both.pdf, page4 used on input line 243.
+Package pdftex.def Info: metrics_both.pdf, page4 used on input line 245.
 (pdftex.def)             Requested size: 156.49014pt x 136.92404pt.
 
-<metrics_both.pdf, id=273, page=5, 578.16pt x 505.89pt>
+<metrics_both.pdf, id=271, page=5, 578.16pt x 505.89pt>
 File: metrics_both.pdf Graphic file (type pdf)
 
 <use metrics_both.pdf, page 5>
-Package pdftex.def Info: metrics_both.pdf, page5 used on input line 244.
+Package pdftex.def Info: metrics_both.pdf, page5 used on input line 246.
 (pdftex.def)             Requested size: 156.49014pt x 136.92404pt.
 
-<metrics_both.pdf, id=274, page=6, 578.16pt x 505.89pt>
+<metrics_both.pdf, id=272, page=6, 578.16pt x 505.89pt>
 File: metrics_both.pdf Graphic file (type pdf)
 
 <use metrics_both.pdf, page 6>
-Package pdftex.def Info: metrics_both.pdf, page6 used on input line 245.
+Package pdftex.def Info: metrics_both.pdf, page6 used on input line 247.
 (pdftex.def)             Requested size: 156.49014pt x 136.92404pt.
 
-<metrics_both.pdf, id=275, page=7, 578.16pt x 505.89pt>
+<metrics_both.pdf, id=273, page=7, 578.16pt x 505.89pt>
 File: metrics_both.pdf Graphic file (type pdf)
 
 <use metrics_both.pdf, page 7>
-Package pdftex.def Info: metrics_both.pdf, page7 used on input line 257.
+Package pdftex.def Info: metrics_both.pdf, page7 used on input line 259.
 (pdftex.def)             Requested size: 156.49014pt x 136.92404pt.
 
-<metrics_both.pdf, id=276, page=8, 578.16pt x 505.89pt>
+<metrics_both.pdf, id=274, page=8, 578.16pt x 505.89pt>
 File: metrics_both.pdf Graphic file (type pdf)
 
 <use metrics_both.pdf, page 8>
-Package pdftex.def Info: metrics_both.pdf, page8 used on input line 258.
+Package pdftex.def Info: metrics_both.pdf, page8 used on input line 260.
 (pdftex.def)             Requested size: 156.49014pt x 136.92404pt.
 
-<metrics_both.pdf, id=277, page=9, 578.16pt x 505.89pt>
+<metrics_both.pdf, id=275, page=9, 578.16pt x 505.89pt>
 File: metrics_both.pdf Graphic file (type pdf)
 
 <use metrics_both.pdf, page 9>
-Package pdftex.def Info: metrics_both.pdf, page9 used on input line 259.
+Package pdftex.def Info: metrics_both.pdf, page9 used on input line 261.
 (pdftex.def)             Requested size: 156.49014pt x 136.92404pt.
 
-<metrics_both.pdf, id=278, page=1, 578.16pt x 505.89pt>
+<metrics_both.pdf, id=276, page=1, 578.16pt x 505.89pt>
 File: metrics_both.pdf Graphic file (type pdf)
 
 <use metrics_both.pdf, page 1>
-Package pdftex.def Info: metrics_both.pdf, page1 used on input line 271.
+Package pdftex.def Info: metrics_both.pdf, page1 used on input line 273.
 (pdftex.def)             Requested size: 156.49014pt x 136.92404pt.
 
-<metrics_both.pdf, id=279, page=2, 578.16pt x 505.89pt>
+<metrics_both.pdf, id=277, page=2, 578.16pt x 505.89pt>
 File: metrics_both.pdf Graphic file (type pdf)
 
 <use metrics_both.pdf, page 2>
-Package pdftex.def Info: metrics_both.pdf, page2 used on input line 272.
+Package pdftex.def Info: metrics_both.pdf, page2 used on input line 274.
 (pdftex.def)             Requested size: 156.49014pt x 136.92404pt.
 
-<metrics_both.pdf, id=280, page=3, 578.16pt x 505.89pt>
+<metrics_both.pdf, id=278, page=3, 578.16pt x 505.89pt>
 File: metrics_both.pdf Graphic file (type pdf)
 
 <use metrics_both.pdf, page 3>
-Package pdftex.def Info: metrics_both.pdf, page3 used on input line 273.
+Package pdftex.def Info: metrics_both.pdf, page3 used on input line 275.
 (pdftex.def)             Requested size: 156.49014pt x 136.92404pt.
 
 
-LaTeX Warning: Reference `lastpage' on page 4 undefined on input line 280.
+LaTeX Warning: Reference `lastpage' on page 4 undefined on input line 281.
 
 [4pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.280 A
-        mock 100 $\mathrm{\mu m}$ input catalogue, similar to what would be ...
- <./graphical_model.pdf>]
+l.281 
+       <./graphical_model.pdf>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-LaTeX Warning: Reference `lastpage' on page 5 undefined on input line 280.
+LaTeX Warning: Reference `lastpage' on page 5 undefined on input line 281.
 
 [5pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.280 A
-        mock 100 $\mathrm{\mu m}$ input catalogue, similar to what would be ...
-pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) ha
-s been already used, duplicate ignored
+l.281 
+      pdfTeX warning (ext4): destination with the same identifier (name{figure.
+3}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.280 A
-        mock 100 $\mathrm{\mu m}$ input catalogue, similar to what would be ...
-pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) ha
-s been already used, duplicate ignored
+l.281 
+      pdfTeX warning (ext4): destination with the same identifier (name{figure.
+4}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.280 A
-        mock 100 $\mathrm{\mu m}$ input catalogue, similar to what would be ...
- <./metrics_both.pdf> <./metrics_both.pdf
+l.281 
+       <./metrics_both.pdf> <./metrics_both.pdf
 
 pdfTeX warning: /usr/texbin/pdflatex (file ./metrics_both.pdf): PDF inclusion: 
 multiple pdfs with page group included in a single page
@@ -849,103 +845,99 @@ multiple pdfs with page group included in a single page
 
 pdfTeX warning: /usr/texbin/pdflatex (file ./metrics_both.pdf): PDF inclusion: 
 multiple pdfs with page group included in a single page
->] <convergence_test.pdf, id=407, page=1, 578.16pt x 433.62pt>
+>] <convergence_test.pdf, id=408, page=1, 578.16pt x 433.62pt>
 File: convergence_test.pdf Graphic file (type pdf)
 
 <use convergence_test.pdf, page 1>
-Package pdftex.def Info: convergence_test.pdf, page1 used on input line 297.
+Package pdftex.def Info: convergence_test.pdf, page1 used on input line 299.
 (pdftex.def)             Requested size: 170.71652pt x 128.03589pt.
 
-<convergence_test.pdf, id=408, page=2, 578.16pt x 433.62pt>
+<convergence_test.pdf, id=409, page=2, 578.16pt x 433.62pt>
 File: convergence_test.pdf Graphic file (type pdf)
 
 <use convergence_test.pdf, page 2>
-Package pdftex.def Info: convergence_test.pdf, page2 used on input line 298.
+Package pdftex.def Info: convergence_test.pdf, page2 used on input line 300.
 (pdftex.def)             Requested size: 170.71652pt x 128.03589pt.
 
-<XID+_vs_DESPHOT_joint.pdf, id=410, 739.84407pt x 708.93954pt>
+
+LaTeX Warning: Reference `lastpage' on page 6 undefined on input line 326.
+
+[6] <XID+_vs_DESPHOT_joint.pdf, id=424, 735.38925pt x 695.64703pt>
 File: XID+_vs_DESPHOT_joint.pdf Graphic file (type pdf)
 
 <use XID+_vs_DESPHOT_joint.pdf>
-Package pdftex.def Info: XID+_vs_DESPHOT_joint.pdf used on input line 326.
-(pdftex.def)             Requested size: 227.62204pt x 218.11389pt.
+Package pdftex.def Info: XID+_vs_DESPHOT_joint.pdf used on input line 328.
+(pdftex.def)             Requested size: 227.62204pt x 215.31929pt.
 
-<Detections.pdf, id=413, page=1, 433.62pt x 433.62pt>
+<Detections.pdf, id=427, page=1, 433.62pt x 433.62pt>
 File: Detections.pdf Graphic file (type pdf)
 
 <use Detections.pdf, page 1>
-Package pdftex.def Info: Detections.pdf, page1 used on input line 334.
+Package pdftex.def Info: Detections.pdf, page1 used on input line 336.
 (pdftex.def)             Requested size: 156.49014pt x 156.49345pt.
 
-<Detections.pdf, id=414, page=2, 433.62pt x 433.62pt>
+<Detections.pdf, id=428, page=2, 433.62pt x 433.62pt>
 File: Detections.pdf Graphic file (type pdf)
 
 <use Detections.pdf, page 2>
-Package pdftex.def Info: Detections.pdf, page2 used on input line 335.
+Package pdftex.def Info: Detections.pdf, page2 used on input line 337.
 (pdftex.def)             Requested size: 156.49014pt x 156.49345pt.
 
-<Detections.pdf, id=415, page=3, 433.62pt x 433.62pt>
+<Detections.pdf, id=429, page=3, 433.62pt x 433.62pt>
 File: Detections.pdf Graphic file (type pdf)
 
 <use Detections.pdf, page 3>
-Package pdftex.def Info: Detections.pdf, page3 used on input line 336.
+Package pdftex.def Info: Detections.pdf, page3 used on input line 338.
 (pdftex.def)             Requested size: 156.49014pt x 156.49345pt.
 
-
-LaTeX Warning: Reference `lastpage' on page 6 undefined on input line 339.
-
-[6]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-<error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf, id=427, page=7, 578
+<error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf, id=434, page=7, 578
 .16pt x 505.89pt>
 File: error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf Graphic file (t
 ype pdf)
 
 <use error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf, page 7>
 Package pdftex.def Info: error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.
-pdf, page7 used on input line 351.
+pdf, page7 used on input line 353.
 (pdftex.def)             Requested size: 156.49014pt x 136.92404pt.
 
-<error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf, id=428, page=8, 578
+<error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf, id=435, page=8, 578
 .16pt x 505.89pt>
 File: error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf Graphic file (t
 ype pdf)
 
 <use error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf, page 8>
 Package pdftex.def Info: error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.
-pdf, page8 used on input line 352.
+pdf, page8 used on input line 354.
 (pdftex.def)             Requested size: 156.49014pt x 136.92404pt.
 
-<error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf, id=429, page=9, 578
+<error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf, id=436, page=9, 578
 .16pt x 505.89pt>
 File: error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf Graphic file (t
 ype pdf)
 
 <use error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf, page 9>
 Package pdftex.def Info: error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.
-pdf, page9 used on input line 353.
+pdf, page9 used on input line 355.
 (pdftex.def)             Requested size: 156.49014pt x 136.92404pt.
 
-Underfull \vbox (badness 7851) has occurred while \output is active []
+Underfull \vbox (badness 2521) has occurred while \output is active []
 
 
 
-LaTeX Warning: Reference `lastpage' on page 7 undefined on input line 362.
+LaTeX Warning: Reference `lastpage' on page 7 undefined on input line 360.
 
 [7pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.362 
+l.360 
       pdfTeX warning (ext4): destination with the same identifier (name{figure.
 6}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.362 
+l.360 
        <./convergence_test.pdf> <./convergence_test.pdf
 
 pdfTeX warning: /usr/texbin/pdflatex (file ./convergence_test.pdf): PDF inclusi
@@ -954,25 +946,25 @@ on: multiple pdfs with page group included in a single page
 
 pdfTeX warning: /usr/texbin/pdflatex (file ./XID+_vs_DESPHOT_joint.pdf): PDF in
 clusion: multiple pdfs with page group included in a single page
->] <colour_colour_sim_true.pdf, id=556, 397.485pt x 361.35pt>
+>] <colour_colour_sim_true.pdf, id=558, 397.485pt x 361.35pt>
 File: colour_colour_sim_true.pdf Graphic file (type pdf)
 
 <use colour_colour_sim_true.pdf>
-Package pdftex.def Info: colour_colour_sim_true.pdf used on input line 365.
+Package pdftex.def Info: colour_colour_sim_true.pdf used on input line 367.
 (pdftex.def)             Requested size: 156.49014pt x 142.26578pt.
 
-<colour_colour_sim_all.pdf, id=557, 397.485pt x 361.35pt>
+<colour_colour_sim_all.pdf, id=559, 397.485pt x 361.35pt>
 File: colour_colour_sim_all.pdf Graphic file (type pdf)
 
 <use colour_colour_sim_all.pdf>
-Package pdftex.def Info: colour_colour_sim_all.pdf used on input line 366.
+Package pdftex.def Info: colour_colour_sim_all.pdf used on input line 368.
 (pdftex.def)             Requested size: 156.49014pt x 142.26578pt.
 
-<colour_colour_track.pdf, id=558, 533.79858pt x 486.21379pt>
+<colour_colour_track.pdf, id=560, 533.79858pt x 486.21379pt>
 File: colour_colour_track.pdf Graphic file (type pdf)
 
 <use colour_colour_track.pdf>
-Package pdftex.def Info: colour_colour_track.pdf used on input line 367.
+Package pdftex.def Info: colour_colour_track.pdf used on input line 369.
 (pdftex.def)             Requested size: 142.26378pt x 129.58052pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -982,23 +974,21 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-LaTeX Warning: Reference `lastpage' on page 8 undefined on input line 413.
+LaTeX Warning: Reference `lastpage' on page 8 undefined on input line 414.
 
 [8pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.413 O
-       ur final data product consists of a catalogue, summarising the SPIRE ...
-pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) ha
-s been already used, duplicate ignored
+l.414 
+      pdfTeX warning (ext4): destination with the same identifier (name{figure.
+8}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.413 O
-       ur final data product consists of a catalogue, summarising the SPIRE ...
- <./Detections.pdf> <./Detections.pdf
+l.414 
+       <./Detections.pdf> <./Detections.pdf
 
 pdfTeX warning: /usr/texbin/pdflatex (file ./Detections.pdf): PDF inclusion: mu
 ltiple pdfs with page group included in a single page
@@ -1022,78 +1012,88 @@ pdfTeX warning: /usr/texbin/pdflatex (file ./error_density_flux_test_uninform_u
 niform_XIDp_LAMBDAR.pdf): PDF inclusion: multiple pdfs with page group included
  in a single page
 >]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Warning: Reference `lastpage' on page 9 undefined on input line 431.
+
+
+LaTeX Warning: Reference `lastpage' on page 9 undefined on input line 428.
 
 [9pdfTeX warning (ext4): destination with the same identifier (name{figure.9}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.431 W
-       e have run \textsc{XID+} on the HerMES COSMOS SPIRE maps from the 2nd...
-pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has
- been already used, duplicate ignored
+l.428 \section
+              {Conclusions}\label{sec:conc}pdfTeX warning (ext4): destination w
+ith the same identifier (name{table.1}) has been already used, duplicate ignore
+d
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.431 W
-       e have run \textsc{XID+} on the HerMES COSMOS SPIRE maps from the 2nd...
- <./colour_colour_sim_true.pdf> <./colour_colour_sim_all.pdf> <./colour_colour_
-track.pdf>]
-Underfull \hbox (badness 1097) in paragraph at lines 439--440
+l.428 \section
+              {Conclusions}\label{sec:conc} <./colour_colour_sim_true.pdf> <./c
+olour_colour_sim_all.pdf> <./colour_colour_track.pdf>]
+Underfull \hbox (badness 1097) in paragraph at lines 441--442
 []\OT1/cmr/m/n/9 HCSS/HSpot/HIPE are joint de-vel-op-ments by the
  []
 
-(./XID_plus.bbl)
+(./XID_plus.bbl
 
-LaTeX Warning: Reference `lastpage' on page 10 undefined on input line 453.
+LaTeX Warning: Reference `lastpage' on page 10 undefined on input line 356.
 
-[10]
+[10])
+
+LaTeX Warning: Reference `lastpage' on page 11 undefined on input line 455.
+
+[11
+
+]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 455.
+nput line 457.
  (../stan_models/XID+SPIRE.stan
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-LaTeX Warning: Reference `lastpage' on page 11 undefined on input line 68.
+LaTeX Warning: Reference `lastpage' on page 12 undefined on input line 68.
 
-[11
+[12
 
 ])
 
-LaTeX Warning: Reference `lastpage' on page 12 undefined on input line 456.
+LaTeX Warning: Reference `lastpage' on page 13 undefined on input line 459.
 
-[12] <Stacking.pdf, id=926, 2168.1pt x 2168.1pt>
+[13] <Stacking.pdf, id=934, 2168.1pt x 2168.1pt>
 File: Stacking.pdf Graphic file (type pdf)
  <use Stacking.pdf>
-Package pdftex.def Info: Stacking.pdf used on input line 460.
+Package pdftex.def Info: Stacking.pdf used on input line 462.
 (pdftex.def)             Requested size: 512.1496pt x 512.15018pt.
 
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 460--461
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 462--463
 [][]
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 475.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 477.
 
-LaTeX Warning: Reference `lastpage' on page 13 undefined on input line 475.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[13
+
+
+LaTeX Warning: Reference `lastpage' on page 14 undefined on input line 477.
+
+[14
 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.A0.1})
  has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.475 \end{document}
-                    
-
- <./Stacking.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 475.
+l.477 \end{document}
+                     <./Stacking.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 477.
  (./XID_plus.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 475.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 475.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 477.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 477.
 Package rerunfilecheck Info: File `XID_plus.out' has not changed.
 (rerunfilecheck)             Checksum: B94ED265AFF5A43AEAA18458103FEA56;1044.
 
@@ -1103,16 +1103,13 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 475.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 477.
  ) 
 Here is how much of TeX's memory you used:
- 10586 strings out of 493089
- 154381 string characters out of 6134843
- 351648 words of memory out of 5000000
- 13656 multiletter control sequences out of 15000+600000
+ 10589 strings out of 493089
+ 154425 string characters out of 6134843
+ 353987 words of memory out of 5000000
+ 13657 multiletter control sequences out of 15000+600000
  23359 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  36i,16n,49p,2033b,1800s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1150,10 +1147,10 @@ ts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2015/texmf-dist/fonts
 /type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2015/texmf-dist/f
 onts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2015/texmf-dist/fon
 ts/type1/urw/ncntrsbk/uncr8a.pfb>
-Output written on XID_plus.pdf (13 pages, 5324300 bytes).
+Output written on XID_plus.pdf (14 pages, 5321759 bytes).
 PDF statistics:
- 1123 PDF objects out of 1200 (max. 8388607)
- 790 compressed objects within 8 object streams
- 232 named destinations out of 1000 (max. 500000)
+ 1130 PDF objects out of 1200 (max. 8388607)
+ 799 compressed objects within 8 object streams
+ 234 named destinations out of 1000 (max. 500000)
  252 words of extra memory for PDF output out of 10000 (max. 10000000)
 

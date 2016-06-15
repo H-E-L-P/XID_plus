@@ -1,4 +1,4 @@
-\begin{thebibliography}{45}
+\begin{thebibliography}{46}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Astropy Collaboration} {et~al.}(2013){Astropy Collaboration},
@@ -78,11 +78,6 @@ Chapin E.~L., {et~al.}, 2011, Monthly Notices of the Royal Astronomical
   Tacconi, Trichas, Tugwell, Vaccari, Valtchanov, Vieira, Vigroux, Wang, Ward,
   Wright, Xu \& Zemcov}]{Elbaz:2010}
 Elbaz D., {et~al.}, 2010, A{\&}A, 518, L29
-
-\bibitem[{Foreman-Mackey {et~al.}(2014)Foreman-Mackey, Price-Whelan, Ryan,
-  Emily, Smith, Barbary, Hogg \& Brewer}]{triangle}
-Foreman-Mackey D., Price-Whelan A., Ryan G., Emily, Smith M., Barbary K., Hogg
-  D.~W., Brewer B.~J., 2014, triangle.py v0.1.1
 
 \bibitem[{Gelman {et~al.}(2013)Gelman, Carlin, Stern, Dunson, Vehtari \&
   Rubin}]{BDA3}
@@ -168,12 +163,19 @@ Kessler M.~F., {et~al.}, 1996, Astron. Astrophys., 315, L27
 \bibitem[{{Lagache} \& {Puget}(2000)}]{Lagache:2000}
 {Lagache} G., {Puget} J.~L., 2000, \aap, 355, 17
 
-\bibitem[{{Le Floc'h }and Herve~Aussel {et~al.}(2009){Le Floc'h }and
-  Herve~Aussel, Ilbert, Riguccini, Frayer, Salvato, Arnouts, Surace, Feruglio,
-  Rodighiero, Capak, Kartaltepe, Heinis, Sheth, Yan, McCracken, Thompson,
-  Sanders, Scoville \& Koekemoer}]{LeFLoch:2009}
-{Le Floc'h }and Herve~Aussel E., {et~al.}, 2009, The Astrophysical Journal,
-  703, 222
+\bibitem[{{Le Floc'h} {et~al.}(2009){Le Floc'h}, {Aussel}, {Ilbert},
+  {Riguccini}, {Frayer}, {Salvato}, {Arnouts}, {Surace}, {Feruglio},
+  {Rodighiero}, {Capak}, {Kartaltepe}, {Heinis}, {Sheth}, {Yan}, {McCracken},
+  {Thompson}, {Sanders}, {Scoville} \& {Koekemoer}}]{LeFLoch:2009}
+{Le Floc'h} E., {et~al.}, 2009, \apj, 703, 222
+
+\bibitem[{{Levenson} {et~al.}(2010){Levenson}, {Marsden}, {Zemcov}, {Amblard},
+  {Blain}, {Bock}, {Chapin}, {Conley}, {Cooray}, {Dowell}, {Ellsworth-Bowers},
+  {Franceschini}, {Glenn}, {Griffin}, {Halpern}, {Nguyen}, {Oliver}, {Page},
+  {Papageorgiou}, {P{\'e}rez-Fournon}, {Pohlen}, {Rangwala}, {Rowan-Robinson},
+  {Schulz}, {Scott}, {Serra}, {Shupe}, {Valiante}, {Vieira}, {Vigroux},
+  {Wiebe}, {Wright} \& {Xu}}]{Levenson:2010}
+{Levenson} L., {et~al.}, 2010, \mnras, 409, 83
 
 \bibitem[{Marsden {et~al.}(2009)Marsden, Ade, Bock, Chapin, Devlin, Dicker,
   Griffin, Gundersen, Halpern, Hargrave, Hughes, Klein, Mauskopf, Magnelli,
@@ -331,8 +333,20 @@ ter Braak C.~J., Boer M.~P., Totir L.~R., Winkler C.~R., Smith O.~S., Bink
 Tibshirani R., 1996, Journal of the Royal Statistical Society (Series B), 58,
   267
 
-\bibitem[{{Vaccari} \& {HELP Consortium}(2015)}]{Vaccari:2015}
-{Vaccari} M., {HELP Consortium} T., 2015, ArXiv e-prints
+\bibitem[{{Vaccari}(2016)}]{Vaccari:2015}
+{Vaccari} M., 2016, ArXiv e-prints
+
+\bibitem[{{Viero} {et~al.}(2013){Viero}, {Wang}, {Zemcov}, {Addison},
+  {Amblard}, {Arumugam}, {Aussel}, {B{\'e}thermin}, {Bock}, {Boselli}, {Buat},
+  {Burgarella}, {Casey}, {Clements}, {Conley}, {Conversi}, {Cooray}, {De
+  Zotti}, {Dowell}, {Farrah}, {Franceschini}, {Glenn}, {Griffin},
+  {Hatziminaoglou}, {Heinis}, {Ibar}, {Ivison}, {Lagache}, {Levenson},
+  {Marchetti}, {Marsden}, {Nguyen}, {O'Halloran}, {Oliver}, {Omont}, {Page},
+  {Papageorgiou}, {Pearson}, {P{\'e}rez-Fournon}, {Pohlen}, {Rigopoulou},
+  {Roseboom}, {Rowan-Robinson}, {Schulz}, {Scott}, {Seymour}, {Shupe}, {Smith},
+  {Symeonidis}, {Vaccari}, {Valtchanov}, {Vieira}, {Wardlow} \&
+  {Xu}}]{Viero:2013}
+{Viero} M.~P., {et~al.}, 2013, \apj, 772, 77
 
 \bibitem[{Wang {et~al.}(2014)Wang, Viero, Clarke, Bock, Buat, Conley, Farrah,
   Guo, Heinis, Magdis, Marchetti, Marsden, Norberg, Oliver, Page, Roehlly,

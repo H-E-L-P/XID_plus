@@ -4,45 +4,45 @@ The top-level auxiliary file: XID_plus.aux
 The style file: mn2eNicola.bst
 Database file #1: HELP_bib.bib
 Warning--empty note in Oliver:2016
-You've used 45 entries,
+You've used 46 entries,
             2773 wiz_defined-function locations,
-            916 strings with 36714 characters,
-and the built_in function-call counts, 62777 in all, are:
-= -- 4434
-> -- 8279
+            924 strings with 38360 characters,
+and the built_in function-call counts, 65450 in all, are:
+= -- 4616
+> -- 8657
 < -- 10
-+ -- 3273
-- -- 3217
-* -- 7210
-:= -- 12074
++ -- 3427
+- -- 3370
+* -- 7533
+:= -- 12593
 add.period$ -- 2
-call.type$ -- 45
-change.case$ -- 1738
-chr.to.int$ -- 44
-cite$ -- 46
-duplicate$ -- 799
-empty$ -- 1147
-format.name$ -- 3316
-if$ -- 10705
+call.type$ -- 46
+change.case$ -- 1820
+chr.to.int$ -- 45
+cite$ -- 47
+duplicate$ -- 816
+empty$ -- 1177
+format.name$ -- 3466
+if$ -- 11147
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 41
-newline$ -- 139
-num.names$ -- 180
-pop$ -- 1726
+missing$ -- 43
+newline$ -- 142
+num.names$ -- 184
+pop$ -- 1806
 preamble$ -- 1
-purify$ -- 1734
+purify$ -- 1817
 quote$ -- 0
-skip$ -- 679
+skip$ -- 696
 stack$ -- 0
-substring$ -- 871
-swap$ -- 47
+substring$ -- 896
+swap$ -- 48
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 399
+type$ -- 408
 warning$ -- 1
-while$ -- 171
+while$ -- 176
 width$ -- 0
-write$ -- 446
+write$ -- 457
 (There was 1 warning)

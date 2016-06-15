@@ -21,7 +21,7 @@ def create_XIDp_SPIREcat_nocov(posterior,prior250,prior350,prior500):
 
     #----table info-----------------------
     #first define columns
-    c1 = fits.Column(name='ID', format='15A', array=prior250.ID)
+    c1 = fits.Column(name='HELP_ID', format='100A', array=prior250.ID)
     c2 = fits.Column(name='RA', format='D', unit='degrees', array=prior250.sra)
     c3 = fits.Column(name='Dec', format='D', unit='degrees', array=prior250.sdec)
     c4 = fits.Column(name='F_SPIRE_250', format='E', unit='mJy', array=med_flux[0:nsrc])

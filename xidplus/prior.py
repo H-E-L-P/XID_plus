@@ -5,6 +5,7 @@ from xidplus import moc_routines
 
 
 class prior(object):
+    """class for SPIRE prior object. Initialise with map,uncertianty map and wcs"""
 
     def cut_down_map(self):
         wcs_temp = wcs.WCS(self.imhdu)
@@ -17,7 +18,11 @@ class prior(object):
         self.sim = self.sim[ind_map]
         self.snpix = sum(ind_map)
 
-    def cut_down_cat(self):
+    def cut_down_cat(self):"""
+
+:return: updated catalogue variables such that fit new MOC
+"""
+
         sgood = np.array(moc_routines.check_in_moc(self.sra, self.sdec, self.moc, keep_inside=True))
 
         self.sx = self.sx[sgood]
@@ -34,13 +39,25 @@ class prior(object):
         if hasattr(self,'prior_flux_lower'):
             self.prior_flux_lower=self.prior_flux_lower[sgood]
 
-    def cut_down_prior(self):
+    def cut_down_prior(self):"""
+
+:return:
+"""
         self.cut_down_map()
         self.cut_down_cat()
 
 
-    def __init__(self, im, nim, imphdu, imhdu, moc=None):
-        """class for SPIRE prior object. Initialise with map,uncertianty map and wcs"""
+    def __init__(self, im, nim, imphdu, imhdu, moc=None):"""
+
+:param im: image map data from fits file
+:param nim: noise map data from fits file
+:param imphdu: primary header from fits file
+:param imhdu: header from data extension in fits file
+:param moc: Multi Order Coverage Map
+:return:
+self.im
+"""
+
         # ---for any bad pixels set map pixel to zero and uncertianty to 1----
         bad = np.logical_or(np.logical_or
                             (np.invert(np.isfinite(im)),
