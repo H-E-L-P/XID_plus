@@ -2,7 +2,11 @@ import numpy as np
 
 class posterior_stan(object):
     def __init__(self,fit,priors):
-        """ Class for dealing with posterior from stan"""
+        """ Class for dealing with posterior from pystan
+
+        :param fit: fit object from pystan
+        :param priors: list of prior classes used for fit
+        """
         self.nsrc=priors[0].nsrc
         self.convergence_stats(fit)
         self.param_names=fit.constrained_param_names()
@@ -11,6 +15,10 @@ class posterior_stan(object):
         self.ID=priors[0].ID
     
     def convergence_stats(self,fit):
+        """Extract convergence statistics from the pystan fit object
+
+        :param fit: fit object from pystan
+        """
         converge=np.array(fit.summary(probs=[0.025, 0.15, 0.25, 0.5, 0.75, 0.84, 0.975])['summary'][:,:])
         self.converge=converge
         self.Rhat=converge[:,-1]
@@ -19,6 +27,12 @@ class posterior_stan(object):
     
     # define a function to get percentile for a particular parameter
     def quantileGet(self,q):
+
+        """get percentile (q) for all fitted parameters
+
+        :param q: percentile e.g. 16,50,84..
+        :return: array containing percentile for parameter
+        """
         chains,iter,nparam=self.stan_fit.shape
         param=self.stan_fit.reshape((chains*iter,nparam))
         #q is quantile
@@ -63,7 +77,11 @@ class posterior_stan(object):
         self.sigma_i_j_k_l=cov[index]
 
     def scale_posterior(self,priors):
-        #create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
+        #create indices for posterior (i.e. include backgrounds and sigma_conf)
+        """Stan searches over range 0-1 and scales parameters with flux limits. This function scales those parameters to flux values
+
+        :param priors: list of prior classes used in fit
+        """
         ind=[True]*self.nsrc
         ind_tmp=np.array((ind+[False])*len(priors)+[False]*len(priors))
         add_param=len(self.param_names)-ind_tmp.size
@@ -87,7 +105,14 @@ class posterior_stan(object):
 
 
 def scale_posterior(priors, posterior,log=True):
-    #create indices for posterior (i.e. inlcude backgrounds and sigma_conf)
+    """(redundant)Stan searches over range 0-1 and scales parameters with flux limits. This function scales those parameters to flux values
+
+
+    :param priors:
+    :param posterior:
+    :param log:
+    :return:posterior
+    """
     ind=[True]*posterior.nsrc
     ind_tmp=np.array((ind+[False])*len(priors)+[False]*len(priors)+[False])
 

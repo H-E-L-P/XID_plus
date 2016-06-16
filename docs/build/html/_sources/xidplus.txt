@@ -11,26 +11,10 @@ Subpackages
 Submodules
 ----------
 
-xidplus.XIDp_mod_beta module
-----------------------------
-
-.. automodule:: xidplus.XIDp_mod_beta
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 xidplus.catalogue module
 ------------------------
 
 .. automodule:: xidplus.catalogue
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-xidplus.confusion_noise module
-------------------------------
-
-.. automodule:: xidplus.confusion_noise
     :members:
     :undoc-members:
     :show-inheritance:

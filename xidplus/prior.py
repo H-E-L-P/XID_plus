@@ -5,9 +5,9 @@ from xidplus import moc_routines
 
 
 class prior(object):
-    """class for SPIRE prior object. Initialise with map,uncertianty map and wcs"""
-
     def cut_down_map(self):
+        """Cuts down prior class variables associated with the map data to the MOC assigned to the prior class: self.moc
+        """
         wcs_temp = wcs.WCS(self.imhdu)
         ra, dec = wcs_temp.wcs_pix2world(self.sx_pix, self.sy_pix, 0)
         ind_map = np.array(moc_routines.check_in_moc(ra, dec, self.moc, keep_inside=True))
@@ -18,11 +18,9 @@ class prior(object):
         self.sim = self.sim[ind_map]
         self.snpix = sum(ind_map)
 
-    def cut_down_cat(self):"""
-
-:return: updated catalogue variables such that fit new MOC
-"""
-
+    def cut_down_cat(self):
+        """Cuts down prior class variables associated with the catalogue data to the MOC assigned to the prior class: self.moc
+        """
         sgood = np.array(moc_routines.check_in_moc(self.sra, self.sdec, self.moc, keep_inside=True))
 
         self.sx = self.sx[sgood]
@@ -33,32 +31,29 @@ class prior(object):
         self.ID = self.ID[sgood]
         if hasattr(self, 'nstack'):
             self.stack = self.stack[sgood]
-            self.nstack=sum(self.stack)
-        if hasattr(self,'prior_flux_upper'):
-            self.prior_flux_upper=self.prior_flux_upper[sgood]
-        if hasattr(self,'prior_flux_lower'):
-            self.prior_flux_lower=self.prior_flux_lower[sgood]
+            self.nstack = sum(self.stack)
+        if hasattr(self, 'prior_flux_upper'):
+            self.prior_flux_upper = self.prior_flux_upper[sgood]
+        if hasattr(self, 'prior_flux_lower'):
+            self.prior_flux_lower = self.prior_flux_lower[sgood]
 
-    def cut_down_prior(self):"""
-
-:return:
-"""
+    def cut_down_prior(self):
+        """ Cuts down prior class variables to the MOC assigned to the prior class: self.moc
+        """
         self.cut_down_map()
         self.cut_down_cat()
 
-
-    def __init__(self, im, nim, imphdu, imhdu, moc=None):"""
-
-:param im: image map data from fits file
-:param nim: noise map data from fits file
-:param imphdu: primary header from fits file
-:param imhdu: header from data extension in fits file
-:param moc: Multi Order Coverage Map
-:return:
-self.im
-"""
+    def __init__(self, im, nim, imphdu, imhdu, moc=None):
 
         # ---for any bad pixels set map pixel to zero and uncertianty to 1----
+        """Initiate prior class
+
+        :param im: image map from fits file
+        :param nim: noise map from fits file
+        :param imphdu: Primary header associated with fits file
+        :param imhdu: header associated with image map
+        :param moc: (default=None) Multi-Order Coverage map of area being fit
+        """
         bad = np.logical_or(np.logical_or
                             (np.invert(np.isfinite(im)),
                              np.invert(np.isfinite(nim))), (nim == 0))
@@ -70,9 +65,6 @@ self.im
         self.imphdu = imphdu
         self.imhdu = imhdu
 
-
-
-
         x_pix, y_pix = np.meshgrid(np.arange(0, wcs_temp._naxis1), np.arange(0, wcs_temp._naxis2))
         self.sx_pix = x_pix.flatten()
         self.sy_pix = y_pix.flatten()
@@ -80,20 +72,29 @@ self.im
         self.sim = im.flatten()
         self.snpix = self.sim.size
         if moc is not None:
-            self.moc=moc
+            self.moc = moc
             self.cut_down_map()
 
-
-
-
     def prior_bkg(self, mu, sigma):
-        """Add background prior ($\mu$) and uncertianty ($\sigma$). Assumes normal distribution"""
+        """Add background prior. Assumes normal distribution with mean=mu and standard deviation=sigma
+
+        :param mu: mean
+        :param sigma: standard deviation
+        """
 
         self.bkg = (mu, sigma)
 
-    def prior_cat(self, ra, dec, prior_cat_file,flux_lower=None,flux_upper=None, ID=None, moc=None,flux_scale=False):
-        """Input info for prior catalogue. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
-        and converts RA and DEC to pixel positions"""
+    def prior_cat(self, ra, dec, prior_cat_file, flux_lower=None, flux_upper=None, ID=None, moc=None, flux_scale=False):
+        """Input info for prior catalogue
+
+        :param ra: Right ascension (JD2000) of sources
+        :param dec: Declination (JD2000) of sources
+        :param prior_cat_file: filename of catalogue
+        :param flux_lower: lower limit of flux for each source
+        :param flux_upper: upper limit of flux for each source
+        :param ID: HELP_ID for each source
+        :param moc: Multi-Order Coverage map
+        """
         # get positions of sources in terms of pixels
         wcs_temp = wcs.WCS(self.imhdu)
         sx, sy = wcs_temp.wcs_world2pix(ra, dec, 0)
@@ -111,10 +112,10 @@ self.im
         self.nsrc = self.sra.size
         self.prior_cat = prior_cat_file
         if flux_lower is None:
-            flux_lower=np.full((ra.size),0.01)
-            flux_upper=np.full((ra.size),1000.0)
-        self.prior_flux_lower=flux_lower
-        self.prior_flux_upper=flux_upper
+            flux_lower = np.full((ra.size), 0.01)
+            flux_upper = np.full((ra.size), 1000.0)
+        self.prior_flux_lower = flux_lower
+        self.prior_flux_upper = flux_upper
         self.flux_scale(log=flux_scale)
 
         if ID is None:
@@ -122,16 +123,24 @@ self.im
         self.ID = ID
 
         self.moc = cat_moc
-        self.stack=np.full(self.nsrc,False)
+        self.stack = np.full(self.nsrc, False)
         self.cut_down_prior()
 
     def set_tile(self, moc):
+        """ Update prior with new MOC and update appropriate variables
+        :param moc: Multi-order Coverage map from pymoc
+        """
         self.moc = self.moc.intersection(moc)
         self.cut_down_prior()
 
     def prior_cat_stack(self, ra, dec, prior_cat, ID=None):
-        """Input info for prior catalogue of sources being stacked. Requires ra, dec and filename of prior cat. Checks sources in the prior list are within the boundaries of the map,
-        and converts RA and DEC to pixel positions"""
+        """Input info for prior catalogue of sources being stacked
+
+        :param ra: Right ascension (JD2000) of sources
+        :param dec: Declination (JD2000) of sources
+        :param prior_cat: filename of catalogue
+        :param ID: HELP_ID for each source
+        """
         wcs_temp = wcs.WCS(self.imhdu)
         sx, sy = wcs_temp.wcs_world2pix(ra, dec, 0)
 
@@ -139,29 +148,34 @@ self.im
         # Redefine prior list so it only contains sources in the map
 
         # Redefine prior list so it only contains sources in the map
-        self.sx = np.append(self.sx,sx)
-        self.sy = np.append(self.sy,sy)
-        self.sra = np.append(self.sra,ra)
-        self.sdec = np.append(self.sdec,dec)
-        self.nstack=ra.size
+        self.sx = np.append(self.sx, sx)
+        self.sy = np.append(self.sy, sy)
+        self.sra = np.append(self.sra, ra)
+        self.sdec = np.append(self.sdec, dec)
+        self.nstack = ra.size
         self.nsrc = self.sra.size
-        self.stack=np.append(self.stack,np.full((self.nstack),True))
+        self.stack = np.append(self.stack, np.full((self.nstack), True))
         if ID is None:
             ID = np.arange(1, ra.size + 1, dtype='int64')
-        self.ID = np.append(self.ID,ID)
+        self.ID = np.append(self.ID, ID)
 
         self.cut_down_prior()
 
-
     def set_prf(self, prf, pindx, pindy):
-        """Add prf array and corresponding x and y scales (in terms of pixels in map). \n Array should be an n x n array, where n is an odd number, and the centre of the prf is at the centre of the array"""
+        """Add prf array and corresponding x and y scales (in terms of pixels in map)
+
+        :param prf: n x n array, where n is an odd number, and the centre of the prf is at the centre of the array
+        :param pindx: n array, pixel scale of prf array
+        :param pindy: n array, pixel scale of prf array
+        """
 
         self.prf = prf
         self.pindx = pindx
         self.pindy = pindy
 
     def get_pointing_matrix(self, bkg=True):
-        """get the pointing matrix. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute"""
+        """Calculate pointing matrix. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute
+        """
         from scipy import interpolate
         paxis1, paxis2 = self.prf.shape
 
@@ -208,78 +222,13 @@ self.im
         self.A = coo_matrix((self.amat_data, (self.amat_row, self.amat_col)), shape=(self.snpix, self.nsrc))
 
 
-    def flux_scale(self, log=True):
-        if log is False:
-            self.scale = 'linear'
-        else:
-            self.scale = 'log'
 
     def upper_lim_map(self):
-        self.prior_flux_upper = np.full((self.nsrc), 3.0)
+        """Update flux upper limit to |bkg|+2*sigma_bkg+max(D) where max(D) is maximum value of pixels the source contributes to
+        """
+        self.prior_flux_upper = np.full((self.nsrc), 1000.0)
         for i in range(0, self.nsrc):
             ind = self.amat_col == i
             if ind.sum() > 0:
-                self.prior_flux_upper[i] = np.log10(
-                    np.max(self.sim[self.amat_row[ind]]) - (self.bkg[0] - 2 * self.bkg[1]))
-        if self.scale == 'linear':
-            self.prior_flux_upper = np.power(10.0, self.prior_flux_upper)
+                self.prior_flux_upper[i] = np.max(self.sim[self.amat_row[ind]]) + (np.abs(self.bkg[0]) + 2 * self.bkg[1])
 
-    def upper_lim_flux(self, prior_flux_upper):
-        self.flux_scale()
-        """Set flux lower limit (in log10)"""
-        self.prior_flux_upper = np.full((self.nsrc), prior_flux_upper)
-
-    def lower_lim_flux(self, prior_flux_lower):
-        """Set flux lower limit (in log10)"""
-        self.prior_flux_lower = np.full((self.nsrc), prior_flux_lower)
-
-
-
-    def get_pointing_matrix_map(self, bkg=True):
-        """get the pointing matrix. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute"""
-        from scipy import interpolate
-        paxis1, paxis2 = self.prf.shape
-
-        amat_row = np.array([], dtype=int)
-        amat_col = np.array([], dtype=int)
-        amat_data = np.array([])
-
-        # ------Deal with PRF array----------
-        centre = ((paxis1 - 1) / 2)
-        # create pointing array
-        for s in range(0, self.snpix):
-
-            # diff from centre of beam for each pixel in x
-            dx = -np.rint(self.sx_pix[s]).astype(long) + self.pindx[(paxis1 - 1.) / 2] + self.sx_pix
-            # diff from centre of beam for each pixel in y
-            dy = -np.rint(self.sy_pix[s]).astype(long) + self.pindy[(paxis2 - 1.) / 2] + self.sy_pix
-            # diff from each pixel in prf
-            pindx = self.pindx + self.sx_pix[s] - np.rint(self.sx_pix[s]).astype(long)
-            pindy = self.pindy + self.sy_pix[s] - np.rint(self.sy_pix[s]).astype(long)
-            # diff from pixel centre
-            px = self.sx_pix[s] - np.rint(self.sx_pix[s]).astype(long) + (paxis1 - 1.) / 2.
-            py = self.sy_pix[s] - np.rint(self.sy_pix[s]).astype(long) + (paxis2 - 1.) / 2.
-
-            good = (dx >= 0) & (dx < self.pindx[paxis1 - 1]) & (dy >= 0) & (dy < self.pindy[paxis2 - 1])
-            ngood = good.sum()
-            bad = np.asarray(good) == False
-            nbad = bad.sum()
-            if ngood > 0:  # 0.5*self.pindx[-1]*self.pindy[-1]:
-                ipx2, ipy2 = np.meshgrid(pindx, pindy)
-                atemp = interpolate.griddata((ipx2.ravel(), ipy2.ravel()), self.prf.ravel(), (dx[good], dy[good]),
-                                             method='nearest')
-                amat_data = np.append(amat_data, atemp)
-                amat_row = np.append(amat_row,
-                                     np.arange(0, self.snpix, dtype=int)[good])  # what pixels the source contributes to
-                amat_col = np.append(amat_col, np.full(ngood, s))  # what source we are on
-
-        ind = amat_row <= amat_col
-        self.amat_data_map = amat_data  # [ind]
-        self.amat_row_map = amat_row  # [ind]
-        self.amat_col_map = amat_col  # [ind]
-
-    def conf_noise(self):
-        import confusion_noise as conf
-
-        (self.Row_sig_conf, self.Col_sig_conf, self.Val_sig_conf,
-         self.n_sig_conf) = conf.select_confusion_cov_max_pixels(4, self)
