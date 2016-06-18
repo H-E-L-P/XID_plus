@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.8.6)  15 JUN 2016 14:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.8.6)  18 JUN 2016 16:14
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -1063,7 +1063,7 @@ LaTeX Warning: Reference `lastpage' on page 12 undefined on input line 68.
 
 LaTeX Warning: Reference `lastpage' on page 13 undefined on input line 459.
 
-[13] <Stacking.pdf, id=934, 2168.1pt x 2168.1pt>
+[13] <Stacking.pdf, id=936, 2168.1pt x 2168.1pt>
 File: Stacking.pdf Graphic file (type pdf)
  <use Stacking.pdf>
 Package pdftex.def Info: Stacking.pdf used on input line 462.
@@ -1147,9 +1147,9 @@ ts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2015/texmf-dist/fonts
 /type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2015/texmf-dist/f
 onts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2015/texmf-dist/fon
 ts/type1/urw/ncntrsbk/uncr8a.pfb>
-Output written on XID_plus.pdf (14 pages, 5321759 bytes).
+Output written on XID_plus.pdf (14 pages, 5301001 bytes).
 PDF statistics:
- 1130 PDF objects out of 1200 (max. 8388607)
+ 1132 PDF objects out of 1200 (max. 8388607)
  799 compressed objects within 8 object streams
  234 named destinations out of 1000 (max. 500000)
  252 words of extra memory for PDF output out of 10000 (max. 10000000)

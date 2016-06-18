@@ -4,10 +4,17 @@ from astropy.io import fits
 import numpy as np
 from astropy.io import fits
 
-def ymod_map(prior,posterior_sample):
+
+def ymod_map(prior,flux):
+    """Create replicated model map (no noise or background) i.e. A*f
+
+    :param prior: prior class
+    :param flux: flux vector
+    :return: map array, in same format as prior.sim
+    """
     from scipy.sparse import coo_matrix
 
-    f=coo_matrix((posterior_sample[0:prior.nsrc], (range(0,prior.nsrc),np.zeros(prior.nsrc))), shape=(prior.nsrc, 1))
+    f=coo_matrix((flux, (range(0,prior.nsrc),np.zeros(prior.nsrc))), shape=(prior.nsrc, 1))
     A=coo_matrix((prior.amat_data, (prior.amat_row, prior.amat_col)), shape=(prior.snpix, prior.nsrc))
     rmap_temp=(A*f)
     #pred_map=np.empty_like(prior.im)

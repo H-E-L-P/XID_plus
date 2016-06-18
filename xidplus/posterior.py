@@ -81,6 +81,7 @@ class posterior_stan(object):
         """Stan searches over range 0-1 and scales parameters with flux limits. This function scales those parameters to flux values
 
         :param priors: list of prior classes used in fit
+
         """
         ind=[True]*self.nsrc
         ind_tmp=np.array((ind+[False])*len(priors)+[False]*len(priors))
@@ -106,7 +107,6 @@ class posterior_stan(object):
 
 def scale_posterior(priors, posterior,log=True):
     """(redundant)Stan searches over range 0-1 and scales parameters with flux limits. This function scales those parameters to flux values
-
 
     :param priors:
     :param posterior:

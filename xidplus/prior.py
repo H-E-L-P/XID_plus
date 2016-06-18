@@ -224,8 +224,7 @@ class prior(object):
 
 
     def upper_lim_map(self):
-        """Update flux upper limit to |bkg|+2*sigma_bkg+max(D) where max(D) is maximum value of pixels the source contributes to
-        """
+        """Update flux upper limit to |bkg|+2*sigma_bkg+max(D) where max(D) is maximum value of pixels the source contributes to"""
         self.prior_flux_upper = np.full((self.nsrc), 1000.0)
         for i in range(0, self.nsrc):
             ind = self.amat_col == i

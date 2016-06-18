@@ -2,24 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5590fe4e-d0bd-4215-be50-d94133f988ab" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xidplus/XIDp_mod_beta.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/xidplus/confusion_noise.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" afterPath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/modules.doctree" afterPath="$PROJECT_DIR$/docs/build/doctrees/modules.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/objects.inv" afterPath="$PROJECT_DIR$/docs/build/html/objects.inv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/xidplus.doctree" afterPath="$PROJECT_DIR$/docs/build/doctrees/xidplus.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/xidplus.stan_fit.doctree" afterPath="$PROJECT_DIR$/docs/build/doctrees/xidplus.stan_fit.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/XID_plus.iml" afterPath="$PROJECT_DIR$/.idea/XID_plus.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Paper/XID_plus.log" afterPath="$PROJECT_DIR$/Paper/XID_plus.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/catalogue.py" afterPath="$PROJECT_DIR$/xidplus/catalogue.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/genindex.html" afterPath="$PROJECT_DIR$/docs/build/html/genindex.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/moc_routines.py" afterPath="$PROJECT_DIR$/xidplus/moc_routines.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/modules.html" afterPath="$PROJECT_DIR$/docs/build/html/modules.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/source/conf.py" afterPath="$PROJECT_DIR$/docs/source/conf.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/posterior.py" afterPath="$PROJECT_DIR$/xidplus/posterior.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/posterior_maps.py" afterPath="$PROJECT_DIR$/xidplus/posterior_maps.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/prior.py" afterPath="$PROJECT_DIR$/xidplus/prior.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/searchindex.js" afterPath="$PROJECT_DIR$/docs/build/html/searchindex.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/xidplus.html" afterPath="$PROJECT_DIR$/docs/build/html/xidplus.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/xidplus.stan_fit.html" afterPath="$PROJECT_DIR$/docs/build/html/xidplus.stan_fit.html" />
     </list>
     <ignored path="XID_plus.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -56,7 +48,7 @@
         <entry file="file://$PROJECT_DIR$/xidplus/catalogue.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="162" column="26" selection-start-line="162" selection-start-column="26" selection-end-line="162" selection-end-column="26" />
+              <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -64,21 +56,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="posterior_maps.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="posterior_maps.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/xidplus/posterior_maps.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.527845">
+              <caret line="26" column="36" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="moc_routines.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="moc_routines.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/xidplus/moc_routines.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.63680387">
+            <state vertical-scroll-proportion="0.0">
               <caret line="118" column="40" selection-start-line="118" selection-start-column="40" selection-end-line="118" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xidplus/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -88,7 +90,7 @@
         <entry file="file://$PROJECT_DIR$/xidplus/prior.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="233" column="0" selection-start-line="233" selection-start-column="0" selection-end-line="233" selection-end-column="0" />
+              <caret line="226" column="128" selection-start-line="226" selection-start-column="128" selection-end-line="226" selection-end-column="128" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -100,7 +102,7 @@
         <entry file="file://$PROJECT_DIR$/xidplus/posterior.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="113" column="21" selection-start-line="113" selection-start-column="21" selection-end-line="113" selection-end-column="21" />
+              <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -161,14 +163,14 @@
         <option value="$PROJECT_DIR$/scripts/test_run/test_HEALPix_tile.py" />
         <option value="$PROJECT_DIR$/xidplus/__init__.py" />
         <option value="$PROJECT_DIR$/xidplus/confusion_noise.py" />
-        <option value="$PROJECT_DIR$/xidplus/posterior_maps.py" />
         <option value="$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py" />
         <option value="$PROJECT_DIR$/xidplus/stan_fit/SPIRE.py" />
         <option value="$PROJECT_DIR$/xidplus/segmentation.py" />
-        <option value="$PROJECT_DIR$/xidplus/prior.py" />
-        <option value="$PROJECT_DIR$/xidplus/posterior.py" />
-        <option value="$PROJECT_DIR$/xidplus/catalogue.py" />
         <option value="$PROJECT_DIR$/xidplus/moc_routines.py" />
+        <option value="$PROJECT_DIR$/xidplus/posterior.py" />
+        <option value="$PROJECT_DIR$/xidplus/prior.py" />
+        <option value="$PROJECT_DIR$/xidplus/catalogue.py" />
+        <option value="$PROJECT_DIR$/xidplus/posterior_maps.py" />
       </list>
     </option>
   </component>
@@ -176,7 +178,7 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="131" />
+    <option name="x" value="173" />
     <option name="y" value="23" />
     <option name="width" value="1228" />
     <option name="height" value="836" />
@@ -488,7 +490,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="131" y="23" width="1228" height="836" extended-state="0" />
+    <frame x="173" y="23" width="1228" height="836" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -812,14 +814,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/posterior_maps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/metrics/metrics_XIDp.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -856,10 +850,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/moc_routines.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="118" column="40" selection-start-line="118" selection-start-column="40" selection-end-line="118" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/xidplus/posterior.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="113" column="21" selection-start-line="113" selection-start-column="21" selection-end-line="113" selection-end-column="21" />
+          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -867,7 +877,7 @@
     <entry file="file://$PROJECT_DIR$/xidplus/prior.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="233" column="0" selection-start-line="233" selection-start-column="0" selection-end-line="233" selection-end-column="0" />
+          <caret line="226" column="128" selection-start-line="226" selection-start-column="128" selection-end-line="226" selection-end-column="128" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -877,17 +887,17 @@
     <entry file="file://$PROJECT_DIR$/xidplus/catalogue.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="162" column="26" selection-start-line="162" selection-start-column="26" selection-end-line="162" selection-end-column="26" />
+          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/moc_routines.py">
+    <entry file="file://$PROJECT_DIR$/xidplus/posterior_maps.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.63680387">
-          <caret line="118" column="40" selection-start-line="118" selection-start-column="40" selection-end-line="118" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.527845">
+          <caret line="26" column="36" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
           <folding />
         </state>
       </provider>

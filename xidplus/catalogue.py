@@ -4,6 +4,7 @@ from astropy.io import fits
 
 def git_version():
     """get git version being used
+    
     :return: :rtype:
     """
     from subprocess import Popen, PIPE
@@ -348,6 +349,7 @@ def create_XIDp_PACScat_nocov(posterior, prior100, prior160):
 # noinspection PyPackageRequirements
 def create_XIDp_MIPScat_nocov(posterior, prior24):
     """creates the XIDp catalogue in fits format required by HeDaM
+
     :param posterior: posterior class
     :param prior24: prior class for 24 microns
     :return: thdulist: astropy fits hdulist
