@@ -98,11 +98,9 @@ class posterior_stan(object):
         # lower=np.append(np.append(tmp_prior250.prior_flux_lower,tmp_prior350.prior_flux_lower),tmp_prior500.prior_flux_lower)
         # upper=np.append(np.append(tmp_prior250.prior_flux_upper,tmp_prior350.prior_flux_upper),tmp_prior500.prior_flux_upper)
 
-        if priors[0].scale == 'linear':
-            self.stan_fit[:, :, ind_tmp] = lower + (upper - lower) * self.stan_fit[:, :, ind_tmp]
-        else:
-            self.stan_fit[:, :, ind_tmp] = np.power(10.0, lower + (upper - lower) * self.stan_fit[:, :, ind_tmp])
 
+        self.stan_fit[:, :, ind_tmp] = lower + (upper - lower) * self.stan_fit[:, :, ind_tmp]
+        
 
 
 def scale_posterior(priors, posterior,log=True):
