@@ -84,7 +84,7 @@ class prior(object):
 
         self.bkg = (mu, sigma)
 
-    def prior_cat(self, ra, dec, prior_cat_file, flux_lower=None, flux_upper=None, ID=None, moc=None, flux_scale=False):
+    def prior_cat(self, ra, dec, prior_cat_file, flux_lower=None, flux_upper=None, ID=None, moc=None):
         """Input info for prior catalogue
 
         :param ra: Right ascension (JD2000) of sources
@@ -116,7 +116,6 @@ class prior(object):
             flux_upper = np.full((ra.size), 1000.0)
         self.prior_flux_lower = flux_lower
         self.prior_flux_upper = flux_upper
-        self.flux_scale(log=flux_scale)
 
         if ID is None:
             ID = np.arange(1, ra.size + 1, dtype='int64')
