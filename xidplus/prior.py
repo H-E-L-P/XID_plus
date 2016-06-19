@@ -10,7 +10,7 @@ class prior(object):
         """
         wcs_temp = wcs.WCS(self.imhdu)
         ra, dec = wcs_temp.wcs_pix2world(self.sx_pix, self.sy_pix, 0)
-        ind_map = np.array(moc_routines.check_in_moc(ra, dec, self.moc, keep_inside=True))
+        ind_map = np.array(moc_routines.check_in_moc(ra, dec, self.moc))
         # now cut down and flatten maps (default is to use all pixels, running segment will change the values below to pixels within segment)
         self.sx_pix = self.sx_pix[ind_map]
         self.sy_pix = self.sy_pix[ind_map]
@@ -21,7 +21,7 @@ class prior(object):
     def cut_down_cat(self):
         """Cuts down prior class variables associated with the catalogue data to the MOC assigned to the prior class: self.moc
         """
-        sgood = np.array(moc_routines.check_in_moc(self.sra, self.sdec, self.moc, keep_inside=True))
+        sgood = np.array(moc_routines.check_in_moc(self.sra, self.sdec, self.moc))
 
         self.sx = self.sx[sgood]
         self.sy = self.sy[sgood]
