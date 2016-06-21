@@ -100,7 +100,7 @@ class posterior_stan(object):
 
 
         self.stan_fit[:, :, ind_tmp] = lower + (upper - lower) * self.stan_fit[:, :, ind_tmp]
-        
+
 
 
 def scale_posterior(priors, posterior,log=True):
