@@ -194,9 +194,6 @@ class prior(object):
             # diff from each pixel in prf
             pindx = self.pindx + self.sx[s] - np.rint(self.sx[s]).astype(long)
             pindy = self.pindy + self.sy[s] - np.rint(self.sy[s]).astype(long)
-            # diff from pixel centre
-            px = self.sx[s] - np.rint(self.sx[s]).astype(long) + (paxis1 - 1.) / 2.
-            py = self.sy[s] - np.rint(self.sy[s]).astype(long) + (paxis2 - 1.) / 2.
 
             good = (dx >= 0) & (dx < self.pindx[paxis1 - 1]) & (dy >= 0) & (dy < self.pindy[paxis2 - 1])
             ngood = good.sum()
@@ -230,3 +227,45 @@ class prior(object):
             if ind.sum() > 0:
                 self.prior_flux_upper[i] = np.max(self.sim[self.amat_row[ind]]) + (np.abs(self.bkg[0]) + 2 * self.bkg[1])
 
+    def get_pointing_matrix_unknown_psf(self, bkg=True):
+        """Calculate pointing matrix for unknown psf. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute
+        """
+        from scipy import interpolate
+        paxis1, paxis2 = self.prf.shape
+
+        amat_row = np.array([], dtype=int)
+        amat_col = np.array([], dtype=int)
+        amat_data = np.array([])
+
+        # ------Deal with PRF array----------
+        centre = ((paxis1 - 1) / 2)
+        # create pointing array
+        for s in range(0, self.nsrc):
+
+            # diff from centre of beam for each pixel in x
+            dx =  self.sx_pix-self.sx[s]
+            # diff from centre of beam for each pixel in y
+            dy =  self.sy_pix -self.sy[s]
+            # diff from each pixel in prf
+            pindx = self.pindx - (paxis1 - 1.) / 2. + self.sx[s] - np.rint(self.sx[s]).astype(long)
+            pindy = self.pindy + self.sy[s] - np.rint(self.sy[s]).astype(long)
+            # diff from pixel centre
+            px = self.sx[s] - np.rint(self.sx[s]).astype(long) + (paxis1 - 1.) / 2.
+            py = self.sy[s] - np.rint(self.sy[s]).astype(long) + (paxis2 - 1.) / 2.
+
+            dist=np.sqrt(dx**2+dy**2)
+            good = dist < self.pindx[-1]/2.0
+            ngood = good.sum()
+            bad = np.asarray(good) == False
+            nbad = bad.sum()
+            if ngood > 0.5 * self.pindx[-1] * self.pindy[-1]:
+                f = interpolate.interp1d(self.pindx[0:(paxis1 + 1.) / 2],np.arange((paxis1 + 1.) / 2.),kind='nearest')
+                atemp=f(dist[good])
+                amat_data = np.append(amat_data, atemp)
+                amat_row = np.append(amat_row,
+                                     np.arange(0, self.snpix, dtype=int)[good])  # what pixels the source contributes to
+                amat_col = np.append(amat_col, np.full(ngood, s))  # what source we are on
+
+        self.amat_data = amat_data
+        self.amat_row = amat_row
+        self.amat_col = amat_col

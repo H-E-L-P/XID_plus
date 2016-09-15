@@ -75,15 +75,15 @@ model {
 
 
   }
-  //Prior on background 
-  bkg_psw ~normal(bkg_prior_psw,bkg_prior_sig_psw);
-  bkg_pmw ~normal(bkg_prior_pmw,bkg_prior_sig_pmw);
-  bkg_plw ~normal(bkg_prior_plw,bkg_prior_sig_plw);
- 
+
+ //Prior on background 
+  bkg_psw ~normal(0,1);
+  bkg_pmw ~normal(0,1);
+  bkg_plw ~normal(0,1); 
    
   // Create model maps (i.e. db_hat = A*f) using sparse multiplication
   for (k in 1:npix_psw) {
-    db_hat_psw[k] <- bkg_psw;
+    db_hat_psw[k] <- bkg_psw*bkg_prior_sig_psw+bkg_prior_psw;
     sigma_tot_psw[k]<-sqrt(square(sigma_psw[k])+square(sigma_conf_psw));
   }
   for (k in 1:nnz_psw) {
@@ -91,7 +91,7 @@ model {
       }
 
   for (k in 1:npix_pmw) {
-    db_hat_pmw[k] <- bkg_pmw;
+    db_hat_pmw[k] <-  bkg_pmw*bkg_prior_sig_pmw+bkg_prior_pmw;
     sigma_tot_pmw[k]<-sqrt(square(sigma_pmw[k])+square(sigma_conf_pmw));
   }
   for (k in 1:nnz_pmw) {
@@ -99,7 +99,7 @@ model {
       }
 
   for (k in 1:npix_plw) {
-    db_hat_plw[k] <- bkg_plw;
+    db_hat_plw[k] <- bkg_plw*bkg_prior_sig_plw+bkg_prior_plw;
     sigma_tot_plw[k]<-sqrt(square(sigma_plw[k])+square(sigma_conf_plw));
   }
   for (k in 1:nnz_plw) {

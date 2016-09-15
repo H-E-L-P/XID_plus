@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.8.6)  18 JUN 2016 16:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.8.6)  26 JUL 2016 15:18
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -890,7 +890,31 @@ File: Detections.pdf Graphic file (type pdf)
 Package pdftex.def Info: Detections.pdf, page3 used on input line 338.
 (pdftex.def)             Requested size: 156.49014pt x 156.49345pt.
 
-<error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf, id=434, page=7, 578
+
+LaTeX Warning: Reference `lastpage' on page 7 undefined on input line 350.
+
+[7pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) 
+has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.350 
+      pdfTeX warning (ext4): destination with the same identifier (name{figure.
+6}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.350 
+       <./convergence_test.pdf> <./convergence_test.pdf
+
+pdfTeX warning: /usr/texbin/pdflatex (file ./convergence_test.pdf): PDF inclusi
+on: multiple pdfs with page group included in a single page
+> <./XID+_vs_DESPHOT_joint.pdf
+
+pdfTeX warning: /usr/texbin/pdflatex (file ./XID+_vs_DESPHOT_joint.pdf): PDF in
+clusion: multiple pdfs with page group included in a single page
+>]
+<error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf, id=550, page=7, 578
 .16pt x 505.89pt>
 File: error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf Graphic file (t
 ype pdf)
@@ -900,7 +924,7 @@ Package pdftex.def Info: error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.
 pdf, page7 used on input line 353.
 (pdftex.def)             Requested size: 156.49014pt x 136.92404pt.
 
-<error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf, id=435, page=8, 578
+<error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf, id=551, page=8, 578
 .16pt x 505.89pt>
 File: error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf Graphic file (t
 ype pdf)
@@ -910,7 +934,7 @@ Package pdftex.def Info: error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.
 pdf, page8 used on input line 354.
 (pdftex.def)             Requested size: 156.49014pt x 136.92404pt.
 
-<error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf, id=436, page=9, 578
+<error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf, id=552, page=9, 578
 .16pt x 505.89pt>
 File: error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.pdf Graphic file (t
 ype pdf)
@@ -920,30 +944,7 @@ Package pdftex.def Info: error_density_flux_test_uninform_uniform_XIDp_LAMBDAR.
 pdf, page9 used on input line 355.
 (pdftex.def)             Requested size: 156.49014pt x 136.92404pt.
 
-
-LaTeX Warning: Reference `lastpage' on page 7 undefined on input line 357.
-
-[7pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) 
-has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.357 \end{figure*}
-                   pdfTeX warning (ext4): destination with the same identifier 
-(name{figure.6}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.357 \end{figure*}
-                    <./convergence_test.pdf> <./convergence_test.pdf
-
-pdfTeX warning: /usr/texbin/pdflatex (file ./convergence_test.pdf): PDF inclusi
-on: multiple pdfs with page group included in a single page
-> <./XID+_vs_DESPHOT_joint.pdf
-
-pdfTeX warning: /usr/texbin/pdflatex (file ./XID+_vs_DESPHOT_joint.pdf): PDF in
-clusion: multiple pdfs with page group included in a single page
->] <colour_colour_sim_true.pdf, id=558, 397.485pt x 361.35pt>
+<colour_colour_sim_true.pdf, id=558, 397.485pt x 361.35pt>
 File: colour_colour_sim_true.pdf Graphic file (type pdf)
 
 <use colour_colour_sim_true.pdf>
@@ -965,14 +966,14 @@ Package pdftex.def Info: colour_colour_track.pdf used on input line 369.
 (pdftex.def)             Requested size: 142.26378pt x 129.58052pt.
 
 
-LaTeX Warning: Reference `lastpage' on page 8 undefined on input line 410.
+LaTeX Warning: Reference `lastpage' on page 8 undefined on input line 408.
 
 [8pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.410 
+l.408 
        <./Detections.pdf> <./Detections.pdf
 
 pdfTeX warning: /usr/texbin/pdflatex (file ./Detections.pdf): PDF inclusion: mu
@@ -982,10 +983,10 @@ ltiple pdfs with page group included in a single page
 pdfTeX warning: /usr/texbin/pdflatex (file ./Detections.pdf): PDF inclusion: mu
 ltiple pdfs with page group included in a single page
 >]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 7907) has occurred while \output is active []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 7907) has occurred while \output is active []
 
 
 
@@ -1031,7 +1032,7 @@ Underfull \hbox (badness 1097) in paragraph at lines 430--431
 
 (./XID_plus.bbl
 
-LaTeX Warning: Reference `lastpage' on page 10 undefined on input line 353.
+LaTeX Warning: Reference `lastpage' on page 10 undefined on input line 328.
 
 [10])
 
@@ -1107,7 +1108,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 466.
 Here is how much of TeX's memory you used:
  10588 strings out of 493089
  154274 string characters out of 6134843
- 352928 words of memory out of 5000000
+ 351965 words of memory out of 5000000
  13657 multiletter control sequences out of 15000+600000
  23359 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1146,9 +1147,9 @@ ts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2015/texmf-dist/fonts
 /type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2015/texmf-dist/f
 onts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2015/texmf-dist/fon
 ts/type1/urw/ncntrsbk/uncr8a.pfb>
-Output written on XID_plus.pdf (14 pages, 5300679 bytes).
+Output written on XID_plus.pdf (14 pages, 5305165 bytes).
 PDF statistics:
- 1132 PDF objects out of 1200 (max. 8388607)
+ 1136 PDF objects out of 1200 (max. 8388607)
  799 compressed objects within 8 object streams
  234 named destinations out of 1000 (max. 500000)
  252 words of extra memory for PDF output out of 10000 (max. 10000000)
