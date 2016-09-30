@@ -132,7 +132,7 @@ class prior(object):
         self.moc = self.moc.intersection(moc)
         self.cut_down_prior()
 
-    def prior_cat_stack(self, ra, dec, prior_cat, ID=None):
+    def prior_cat_stack(self, ra, dec, prior_cat, flux_lower=None, flux_upper=None,ID=None):
         """Input info for prior catalogue of sources being stacked
 
         :param ra: Right ascension (JD2000) of sources
@@ -157,6 +157,11 @@ class prior(object):
         if ID is None:
             ID = np.arange(1, ra.size + 1, dtype='int64')
         self.ID = np.append(self.ID, ID)
+        if flux_lower is None:
+            flux_lower = np.full((ra.size), 0.01)
+            flux_upper = np.full((ra.size), 1000.0)
+            self.prior_flux_lower = np.append(self.prior_flux_lower,flux_lower)
+            self.prior_flux_upper = np.append(self.prior_flux_upper,flux_upper)
 
         self.cut_down_prior()
 

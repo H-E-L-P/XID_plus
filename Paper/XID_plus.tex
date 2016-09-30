@@ -70,7 +70,7 @@
 \usepackage{hyperref}
 \title[HELP:XID+]
   {HELP: XID+, The Probabilistic De-blender for \emph{Herschel} SPIRE maps}\author[P.D. Hurley et al.]{P.D.~Hurley,$^1$\thanks{Email: p.d.hurley@sussex.ac.uk} S.~Oliver,$^1$ M.~Betancourt,$^2$ C.~Clarke,$^1$ W.I.~Cowley,$^3$\newauthor S.~Duivenvoorden,$^1$ 
- D.~Farrah,$^4$ M.~Griffin,$^5$ C.~Lacey,$^3$ E.~Le Floc'h,$^6$ \newauthor A.~Papadopoulos,$^7$ M.~Sargent,$^1$ J.M.~Scudder,$^1$ M.~Vaccari,$^{8,9}$ \newauthor I. ~Valtchanov,$^{10}$ L.~Wang$^{11}$\\
+ D.~Farrah,$^4$ M.~Griffin,$^5$ C.~Lacey,$^3$ E.~Le Floc'h,$^6$ \newauthor A.~Papadopoulos,$^7$ M.~Sargent,$^1$ J.M.~Scudder,$^1$ M.~Vaccari,$^{8,9}$ \newauthor I. ~Valtchanov,$^{10}$ L.~Wang$^{11,12}$\\
 $^1$Astronomy Centre, Department of Physics and Astronomy, University of Sussex, Falmer, Brighton BN1 9QH, UK\\
 $^2$Department of Statistics, University of Warwick, Coventry, CV4 7AL, UK\\
 $^3$Institute for Computational Cosmology, Department of Physics, University of Durham, South Road, Durham DH1 3LE, UK\\
@@ -81,7 +81,8 @@ $^7$European University Cyprus, 6, Diogenis Str., Engomi, P.O. Box: 22006, 1516 
 $^8$Department of Physics and Astronomy, University of the Western Cape, Robert Sobukwe Road, 7535 Bellville, Cape Town, South Africa\\
 $^9$INAF - Istituto di Radioastronomia, via Gobetti 101, 40129 Bologna, Italy\\
 $^{10}$Herschel Science Centre, ESAC, ESA, Villafranca del Castillo, Spain\\
-$^{11}$SRON Netherlands Institute for Space Research, Landleven 12, 9747 AD, Groningen, The Netherlands}
+$^{11}$SRON Netherlands Institute for Space Research, Landleven 12, 9747 AD, Groningen, The Netherlands\\
+$^{12}$Kapteyn Astronomical Institute, University of Groningen, Postbus 800, 9700 AV Groningen, the Netherlands}
 \date{Released 2002 Xxxxx XX}
 
 \pagerange{\pageref{firstpage}--\pageref{lastpage}} \pubyear{2002}
@@ -98,7 +99,7 @@ $^{11}$SRON Netherlands Institute for Space Research, Landleven 12, 9747 AD, Gro
 
 \begin{abstract}
 
-We have developed a new prior-based source extraction tool, \textsc{XID+}, to carry out photometry in the \emph{Herschel} SPIRE maps at the positions of known sources. \textsc{XID+} is developed using a probabilistic Bayesian framework which provides a natural framework in which to include prior information, and uses the Bayesian inference tool \emph{Stan} to obtain the full posterior probability distribution on flux estimates. In this paper, we discuss the details of \textsc{XID+} and demonstrate the basic capabilities and performance by running it on simulated SPIRE maps resembling the COSMOS field, and comparing to the current prior-based source extraction tool \textsc{DESPHOT}. We show that not only does \textsc{XID+} perform better on metrics such as flux accuracy and flux uncertainty accuracy, we illustrate how obtaining the posterior probability distribution can help overcome some of the issues inherent with maximum likelihood based source extraction routines. We run \textsc{XID+} on the COSMOS SPIRE maps from HerMES, using a 24 $\mathrm{\mu m}$ catalogue as a \textcolor{red}{positional prior, and a uniform flux prior ranging from 0.01 to 1000 $\mathrm{mJy}$}. We show the marginalised SPIRE colour-colour plot and marginalised contribution to the cosmic infrared background at the SPIRE wavelengths. 
+We have developed a new prior-based source extraction tool, \textsc{XID+}, to carry out photometry in the \emph{Herschel} SPIRE maps at the positions of known sources. \textsc{XID+} is developed using a probabilistic Bayesian framework which provides a natural framework in which to include prior information, and uses the Bayesian inference tool \emph{Stan} to obtain the full posterior probability distribution on flux estimates. In this paper, we discuss the details of \textsc{XID+} and demonstrate the basic capabilities and performance by running it on simulated SPIRE maps resembling the COSMOS field, and comparing to the current prior-based source extraction tool \textsc{DESPHOT}. We show that not only does \textsc{XID+} perform better on metrics such as flux accuracy and flux uncertainty accuracy, we illustrate how obtaining the posterior probability distribution can help overcome some of the issues inherent with maximum likelihood based source extraction routines. We run \textsc{XID+} on the COSMOS SPIRE maps from HerMES, using a 24 $\mathrm{\mu m}$ catalogue as a positional prior, and a uniform flux prior ranging from 0.01 to 1000 $\mathrm{mJy}$. We show the marginalised SPIRE colour-colour plot and marginalised contribution to the cosmic infrared background at the SPIRE wavelengths. 
 \textsc{XID+} is a core tool arising from the \emph{Herschel} Extragalactic Legacy Project (HELP) and we discuss how additional work within HELP providing prior information on fluxes can and will be utilised. The software is available at \url{https://github.com/H-E-L-P/XID_plus}. We also provide the data product for COSMOS.  We believe this is the first time that the full posterior probability of galaxy photometry has been provided as a data product. 
 \end{abstract}
 
@@ -174,7 +175,7 @@ The maximum likelihood solution to this equation can be found by setting $\chi =
 \mathbf{f}=(\mathbf{A^TN_d^{-1}A})^{-1}\mathbf{A^TN_d^{-1}d}\label{eq:mlm}
 \end{equation}
 
-Equation \ref{eq:mlm} can be solved directly, either by brute-force matrix inversion or via other linear methods. As discussed in \cite{Roseboom:2010, Roseboom:2011, Wang:2014}, linear approaches ignore prior knowledge that fluxes cannot have negative flux density.  They are also incapable of discriminating between real and spurious soltuions, which can result in overfitting. To overcome these issues, \cite{Roseboom:2011} used the non-negative weighted LASSO algorithm \citep{Tibshirani:1996, Zou:2006, terBraak:2010}.
+Equation \ref{eq:mlm} can be solved directly, either by brute-force matrix inversion or via other linear methods. As discussed in \cite{Roseboom:2010, Roseboom:2011, Wang:2014}, linear approaches ignore prior knowledge that fluxes cannot have negative flux density.  They are also incapable of discriminating between real and spurious solitions, which can result in overfitting. To overcome these issues, \cite{Roseboom:2011} used the non-negative weighted LASSO algorithm \citep{Tibshirani:1996, Zou:2006, terBraak:2010}.
 
 LASSO is a shrinkage and selection method for linear regression and works by treating sources either as `inactive' with flux density set to zero, or `active'. It switches sources on one at a time, with the order determined by reduction in chi-squared gained by turning them on. The process continues until some tolerance is reached.
 
