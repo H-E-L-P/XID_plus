@@ -39,6 +39,21 @@ def yrep_map(prior,fvec,conf_noise):
 
     return pred_map,np.asarray(rmap_temp.todense())+np.random.randn(prior.snpix)*np.sqrt(np.square(prior.snim)+np.square(conf_noise))
 
+def post_rep_map(prior,mod_map,back,conf_noise):
+    return mod_map+back+np.random.normal(scale=np.sqrt(prior.snim**2+conf_noise**2))
+
+
+def make_Bayesian_pval_maps(prior,post_rep_map):
+    import scipy.stats as st
+    pval=np.empty_like(prior.sim)
+    for i in range(0,prior.snpix):
+        ind=post_rep_map[i,:]<prior.sim[i]
+        pval[i]=st.norm.ppf(sum(ind)/np.float(post_rep_map.shape[1]))
+    pval[np.isposinf(pval)]=6.0
+    pval[np.isneginf(pval)]=-6.0
+    return pval
+
+
 def make_fits_image(prior,pixel_values):
     """
     :param prior: prior class for XID+
