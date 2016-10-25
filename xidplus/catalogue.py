@@ -142,19 +142,11 @@ def create_XIDp_SPIREcat_nocov(posterior, prior250, prior350, prior500):
     # ----Primary header-----------------------------------
     prihdr = fits.Header()
     prihdr['Prior_Cat'] = prior250.prior_cat
-<<<<<<< HEAD
     prihdr['TITLE']   = 'SPIRE XID+ catalogue'
     #prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change                              
     prihdr['CREATOR'] = 'WP5'                                 
     #prihdr['XID+VERSION'] = git_version()
-    prihdr['DATE']    = datetime.datetime.now().isoformat()              
-=======
-    prihdr['TITLE'] = 'SPIRE XID+ catalogue'
-    # prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change
-    prihdr['CREATOR'] = 'WP5'
-    prihdr['XID+VERSION'] = git_version()
-    prihdr['DATE'] = datetime.datetime.now().isoformat()
->>>>>>> 174889cebea031636e2e88604d8f30052c2fe920
+    prihdr['DATE']    = datetime.datetime.now().isoformat()             
     prihdu = fits.PrimaryHDU(header=prihdr)
 
     thdulist = fits.HDUList([prihdu, tbhdu])
@@ -400,40 +392,6 @@ def create_XIDp_MIPScat_nocov(posterior, prior24):
     tbhdu.header.set('TUCD4', 'phot.flux.density', after='TUNIT4')
     tbhdu.header.set('TDESC4', '24 Flux (at 50th percentile)', after='TUCD4')
 
-    tbhdu.header.set('TUCD5', 'phot.flux.density', after='TUNIT5')
-    tbhdu.header.set('TDESC5', '24 Flux (at 84.1 percentile) ', after='TUCD5')
-
-    tbhdu.header.set('TUCD6', 'phot.flux.density', after='TUNIT6')
-    tbhdu.header.set('TDESC6', '24 Flux (at 15.9 percentile)', after='TUCD6')
-
-    tbhdu.header.set('TUCD7', 'phot.flux.density', after='TUNIT7')
-    tbhdu.header.set('TDESC7', '24 background', after='TUCD7')
-
-    tbhdu.header.set('TUCD8', 'phot.flux.density', after='TUNIT8')
-    tbhdu.header.set('TDESC8', '24 residual confusion noise', after='TUCD8')
-
-    tbhdu.header.set('TUCD9', 'stat.value', after='TFORM9')
-    tbhdu.header.set('TDESC9', '24 MCMC Convergence statistic', after='TUCD9')
-
-    tbhdu.header.set('TUCD10', 'stat.value', after='TFORM10')
-    tbhdu.header.set('TDESC10', '24 MCMC independence statistic', after='TUCD10')
-
-
-    # ----Primary header-----------------------------------
-    prihdr = fits.Header()
-    prihdr['Prior_Cat'] = prior24.prior_cat
-    prihdr['TITLE'] = 'MIPS XID+ catalogue'
-    # prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change
-    prihdr['CREATOR'] = 'WP5'
-    prihdr['XID+VERSION'] = git_version()
-    prihdr['DATE'] = datetime.datetime.now().isoformat()
-    prihdu = fits.PrimaryHDU(header=prihdr)
-
-    thdulist = fits.HDUList([prihdu, tbhdu])
-    return thdulist
-
-
-<<<<<<< HEAD
     tbhdu.header.set('TUCD5','phot.flux.density',after='TUNIT5')
     tbhdu.header.set('TDESC5','24 Flux (at 84.1 percentile) ',after='TUCD5')
 
@@ -462,7 +420,6 @@ def create_XIDp_MIPScat_nocov(posterior, prior24):
     prihdr['XID+VERSION'] = git_version()
     prihdr['DATE']    = datetime.datetime.now().isoformat()
     prihdu = fits.PrimaryHDU(header=prihdr)
-
     thdulist = fits.HDUList([prihdu, tbhdu])
     return thdulist
 # noinspection PyPackageRequirements
