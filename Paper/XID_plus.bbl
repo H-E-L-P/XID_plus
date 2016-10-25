@@ -1,5 +1,22 @@
-\begin{thebibliography}{41}
+\begin{thebibliography}{46}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{{Astropy Collaboration} {et~al.}(2013){Astropy Collaboration},
+  {Robitaille}, {Tollerud}, {Greenfield}, {Droettboom}, {Bray}, {Aldcroft},
+  {Davis}, {Ginsburg}, {Price-Whelan}, {Kerzendorf}, {Conley}, {Crighton},
+  {Barbary}, {Muna}, {Ferguson}, {Grollier}, {Parikh}, {Nair}, {Unther},
+  {Deil}, {Woillez}, {Conseil}, {Kramer}, {Turner}, {Singer}, {Fox}, {Weaver},
+  {Zabalza}, {Edwards}, {Azalee Bostroem}, {Burke}, {Casey}, {Crawford},
+  {Dencheva}, {Ely}, {Jenness}, {Labrie}, {Lim}, {Pierfederici}, {Pontzen},
+  {Ptak}, {Refsdal}, {Servillat} \& {Streicher}}]{Astropy-Collaboration:2013}
+{Astropy Collaboration}, {et~al.}, 2013, \aap, 558, A33
+
+\bibitem[{{Berta} {et~al.}(2013){Berta}, {Lutz}, {Santini}, {Wuyts}, {Rosario},
+  {Brisbin}, {Cooray}, {Franceschini}, {Gruppioni}, {Hatziminaoglou}, {Hwang},
+  {Le Floc'h}, {Magnelli}, {Nordon}, {Oliver}, {Page}, {Popesso}, {Pozzetti},
+  {Pozzi}, {Riguccini}, {Rodighiero}, {Roseboom}, {Scott}, {Symeonidis},
+  {Valtchanov}, {Viero} \& {Wang}}]{Berta:2013}
+{Berta} S., {et~al.}, 2013, \aap, 551, A100
 
 \bibitem[{{B{\'e}thermin} {et~al.}(2012){B{\'e}thermin}, {Le Floc'h}, {Ilbert},
   {Conley}, {Lagache}, {Amblard}, {Arumugam}, {Aussel}, {Berta}, {Bock},
@@ -62,17 +79,6 @@ Chapin E.~L., {et~al.}, 2011, Monthly Notices of the Royal Astronomical
   Wright, Xu \& Zemcov}]{Elbaz:2010}
 Elbaz D., {et~al.}, 2010, A{\&}A, 518, L29
 
-\bibitem[{Floc'h {et~al.}(2009)Floc'h, Aussel, Ilbert, Riguccini, Frayer,
-  Salvato, Arnouts, Surace, Feruglio, Rodighiero, Capak, Kartaltepe, Heinis,
-  Sheth, Yan, McCracken, Thompson, Sanders, Scoville \&
-  Koekemoer}]{LeFLoch:2009}
-Floc'h E.~L., {et~al.}, 2009, The Astrophysical Journal, 703, 222
-
-\bibitem[{Foreman-Mackey {et~al.}(2014)Foreman-Mackey, Price-Whelan, Ryan,
-  Emily, Smith, Barbary, Hogg \& Brewer}]{triangle}
-Foreman-Mackey D., Price-Whelan A., Ryan G., Emily, Smith M., Barbary K., Hogg
-  D.~W., Brewer B.~J., 2014, triangle.py v0.1.1
-
 \bibitem[{Gelman {et~al.}(2013)Gelman, Carlin, Stern, Dunson, Vehtari \&
   Rubin}]{BDA3}
 Gelman A., Carlin J., Stern H., Dunson D., Vehtari A., Rubin D., 2013, Bayesian
@@ -126,6 +132,9 @@ Hoffman M.~D., Gelman A., 2014, Journal of Machine Learning Research, 15, 1593
   {Murphy} \& {Naylor}}]{SCUBA}
 {Holland} W.~S., {et~al.}, 1999, \mnras, 303, 659
 
+\bibitem[{Hunter(2007)}]{Hunter:2007}
+Hunter J.~D., 2007, Computing In Science \& Engineering, 9, 90
+
 \bibitem[{Ivison {et~al.}(2010)Ivison, Magnelli, Ibar, Andreani, Elbaz,
   Altieri, Amblard, Arumugam, Auld, Aussel, Babbedge, Berta, Blain, Bock,
   Bongiovanni, Boselli, Buat, Burgarella, Castro-Rodr{\'\i}guez, Cava, Cepa,
@@ -147,8 +156,26 @@ Ivison R.~J., {et~al.}, 2010, A{\&}A, 518, L31
   Estaria, Faelker, Riedinger, Robson, Taylor \& de~Ferr{\'a}n}]{Kessler:1996}
 Kessler M.~F., {et~al.}, 1996, Astron. Astrophys., 315, L27
 
+\bibitem[{{Lacey} {et~al.}(2015){Lacey}, {Baugh}, {Frenk}, {Benson}, {Bower},
+  {Cole}, {Gonzalez-Perez}, {Helly}, {Lagos} \& {Mitchell}}]{Lacey:2015}
+{Lacey} C.~G., {et~al.}, 2015, ArXiv e-prints
+
 \bibitem[{{Lagache} \& {Puget}(2000)}]{Lagache:2000}
 {Lagache} G., {Puget} J.~L., 2000, \aap, 355, 17
+
+\bibitem[{{Le Floc'h} {et~al.}(2009){Le Floc'h}, {Aussel}, {Ilbert},
+  {Riguccini}, {Frayer}, {Salvato}, {Arnouts}, {Surace}, {Feruglio},
+  {Rodighiero}, {Capak}, {Kartaltepe}, {Heinis}, {Sheth}, {Yan}, {McCracken},
+  {Thompson}, {Sanders}, {Scoville} \& {Koekemoer}}]{LeFLoch:2009}
+{Le Floc'h} E., {et~al.}, 2009, \apj, 703, 222
+
+\bibitem[{{Levenson} {et~al.}(2010){Levenson}, {Marsden}, {Zemcov}, {Amblard},
+  {Blain}, {Bock}, {Chapin}, {Conley}, {Cooray}, {Dowell}, {Ellsworth-Bowers},
+  {Franceschini}, {Glenn}, {Griffin}, {Halpern}, {Nguyen}, {Oliver}, {Page},
+  {Papageorgiou}, {P{\'e}rez-Fournon}, {Pohlen}, {Rangwala}, {Rowan-Robinson},
+  {Schulz}, {Scott}, {Serra}, {Shupe}, {Valiante}, {Vieira}, {Vigroux},
+  {Wiebe}, {Wright} \& {Xu}}]{Levenson:2010}
+{Levenson} L., {et~al.}, 2010, \mnras, 409, 83
 
 \bibitem[{Marsden {et~al.}(2009)Marsden, Ade, Bock, Chapin, Devlin, Dicker,
   Griffin, Gundersen, Halpern, Hargrave, Hughes, Klein, Mauskopf, Magnelli,
@@ -178,18 +205,6 @@ Marsden G., {et~al.}, 2009, ApJ, 707, 1729
   Raimond, Rowan-Robinson, Soifer, Walker, Wesselius \&
   Young}]{Neugebauer:1984}
 Neugebauer G., {et~al.}, 1984, Astrophysical Journal, 278, L1
-
-\bibitem[{Nguyen {et~al.}(2010)Nguyen, Schulz, Levenson, Amblard, Arumugam,
-  Aussel, Babbedge, Blain, Bock, Boselli, Buat, Castro-Rodr{\'\i}guez, Cava,
-  Chanial, Chapin, Clements, Conley, Conversi, Cooray, Dowell, Dwek, Eales,
-  Elbaz, Fox, Franceschini, Gear, Glenn, Griffin, Halpern, Hatziminaoglou,
-  Ibar, Isaak, Ivison, Lagache, Lu, Madden, Maffei, Mainetti, Marchetti,
-  Marsden, Marshall, O{\textquoteright}Halloran, Oliver, Omont, Page, Panuzzo,
-  Papageorgiou, Pearson, P{\'e}rez-Fournon, Pohlen, Rangwala, Rigopoulou,
-  Rizzo, Roseboom, Rowan-Robinson, Scott, Seymour, Shupe, Smith, Stevens,
-  Symeonidis, Trichas, Tugwell, Vaccari, Valtchanov, Vigroux, Wang, Ward,
-  Wiebe, Wright, Xu \& Zemcov}]{Nguyen:2010}
-Nguyen H.~T., {et~al.}, 2010, A{\&}A, 518, L5
 
 \bibitem[{{Oliver}(in prep.)}]{Oliver:2016}
 {Oliver} S., in prep., Herschel extragalactic legacy project
@@ -253,13 +268,6 @@ Pilbratt G.~L., {et~al.}, 2010, Astronomy and Astrophysics, 518, L1
   {Schmitt}, {Schubert}, {Sturm}, {Thiel}, {Tofani}, {Vavrek}, {Wetzstein},
   {Wieprecht} \& {Wiezorrek}}]{Poglitsch:2010}
 {Poglitsch} A., {et~al.}, 2010, \aap, 518, L2
-
-\bibitem[{{Polletta} {et~al.}(2007){Polletta}, {Tajer}, {Maraschi},
-  {Trinchieri}, {Lonsdale}, {Chiappetti}, {Andreon}, {Pierre}, {Le F{\`e}vre},
-  {Zamorani}, {Maccagni}, {Garcet}, {Surdej}, {Franceschini}, {Alloin},
-  {Shupe}, {Surace}, {Fang}, {Rowan-Robinson}, {Smith} \&
-  {Tresse}}]{Polletta:2007}
-{Polletta} M., {et~al.}, 2007, \apj, 663, 81
 
 \bibitem[{{Puget} {et~al.}(1996){Puget}, {Abergel}, {Bernard}, {Boulanger},
   {Burton}, {Desert} \& {Hartmann}}]{Puget:1996}
@@ -325,6 +333,21 @@ ter Braak C.~J., Boer M.~P., Totir L.~R., Winkler C.~R., Smith O.~S., Bink
 Tibshirani R., 1996, Journal of the Royal Statistical Society (Series B), 58,
   267
 
+\bibitem[{{Vaccari}(2016)}]{Vaccari:2015}
+{Vaccari} M., 2016, ArXiv e-prints
+
+\bibitem[{{Viero} {et~al.}(2013){Viero}, {Wang}, {Zemcov}, {Addison},
+  {Amblard}, {Arumugam}, {Aussel}, {B{\'e}thermin}, {Bock}, {Boselli}, {Buat},
+  {Burgarella}, {Casey}, {Clements}, {Conley}, {Conversi}, {Cooray}, {De
+  Zotti}, {Dowell}, {Farrah}, {Franceschini}, {Glenn}, {Griffin},
+  {Hatziminaoglou}, {Heinis}, {Ibar}, {Ivison}, {Lagache}, {Levenson},
+  {Marchetti}, {Marsden}, {Nguyen}, {O'Halloran}, {Oliver}, {Omont}, {Page},
+  {Papageorgiou}, {Pearson}, {P{\'e}rez-Fournon}, {Pohlen}, {Rigopoulou},
+  {Roseboom}, {Rowan-Robinson}, {Schulz}, {Scott}, {Seymour}, {Shupe}, {Smith},
+  {Symeonidis}, {Vaccari}, {Valtchanov}, {Vieira}, {Wardlow} \&
+  {Xu}}]{Viero:2013}
+{Viero} M.~P., {et~al.}, 2013, \apj, 772, 77
+
 \bibitem[{Wang {et~al.}(2014)Wang, Viero, Clarke, Bock, Buat, Conley, Farrah,
   Guo, Heinis, Magdis, Marchetti, Marsden, Norberg, Oliver, Page, Roehlly,
   Roseboom, Schulz, Smith, Vaccari \& Zemcov}]{Wang:2014}
@@ -337,6 +360,14 @@ Wang L., {et~al.}, 2014, Monthly Notices of the Royal Astronomical Society,
   \& Cruikshank}]{Werner:2004}
 Werner M.~W., {et~al.}, 2004, The Astrophysical Journal Supplement Series, 154,
   1
+
+\bibitem[{{Wright} {et~al.}(2016){Wright}, {Robotham}, {Bourne}, {Driver},
+  {Dunne}, {Maddox}, {Alpaslan}, {Andrews}, {Bauer}, {Bland-Hawthorn},
+  {Brough}, {Brown}, {Clarke}, {Cluver}, {Davies}, {Grootes}, {Holwerda},
+  {Hopkins}, {Jarrett}, {Kafle}, {Lange}, {Liske}, {Loveday}, {Moffett},
+  {Norberg}, {Popescu}, {Smith}, {Taylor}, {Tuffs}, {Wang} \&
+  {Wilkins}}]{Wright:2016}
+{Wright} A.~H., {et~al.}, 2016, \mnras, 460, 765
 
 \bibitem[{{Wright} {et~al.}(2010){Wright}, {Eisenhardt}, {Mainzer}, {Ressler},
   {Cutri}, {Jarrett}, {Kirkpatrick}, {Padgett}, {McMillan}, {Skrutskie},

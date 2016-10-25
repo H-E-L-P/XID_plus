@@ -4,10 +4,17 @@ import scipy.stats as st
 import numpy as np
 from astropy.io import fits
 
-def ymod_map(prior,posterior_sample):
+
+def ymod_map(prior,flux):
+    """Create replicated model map (no noise or background) i.e. A*f
+
+    :param prior: prior class
+    :param flux: flux vector
+    :return: map array, in same format as prior.sim
+    """
     from scipy.sparse import coo_matrix
 
-    f=coo_matrix((posterior_sample[0:prior.nsrc], (range(0,prior.nsrc),np.zeros(prior.nsrc))), shape=(prior.nsrc, 1))
+    f=coo_matrix((flux, (range(0,prior.nsrc),np.zeros(prior.nsrc))), shape=(prior.nsrc, 1))
     A=coo_matrix((prior.amat_data, (prior.amat_row, prior.amat_col)), shape=(prior.snpix, prior.nsrc))
     rmap_temp=(A*f)
     #pred_map=np.empty_like(prior.im)
@@ -52,6 +59,21 @@ def Bayes_Pval_res(prior,post_rep_map):
         ind_T=T_data > 2*T_rep
         Bayes_pval_res_vals[i]=sum(ind_T)/np.float(post_rep_map.shape[1])
     return Bayes_pval_res_vals
+
+def post_rep_map(prior,mod_map,back,conf_noise):
+    return mod_map+back+np.random.normal(scale=np.sqrt(prior.snim**2+conf_noise**2))
+
+
+def make_Bayesian_pval_maps(prior,post_rep_map):
+    import scipy.stats as st
+    pval=np.empty_like(prior.sim)
+    for i in range(0,prior.snpix):
+        ind=post_rep_map[i,:]<prior.sim[i]
+        pval[i]=st.norm.ppf(sum(ind)/np.float(post_rep_map.shape[1]))
+    pval[np.isposinf(pval)]=6.0
+    pval[np.isneginf(pval)]=-6.0
+    return pval
+
 
 def make_fits_image(prior,pixel_values):
     """

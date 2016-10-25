@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5590fe4e-d0bd-4215-be50-d94133f988ab" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/moc_routines.py" afterPath="$PROJECT_DIR$/xidplus/moc_routines.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/segmentation.py" afterPath="$PROJECT_DIR$/xidplus/segmentation.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/posterior.py" afterPath="$PROJECT_DIR$/xidplus/posterior.py" />
     </list>
     <ignored path="XID_plus.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,8 +26,8 @@
       <file leaf-file-name="Lacey_COSMOS_test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-39.333332">
-              <caret line="194" column="40" selection-start-line="194" selection-start-column="0" selection-end-line="194" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="194" column="0" selection-start-line="194" selection-start-column="0" selection-end-line="194" selection-end-column="0" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -39,8 +38,8 @@
       <file leaf-file-name="catalogue.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/xidplus/catalogue.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -51,8 +50,8 @@
       <file leaf-file-name="posterior_maps.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/xidplus/posterior_maps.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.444445">
-              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="26" column="36" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -61,8 +60,20 @@
       <file leaf-file-name="moc_routines.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/xidplus/moc_routines.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.0">
-              <caret line="75" column="4" selection-start-line="75" selection-start-column="4" selection-end-line="75" selection-end-column="19" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="84" column="46" selection-start-line="84" selection-start-column="46" selection-end-line="84" selection-end-column="46" />
+              <folding>
+                <element signature="e#21#42#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xidplus/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -71,8 +82,8 @@
       <file leaf-file-name="prior.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/xidplus/prior.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.1111112">
-              <caret line="2" column="32" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -80,20 +91,30 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SPIRE.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/xidplus/stan_fit/SPIRE.py">
+      <file leaf-file-name="posterior.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/xidplus/posterior.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.5555553">
-              <caret line="10" column="44" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="62" />
+            <state vertical-scroll-proportion="0.61893207">
+              <caret line="102" column="8" selection-start-line="102" selection-start-column="8" selection-end-line="102" selection-end-column="8" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="segmentation.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SPIRE.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xidplus/stan_fit/SPIRE.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="20" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="62" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="segmentation.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/xidplus/segmentation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.13194445">
+            <state vertical-scroll-proportion="0.0">
               <caret line="115" column="48" selection-start-line="115" selection-start-column="48" selection-end-line="115" selection-end-column="48" />
               <folding />
             </state>
@@ -103,7 +124,7 @@
       <file leaf-file-name="metrics_XIDp.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/metrics/metrics_XIDp.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.5555553">
+            <state vertical-scroll-proportion="0.0">
               <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="50" selection-end-column="24" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
@@ -127,22 +148,22 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/xidplus/posterior.py" />
         <option value="$PROJECT_DIR$/xidplus/stan_fit/SPIRE_hier_stack.py" />
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/xidplus/stan_fit/__init__.py" />
-        <option value="$PROJECT_DIR$/xidplus/catalogue.py" />
         <option value="$PROJECT_DIR$/stan_models/XID+SPIRE.stan" />
         <option value="$PROJECT_DIR$/xidplus/prior_routines.py" />
         <option value="$PROJECT_DIR$/scripts/test_run/test_HEALPix_tile.py" />
         <option value="$PROJECT_DIR$/xidplus/__init__.py" />
         <option value="$PROJECT_DIR$/xidplus/confusion_noise.py" />
-        <option value="$PROJECT_DIR$/xidplus/posterior_maps.py" />
-        <option value="$PROJECT_DIR$/xidplus/prior.py" />
         <option value="$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py" />
         <option value="$PROJECT_DIR$/xidplus/stan_fit/SPIRE.py" />
-        <option value="$PROJECT_DIR$/xidplus/moc_routines.py" />
         <option value="$PROJECT_DIR$/xidplus/segmentation.py" />
+        <option value="$PROJECT_DIR$/xidplus/moc_routines.py" />
+        <option value="$PROJECT_DIR$/xidplus/catalogue.py" />
+        <option value="$PROJECT_DIR$/xidplus/posterior_maps.py" />
+        <option value="$PROJECT_DIR$/xidplus/prior.py" />
+        <option value="$PROJECT_DIR$/xidplus/posterior.py" />
       </list>
     </option>
   </component>
@@ -150,10 +171,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="40" />
-    <option name="y" value="23" />
-    <option name="width" value="1400" />
-    <option name="height" value="795" />
+    <option name="x" value="194" />
+    <option name="y" value="170" />
+    <option name="width" value="1228" />
+    <option name="height" value="835" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -162,10 +183,13 @@
           <State>
             <id />
           </State>
+          <State>
+            <id>Python</id>
+          </State>
         </expanded-state>
         <selected-state>
           <State>
-            <id>Buildout</id>
+            <id>Python</id>
           </State>
         </selected-state>
       </profile-state>
@@ -194,6 +218,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -240,47 +266,13 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XID_plus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XID_plus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="scripts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XID_plus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XID_plus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="scripts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="metrics" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/docs" />
+    <property name="settings.editor.selected.configurable" value="preferences.intentionPowerPack" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
     <property name="FullScreen" value="false" />
@@ -290,7 +282,7 @@
       <recent name="$PROJECT_DIR$/xidplus/stan_fit" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Lacey_COSMOS_test">
+  <component name="RunManager" selected="Python.prior">
     <configuration default="false" name="Lacey_COSMOS_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -321,6 +313,23 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="XID_plus" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scripts/test_run/test_HEALPix_tile.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="prior" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/xidplus" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="XID_plus" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/xidplus/prior.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -447,14 +456,16 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="2">
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Python.Lacey_COSMOS_test" />
       <item index="1" class="java.lang.String" itemvalue="Python.test_HEALPix_tile" />
+      <item index="2" class="java.lang.String" itemvalue="Python.prior" />
     </list>
     <recent_temporary>
-      <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="Python.Lacey_COSMOS_test" />
-        <item index="1" class="java.lang.String" itemvalue="Python.test_HEALPix_tile" />
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="Python.prior" />
+        <item index="1" class="java.lang.String" itemvalue="Python.Lacey_COSMOS_test" />
+        <item index="2" class="java.lang.String" itemvalue="Python.test_HEALPix_tile" />
       </list>
     </recent_temporary>
   </component>
@@ -472,7 +483,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="40" y="23" width="1400" height="795" extended-state="0" />
+    <frame x="194" y="170" width="1228" height="835" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -480,19 +491,19 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39944905" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4250326" sideWeight="0.49674267" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3292011" sideWeight="0.8842857" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292011" sideWeight="0.8786645" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3292011" sideWeight="0.11571429" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.42558748" sideWeight="0.50325733" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292011" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292011" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -511,32 +522,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/posterior_maps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/moc_routines.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="45" column="33" selection-start-line="45" selection-start-column="33" selection-end-line="45" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/xidplus/prior.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -667,10 +652,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/XIDp_mod_beta.py">
+    <entry file="file://$PROJECT_DIR$/stan_models/XID+SPIRE.stan">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -699,10 +702,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/XIDp_mod_beta.py">
+    <entry file="file://$PROJECT_DIR$/stan_models/XID+SPIRE.stan">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -710,6 +731,42 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -718,127 +775,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/XIDp_mod_beta.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/stan_models/XID+SPIRE.stan">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/XIDp_mod_beta.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/stan_models/XID+SPIRE.stan">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/XIDp_mod_beta.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/XIDp_mod_beta.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/XIDp_mod_beta.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -863,45 +799,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/catalogue.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/xidplus/stan_fit/SPIRE.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.5555553">
-          <caret line="10" column="44" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="62" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="20" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="62" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/posterior_maps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.444445">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/prior.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.1111112">
-          <caret line="2" column="32" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/metrics/metrics_XIDp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.5555553">
+        <state vertical-scroll-proportion="0.0">
           <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="50" selection-end-column="24" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
@@ -909,18 +817,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/moc_routines.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.0">
-          <caret line="75" column="4" selection-start-line="75" selection-start-column="4" selection-end-line="75" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-39.333332">
-          <caret line="194" column="40" selection-start-line="194" selection-start-column="0" selection-end-line="194" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="194" column="0" selection-start-line="194" selection-start-column="0" selection-end-line="194" selection-end-column="0" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -929,8 +829,70 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/xidplus/segmentation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13194445">
+        <state vertical-scroll-proportion="0.0">
           <caret line="115" column="48" selection-start-line="115" selection-start-column="48" selection-end-line="115" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.3535109">
+          <caret line="2357" column="0" selection-start-line="2357" selection-start-column="0" selection-end-line="2357" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/catalogue.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/posterior_maps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="36" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/moc_routines.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="84" column="46" selection-start-line="84" selection-start-column="46" selection-end-line="84" selection-end-column="46" />
+          <folding>
+            <element signature="e#21#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/prior.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/posterior.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.61893207">
+          <caret line="102" column="8" selection-start-line="102" selection-start-column="8" selection-end-line="102" selection-end-column="8" />
           <folding />
         </state>
       </provider>
