@@ -75,11 +75,11 @@ model {
 
 
   }
-  //Prior on background 
+
+ //Prior on background 
   bkg_psw ~normal(bkg_prior_psw,bkg_prior_sig_psw);
   bkg_pmw ~normal(bkg_prior_pmw,bkg_prior_sig_pmw);
-  bkg_plw ~normal(bkg_prior_plw,bkg_prior_sig_plw);
- 
+  bkg_plw ~normal(bkg_prior_plw,bkg_prior_sig_plw); 
    
   // Create model maps (i.e. db_hat = A*f) using sparse multiplication
   for (k in 1:npix_psw) {
@@ -91,7 +91,7 @@ model {
       }
 
   for (k in 1:npix_pmw) {
-    db_hat_pmw[k] <- bkg_pmw;
+    db_hat_pmw[k] <-  bkg_pmw;
     sigma_tot_pmw[k]<-sqrt(square(sigma_pmw[k])+square(sigma_conf_pmw));
   }
   for (k in 1:nnz_pmw) {
