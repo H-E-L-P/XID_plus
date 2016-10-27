@@ -30,5 +30,5 @@ Example Jupyter notebooks for both running and analysing XID+ outputs can be fou
 
 This code is being developed by Dr Peter Hurley. 
 
-##License
+##[License](Licence.md)
 
