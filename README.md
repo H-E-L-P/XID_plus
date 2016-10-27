@@ -24,7 +24,7 @@ Requires the following python modules (all can be installed via pip)
 
 
 ##Examples
-Example Jupyter notebooks for both running and analysing XID+ outputs can be found in the notebooks/examples folder.
+Example Jupyter notebooks for both running and analysing XID+ outputs can be found in the [notebooks/examples](notebooks/examples) folder.
 
 ##Contributors
 
