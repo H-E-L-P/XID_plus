@@ -106,7 +106,7 @@ def sources_in_tile(pixel,order,ra,dec):
     """
     moc_pix=MOC()
     moc_pix.add(order,pixel)
-    kept_sources=check_in_moc(ra,dec,moc_pix,keep_inside=True)
+    kept_sources=check_in_moc(ra,dec,moc_pix)
     return kept_sources
 
 def tile_in_tile(order_small,tile_small,order_large):
