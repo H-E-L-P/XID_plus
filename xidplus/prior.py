@@ -193,9 +193,9 @@ class prior(object):
         for s in range(0, self.nsrc):
 
             # diff from centre of beam for each pixel in x
-            dx = -np.rint(self.sx[s]).astype(long) + self.pindx[(paxis1 - 1.) / 2] + self.sx_pix
+            dx = -np.rint(self.sx[s]).astype(long) + self.pindx[np.rint((paxis1 - 1.) / 2).astype(long)] + self.sx_pix
             # diff from centre of beam for each pixel in y
-            dy = -np.rint(self.sy[s]).astype(long) + self.pindy[(paxis2 - 1.) / 2] + self.sy_pix
+            dy = -np.rint(self.sy[s]).astype(long) + self.pindy[np.rint((paxis2 - 1.) / 2).astype(long)] + self.sy_pix
             # diff from each pixel in prf
             pindx = self.pindx + self.sx[s] - np.rint(self.sx[s]).astype(long)
             pindy = self.pindy + self.sy[s] - np.rint(self.sy[s]).astype(long)

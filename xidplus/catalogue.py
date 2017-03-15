@@ -239,7 +239,119 @@ def create_empty_XIDp_SPIREcat(nsrc):
 
     thdulist = fits.HDUList([prihdu, tbhdu])
     return thdulist
+# noinspection PyPackageRequirements
+def create_XIDp_PACScat_nocov_Bayes(posterior, prior100, prior160,Bayes_P100,Bayes_P160):
+    """creates the XIDp catalogue in fits format required by HeDaM
 
+    :param posterior: posterior class
+    :param prior100: prior class for 100 microns
+    :param prior160: prior class for 160 microns
+    :return: thdulist: astropy fits hdulist
+    """
+    import datetime
+    nsrc = posterior.nsrc
+    med_flux = posterior.quantileGet(50)
+    flux_low = posterior.quantileGet(15.87)
+    flux_high = posterior.quantileGet(84.1)
+
+
+
+
+    # ----table info-----------------------
+    # first define columns
+    c1 = fits.Column(name='HELP_ID', format='100A', array=prior100.ID)
+    c2 = fits.Column(name='RA', format='D', unit='degrees', array=prior100.sra)
+    c3 = fits.Column(name='Dec', format='D', unit='degrees', array=prior100.sdec)
+    c4 = fits.Column(name='F_PACS_100', format='E', unit='mJy', array=med_flux[0:nsrc])
+    c5 = fits.Column(name='FErr_PACS_100_u', format='E', unit='mJy', array=flux_high[0:nsrc])
+    c6 = fits.Column(name='FErr_PACS_100_l', format='E', unit='mJy', array=flux_low[0:nsrc])
+    c7 = fits.Column(name='F_PACS_160', format='E', unit='mJy', array=med_flux[nsrc + 1:(2 * nsrc) + 1])
+    c8 = fits.Column(name='FErr_PACS_160_u', format='E', unit='mJy', array=flux_high[nsrc + 1:(2 * nsrc) + 1])
+    c9 = fits.Column(name='FErr_PACS_160_l', format='E', unit='mJy', array=flux_low[nsrc + 1:(2 * nsrc) + 1])
+    c10 = fits.Column(name='Bkg_PACS_100', format='E', unit='mJy/Beam', array=np.full(nsrc, med_flux[nsrc]))
+    c11 = fits.Column(name='Bkg_PACS_160', format='E', unit='mJy/Beam', array=np.full(nsrc, med_flux[(2 * nsrc) + 1]))
+    c12 = fits.Column(name='Sig_conf_PACS_100', format='E', unit='mJy/Beam',
+                      array=np.full(nsrc, med_flux[(2 * nsrc) + 2]))
+    c13 = fits.Column(name='Sig_conf_PACS_160', format='E', unit='mJy/Beam',
+                      array=np.full(nsrc, med_flux[(2 * nsrc) + 3]))
+    c14 = fits.Column(name='Rhat_PACS_100', format='E', array=posterior.Rhat[0:nsrc])
+    c15 = fits.Column(name='Rhat_PACS_160', format='E', array=posterior.Rhat[nsrc + 1:(2 * nsrc) + 1])
+    c16 = fits.Column(name='n_eff_PACS_100', format='E', array=posterior.n_eff[0:nsrc])
+    c17 = fits.Column(name='n_eff_PACS_160', format='E', array=posterior.n_eff[nsrc + 1:(2 * nsrc) + 1])
+    c18 = fits.Column(name='Pval_res_100', format='E', array=Bayes_P100)
+    c19 = fits.Column(name='Pval_res_160', format='E', array=Bayes_P160)
+
+
+    tbhdu = fits.new_table([c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17,c18,c19])
+
+    tbhdu.header.set('TUCD1', 'ID', after='TFORM1')
+    tbhdu.header.set('TDESC1', 'ID of source', after='TUCD1')
+
+    tbhdu.header.set('TUCD2', 'pos.eq.RA', after='TUNIT2')
+    tbhdu.header.set('TDESC2', 'R.A. of object J2000', after='TUCD2')
+
+    tbhdu.header.set('TUCD3', 'pos.eq.DEC', after='TUNIT3')
+    tbhdu.header.set('TDESC3', 'Dec. of object J2000', after='TUCD3')
+
+    tbhdu.header.set('TUCD4', 'phot.flux.density', after='TUNIT4')
+    tbhdu.header.set('TDESC4', '100 Flux (at 50th percentile)', after='TUCD4')
+
+    tbhdu.header.set('TUCD5', 'phot.flux.density', after='TUNIT5')
+    tbhdu.header.set('TDESC5', '100 Flux (at 84.1 percentile) ', after='TUCD5')
+
+    tbhdu.header.set('TUCD6', 'phot.flux.density', after='TUNIT6')
+    tbhdu.header.set('TDESC6', '100 Flux (at 15.9 percentile)', after='TUCD6')
+
+    tbhdu.header.set('TUCD7', 'phot.flux.density', after='TUNIT7')
+    tbhdu.header.set('TDESC7', '160 Flux (at 50th percentile)', after='TUCD7')
+
+    tbhdu.header.set('TUCD8', 'phot.flux.density', after='TUNIT8')
+    tbhdu.header.set('TDESC8', '160 Flux (at 84.1 percentile) ', after='TUCD8')
+
+    tbhdu.header.set('TUCD9', 'phot.flux.density', after='TUNIT9')
+    tbhdu.header.set('TDESC9', '160 Flux (at 15.9 percentile)', after='TUCD9')
+
+    tbhdu.header.set('TUCD10', 'phot.flux.density', after='TUNIT10')
+    tbhdu.header.set('TDESC10', '100 background', after='TUCD10')
+
+    tbhdu.header.set('TUCD11', 'phot.flux.density', after='TUNIT11')
+    tbhdu.header.set('TDESC11', '160 background', after='TUCD11')
+
+    tbhdu.header.set('TUCD12', 'phot.flux.density', after='TUNIT12')
+    tbhdu.header.set('TDESC12', '100 residual confusion noise', after='TUCD12')
+
+    tbhdu.header.set('TUCD13', 'phot.flux.density', after='TUNIT13')
+    tbhdu.header.set('TDESC13', '160 residual confusion noise', after='TUCD13')
+
+    tbhdu.header.set('TUCD14', 'stat.value', after='TFORM14')
+    tbhdu.header.set('TDESC14', '100 MCMC Convergence statistic', after='TUCD14')
+
+    tbhdu.header.set('TUCD15', 'stat.value', after='TFORM15')
+    tbhdu.header.set('TDESC15', '160 MCMC Convergence statistic', after='TUCD15')
+
+    tbhdu.header.set('TUCD16', 'stat.value', after='TFORM16')
+    tbhdu.header.set('TDESC16', '100 MCMC independence statistic', after='TUCD16')
+
+    tbhdu.header.set('TUCD17', 'stat.value', after='TFORM17')
+    tbhdu.header.set('TDESC17', '160 MCMC independence statistic', after='TUCD17')
+    
+    tbhdu.header.set('TUCD18','stat.value',after='TFORM18')
+    tbhdu.header.set('TDESC18','100 Bayes Pval residual statistic',after='TUCD18')
+
+    tbhdu.header.set('TUCD19','stat.value',after='TFORM19')
+    tbhdu.header.set('TDESC19','160 Bayes Pval residual statistic',after='TUCD19')
+    # ----Primary header-----------------------------------
+    prihdr = fits.Header()
+    prihdr['Prior_Cat'] = prior100.prior_cat
+    prihdr['TITLE'] = 'SPIRE XID+ catalogue'
+    # prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change
+    prihdr['CREATOR'] = 'WP5'
+    prihdr['XID+VERSION'] = git_version()
+    prihdr['DATE'] = datetime.datetime.now().isoformat()
+    prihdu = fits.PrimaryHDU(header=prihdr)
+
+    thdulist = fits.HDUList([prihdu, tbhdu])
+    return thdulist
 
 # noinspection PyPackageRequirements
 def create_XIDp_PACScat_nocov(posterior, prior100, prior160):
@@ -349,7 +461,7 @@ def create_XIDp_PACScat_nocov(posterior, prior100, prior160):
 
 
 # noinspection PyPackageRequirements
-def create_XIDp_MIPScat_nocov(posterior, prior24):
+def create_XIDp_MIPScat_nocov_Bayes(posterior, prior24, Bayes_P24):
     """creates the XIDp catalogue in fits format required by HeDaM
 
     :param posterior: posterior class
@@ -367,18 +479,19 @@ def create_XIDp_MIPScat_nocov(posterior, prior24):
 
     # ----table info-----------------------
     # first define columns
-    c1 = fits.Column(name='HELP_ID', format='15A', array=prior24.ID)
+    c1 = fits.Column(name='help_id', format='100A', array=prior24.ID)
     c2 = fits.Column(name='RA', format='D', unit='degrees', array=prior24.sra)
     c3 = fits.Column(name='Dec', format='D', unit='degrees', array=prior24.sdec)
     c4 = fits.Column(name='F_MIPS_24', format='E', unit='muJy', array=med_flux[0:nsrc])
     c5 = fits.Column(name='FErr_MIPS_24_u', format='E', unit='muJy', array=flux_high[0:nsrc])
     c6 = fits.Column(name='FErr_MIPS_24_l', format='E', unit='muJy', array=flux_low[0:nsrc])
-    c7 = fits.Column(name='Bkg_PACS_24', format='E', unit='MJy/sr', array=np.full(nsrc, med_flux[nsrc]))
-    c8 = fits.Column(name='Sig_conf_PACS_24', format='E', unit='MJy/sr', array=np.full(nsrc, med_flux[nsrc + 1]))
-    c9 = fits.Column(name='Rhat_PACS_24', format='E', array=posterior.Rhat[0:nsrc])
-    c10 = fits.Column(name='n_eff_PACS_24', format='E', array=posterior.n_eff[0:nsrc])
-
-    tbhdu = fits.new_table([c1, c2, c3, c4, c5, c6, c7, c8, c9, c10])
+    c7 = fits.Column(name='Bkg_MIPS_24', format='E', unit='MJy/sr', array=np.full(nsrc, med_flux[nsrc]))
+    c8 = fits.Column(name='Sig_conf_MIPS_24', format='E', unit='MJy/sr', array=np.full(nsrc, med_flux[nsrc + 1]))
+    c9 = fits.Column(name='Rhat_MIPS_24', format='E', array=posterior.Rhat[0:nsrc])
+    c10 = fits.Column(name='n_eff_MIPS_24', format='E', array=posterior.n_eff[0:nsrc])
+    c11 = fits.Column(name='Pval_res_24', format='E', array=Bayes_P24)
+    
+    tbhdu = fits.new_table([c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11])
 
     tbhdu.header.set('TUCD1', 'ID', after='TFORM1')
     tbhdu.header.set('TDESC1', 'ID of source', after='TUCD1')
@@ -410,11 +523,13 @@ def create_XIDp_MIPScat_nocov(posterior, prior24):
     tbhdu.header.set('TUCD10','stat.value',after='TFORM10')
     tbhdu.header.set('TDESC10','24 MCMC independence statistic',after='TUCD10')
 
+    tbhdu.header.set('TUCD11','stat.value',after='TFORM11')
+    tbhdu.header.set('TDESC11','24 Bayes Pval residual statistic',after='TUCD11')
 
     #----Primary header-----------------------------------
     prihdr = fits.Header()
     prihdr['Prior_Cat'] = prior24.prior_cat
-    prihdr['TITLE']   = 'MIPS XID+ catalogue'
+    prihdr['TITLE']   = 'XID+MIPS catalogue'
     #prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change
     prihdr['CREATOR'] = 'WP5'
     prihdr['XID+VERSION'] = git_version()
@@ -564,3 +679,73 @@ def create_XIDp_SPIREcat_nocov_Bayes(posterior,prior250,prior350,prior500,Bayes_
     thdulist = fits.HDUList([prihdu, tbhdu])
     return thdulist
 
+def create_XIDp_MIPScat(samples,Rhat,n_eff,prior24):
+    """creates the XIDp catalogue in fits format required by HeDaM"""
+    import datetime
+    med_flux=np.percentile(samples[:,:,0],50,axis=1)
+    flux_low=np.percentile(samples[:,:,0],15.87,axis=1)
+    flux_high=np.percentile(samples[:,:,0],84.1,axis=1)
+
+
+
+
+    #----table info-----------------------
+    #first define columns
+    c1 = fits.Column(name='HELP-ID', format='15A', array=prior24.ID)
+    c2 = fits.Column(name='RA', format='D', unit='degrees', array=prior24.sra)
+    c3 = fits.Column(name='Dec', format='D', unit='degrees', array=prior24.sdec)
+    c4 = fits.Column(name='F_MIPS_24', format='E', unit='mJy', array=np.percentile(samples[:,:,0],50,axis=1))
+    c5 = fits.Column(name='FErr_MIPS_24_u', format='E', unit='mJy', array=np.percentile(samples[:,:,0],84.1,axis=1))
+    c6 = fits.Column(name='FErr_MIPS_24_l', format='E', unit='mJy', array=np.percentile(samples[:,:,0],15.87,axis=1))
+    c7 = fits.Column(name='Bkg_MIPS_24', format='E', unit='mJy/Beam', array=np.percentile(samples[:,:,1],50,axis=1))
+    c8 = fits.Column(name='Sig_conf_MIPS_24', format='E',unit='mJy/Beam', array=np.percentile(samples[:,:,2],50,axis=1))
+    c9 = fits.Column(name='Rhat_MIPS_24', format='E', array=Rhat[:,0])
+    c10 = fits.Column(name='n_eff_MIPS_24', format='E', array=n_eff[:,0])
+
+
+
+    tbhdu = fits.new_table([c1,c2,c3,c4,c5,c6,c7,c8,c9,c10])
+
+    tbhdu.header.set('TUCD1','ID',after='TFORM1')
+    tbhdu.header.set('TDESC1','HELP ID of source',after='TUCD1')
+
+    tbhdu.header.set('TUCD2','pos.eq.RA',after='TUNIT2')
+    tbhdu.header.set('TDESC2','R.A. of object J2000',after='TUCD2')
+
+    tbhdu.header.set('TUCD3','pos.eq.DEC',after='TUNIT3')
+    tbhdu.header.set('TDESC3','Dec. of object J2000',after='TUCD3')
+
+    tbhdu.header.set('TUCD4','phot.flux.density',after='TUNIT4')
+    tbhdu.header.set('TDESC4','24 Flux (at 50th percentile)',after='TUCD4')
+
+    tbhdu.header.set('TUCD5','phot.flux.density',after='TUNIT5')
+    tbhdu.header.set('TDESC5','24 Flux (at 84.1 percentile) ',after='TUCD5')
+
+    tbhdu.header.set('TUCD6','phot.flux.density',after='TUNIT6')
+    tbhdu.header.set('TDESC6','24 Flux (at 15.9 percentile)',after='TUCD6')
+
+    tbhdu.header.set('TUCD7','phot.flux.density',after='TUNIT7')
+    tbhdu.header.set('TDESC7','24 background',after='TUCD7')
+
+    tbhdu.header.set('TUCD8','phot.flux.density',after='TUNIT8')
+    tbhdu.header.set('TDESC8','24 residual confusion noise',after='TUCD8')
+
+    tbhdu.header.set('TUCD9','stat.value',after='TFORM9')
+    tbhdu.header.set('TDESC9','24 MCMC Convergence statistic',after='TUCD9')
+
+    tbhdu.header.set('TUCD10','stat.value',after='TFORM10')
+    tbhdu.header.set('TDESC10','24 MCMC independence statistic',after='TUCD10')
+
+
+    #----Primary header-----------------------------------
+    prihdr = fits.Header()
+    prihdr['Prior_Cat'] = prior24.prior_cat
+    prihdr['TITLE']   = 'MIPS XID+ catalogue'
+    #prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change+
+    prihdr['CREATOR'] = 'WP5'
+    prihdr['XID+VERSION'] = git_version()
+    prihdr['DATE']    = datetime.datetime.now().isoformat()
+    prihdu = fits.PrimaryHDU(header=prihdr)
+
+    thdulist = fits.HDUList([prihdu, tbhdu])
+    return thdulist
