@@ -177,45 +177,6 @@ class prior(object):
         self.pindx = pindx
         self.pindy = pindy
 
-    def get_pointing_matrix(self, bkg=True):
-        """Calculate pointing matrix. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute
-        """
-        from scipy import interpolate
-        paxis1, paxis2 = self.prf.shape
-
-        amat_row = np.array([], dtype=int)
-        amat_col = np.array([], dtype=int)
-        amat_data = np.array([])
-
-        # ------Deal with PRF array----------
-        centre = ((paxis1 - 1) / 2)
-        # create pointing array
-        for s in range(0, self.nsrc):
-
-            # diff from centre of beam for each pixel in x
-            dx = -np.rint(self.sx[s]).astype(long) + self.pindx[np.rint((paxis1 - 1.) / 2).astype(long)] + self.sx_pix
-            # diff from centre of beam for each pixel in y
-            dy = -np.rint(self.sy[s]).astype(long) + self.pindy[np.rint((paxis2 - 1.) / 2).astype(long)] + self.sy_pix
-            # diff from each pixel in prf
-            pindx = self.pindx + self.sx[s] - np.rint(self.sx[s]).astype(long)
-            pindy = self.pindy + self.sy[s] - np.rint(self.sy[s]).astype(long)
-
-            good = (dx >= 0) & (dx < self.pindx[paxis1 - 1]) & (dy >= 0) & (dy < self.pindy[paxis2 - 1])
-            ngood = good.sum()
-            bad = np.asarray(good) == False
-            nbad = bad.sum()
-            if ngood > 0.5 * self.pindx[-1] * self.pindy[-1]:
-                ipx2, ipy2 = np.meshgrid(pindx, pindy)
-                atemp = interpolate.griddata((ipx2.ravel(), ipy2.ravel()), self.prf.ravel(), (dx[good], dy[good]),
-                                             method='nearest')
-                amat_data = np.append(amat_data, atemp)
-                amat_row = np.append(amat_row,
-                                     np.arange(0, self.snpix, dtype=int)[good])  # what pixels the source contributes to
-                amat_col = np.append(amat_col, np.full(ngood, s))  # what source we are on
-
-        self.amat_data = amat_data
-        self.amat_row = amat_row
-        self.amat_col = amat_col
 
     def get_pointing_matrix_coo(self):
         """Get scipy coo version of pointing matrix. Useful for sparse matrix multiplication"""
@@ -270,6 +231,50 @@ class prior(object):
                 amat_row = np.append(amat_row,
                                      np.arange(0, self.snpix, dtype=int)[good])  # what pixels the source contributes to
                 amat_col = np.append(amat_col, np.full(ngood, s))  # what source we are on
+
+        self.amat_data = amat_data
+        self.amat_row = amat_row
+        self.amat_col = amat_col
+
+    def get_pointing_matrix(self, bkg=True):
+        """Calculate pointing matrix for unknown psf. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute
+        """
+        from scipy import interpolate
+        paxis1, paxis2 = self.prf.shape
+
+        amat_row = np.array([], dtype=int)
+        amat_col = np.array([], dtype=int)
+        amat_data = np.array([])
+
+        # ------Deal with PRF array----------
+        centre = ((paxis1 - 1) / 2)
+        # create pointing array
+        for s in range(0, self.nsrc):
+
+            # diff from centre of beam for each pixel in x
+            dx = -np.rint(self.sx[s]).astype(long) + self.pindx[np.rint((paxis1 - 1.) / 2).astype(long)] + self.sx_pix
+            # diff from centre of beam for each pixel in y
+            dy = -np.rint(self.sy[s]).astype(long) + self.pindy[np.rint((paxis2 - 1.) / 2).astype(long)] + self.sy_pix
+
+            # diff from each pixel in prf
+            pindx = self.pindx + self.sx[s] - np.rint(self.sx[s]).astype(long)
+            pindy = self.pindy + self.sy[s] - np.rint(self.sy[s]).astype(long)
+
+
+            good = (dx >= 0) & (dx < self.pindx[paxis1 - 1]) & (dy >= 0) & (dy < self.pindy[paxis2 - 1])
+            ngood = good.sum()
+            bad = np.asarray(good) == False
+            nbad = bad.sum()
+            ipx2, ipy2 = np.meshgrid(pindx, pindy)
+            atemp = interpolate.griddata((ipx2.ravel(), ipy2.ravel()), self.prf.ravel(), (dx[good], dy[good]),
+                                             method='nearest')
+
+
+            keep=atemp > np.max(atemp)/1.0E6
+            amat_data = np.append(amat_data, atemp[keep])
+            amat_row = np.append(amat_row,np.arange(0, self.snpix, dtype=int)[good][keep])  # what pixels the source contributes to
+            amat_col = np.append(amat_col, np.full(keep.sum(), s))  # what source we are on
+
 
         self.amat_data = amat_data
         self.amat_row = amat_row
