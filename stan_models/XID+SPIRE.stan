@@ -48,9 +48,9 @@ parameters {
   real bkg_pmw;//background
   vector<lower=0.0,upper=1.0>[nsrc] src_f_plw;//source vector
   real bkg_plw;//background
-  real<lower=0.0,upper=8> sigma_conf_psw;
-  real<lower=0.0,upper=8> sigma_conf_pmw;
-  real<lower=0.0,upper=8> sigma_conf_plw;
+  real<lower=0.0> sigma_conf_psw;
+  real<lower=0.0> sigma_conf_pmw;
+  real<lower=0.0> sigma_conf_plw;
 
 }
 
@@ -80,6 +80,11 @@ model {
   bkg_psw ~normal(bkg_prior_psw,bkg_prior_sig_psw);
   bkg_pmw ~normal(bkg_prior_pmw,bkg_prior_sig_pmw);
   bkg_plw ~normal(bkg_prior_plw,bkg_prior_sig_plw); 
+
+ //Prior on conf
+  sigma_conf_psw ~normal(0,5);
+  sigma_conf_pmw ~normal(0,5);
+  sigma_conf_plw ~normal(0,5);
    
   // Create model maps (i.e. db_hat = A*f) using sparse multiplication
   for (k in 1:npix_psw) {
