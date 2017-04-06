@@ -7,7 +7,8 @@ import inspect
 full_path = os.path.realpath(__file__)
 path, file = os.path.split(full_path)
 
-def single_band(prior,chains=4,iter=1000):
+stan_path=os.path.split(os.path.split(path)[0])[0]+'/stan_models/'
+def single_band(prior,chains=4,iter=1000,optimise=False):
     """Fit single SPIRE map using stan"""
 
     #input data into a dictionary
@@ -22,8 +23,8 @@ def single_band(prior,chains=4,iter=1000):
               'Val':prior.amat_data,
               'Row': prior.amat_row.astype(long),
               'Col': prior.amat_col.astype(long),
-              'f_low_lim_sc2': SCUBA2.prior_flux_lower,
-              'f_up_lim_sc2': SCUBA2.prior_flux_upper}
+              'f_low_lim': prior.prior_flux_lower,
+              'f_up_lim': prior.prior_flux_upper}
 
     #see if model has already been compiled. If not, compile and save it
     import os

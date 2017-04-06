@@ -1,0 +1,10 @@
+astropy
+pystan
+dill
+numpy
+scipy
+healpy
+pymoc
+daft
+aplpy
+seaborn

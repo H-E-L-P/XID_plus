@@ -2,54 +2,54 @@
 data {
   int<lower=0> nsrc;//number of sources
   //----SCUBA2----
-  int<lower=0> npix_sc2;//number of pixels
-  int<lower=0> nnz_sc2; //number of non neg entries in A
-  vector[npix_sc2] db_sc2;//flattened map
-  vector[npix_sc2] sigma_sc2;//flattened uncertianty map (assuming no covariance between pixels)
-  real bkg_prior_sc2;//prior estimate of background
-  real bkg_prior_sig_sc2;//sigma of prior estimate of background
-  vector[nnz_sc2] Val_sc2;//non neg values in image matrix
-  int Row_sc2[nnz_sc2];//Rows of non neg valies in image matrix
-  int Col_sc2[nnz_sc2];//Cols of non neg values in image matrix
-  vector[nsrc] f_low_lim_sc2;//upper limit of flux 
-  vector[nsrc] f_up_lim_sc2;//upper limit of flux 
+  int<lower=0> npix;//number of pixels
+  int<lower=0> nnz; //number of non neg entries in A
+  vector[npix] db;//flattened map
+  vector[npix] sigma;//flattened uncertianty map (assuming no covariance between pixels)
+  real bkg_prior;//prior estimate of background
+  real bkg_prior_sig;//sigma of prior estimate of background
+  vector[nnz] Val;//non neg values in image matrix
+  int Row[nnz];//Rows of non neg valies in image matrix
+  int Col[nnz];//Cols of non neg values in image matrix
+  vector[nsrc] f_low_lim;//upper limit of flux 
+  vector[nsrc] f_up_lim;//upper limit of flux 
   }
 
 parameters {
-  vector<lower=0.0,upper=1.0>[nsrc] src_f_sc2;//source vector
-  real bkg_sc2;//background
+  vector<lower=0.0,upper=1.0>[nsrc] src_f;//source vector
+  real bkg;//background
   
-  real<lower=0.0> sigma_conf_sc2;
+  real<lower=0.0> sigma_conf;
 }
 
 model {
-  vector[npix_sc2] db_hat_sc2;//model of map
+  vector[npix] db_hat;//model of map
 
-  vector[npix_sc2] sigma_tot_sc2;
+  vector[npix] sigma_tot;
 
-  vector[nsrc] f_vec_sc2;//vector of source fluxes
+  vector[nsrc] f_vec;//vector of source fluxes
   
   // Transform to normal space. As I am sampling variable then transforming I don't need a Jacobian adjustment
   for (n in 1:nsrc) {
-    f_vec_sc2[n] <- f_low_lim_sc2[n]+(f_up_lim_sc2[n]-f_low_lim_sc2[n])*src_f_sc2[n];
+    f_vec[n] <- f_low_lim[n]+(f_up_lim[n]-f_low_lim[n])*src_f[n];
   }
 
  //Prior on background 
-  bkg_sc2 ~normal(bkg_prior_sc2,bkg_prior_sig_sc2);
+  bkg ~normal(bkg_prior,bkg_prior_sig);
  
  //Prior on conf
-  sigma_conf_sc2 ~cauchy(0,3);
+  sigma_conf ~cauchy(0,3);
  
  // Create model maps (i.e. db_hat = A*f) using sparse multiplication
-  for (k in 1:npix_sc2) {
-    db_hat_sc2[k] <- bkg_sc2;
-    sigma_tot_sc2[k]<-sqrt(square(sigma_sc2[k])+square(sigma_conf_sc2));
+  for (k in 1:npix) {
+    db_hat[k] <- bkg;
+    sigma_tot[k]<-sqrt(square(sigma[k])+square(sigma_conf));
   }
-  for (k in 1:nnz_sc2) {
-    db_hat_sc2[Row_sc2[k]+1] <- db_hat_sc2[Row_sc2[k]+1] + Val_sc2[k]*f_vec_sc2[Col_sc2[k]+1];
+  for (k in 1:nnz) {
+    db_hat[Row[k]+1] <- db_hat[Row[k]+1] + Val[k]*f_vec[Col[k]+1];
       }
 
 
   // likelihood of observed map|model map
-  db_sc2 ~ normal(db_hat_sc2,sigma_tot_sc2);
+  db ~ normal(db_hat,sigma_tot);
     }

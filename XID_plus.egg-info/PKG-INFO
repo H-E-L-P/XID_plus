@@ -1,0 +1,11 @@
+Metadata-Version: 1.1
+Name: XID-plus
+Version: 0.1
+Summary: XID+ is the next generation deblender tool for Herschel SPIRE maps. Its uses a probabilistic framework which allows the use prior information about the sources.
+Home-page: http://pdh21.github.io/XID_plus/
+Author: Peter Hurley
+Author-email: p.d.hurley@sussex.ac.uk
+License: Lesser Affero General Public License v3
+Download-URL: https://github.com/pdh21/XID_plus
+Description: UNKNOWN
+Platform: UNKNOWN
