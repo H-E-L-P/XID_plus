@@ -1,3 +1,5 @@
+from numpy import long
+
 __author__ = 'pdh21'
 import os
 output_dir=os.getcwd()
@@ -96,20 +98,15 @@ def single_band(prior,chains=4,iter=1000):
             # using the same model as before
             print("%s found. Reusing" % model_file)
             sm = pickle.load(f)
-            if optimise is True:
-                fit=sm.optimizing(data=XID_data)
-            else:
-                fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+
     except IOError as e:
         print("%s not found. Compiling" % model_file)
         sm = pystan.StanModel(file=stan_path+'XIDfit.stan')
         # save it to the file 'model.pkl' for later use
         with open(model_file, 'wb') as f:
             pickle.dump(sm, f)
-        if optimise is True:
-                fit=sm.optimizing(data=XID_data)
-        else:
-            fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+
+    fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
     #return fit data
     return fit
 
@@ -159,14 +156,13 @@ def flux_prior_all_bands(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
             # using the same model as before
             print("%s found. Reusing" % model_file)
             sm = pickle.load(f)
-            fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
     except IOError as e:
         print("%s not found. Compiling" % model_file)
         sm = pystan.StanModel(file=stan_path+'XID+SPIRE_prior.stan')
         # save it to the file 'model.pkl' for later use
         with open(model_file, 'wb') as f:
             pickle.dump(sm, f)
-        fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
+    fit = sm.sampling(data=XID_data,iter=iter,chains=chains)
     #return fit data
     return fit
 

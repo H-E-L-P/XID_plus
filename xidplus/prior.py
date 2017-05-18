@@ -213,11 +213,11 @@ class prior(object):
             # diff from centre of beam for each pixel in y
             dy =  self.sy_pix -self.sy[s]
             # diff from each pixel in prf
-            pindx = self.pindx - (paxis1 - 1.) / 2. + self.sx[s] - np.rint(self.sx[s]).astype(long)
-            pindy = self.pindy + self.sy[s] - np.rint(self.sy[s]).astype(long)
+            pindx = self.pindx - (paxis1 - 1.) / 2. + self.sx[s] - np.rint(self.sx[s]).astype(np.long)
+            pindy = self.pindy + self.sy[s] - np.rint(self.sy[s]).astype(np.long)
             # diff from pixel centre
-            px = self.sx[s] - np.rint(self.sx[s]).astype(long) + (paxis1 - 1.) / 2.
-            py = self.sy[s] - np.rint(self.sy[s]).astype(long) + (paxis2 - 1.) / 2.
+            px = self.sx[s] - np.rint(self.sx[s]).astype(np.long) + (paxis1 - 1.) / 2.
+            py = self.sy[s] - np.rint(self.sy[s]).astype(np.long) + (paxis2 - 1.) / 2.
 
             dist=np.sqrt(dx**2+dy**2)
             good = dist < self.pindx[-1]/2.0
@@ -252,13 +252,13 @@ class prior(object):
         for s in range(0, self.nsrc):
 
             # diff from centre of beam for each pixel in x
-            dx = -np.rint(self.sx[s]).astype(long) + self.pindx[np.rint((paxis1 - 1.) / 2).astype(long)] + self.sx_pix
+            dx = -np.rint(self.sx[s]).astype(np.long) + self.pindx[np.rint((paxis1 - 1.) / 2).astype(np.long)] + self.sx_pix
             # diff from centre of beam for each pixel in y
-            dy = -np.rint(self.sy[s]).astype(long) + self.pindy[np.rint((paxis2 - 1.) / 2).astype(long)] + self.sy_pix
+            dy = -np.rint(self.sy[s]).astype(np.long) + self.pindy[np.rint((paxis2 - 1.) / 2).astype(np.long)] + self.sy_pix
 
             # diff from each pixel in prf
-            pindx = self.pindx + self.sx[s] - np.rint(self.sx[s]).astype(long)
-            pindy = self.pindy + self.sy[s] - np.rint(self.sy[s]).astype(long)
+            pindx = self.pindx + self.sx[s] - np.rint(self.sx[s]).astype(np.long)
+            pindy = self.pindy + self.sy[s] - np.rint(self.sy[s]).astype(np.long)
 
 
             good = (dx >= 0) & (dx < self.pindx[paxis1 - 1]) & (dy >= 0) & (dy < self.pindy[paxis2 - 1])
