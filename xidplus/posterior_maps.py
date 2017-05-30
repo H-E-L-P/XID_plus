@@ -17,10 +17,6 @@ def ymod_map(prior,flux):
     f=coo_matrix((flux, (range(0,prior.nsrc),np.zeros(prior.nsrc))), shape=(prior.nsrc, 1))
     A=coo_matrix((prior.amat_data, (prior.amat_row, prior.amat_col)), shape=(prior.snpix, prior.nsrc))
     rmap_temp=(A*f)
-    #pred_map=np.empty_like(prior.im)
-    #pred_map[:,:]=0.0
-    #pred_map[prior.sy_pix,prior.sx_pix]=np.asarray(rmap_temp.todense()).reshape(-1)#+np.random.randn(prior.snpix)*prior.snim
-
     return np.asarray(rmap_temp.todense())
 
 
@@ -41,7 +37,7 @@ def make_Bayesian_pval_maps(prior,post_rep_map):
     for i in range(0,prior.snpix):
         pval[i]=st.norm.ppf(pval[i])
     pval[np.isposinf(pval)]=6.0
-    pval[np.isneginf(pval)]=np.nan
+    pval[np.isneginf(pval)]=-6.0
     return pval
 
 def moments_of_pval_dist(pval):
@@ -50,6 +46,12 @@ def moments_of_pval_dist(pval):
     return moments
 
 def Bayes_Pval_res(prior,post_rep_map):
+    """
+    
+    :param prior: 
+    :param post_rep_map: 
+    :return: 
+    """
     Bayes_pval_res_vals=np.empty((prior.nsrc))
     for i in range(0,prior.nsrc):
         ind= prior.amat_col == i
@@ -90,3 +92,15 @@ def make_fits_image(prior,pixel_values):
     hdulist[1].header['CRPIX2']=hdulist[1].header['CRPIX2']-np.min(prior.sy_pix)-1
 
     return hdulist
+
+def replicated_maps(priors,posterior,nrep=1000):
+    from xidplus import posterior_maps as postmaps
+    mod_map_array=list(map(lambda prior:np.empty((prior.snpix,nrep)), priors))
+    for i in range(0,nrep):
+        for b in range(0,len(priors)):
+            mod_map_array[b][:,i]= postmaps.ymod_map(priors[b] \
+                                                     ,posterior.samples['src_f'][i,b,:]).reshape(-1) \
+            +posterior.samples['bkg'][i,b] \
+            +np.random.normal(scale=np.sqrt(priors[b].snim**2\
+                                            +posterior.samples['sigma_conf'][i,b]**2))
+    return mod_map_array

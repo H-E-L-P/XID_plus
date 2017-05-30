@@ -8,9 +8,9 @@ class posterior_stan(object):
         :param priors: list of prior classes used for fit
         """
         self.nsrc=priors[0].nsrc
+        self.samples=fit.extract()
         self.convergence_stats(fit)
-        self.param_names=fit.constrained_param_names()
-        self.stan_fit=fit.extract(permuted=False, inc_warmup=False)
+        self.param_names=fit.model_pars
         self.scale_posterior(priors)
         self.ID=priors[0].ID
     
@@ -33,7 +33,7 @@ class posterior_stan(object):
         :param q: percentile e.g. 16,50,84..
         :return: array containing percentile for parameter
         """
-        chains,iter,nparam=self.stan_fit.shape
+        samples,nparam=self.stan_fit.shape
         param=self.stan_fit.reshape((chains*iter,nparam))
         #q is quantile
         #param is array (nsamples,nparameters)
@@ -83,50 +83,8 @@ class posterior_stan(object):
         :param priors: list of prior classes used in fit
 
         """
-        ind=[True]*self.nsrc
-        ind_tmp=np.array((ind+[False])*len(priors)+[False]*len(priors))
-        add_param=len(self.param_names)-ind_tmp.size
-        ind_tmp=np.append(ind_tmp,np.array(add_param*[False]+[False]))
-        lower=np.array([])
-        upper=np.array([])
 
-        #scale from 0-1 to flux values:
-        for i in priors:
-            lower=np.append(lower,i.prior_flux_lower)
-            upper=np.append(upper,i.prior_flux_upper)
-
-        # lower=np.append(np.append(tmp_prior250.prior_flux_lower,tmp_prior350.prior_flux_lower),tmp_prior500.prior_flux_lower)
-        # upper=np.append(np.append(tmp_prior250.prior_flux_upper,tmp_prior350.prior_flux_upper),tmp_prior500.prior_flux_upper)
-
-
-        self.stan_fit[:, :, ind_tmp] = lower + (upper - lower) * self.stan_fit[:, :, ind_tmp]
-
-
-
-def scale_posterior(priors, posterior,log=True):
-    """(redundant)Stan searches over range 0-1 and scales parameters with flux limits. This function scales those parameters to flux values
-
-    :param priors:
-    :param posterior:
-    :param log:
-    :return:posterior
-    """
-    ind=[True]*posterior.nsrc
-    ind_tmp=np.array((ind+[False])*len(priors)+[False]*len(priors)+[False])
-
-    lower=np.array([])
-    upper=np.array([])
-
-    #scale from 0-1 to flux values:
-    for i in priors:
-        lower=np.append(lower,i.prior_flux_lower)
-        upper=np.append(upper,i.prior_flux_upper)
-
-    # lower=np.append(np.append(tmp_prior250.prior_flux_lower,tmp_prior350.prior_flux_lower),tmp_prior500.prior_flux_lower)
-    # upper=np.append(np.append(tmp_prior250.prior_flux_upper,tmp_prior350.prior_flux_upper),tmp_prior500.prior_flux_upper)
-
-    if log is False:
-        posterior.stan_fit[:, :, ind_tmp] = lower + (upper - lower) * posterior.stan_fit[:, :, ind_tmp]
-    else:
-        posterior.stan_fit[:, :, ind_tmp] = np.power(10.0, lower + (upper - lower) * posterior.stan_fit[:, :, ind_tmp])
-    return posterior
+        for i in range(0,len(priors)):
+            lower=priors[i].prior_flux_lower
+            upper=priors[i].prior_flux_upper
+            self.samples['src_f'][:,i,:]=lower+(upper-lower)*self.samples['src_f'][:,i,:]
