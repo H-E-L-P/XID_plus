@@ -11,8 +11,8 @@ data {
   vector[nnz_psw] Val_psw;//non neg values in image matrix
   int Row_psw[nnz_psw];//Rows of non neg valies in image matrix
   int Col_psw[nnz_psw];//Cols of non neg values in image matrix
-  vector[nsrc] f_low_lim_psw;//upper limit of flux 
-  vector[nsrc] f_up_lim_psw;//upper limit of flux 
+  vector[nsrc] f_low_lim_psw[1];//upper limit of flux
+  vector[nsrc] f_up_lim_psw[1];//upper limit of flux
  }
 parameters {
   vector<lower=0.0,upper=1.0>[nsrc] src_f_psw;//source vector

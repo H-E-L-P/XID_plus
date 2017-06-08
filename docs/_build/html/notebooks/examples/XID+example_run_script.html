@@ -1,0 +1,810 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>XID+ Example Run Script &mdash; XID+ 2.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="XID+ 2.0.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Tutorials" href="../../tutorial.html"/>
+        <link rel="next" title="XID+ Example Output Analysis" href="XID+posterior_analysis_validation.html"/>
+        <link rel="prev" title="Tutorials" href="../../tutorial.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> XID+
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../tutorial.html">Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">XID+ Example Run Script</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#XID+-SPIRE">XID+ SPIRE</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="XID+posterior_analysis_validation.html">XID+ Example Output Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../priors.html">Beyond Positional Priors</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">XID+</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../tutorial.html">Tutorials</a> &raquo;</li>
+        
+      <li>XID+ Example Run Script</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/notebooks/examples/XID+example_run_script.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-bold { font-weight: bold; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="XID+-Example-Run-Script">
+<h1>XID+ Example Run Script<a class="headerlink" href="#XID+-Example-Run-Script" title="Permalink to this headline">¶</a></h1>
+<p>XID+ is a probababilistic deblender for confusion dominated maps. It is
+designed to:</p>
+<ol class="arabic simple">
+<li>Use a MCMC based approach to get FULL posterior</li>
+<li>Provide a natural framework to introduce additional prior information</li>
+<li>Allows more accurate estimate of flux density errors for each source</li>
+<li>Provides a platform for doing science with the maps (e.g XID+
+Hierarchical stacking, Luminosity function from the map etc)</li>
+</ol>
+<p>Cross-identification tends to be done with catalogues, then science with
+the matched catalogues.</p>
+<p>XID+ takes a different philosophy. Catalogues are a form of data
+compression. OK in some cases, not so much in others, i.e. confused
+images: catalogue compression loses correlation information. Ideally,
+science should be done without compression.</p>
+<p>XID+ provides a framework to cross identify galaxies we know about in
+different maps, with the idea that it can be extended to do science with
+the maps!!</p>
+<p>Philosophy:</p>
+<ul class="simple">
+<li>build a probabilistic generative model for the SPIRE maps</li>
+<li>Infer model on SPIRE maps</li>
+</ul>
+<p>Bayes Theorem</p>
+<p><span class="math">\(p(\mathbf{f}|\mathbf{d}) \propto p(\mathbf{d}|\mathbf{f}) \times p(\mathbf{f})\)</span></p>
+<p>In order to carry out Bayesian inference, we need a model to carry out
+inference on.</p>
+<p>For the SPIRE maps, our model is quite simple, with likelihood defined
+as:
+<span class="math">\(L = p(\mathbf{d}|\mathbf{f}) \propto |\mathbf{N_d}|^{-1/2} \exp\big\{ -\frac{1}{2}(\mathbf{d}-\mathbf{Af})^T\mathbf{N_d}^{-1}(\mathbf{d}-\mathbf{Af})\big\}\)</span></p>
+<p>where: <span class="math">\(\mathbf{N_{d,ii}} =\sigma_{inst.,ii}^2+\sigma_{conf.}^2\)</span></p>
+<p>Simplest model for XID+ assumes following:</p>
+<ul class="simple">
+<li>All sources are known and have positive flux (fi)</li>
+<li>A global background (B) contributes to all pixels</li>
+<li>PRF is fixed and known</li>
+<li>Because we are getting the joint probability distribution, our model
+is generative:</li>
+<li>Given parameters, we generate data and vica-versa</li>
+</ul>
+<p>Compared to discriminative model (i.e. neural network), which only
+obtains conditional probability distribution:</p>
+<ul class="simple">
+<li>Neural network, give inputs, get output. Can&#8217;t go other way&#8217;</li>
+</ul>
+<p>Generative model is full probabilistic model. Allows more complex
+relationships between observed and target variables</p>
+<div class="section" id="XID+-SPIRE">
+<h2>XID+ SPIRE<a class="headerlink" href="#XID+-SPIRE" title="Permalink to this headline">¶</a></h2>
+<p>XID+ applied to GALFORM simulation of COSMOS field</p>
+<ul class="simple">
+<li>SAM simulation (with dust) ran through SMAP pipeline_ similar depth
+and size as COSMOS</li>
+<li>Use galaxies with an observed 100 micron flux of gt.
+<span class="math">\(50\mathbf{\mu Jy}\)</span>. Gives 64823 sources</li>
+<li>Uninformative prior: uniform <span class="math">\(0 - 10{^3} \mathbf{mJy}\)</span></li>
+</ul>
+<p>Import required modules</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>from astropy.io import ascii, fits
+import pylab as plt
+%matplotlib inline
+from astropy import wcs
+
+
+import numpy as np
+import xidplus
+from xidplus import moc_routines
+import pickle
+</pre></div>
+</div>
+</div>
+<p>Set image and catalogue filenames</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>#Folder containing maps
+imfolder=xidplus.__path__[0]+&#39;/../test_files/&#39;
+
+pswfits=imfolder+&#39;cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PSW_hipe.fits.gz&#39;#SPIRE 250 map
+pmwfits=imfolder+&#39;cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PMW_hipe.fits.gz&#39;#SPIRE 350 map
+plwfits=imfolder+&#39;cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PLW_hipe.fits.gz&#39;#SPIRE 500 map
+
+
+#Folder containing prior input catalogue
+catfolder=xidplus.__path__[0]+&#39;/../test_files/&#39;
+#prior catalogue
+prior_cat=&#39;lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS_test.fits&#39;
+
+
+#output folder
+output_folder=&#39;./&#39;
+</pre></div>
+</div>
+</div>
+<p>Load in images, noise maps, header info and WCS information</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>#-----250-------------
+hdulist = fits.open(pswfits)
+im250phdu=hdulist[0].header
+im250hdu=hdulist[1].header
+
+im250=hdulist[1].data*1.0E3 #convert to mJy
+nim250=hdulist[2].data*1.0E3 #convert to mJy
+w_250 = wcs.WCS(hdulist[1].header)
+pixsize250=3600.0*w_250.wcs.cd[1,1] #pixel size (in arcseconds)
+hdulist.close()
+#-----350-------------
+hdulist = fits.open(pmwfits)
+im350phdu=hdulist[0].header
+im350hdu=hdulist[1].header
+
+im350=hdulist[1].data*1.0E3 #convert to mJy
+nim350=hdulist[2].data*1.0E3 #convert to mJy
+w_350 = wcs.WCS(hdulist[1].header)
+pixsize350=3600.0*w_350.wcs.cd[1,1] #pixel size (in arcseconds)
+hdulist.close()
+#-----500-------------
+hdulist = fits.open(plwfits)
+im500phdu=hdulist[0].header
+im500hdu=hdulist[1].header
+im500=hdulist[1].data*1.0E3 #convert to mJy
+nim500=hdulist[2].data*1.0E3 #convert to mJy
+w_500 = wcs.WCS(hdulist[1].header)
+pixsize500=3600.0*w_500.wcs.cd[1,1] #pixel size (in arcseconds)
+hdulist.close()
+</pre></div>
+</div>
+</div>
+<p>Load in catalogue you want to fit (and make any cuts)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>hdulist = fits.open(catfolder+prior_cat)
+fcat=hdulist[1].data
+hdulist.close()
+inra=fcat[&#39;RA&#39;]
+indec=fcat[&#39;DEC&#39;]
+# select only sources with 100micron flux greater than 50 microJy
+sgood=fcat[&#39;S100&#39;]&gt;0.050
+inra=inra[sgood]
+indec=indec[sgood]
+</pre></div>
+</div>
+</div>
+<p>XID+ is built around two python classes. A prior and posterior class.
+There should be a prior class for each map being fitted. It is initiated
+with a map, noise map, primary header and map header. It also requires
+an input prior catalogue and point spread function.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>#---prior250--------
+prior250=xidplus.prior(im250,nim250,im250phdu,im250hdu)#Initialise with map, uncertianty map, wcs info and primary header
+prior250.prior_cat(inra,indec,prior_cat)#Set input catalogue
+prior250.prior_bkg(-5.0,5)#Set prior on background (assumes Gaussian pdf with mu and sigma)
+#---prior350--------
+prior350=xidplus.prior(im350,nim350,im350phdu,im350hdu)
+prior350.prior_cat(inra,indec,prior_cat)
+prior350.prior_bkg(-5.0,5)
+
+#---prior500--------
+prior500=xidplus.prior(im500,nim500,im500phdu,im500hdu)
+prior500.prior_cat(inra,indec,prior_cat)
+prior500.prior_bkg(-5.0,5)
+</pre></div>
+</div>
+</div>
+<p>Set PSF. For SPIRE, the PSF can be assumed to be Gaussian with a FWHM of
+18.15, 25.15, 36.3 &#8216;&#8217; for 250, 350 and 500 <span class="math">\(\mathrm{\mu m}\)</span>
+respectively. Lets use the astropy module to construct a Gaussian PSF
+and assign it to the three XID+ prior classes.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>#pixsize array (size of pixels in arcseconds)
+pixsize=np.array([pixsize250,pixsize350,pixsize500])
+#point response function for the three bands
+prfsize=np.array([18.15,25.15,36.3])
+#use Gaussian2DKernel to create prf (requires stddev rather than fwhm hence pfwhm/2.355)
+from astropy.convolution import Gaussian2DKernel
+
+##---------fit using Gaussian beam-----------------------
+prf250=Gaussian2DKernel(prfsize[0]/2.355,x_size=101,y_size=101)
+prf250.normalize(mode=&#39;peak&#39;)
+prf350=Gaussian2DKernel(prfsize[1]/2.355,x_size=101,y_size=101)
+prf350.normalize(mode=&#39;peak&#39;)
+prf500=Gaussian2DKernel(prfsize[2]/2.355,x_size=101,y_size=101)
+prf500.normalize(mode=&#39;peak&#39;)
+
+pind250=np.arange(0,101,1)*1.0/pixsize[0] #get 250 scale in terms of pixel scale of map
+pind350=np.arange(0,101,1)*1.0/pixsize[1] #get 350 scale in terms of pixel scale of map
+pind500=np.arange(0,101,1)*1.0/pixsize[2] #get 500 scale in terms of pixel scale of map
+
+prior250.set_prf(prf250.array,pind250,pind250)#requires psf as 2d grid, and x and y bins for grid (in pixel scale)
+prior350.set_prf(prf350.array,pind350,pind350)
+prior500.set_prf(prf500.array,pind500,pind500)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>print(&#39;fitting &#39;+ str(prior250.nsrc)+&#39; sources \n&#39;)
+print(&#39;using &#39; +  str(prior250.snpix)+&#39;, &#39;+ str(prior250.snpix)+&#39; and &#39;+ str(prior500.snpix)+&#39; pixels&#39;)
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+fitting 64824 sources
+
+using 1239145, 1239145 and 309801 pixels
+</pre></div></div>
+</div>
+<p>Fitting this number of sources and datapoints is not practical. XID+
+uses Multi Order Coverage (MOC) maps for cutting down maps and
+catalogues so they cover the same area. It can also take in MOCs as
+selection functions to carry out additional cuts.</p>
+<p>Suggest cutting down to a MOC based on a HEALPix pixel with an order no
+greater than 10 for SPIRE (unless being carried out on HPC)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>order=10
+Tile=6977662
+
+#use XID+ moc routines to get a Tile based on a HEALPix pixel
+moc=moc_routines.get_fitting_region(order,Tile)
+prior250.set_tile(moc)
+prior350.set_tile(moc)
+prior500.set_tile(moc)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>print(&#39;fitting &#39;+ str(prior250.nsrc)+&#39; sources \n&#39;)
+print(&#39;using &#39; +  str(prior250.snpix)+&#39;, &#39;+ str(prior350.snpix)+&#39; and &#39;+ str(prior500.snpix)+&#39; pixels&#39;)
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+fitting 165 sources
+
+using 2656, 1378 and 664 pixels
+</pre></div></div>
+</div>
+<p>Before fitting, the prior classes need to take the PSF and calculate how
+muich each source contributes to each pixel. This process provides what
+we call a pointing matrix. Lets calculate the pointing matrix for each
+prior class</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>prior250.get_pointing_matrix()
+prior350.get_pointing_matrix()
+prior500.get_pointing_matrix()
+
+</pre></div>
+</div>
+</div>
+<p>Default prior on flux is a uniform distribution, with a minimum and
+maximum of 0.00 and 1000.0 <span class="math">\(\mathrm{mJy}\)</span> respectively for each
+source. running the function upper_lim _map resets the upper limit to
+the maximum flux value (plus a 5 sigma Background value) found in the
+map in which the source makes a contribution to.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>prior250.upper_lim_map()
+prior350.upper_lim_map()
+prior500.upper_lim_map()
+</pre></div>
+</div>
+</div>
+<p>Now fit using the XID+ interface to pystan</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>from xidplus.stan_fit import SPIRE
+fit=SPIRE.all_bands(prior250,prior350,prior500,iter=1000)
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/XID+SPIRE found. Reusing
+</pre></div></div>
+</div>
+<p>Initialise the posterior class with the fit object from pystan, and save
+alongside the prior classes</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>posterior=xidplus.posterior_stan(fit,[prior250,prior350,prior500])
+xidplus.save([prior250,prior350,prior500],posterior,&#39;test&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="XID+posterior_analysis_validation.html" class="btn btn-neutral float-right" title="XID+ Example Output Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../../tutorial.html" class="btn btn-neutral" title="Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Peter Hurley.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'2.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

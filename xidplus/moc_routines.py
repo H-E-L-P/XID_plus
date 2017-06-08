@@ -28,13 +28,14 @@ def get_HEALPix_pixels(order,ra,dec,unique=True):
         return ipix
 
 def get_fitting_region(order,pixel):
-    """
-    expand tile by quarter of a pixel for fitting
+    """Expand tile by quarter of a pixel for fitting
 
-    :param order:the HEALPix resolution level
-    :param pixel:given HEALPix pixel that needs to be fit
+    
+    :param order: the HEALPix resolution level
+    :param pixel: given HEALPix pixel that needs to be fit
     :return: HEALPix pixels that need to be fit
     """
+
     #define old and new order
     old_nside=2**order
     new_nside=2**(order+2)
@@ -55,7 +56,8 @@ def get_fitting_region(order,pixel):
 
 
 def create_MOC_from_map(good,wcs):
-    """
+    """Generate MOC from map
+
 
     :param good: boolean array associated with map
     :param wcs: wcs information
@@ -96,7 +98,7 @@ def check_in_moc(ra,dec,moc):
     return kept_rows
 
 def sources_in_tile(pixel,order,ra,dec):
-    """Check which sources are HEALPix pixel
+    """Check which sources are in HEALPix pixel
 
     :param pixel: HEALPix pixel
     :param order: order of HEALPix pixel

@@ -38,7 +38,9 @@ class prior(object):
             self.prior_flux_lower = self.prior_flux_lower[sgood]
 
     def cut_down_prior(self):
-        """ Cuts down prior class variables to the MOC assigned to the prior class: self.moc
+
+        """
+        Cuts down prior class variables to the MOC assigned to the prior class
         """
         self.cut_down_map()
         self.cut_down_cat()
@@ -76,7 +78,7 @@ class prior(object):
             self.cut_down_map()
 
     def prior_bkg(self, mu, sigma):
-        """Add background prior. Assumes normal distribution with mean=mu and standard deviation=sigma
+        r"""Add background prior. Assumes :math:`B \sim \mathcal{N}(\mu,\sigma^2)`
 
         :param mu: mean
         :param sigma: standard deviation
@@ -186,7 +188,9 @@ class prior(object):
 
 
     def upper_lim_map(self):
-        """Update flux upper limit to |bkg|+2*sigma_bkg+max(D) where max(D) is maximum value of pixels the source contributes to"""
+        """Update flux upper limit to abs(bkg)+2*sigma_bkg+max(D)
+         where max(D) is maximum value of pixels the source contributes to"""
+
         self.prior_flux_upper = np.full((self.nsrc), 1000.0)
         for i in range(0, self.nsrc):
             ind = self.amat_col == i
@@ -213,11 +217,11 @@ class prior(object):
             # diff from centre of beam for each pixel in y
             dy =  self.sy_pix -self.sy[s]
             # diff from each pixel in prf
-            pindx = self.pindx - (paxis1 - 1.) / 2. + self.sx[s] - np.rint(self.sx[s]).astype(long)
-            pindy = self.pindy + self.sy[s] - np.rint(self.sy[s]).astype(long)
+            pindx = self.pindx - (paxis1 - 1.) / 2. + self.sx[s] - np.rint(self.sx[s]).astype(np.long)
+            pindy = self.pindy + self.sy[s] - np.rint(self.sy[s]).astype(np.long)
             # diff from pixel centre
-            px = self.sx[s] - np.rint(self.sx[s]).astype(long) + (paxis1 - 1.) / 2.
-            py = self.sy[s] - np.rint(self.sy[s]).astype(long) + (paxis2 - 1.) / 2.
+            px = self.sx[s] - np.rint(self.sx[s]).astype(np.long) + (paxis1 - 1.) / 2.
+            py = self.sy[s] - np.rint(self.sy[s]).astype(np.long) + (paxis2 - 1.) / 2.
 
             dist=np.sqrt(dx**2+dy**2)
             good = dist < self.pindx[-1]/2.0
@@ -237,7 +241,7 @@ class prior(object):
         self.amat_col = amat_col
 
     def get_pointing_matrix(self, bkg=True):
-        """Calculate pointing matrix for unknown psf. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute
+        """Calculate pointing matrix. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute
         """
         from scipy import interpolate
         paxis1, paxis2 = self.prf.shape
@@ -252,13 +256,13 @@ class prior(object):
         for s in range(0, self.nsrc):
 
             # diff from centre of beam for each pixel in x
-            dx = -np.rint(self.sx[s]).astype(long) + self.pindx[np.rint((paxis1 - 1.) / 2).astype(long)] + self.sx_pix
+            dx = -np.rint(self.sx[s]).astype(np.long) + self.pindx[np.rint((paxis1 - 1.) / 2).astype(np.long)] + self.sx_pix
             # diff from centre of beam for each pixel in y
-            dy = -np.rint(self.sy[s]).astype(long) + self.pindy[np.rint((paxis2 - 1.) / 2).astype(long)] + self.sy_pix
+            dy = -np.rint(self.sy[s]).astype(np.long) + self.pindy[np.rint((paxis2 - 1.) / 2).astype(np.long)] + self.sy_pix
 
             # diff from each pixel in prf
-            pindx = self.pindx + self.sx[s] - np.rint(self.sx[s]).astype(long)
-            pindy = self.pindy + self.sy[s] - np.rint(self.sy[s]).astype(long)
+            pindx = self.pindx + self.sx[s] - np.rint(self.sx[s]).astype(np.long)
+            pindy = self.pindy + self.sy[s] - np.rint(self.sy[s]).astype(np.long)
 
 
             good = (dx >= 0) & (dx < self.pindx[paxis1 - 1]) & (dy >= 0) & (dy < self.pindy[paxis2 - 1])

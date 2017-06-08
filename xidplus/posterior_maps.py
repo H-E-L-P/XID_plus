@@ -8,7 +8,7 @@ from astropy.io import fits
 def ymod_map(prior,flux):
     """Create replicated model map (no noise or background) i.e. A*f
 
-    :param prior: prior class
+    :param prior: xidplus.prior class
     :param flux: flux vector
     :return: map array, in same format as prior.sim
     """
@@ -17,17 +17,16 @@ def ymod_map(prior,flux):
     f=coo_matrix((flux, (range(0,prior.nsrc),np.zeros(prior.nsrc))), shape=(prior.nsrc, 1))
     A=coo_matrix((prior.amat_data, (prior.amat_row, prior.amat_col)), shape=(prior.snpix, prior.nsrc))
     rmap_temp=(A*f)
-    #pred_map=np.empty_like(prior.im)
-    #pred_map[:,:]=0.0
-    #pred_map[prior.sy_pix,prior.sx_pix]=np.asarray(rmap_temp.todense()).reshape(-1)#+np.random.randn(prior.snpix)*prior.snim
-
     return np.asarray(rmap_temp.todense())
 
 
-def post_rep_map(prior,mod_map,back,conf_noise):
-    return mod_map+back+np.random.normal(scale=np.sqrt(prior.snim**2+conf_noise**2))
-
 def Bayesian_pvals(prior,post_rep_map):
+    """Get Bayesian P values for ech pixel
+
+    :param prior: xidplus.prior class
+    :param post_rep_map: posterior replicated maps
+    :return: Bayesian P values
+    """
     pval=np.empty_like(prior.sim)
     for i in range(0,prior.snpix):
         ind=post_rep_map[i,:]<prior.sim[i]
@@ -37,19 +36,28 @@ def Bayesian_pvals(prior,post_rep_map):
     return pval
 
 def make_Bayesian_pval_maps(prior,post_rep_map):
+    """Bayesian P values, quoted as sigma level
+
+    :param prior: xidplus.prior class
+    :param post_rep_map: posterior replicated maps
+    :return: Bayesian P values converted to sigma level
+    """
     pval=Bayesian_pvals(prior,post_rep_map)
     for i in range(0,prior.snpix):
         pval[i]=st.norm.ppf(pval[i])
     pval[np.isposinf(pval)]=6.0
-    pval[np.isneginf(pval)]=np.nan
+    pval[np.isneginf(pval)]=-6.0
     return pval
 
-def moments_of_pval_dist(pval):
-    moments=st.moment(pval,moment=np.array([1,2,3,4]))
-    moments[0]=np.mean(pval)
-    return moments
 
 def Bayes_Pval_res(prior,post_rep_map):
+    """The local Bayesian P value residual statistic. 
+    
+    
+    :param prior: xidplus.prior class
+    :param post_rep_map: posterior replicated maps
+    :return: Bayesian P value residual statistic for each source
+    """
     Bayes_pval_res_vals=np.empty((prior.nsrc))
     for i in range(0,prior.nsrc):
         ind= prior.amat_col == i
@@ -60,26 +68,13 @@ def Bayes_Pval_res(prior,post_rep_map):
         Bayes_pval_res_vals[i]=sum(ind_T)/np.float(post_rep_map.shape[1])
     return Bayes_pval_res_vals
 
-def post_rep_map(prior,mod_map,back,conf_noise):
-    return mod_map+back+np.random.normal(scale=np.sqrt(prior.snim**2+conf_noise**2))
-
-
-def make_Bayesian_pval_maps(prior,post_rep_map):
-    import scipy.stats as st
-    pval=np.empty_like(prior.sim)
-    for i in range(0,prior.snpix):
-        ind=post_rep_map[i,:]<prior.sim[i]
-        pval[i]=st.norm.ppf(sum(ind)/np.float(post_rep_map.shape[1]))
-    pval[np.isposinf(pval)]=6.0
-    pval[np.isneginf(pval)]=-6.0
-    return pval
 
 
 def make_fits_image(prior,pixel_values):
-    """
-    :param prior: prior class for XID+
-    :param pixel_values:this is the pixel values returned from ymod_map
-    :return: fits hdulist
+    """Make FITS image realting to map in xidplus.prior class
+    :param prior: xidplus.prior class
+    :param pixel_values: pixel values in format of xidplus.prior.sim
+    :return: FITS hdulist
     """
     x_range=np.max(prior.sx_pix)-np.min(prior.sx_pix)
     y_range=np.max(prior.sy_pix)-np.min(prior.sy_pix)
@@ -90,3 +85,22 @@ def make_fits_image(prior,pixel_values):
     hdulist[1].header['CRPIX2']=hdulist[1].header['CRPIX2']-np.min(prior.sy_pix)-1
 
     return hdulist
+
+def replicated_maps(priors,posterior,nrep=1000):
+    """Create posterior replicated maps
+
+    :param priors: list of xidplus.prior class
+    :param posterior: xidplus.posterior class
+    :param nrep: number of replicated maps
+    :return: 
+    """
+    from xidplus import posterior_maps as postmaps
+    mod_map_array=list(map(lambda prior:np.empty((prior.snpix,nrep)), priors))
+    for i in range(0,nrep):
+        for b in range(0,len(priors)):
+            mod_map_array[b][:,i]= postmaps.ymod_map(priors[b] \
+                                                     ,posterior.samples['src_f'][i,b,:]).reshape(-1) \
+            +posterior.samples['bkg'][i,b] \
+            +np.random.normal(scale=np.sqrt(priors[b].snim**2\
+                                            +posterior.samples['sigma_conf'][i,b]**2))
+    return mod_map_array
