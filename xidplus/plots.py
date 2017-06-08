@@ -20,6 +20,12 @@ VIDEO_TAG = """<video controls>
 </video>"""
 
 def anim_to_html(anim):
+
+    """
+
+    :param anim: matplotlib animation
+    :return: an html embedded animation
+    """
     if not hasattr(anim, '_encoded_video'):
         with NamedTemporaryFile(suffix='.mp4') as f:
             anim.save(f.name, fps=20, extra_args=['-vcodec', 'libx264'])
@@ -32,11 +38,23 @@ from IPython.display import HTML
 
 
 def display_animation(anim):
+
+    """
+
+    :param anim: matplotlib animation
+    :return: displayed animation in notebook
+    """
     plt.close(anim._fig)
     return HTML(anim_to_html(anim))
 
 
 def plot_map(priors):
+
+    """Plot of the fitted maps, with fitted objects overplotted
+
+    :param priors: list of xidplus.prior classes
+    :return: the default xidplus map plot
+    """
     sns.set_style("white")
 
     cmap=sns.cubehelix_palette(8, start=.5, rot=-.75,as_cmap=True)
@@ -61,6 +79,13 @@ def plot_map(priors):
 
 
 def replicated_map_movie(priors,posterior, frames):
+    """
+
+    :param priors: list of xidplus.prior classes
+    :param posterior: xidplus.posterior class
+    :param frames: number of frames
+    :return: Movie of replicated maps. Each frame is a sample from the posterior
+    """
     figs,fig=plot_map(priors)
     mod_map_array=postmaps.replicated_maps(priors,posterior,frames)
     cmap=sns.cubehelix_palette(8, start=.5, rot=-.75,as_cmap=True)
@@ -82,6 +107,13 @@ def replicated_map_movie(priors,posterior, frames):
 
 
 def plot_Bayes_pval_map(priors, posterior):
+
+    """
+
+    :param priors: list of xidplus.prior classes
+    :param posterior: xidplus.posterior class
+    :return: the default xidplus Bayesian P value map plot
+    """
     sns.set_style("white")
     mod_map_array = postmaps.replicated_maps(priors, posterior, posterior.samples['lp__'].size)
     Bayes_pvals = []

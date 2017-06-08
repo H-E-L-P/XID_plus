@@ -5,6 +5,7 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="scripts.test_run.Lacey_COSMOS_test.*" />
+          <option value="astropy.io.fits.new_table" />
         </list>
       </option>
     </inspection_tool>

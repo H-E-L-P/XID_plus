@@ -43,11 +43,23 @@ def git_version():
 
 
 def save(priors, posterior, filename):
+    """
+    Save xidplus priors and posterior data
+    
+    :param priors: list of prior classes
+    :param posterior: posterior class
+    :param filename: filename to save to
+    """
     with open(filename+'.pkl', 'wb') as f:
         pickle.dump({'priors':priors, 'posterior': posterior, 'version':git_version()}, f)
 
 def load(filename):
 
+    """
+
+    :param filename: filename of xidplus data to load
+    :return: list of prior classes and posterior class
+    """
     with open(filename, "rb") as f:
         obj = pickle.load(f)
         priors=obj['priors']

@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>XID+, The Probabilistic De-blender for confusion dominated maps &mdash; XID+ 2.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="XID+ 2.0.0 documentation" href="#"/>
+        <link rel="next" title="Getting Started" href="intro.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> XID+
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="priors.html">Beyond Positional Priors</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">XID+</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>XID+, The Probabilistic De-blender for confusion dominated maps</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<img alt="_images/Help_logo.png" src="_images/Help_logo.png" />
+<div class="section" id="xid-the-probabilistic-de-blender-for-confusion-dominated-maps">
+<h1>XID+, The Probabilistic De-blender for confusion dominated maps<a class="headerlink" href="#xid-the-probabilistic-de-blender-for-confusion-dominated-maps" title="Permalink to this headline">¶</a></h1>
+<p>XID+ is a core tool arising from the <a class="reference external" href="http://herschel.sussex.ac.uk">Herschel Extragalactic Legacy Project (HELP)</a>. For
+more information on XID+, have a look at <a class="reference external" href="http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1606.05770">Hurley et al. 2017</a>.</p>
+<p>It is being actively developed in a public repository on <a class="reference external" href="https://github.com/H-E-L-P/XID_plus">GitHub</a> so if you have any trouble, open an issue there.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/examples/XID+example_run_script.html">XID+ Example Run Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/examples/XID+posterior_analysis_validation.html">XID+ Example Output Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="priors.html">Beyond Positional Priors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="priors.html#xid-cigale">XID+CIGALE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="priors.html#xid-spire-prior-model">XID+SPIRE Prior Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="priors.html#xid-extended-sources">XID+Extended Sources</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="licence-attribution">
+<h1>Licence &amp; Attribution<a class="headerlink" href="#licence-attribution" title="Permalink to this headline">¶</a></h1>
+<p>Copyright 2017 Peter Hurley and contributors.</p>
+<p>XID+ is being developed by Peter Hurley in a public GitHub repository. The source code is made available under the terms of the MIT license.</p>
+<p>If you make use of this code, please cite <a class="reference external" href="http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1606.05770">Hurley et al. 2017</a>, published in MNRAS:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@ARTICLE</span><span class="p">{</span><span class="mi">2017</span><span class="n">MNRAS</span><span class="o">.</span><span class="mf">464.</span><span class="o">.</span><span class="mi">885</span><span class="n">H</span><span class="p">,</span>
+   <span class="n">author</span> <span class="o">=</span> <span class="p">{{</span><span class="n">Hurley</span><span class="p">},</span> <span class="n">P</span><span class="o">.~</span><span class="n">D</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Oliver</span><span class="p">},</span> <span class="n">S</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Betancourt</span><span class="p">},</span> <span class="n">M</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Clarke</span><span class="p">},</span> <span class="n">C</span><span class="o">.</span> <span class="ow">and</span>
+       <span class="p">{</span><span class="n">Cowley</span><span class="p">},</span> <span class="n">W</span><span class="o">.~</span><span class="n">I</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Duivenvoorden</span><span class="p">},</span> <span class="n">S</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Farrah</span><span class="p">},</span> <span class="n">D</span><span class="o">.</span> <span class="ow">and</span>
+       <span class="p">{</span><span class="n">Griffin</span><span class="p">},</span> <span class="n">M</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Lacey</span><span class="p">},</span> <span class="n">C</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Le</span> <span class="n">Floc</span><span class="s1">&#39;h}, E. and </span><span class="si">{Papadopoulos}</span><span class="s1">, A. and</span>
+       <span class="p">{</span><span class="n">Sargent</span><span class="p">},</span> <span class="n">M</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Scudder</span><span class="p">},</span> <span class="n">J</span><span class="o">.~</span><span class="n">M</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Vaccari</span><span class="p">},</span> <span class="n">M</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Valtchanov</span><span class="p">},</span> <span class="n">I</span><span class="o">.</span> <span class="ow">and</span>
+       <span class="p">{</span><span class="n">Wang</span><span class="p">},</span> <span class="n">L</span><span class="o">.</span><span class="p">},</span>
+   <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;{HELP: XID+, the probabilistic de-blender for Herschel SPIRE maps}&quot;</span><span class="p">,</span>
+   <span class="n">journal</span> <span class="o">=</span> <span class="p">{</span>\<span class="n">mnras</span><span class="p">},</span>
+   <span class="n">archivePrefix</span> <span class="o">=</span> <span class="s2">&quot;arXiv&quot;</span><span class="p">,</span>
+   <span class="n">eprint</span> <span class="o">=</span> <span class="p">{</span><span class="mf">1606.05770</span><span class="p">},</span>
+   <span class="n">keywords</span> <span class="o">=</span> <span class="p">{</span><span class="n">methods</span><span class="p">:</span> <span class="n">statistical</span><span class="p">,</span> <span class="n">galaxies</span><span class="p">:</span> <span class="n">statistics</span><span class="p">,</span> <span class="n">infrared</span><span class="p">:</span> <span class="n">galaxies</span><span class="p">},</span>
+   <span class="n">year</span> <span class="o">=</span> <span class="mi">2017</span><span class="p">,</span>
+   <span class="n">month</span> <span class="o">=</span> <span class="n">jan</span><span class="p">,</span>
+   <span class="n">volume</span> <span class="o">=</span> <span class="mi">464</span><span class="p">,</span>
+   <span class="n">pages</span> <span class="o">=</span> <span class="p">{</span><span class="mi">885</span><span class="o">-</span><span class="mi">896</span><span class="p">},</span>
+   <span class="n">doi</span> <span class="o">=</span> <span class="p">{</span><span class="mf">10.1093</span><span class="o">/</span><span class="n">mnras</span><span class="o">/</span><span class="n">stw2375</span><span class="p">},</span>
+   <span class="n">adsurl</span> <span class="o">=</span> <span class="p">{</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">adsabs</span><span class="o">.</span><span class="n">harvard</span><span class="o">.</span><span class="n">edu</span><span class="o">/</span><span class="nb">abs</span><span class="o">/</span><span class="mi">2017</span><span class="n">MNRAS</span><span class="o">.</span><span class="mf">464.</span><span class="o">.</span><span class="mi">885</span><span class="n">H</span><span class="p">},</span>
+   <span class="n">adsnote</span> <span class="o">=</span> <span class="p">{</span><span class="n">Provided</span> <span class="n">by</span> <span class="n">the</span> <span class="n">SAO</span><span class="o">/</span><span class="n">NASA</span> <span class="n">Astrophysics</span> <span class="n">Data</span> <span class="n">System</span><span class="p">}</span>
+   <span class="p">}</span>
+</pre></div>
+</div>
+<p>The research leading to this tool has received funding from the European Union Seventh Framework Programme FP7/2007-2013/ under grant agreement no.607254.
+The documentatiom reflects only the author&#8217;s view and the European Union is not responsible for any use that may be made of the information contained therein.</p>
+<a class="reference internal image-reference" href="_images/sussex.jpg"><img alt="_images/sussex.jpg" src="_images/sussex.jpg" style="width: 30%;" /></a>
+<a class="reference internal image-reference" href="_images/logo_en.gif"><img alt="_images/logo_en.gif" src="_images/logo_en.gif" style="width: 30%;" /></a>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="intro.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Peter Hurley.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

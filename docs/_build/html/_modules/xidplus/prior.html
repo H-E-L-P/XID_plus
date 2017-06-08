@@ -1,0 +1,511 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>xidplus.prior &mdash; XID+ 2.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="XID+ 2.0.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> XID+
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../priors.html">Beyond Positional Priors</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">XID+</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>xidplus.prior</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for xidplus.prior</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">astropy</span> <span class="k">import</span> <span class="n">wcs</span>
+
+<span class="kn">from</span> <span class="nn">xidplus</span> <span class="k">import</span> <span class="n">moc_routines</span>
+
+
+<div class="viewcode-block" id="prior"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior">[docs]</a><span class="k">class</span> <span class="nc">prior</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="prior.cut_down_map"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.cut_down_map">[docs]</a>    <span class="k">def</span> <span class="nf">cut_down_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Cuts down prior class variables associated with the map data to the MOC assigned to the prior class: self.moc</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">wcs_temp</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">WCS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imhdu</span><span class="p">)</span>
+        <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="n">wcs_temp</span><span class="o">.</span><span class="n">wcs_pix2world</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sx_pix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sy_pix</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">ind_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">moc_routines</span><span class="o">.</span><span class="n">check_in_moc</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">moc</span><span class="p">))</span>
+        <span class="c1"># now cut down and flatten maps (default is to use all pixels, running segment will change the values below to pixels within segment)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sx_pix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sx_pix</span><span class="p">[</span><span class="n">ind_map</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sy_pix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sy_pix</span><span class="p">[</span><span class="n">ind_map</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">snim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snim</span><span class="p">[</span><span class="n">ind_map</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="p">[</span><span class="n">ind_map</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">snpix</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ind_map</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="prior.cut_down_cat"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.cut_down_cat">[docs]</a>    <span class="k">def</span> <span class="nf">cut_down_cat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Cuts down prior class variables associated with the catalogue data to the MOC assigned to the prior class: self.moc</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sgood</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">moc_routines</span><span class="o">.</span><span class="n">check_in_moc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sra</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sdec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">moc</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sx</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sy</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sra</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sra</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sdec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sdec</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nsrc</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">sgood</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ID</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;nstack&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stack</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nstack</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;prior_flux_upper&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_upper</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_upper</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;prior_flux_lower&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_lower</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_lower</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="prior.cut_down_prior"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.cut_down_prior">[docs]</a>    <span class="k">def</span> <span class="nf">cut_down_prior</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Cuts down prior class variables to the MOC assigned to the prior class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cut_down_map</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cut_down_cat</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">im</span><span class="p">,</span> <span class="n">nim</span><span class="p">,</span> <span class="n">imphdu</span><span class="p">,</span> <span class="n">imhdu</span><span class="p">,</span> <span class="n">moc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="c1"># ---for any bad pixels set map pixel to zero and uncertianty to 1----</span>
+        <span class="sd">&quot;&quot;&quot;Initiate prior class</span>
+
+<span class="sd">        :param im: image map from fits file</span>
+<span class="sd">        :param nim: noise map from fits file</span>
+<span class="sd">        :param imphdu: Primary header associated with fits file</span>
+<span class="sd">        :param imhdu: header associated with image map</span>
+<span class="sd">        :param moc: (default=None) Multi-Order Coverage map of area being fit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span>
+                            <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">im</span><span class="p">)),</span>
+                             <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">nim</span><span class="p">))),</span> <span class="p">(</span><span class="n">nim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">bad</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">im</span><span class="p">[</span><span class="n">bad</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+            <span class="n">nim</span><span class="p">[</span><span class="n">bad</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imhdu</span> <span class="o">=</span> <span class="n">imhdu</span>
+        <span class="n">wcs_temp</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">WCS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imhdu</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imphdu</span> <span class="o">=</span> <span class="n">imphdu</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imhdu</span> <span class="o">=</span> <span class="n">imhdu</span>
+
+        <span class="n">x_pix</span><span class="p">,</span> <span class="n">y_pix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">wcs_temp</span><span class="o">.</span><span class="n">_naxis1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">wcs_temp</span><span class="o">.</span><span class="n">_naxis2</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sx_pix</span> <span class="o">=</span> <span class="n">x_pix</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sy_pix</span> <span class="o">=</span> <span class="n">y_pix</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">snim</span> <span class="o">=</span> <span class="n">nim</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">snpix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">if</span> <span class="n">moc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">moc</span> <span class="o">=</span> <span class="n">moc</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cut_down_map</span><span class="p">()</span>
+
+<div class="viewcode-block" id="prior.prior_bkg"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.prior_bkg">[docs]</a>    <span class="k">def</span> <span class="nf">prior_bkg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Add background prior. Assumes :math:`B \sim \mathcal{N}(\mu,\sigma^2)`</span>
+
+<span class="sd">        :param mu: mean</span>
+<span class="sd">        :param sigma: standard deviation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bkg</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="prior.prior_cat"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.prior_cat">[docs]</a>    <span class="k">def</span> <span class="nf">prior_cat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">prior_cat_file</span><span class="p">,</span> <span class="n">flux_lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flux_upper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ID</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">moc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Input info for prior catalogue</span>
+
+<span class="sd">        :param ra: Right ascension (JD2000) of sources</span>
+<span class="sd">        :param dec: Declination (JD2000) of sources</span>
+<span class="sd">        :param prior_cat_file: filename of catalogue</span>
+<span class="sd">        :param flux_lower: lower limit of flux for each source</span>
+<span class="sd">        :param flux_upper: upper limit of flux for each source</span>
+<span class="sd">        :param ID: HELP_ID for each source</span>
+<span class="sd">        :param moc: Multi-Order Coverage map</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># get positions of sources in terms of pixels</span>
+        <span class="n">wcs_temp</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">WCS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imhdu</span><span class="p">)</span>
+        <span class="n">sx</span><span class="p">,</span> <span class="n">sy</span> <span class="o">=</span> <span class="n">wcs_temp</span><span class="o">.</span><span class="n">wcs_world2pix</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">moc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cat_moc</span> <span class="o">=</span> <span class="n">moc_routines</span><span class="o">.</span><span class="n">create_MOC_from_cat</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cat_moc</span> <span class="o">=</span> <span class="n">moc</span>
+
+
+        <span class="c1"># Redefine prior list so it only contains sources in the map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sx</span> <span class="o">=</span> <span class="n">sx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sy</span> <span class="o">=</span> <span class="n">sy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sra</span> <span class="o">=</span> <span class="n">ra</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sdec</span> <span class="o">=</span> <span class="n">dec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nsrc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sra</span><span class="o">.</span><span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prior_cat</span> <span class="o">=</span> <span class="n">prior_cat_file</span>
+        <span class="k">if</span> <span class="n">flux_lower</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">flux_lower</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">ra</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="mf">0.01</span><span class="p">)</span>
+            <span class="n">flux_upper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">ra</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="mf">1000.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_lower</span> <span class="o">=</span> <span class="n">flux_lower</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_upper</span> <span class="o">=</span> <span class="n">flux_upper</span>
+
+        <span class="k">if</span> <span class="n">ID</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ID</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ra</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int64&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">ID</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">moc</span> <span class="o">=</span> <span class="n">cat_moc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nsrc</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cut_down_prior</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="prior.set_tile"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.set_tile">[docs]</a>    <span class="k">def</span> <span class="nf">set_tile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">moc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Update prior with new MOC and update appropriate variables</span>
+<span class="sd">        :param moc: Multi-order Coverage map from pymoc</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">moc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">moc</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">moc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cut_down_prior</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="prior.prior_cat_stack"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.prior_cat_stack">[docs]</a>    <span class="k">def</span> <span class="nf">prior_cat_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">prior_cat</span><span class="p">,</span> <span class="n">flux_lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flux_upper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">ID</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Input info for prior catalogue of sources being stacked</span>
+
+<span class="sd">        :param ra: Right ascension (JD2000) of sources</span>
+<span class="sd">        :param dec: Declination (JD2000) of sources</span>
+<span class="sd">        :param prior_cat: filename of catalogue</span>
+<span class="sd">        :param ID: HELP_ID for each source</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">wcs_temp</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">WCS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imhdu</span><span class="p">)</span>
+        <span class="n">sx</span><span class="p">,</span> <span class="n">sy</span> <span class="o">=</span> <span class="n">wcs_temp</span><span class="o">.</span><span class="n">wcs_world2pix</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+
+        <span class="c1"># Redefine prior list so it only contains sources in the map</span>
+
+        <span class="c1"># Redefine prior list so it only contains sources in the map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sx</span><span class="p">,</span> <span class="n">sx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sy</span><span class="p">,</span> <span class="n">sy</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sra</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sra</span><span class="p">,</span> <span class="n">ra</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sdec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sdec</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nstack</span> <span class="o">=</span> <span class="n">ra</span><span class="o">.</span><span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nsrc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sra</span><span class="o">.</span><span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nstack</span><span class="p">),</span> <span class="kc">True</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">ID</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ID</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ra</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int64&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="n">ID</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">flux_lower</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">flux_lower</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">ra</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="mf">0.01</span><span class="p">)</span>
+            <span class="n">flux_upper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">ra</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="mf">1000.0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_lower</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_lower</span><span class="p">,</span><span class="n">flux_lower</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_upper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_upper</span><span class="p">,</span><span class="n">flux_upper</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cut_down_prior</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="prior.set_prf"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.set_prf">[docs]</a>    <span class="k">def</span> <span class="nf">set_prf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prf</span><span class="p">,</span> <span class="n">pindx</span><span class="p">,</span> <span class="n">pindy</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add prf array and corresponding x and y scales (in terms of pixels in map)</span>
+
+<span class="sd">        :param prf: n x n array, where n is an odd number, and the centre of the prf is at the centre of the array</span>
+<span class="sd">        :param pindx: n array, pixel scale of prf array</span>
+<span class="sd">        :param pindy: n array, pixel scale of prf array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">prf</span> <span class="o">=</span> <span class="n">prf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pindx</span> <span class="o">=</span> <span class="n">pindx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pindy</span> <span class="o">=</span> <span class="n">pindy</span></div>
+
+
+<div class="viewcode-block" id="prior.get_pointing_matrix_coo"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.get_pointing_matrix_coo">[docs]</a>    <span class="k">def</span> <span class="nf">get_pointing_matrix_coo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get scipy coo version of pointing matrix. Useful for sparse matrix multiplication&quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="k">import</span> <span class="n">coo_matrix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">coo_matrix</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">amat_data</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amat_row</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">amat_col</span><span class="p">)),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">snpix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsrc</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="prior.upper_lim_map"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.upper_lim_map">[docs]</a>    <span class="k">def</span> <span class="nf">upper_lim_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update flux upper limit to abs(bkg)+2*sigma_bkg+max(D)</span>
+<span class="sd">         where max(D) is maximum value of pixels the source contributes to&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_upper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nsrc</span><span class="p">),</span> <span class="mf">1000.0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsrc</span><span class="p">):</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amat_col</span> <span class="o">==</span> <span class="n">i</span>
+            <span class="k">if</span> <span class="n">ind</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_upper</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">amat_row</span><span class="p">[</span><span class="n">ind</span><span class="p">]])</span> <span class="o">+</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="prior.get_pointing_matrix_unknown_psf"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.get_pointing_matrix_unknown_psf">[docs]</a>    <span class="k">def</span> <span class="nf">get_pointing_matrix_unknown_psf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bkg</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate pointing matrix for unknown psf. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">interpolate</span>
+        <span class="n">paxis1</span><span class="p">,</span> <span class="n">paxis2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prf</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="n">amat_row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">amat_col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">amat_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+        <span class="c1"># ------Deal with PRF array----------</span>
+        <span class="n">centre</span> <span class="o">=</span> <span class="p">((</span><span class="n">paxis1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># create pointing array</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsrc</span><span class="p">):</span>
+
+            <span class="c1"># diff from centre of beam for each pixel in x</span>
+            <span class="n">dx</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">sx_pix</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">sx</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+            <span class="c1"># diff from centre of beam for each pixel in y</span>
+            <span class="n">dy</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">sy_pix</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">sy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+            <span class="c1"># diff from each pixel in prf</span>
+            <span class="n">pindx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pindx</span> <span class="o">-</span> <span class="p">(</span><span class="n">paxis1</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sx</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">rint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sx</span><span class="p">[</span><span class="n">s</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+            <span class="n">pindy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pindy</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">rint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sy</span><span class="p">[</span><span class="n">s</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+            <span class="c1"># diff from pixel centre</span>
+            <span class="n">px</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sx</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">rint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sx</span><span class="p">[</span><span class="n">s</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">paxis1</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.</span>
+            <span class="n">py</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">rint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sy</span><span class="p">[</span><span class="n">s</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">paxis2</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.</span>
+
+            <span class="n">dist</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">dy</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">good</span> <span class="o">=</span> <span class="n">dist</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">pindx</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mf">2.0</span>
+            <span class="n">ngood</span> <span class="o">=</span> <span class="n">good</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">bad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">good</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span>
+            <span class="n">nbad</span> <span class="o">=</span> <span class="n">bad</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">ngood</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pindx</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pindy</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pindx</span><span class="p">[</span><span class="mi">0</span><span class="p">:(</span><span class="n">paxis1</span> <span class="o">+</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">((</span><span class="n">paxis1</span> <span class="o">+</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">),</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+                <span class="n">atemp</span><span class="o">=</span><span class="n">f</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">good</span><span class="p">])</span>
+                <span class="n">amat_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">amat_data</span><span class="p">,</span> <span class="n">atemp</span><span class="p">)</span>
+                <span class="n">amat_row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">amat_row</span><span class="p">,</span>
+                                     <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">snpix</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)[</span><span class="n">good</span><span class="p">])</span>  <span class="c1"># what pixels the source contributes to</span>
+                <span class="n">amat_col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">amat_col</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">ngood</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>  <span class="c1"># what source we are on</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">amat_data</span> <span class="o">=</span> <span class="n">amat_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amat_row</span> <span class="o">=</span> <span class="n">amat_row</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amat_col</span> <span class="o">=</span> <span class="n">amat_col</span></div>
+
+<div class="viewcode-block" id="prior.get_pointing_matrix"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.get_pointing_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">get_pointing_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bkg</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate pointing matrix. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">interpolate</span>
+        <span class="n">paxis1</span><span class="p">,</span> <span class="n">paxis2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prf</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="n">amat_row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">amat_col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">amat_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+        <span class="c1"># ------Deal with PRF array----------</span>
+        <span class="n">centre</span> <span class="o">=</span> <span class="p">((</span><span class="n">paxis1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># create pointing array</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsrc</span><span class="p">):</span>
+
+            <span class="c1"># diff from centre of beam for each pixel in x</span>
+            <span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">rint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sx</span><span class="p">[</span><span class="n">s</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pindx</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">rint</span><span class="p">((</span><span class="n">paxis1</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">)]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sx_pix</span>
+            <span class="c1"># diff from centre of beam for each pixel in y</span>
+            <span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">rint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sy</span><span class="p">[</span><span class="n">s</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pindy</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">rint</span><span class="p">((</span><span class="n">paxis2</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">)]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sy_pix</span>
+
+            <span class="c1"># diff from each pixel in prf</span>
+            <span class="n">pindx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pindx</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sx</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">rint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sx</span><span class="p">[</span><span class="n">s</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+            <span class="n">pindy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pindy</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">rint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sy</span><span class="p">[</span><span class="n">s</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+
+
+            <span class="n">good</span> <span class="o">=</span> <span class="p">(</span><span class="n">dx</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dx</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">pindx</span><span class="p">[</span><span class="n">paxis1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dy</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dy</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">pindy</span><span class="p">[</span><span class="n">paxis2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">ngood</span> <span class="o">=</span> <span class="n">good</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">bad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">good</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span>
+            <span class="n">nbad</span> <span class="o">=</span> <span class="n">bad</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">ipx2</span><span class="p">,</span> <span class="n">ipy2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">pindx</span><span class="p">,</span> <span class="n">pindy</span><span class="p">)</span>
+            <span class="n">atemp</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">griddata</span><span class="p">((</span><span class="n">ipx2</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">ipy2</span><span class="o">.</span><span class="n">ravel</span><span class="p">()),</span> <span class="bp">self</span><span class="o">.</span><span class="n">prf</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="p">(</span><span class="n">dx</span><span class="p">[</span><span class="n">good</span><span class="p">],</span> <span class="n">dy</span><span class="p">[</span><span class="n">good</span><span class="p">]),</span>
+                                             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+
+
+            <span class="n">keep</span><span class="o">=</span><span class="n">atemp</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">atemp</span><span class="p">)</span><span class="o">/</span><span class="mf">1.0E6</span>
+            <span class="n">amat_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">amat_data</span><span class="p">,</span> <span class="n">atemp</span><span class="p">[</span><span class="n">keep</span><span class="p">])</span>
+            <span class="n">amat_row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">amat_row</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">snpix</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)[</span><span class="n">good</span><span class="p">][</span><span class="n">keep</span><span class="p">])</span>  <span class="c1"># what pixels the source contributes to</span>
+            <span class="n">amat_col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">amat_col</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">keep</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">s</span><span class="p">))</span>  <span class="c1"># what source we are on</span>
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">amat_data</span> <span class="o">=</span> <span class="n">amat_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amat_row</span> <span class="o">=</span> <span class="n">amat_row</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amat_col</span> <span class="o">=</span> <span class="n">amat_col</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Peter Hurley.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'2.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

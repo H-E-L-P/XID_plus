@@ -38,7 +38,9 @@ class prior(object):
             self.prior_flux_lower = self.prior_flux_lower[sgood]
 
     def cut_down_prior(self):
-        """ Cuts down prior class variables to the MOC assigned to the prior class: self.moc
+
+        """
+        Cuts down prior class variables to the MOC assigned to the prior class
         """
         self.cut_down_map()
         self.cut_down_cat()
@@ -76,7 +78,7 @@ class prior(object):
             self.cut_down_map()
 
     def prior_bkg(self, mu, sigma):
-        """Add background prior. Assumes normal distribution with mean=mu and standard deviation=sigma
+        r"""Add background prior. Assumes :math:`B \sim \mathcal{N}(\mu,\sigma^2)`
 
         :param mu: mean
         :param sigma: standard deviation
@@ -186,7 +188,9 @@ class prior(object):
 
 
     def upper_lim_map(self):
-        """Update flux upper limit to |bkg|+2*sigma_bkg+max(D) where max(D) is maximum value of pixels the source contributes to"""
+        """Update flux upper limit to abs(bkg)+2*sigma_bkg+max(D)
+         where max(D) is maximum value of pixels the source contributes to"""
+
         self.prior_flux_upper = np.full((self.nsrc), 1000.0)
         for i in range(0, self.nsrc):
             ind = self.amat_col == i
@@ -237,7 +241,7 @@ class prior(object):
         self.amat_col = amat_col
 
     def get_pointing_matrix(self, bkg=True):
-        """Calculate pointing matrix for unknown psf. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute
+        """Calculate pointing matrix. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute
         """
         from scipy import interpolate
         paxis1, paxis2 = self.prf.shape
