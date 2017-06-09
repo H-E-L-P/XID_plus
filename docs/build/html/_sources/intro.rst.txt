@@ -5,13 +5,25 @@ Installation
 ------------
 
 XID+ requires a Python (2 or 3) installation. I recommend the `Anaconda distribution <https://www.continuum.io/downloads>`_.
-It also requires some additional Python modules, but these will be installed as part of the install process.
 
 Once you have a working Python installation, you can download the code either directly from `github <https://github.com/H-E-L-P/XID_plus>`_ or by cloning the git repository::
 
    git clone https://github.com/H-E-L-P/XID_plus.git
    cd XID_plus
 
+Requirements
+^^^^^^^^^^^^
+If using an Anaconda distribution, then it is best to install some prerequisites with conda with the following command::
+
+   while read requirement; do conda install --yes $requirement; done < req.txt
+
+If you are using your own Python setup, install the requirements via the command ::
+
+   pip install -r req.txt
+
+
+Finally
+^^^^^^^
 Then, install the package by running the following command::
 
    python setup.py install

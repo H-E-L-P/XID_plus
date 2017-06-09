@@ -14,7 +14,7 @@ warnings.simplefilter('ignore', UserWarning)
 warnings.simplefilter('ignore', RuntimeWarning)
 warnings.simplefilter('ignore',UnicodeWarning)
 
-VIDEO_TAG = """<video controls>
+VIDEO_TAG = """<video style="max-width:100%" controls>
  <source src="data:video/x-m4v;base64,{0}" type="video/mp4">
  Your browser does not support the video tag.
 </video>"""

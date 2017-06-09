@@ -6,7 +6,7 @@ This additional prior information could be on observables such as flux, or addit
 
 XID+CIGALE
 ----------
-`Pearson et al 2017 <http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1704.02192>`_ have looked into introducing independent (i.e. no covariance between bands) flux priors for the SPIRE bands, by fitting ancillary optical and near-IR data with the SED fitting code, CIGALE.
+In collaboration with Will Pearson, (`Pearson et al 2017 <http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1704.02192>`_) we have looked into introducing independent (i.e. no covariance between bands) flux priors for the SPIRE bands, by fitting ancillary optical and near-IR data with the SED fitting code, CIGALE.
 
 XID+SPIRE Prior Model
 ---------------------
