@@ -123,8 +123,12 @@ class prior(object):
             ID = np.arange(1, ra.size + 1, dtype='int64')
         self.ID = ID
 
-        self.moc = cat_moc
         self.stack = np.full(self.nsrc, False)
+        try:
+            self.moc = self.moc.intersection(cat_moc)
+        except AttributeError as e:
+            self.moc=cat_moc
+
         self.cut_down_prior()
 
     def set_tile(self, moc):

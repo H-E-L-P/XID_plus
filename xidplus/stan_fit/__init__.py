@@ -28,10 +28,11 @@ def get_stancode(model_file):
         with open(output_dir+model_file+'.pkl', 'rb') as f:
             # using the same model as before
 
-            print("%s found. Reusing" % model_file)
             obj = pickle.load(f)
             sm=obj['sm']
             if obj['version'] != io.git_version(): raise IOError
+            print("%s found. Reusing" % model_file)
+
 
     except IOError as e:
         print("%s not found or wrong version. Compiling" % model_file)

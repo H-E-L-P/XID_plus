@@ -2,7 +2,7 @@
 # XID+, The Probabilistic De-blender for confusion dominated maps
 =================================================================
 
-Read the documentation at: [H-E-L-P.github.io/XID_plus](H-E-L-P.github.io/XID_plus)
+Read the documentation at: [herschel.sussex.ac.uk/XID_plus](http://herschel.sussex.ac.uk/XID_plus)
 
 ## Contributors
 

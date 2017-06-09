@@ -20,6 +20,7 @@ It is being actively developed in a public repository on `GitHub <https://github
    intro
    tutorial
    priors
+    
 
 
 
@@ -54,7 +55,7 @@ If you make use of this code, please cite `Hurley et al. 2017 <http://adsabs.har
 
 
 The research leading to this tool has received funding from the European Union Seventh Framework Programme FP7/2007-2013/ under grant agreement no.607254.
-The documentatiom reflects only the author's view and the European Union is not responsible for any use that may be made of the information contained therein.
+The documentation reflects only the author's view and the European Union is not responsible for any use that may be made of the information contained therein.
 
 .. image:: images/sussex.jpg
     :width: 30 %

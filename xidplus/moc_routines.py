@@ -66,9 +66,9 @@ def create_MOC_from_map(good,wcs):
     x_pix,y_pix=np.meshgrid(np.arange(0,wcs._naxis1),np.arange(0,wcs._naxis2))
     ra,dec= wcs.wcs_pix2world(x_pix,y_pix,0)
 
-    pixels=get_HEALPix_pixels(12,ra[good],dec[good])
+    pixels=get_HEALPix_pixels(15,ra[good],dec[good])
     map_moc=MOC()
-    map_moc.add(12,pixels)
+    map_moc.add(15,pixels)
     return map_moc
 
 def create_MOC_from_cat(ra,dec):
