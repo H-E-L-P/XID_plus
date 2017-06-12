@@ -20,7 +20,7 @@ It is being actively developed in a public repository on `GitHub <https://github
    intro
    tutorial
    priors
-    
+
 
 
 
@@ -62,5 +62,10 @@ The documentation reflects only the author's view and the European Union is not 
 .. image:: images/logo_en.gif
     :width: 30 %
 
+Indices and tables
+==================
 
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
 

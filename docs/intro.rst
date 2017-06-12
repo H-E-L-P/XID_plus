@@ -26,7 +26,7 @@ Finally
 ^^^^^^^
 Then, install the package by running the following command::
 
-   python setup.py install
+   pip install -e './'
 
 .. note:: As part of the Herschel Extragalatic Legacy Project, we will be providing a `Docker <https://www.docker.com/>`_ image that will run all HELP tools and Jupyter notebooks, including XID+. Docker is an open source tool that allows developers to package up an application with all of the parts it needs, such as libraries and dependencies. The resulting Docker image can then be run on ANY machine, be it Windows, Linux, Mac or in the cloud without having to worry about installing numerous dependencies. This should be available from October 2017.
 
