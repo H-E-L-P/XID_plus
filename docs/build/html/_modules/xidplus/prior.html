@@ -283,8 +283,12 @@
             <span class="n">ID</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ra</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int64&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">ID</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">moc</span> <span class="o">=</span> <span class="n">cat_moc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nsrc</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">moc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">moc</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">cat_moc</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">moc</span><span class="o">=</span><span class="n">cat_moc</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">cut_down_prior</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="prior.set_tile"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.set_tile">[docs]</a>    <span class="k">def</span> <span class="nf">set_tile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">moc</span><span class="p">):</span>

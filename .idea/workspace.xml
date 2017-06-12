@@ -5,63 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5590fe4e-d0bd-4215-be50-d94133f988ab" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/req.txt" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_15_2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_XID+posterior_analysis_validation_15_2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_15_2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_XID+posterior_analysis_validation_15_2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit/MIPS.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit/PACS.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit/SPIRE.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" afterPath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/index.doctree" afterPath="$PROJECT_DIR$/docs/build/doctrees/index.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/intro.doctree" afterPath="$PROJECT_DIR$/docs/build/doctrees/intro.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_18_1.png" afterPath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_18_1.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_20_0.png" afterPath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_20_0.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_8_0.png" afterPath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_8_0.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_XID+posterior_analysis_validation_18_1.png" afterPath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_XID+posterior_analysis_validation_18_1.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_XID+posterior_analysis_validation_20_0.png" afterPath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_XID+posterior_analysis_validation_20_0.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_XID+posterior_analysis_validation_8_0.png" afterPath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_XID+posterior_analysis_validation_8_0.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/notebooks/examples/.ipynb_checkpoints/XID+posterior_analysis_validation-checkpoint.doctree" afterPath="$PROJECT_DIR$/docs/build/doctrees/notebooks/examples/.ipynb_checkpoints/XID+posterior_analysis_validation-checkpoint.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/notebooks/examples/XID+example_run_script.doctree" afterPath="$PROJECT_DIR$/docs/build/doctrees/notebooks/examples/XID+example_run_script.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/notebooks/examples/XID+posterior_analysis_validation.doctree" afterPath="$PROJECT_DIR$/docs/build/doctrees/notebooks/examples/XID+posterior_analysis_validation.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/priors.doctree" afterPath="$PROJECT_DIR$/docs/build/doctrees/priors.doctree" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/xidplus.doctree" afterPath="$PROJECT_DIR$/docs/build/doctrees/xidplus.doctree" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/xidplus.stan_fit.doctree" afterPath="$PROJECT_DIR$/docs/build/doctrees/xidplus.stan_fit.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_18_1.png" afterPath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_18_1.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_20_0.png" afterPath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_20_0.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_8_0.png" afterPath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_8_0.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_XID+posterior_analysis_validation_18_1.png" afterPath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_XID+posterior_analysis_validation_18_1.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_XID+posterior_analysis_validation_20_0.png" afterPath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_XID+posterior_analysis_validation_20_0.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_XID+posterior_analysis_validation_8_0.png" afterPath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_XID+posterior_analysis_validation_8_0.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/objects.inv" afterPath="$PROJECT_DIR$/docs/build/html/objects.inv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/notebooks/examples/XID+SPIRE.pkl" afterPath="$PROJECT_DIR$/docs/notebooks/examples/XID+SPIRE.pkl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/notebooks/examples/test.pkl" afterPath="$PROJECT_DIR$/docs/notebooks/examples/test.pkl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/.buildinfo" afterPath="$PROJECT_DIR$/docs/build/html/.buildinfo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/index.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/moc_routines.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/moc_routines.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/plots.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/plots.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/prior.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/prior.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_sources/index.rst.txt" afterPath="$PROJECT_DIR$/docs/build/html/_sources/index.rst.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_sources/intro.rst.txt" afterPath="$PROJECT_DIR$/docs/build/html/_sources/intro.rst.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_sources/notebooks/examples/.ipynb_checkpoints/XID+posterior_analysis_validation-checkpoint.ipynb.txt" afterPath="$PROJECT_DIR$/docs/build/html/_sources/notebooks/examples/.ipynb_checkpoints/XID+posterior_analysis_validation-checkpoint.ipynb.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_sources/notebooks/examples/XID+example_run_script.ipynb.txt" afterPath="$PROJECT_DIR$/docs/build/html/_sources/notebooks/examples/XID+example_run_script.ipynb.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_sources/notebooks/examples/XID+posterior_analysis_validation.ipynb.txt" afterPath="$PROJECT_DIR$/docs/build/html/_sources/notebooks/examples/XID+posterior_analysis_validation.ipynb.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_sources/priors.rst.txt" afterPath="$PROJECT_DIR$/docs/build/html/_sources/priors.rst.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/genindex.html" afterPath="$PROJECT_DIR$/docs/build/html/genindex.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/index.html" afterPath="$PROJECT_DIR$/docs/build/html/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/intro.html" afterPath="$PROJECT_DIR$/docs/build/html/intro.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/modules.html" afterPath="$PROJECT_DIR$/docs/build/html/modules.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/notebooks/examples/.ipynb_checkpoints/XID+posterior_analysis_validation-checkpoint.html" afterPath="$PROJECT_DIR$/docs/build/html/notebooks/examples/.ipynb_checkpoints/XID+posterior_analysis_validation-checkpoint.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/notebooks/examples/XID+example_run_script.html" afterPath="$PROJECT_DIR$/docs/build/html/notebooks/examples/XID+example_run_script.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/notebooks/examples/XID+posterior_analysis_validation.html" afterPath="$PROJECT_DIR$/docs/build/html/notebooks/examples/XID+posterior_analysis_validation.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/priors.html" afterPath="$PROJECT_DIR$/docs/build/html/priors.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/py-modindex.html" afterPath="$PROJECT_DIR$/docs/build/html/py-modindex.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/searchindex.js" afterPath="$PROJECT_DIR$/docs/build/html/searchindex.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/xidplus.html" afterPath="$PROJECT_DIR$/docs/build/html/xidplus.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/xidplus.stan_fit.html" afterPath="$PROJECT_DIR$/docs/build/html/xidplus.stan_fit.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/conf.py" afterPath="$PROJECT_DIR$/docs/conf.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/index.rst" afterPath="$PROJECT_DIR$/docs/index.rst" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/intro.rst" afterPath="$PROJECT_DIR$/docs/intro.rst" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/notebooks/examples/.ipynb_checkpoints/XID+posterior_analysis_validation-checkpoint.ipynb" afterPath="$PROJECT_DIR$/docs/notebooks/examples/.ipynb_checkpoints/XID+posterior_analysis_validation-checkpoint.ipynb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/notebooks/examples/XID+SPIRE.pkl" afterPath="$PROJECT_DIR$/docs/notebooks/examples/XID+SPIRE.pkl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/notebooks/examples/XID+example_run_script.ipynb" afterPath="$PROJECT_DIR$/docs/notebooks/examples/XID+example_run_script.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/notebooks/examples/XID+posterior_analysis_validation.ipynb" afterPath="$PROJECT_DIR$/docs/notebooks/examples/XID+posterior_analysis_validation.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/notebooks/examples/test.fits" afterPath="$PROJECT_DIR$/docs/notebooks/examples/test.fits" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/priors.rst" afterPath="$PROJECT_DIR$/docs/priors.rst" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/req.txt" afterPath="$PROJECT_DIR$/req.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/setup.py" afterPath="$PROJECT_DIR$/setup.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/moc_routines.py" afterPath="$PROJECT_DIR$/xidplus/moc_routines.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/plots.py" afterPath="$PROJECT_DIR$/xidplus/plots.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/prior.py" afterPath="$PROJECT_DIR$/xidplus/prior.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/stan_fit/__init__.py" afterPath="$PROJECT_DIR$/xidplus/stan_fit/__init__.py" />
     </list>
     <ignored path="XID_plus.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -86,7 +65,7 @@
           <file leaf-file-name="__init__.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/xidplus/stan_fit/__init__.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="137">
+                <state relative-caret-position="83">
                   <caret line="36" column="4" lean-forward="false" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
                   <folding />
                 </state>
@@ -193,23 +172,11 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="catalogue.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/xidplus/catalogue.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2400">
-                  <caret line="160" column="92" lean-forward="false" selection-start-line="160" selection-start-column="92" selection-end-line="160" selection-end-column="92" />
-                  <folding>
-                    <element signature="e#0#18#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="intro.rst" pinned="false" current-in-tab="false">
+          <file leaf-file-name="intro.rst" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/docs/intro.rst">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="255">
-                  <caret line="17" column="78" lean-forward="false" selection-start-line="17" selection-start-column="78" selection-end-line="17" selection-end-column="78" />
+                <state relative-caret-position="126">
+                  <caret line="28" column="3" lean-forward="false" selection-start-line="28" selection-start-column="3" selection-end-line="28" selection-end-column="22" />
                   <folding />
                 </state>
               </provider>
@@ -218,8 +185,8 @@
           <file leaf-file-name="req.txt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/req.txt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="120">
-                  <caret line="8" column="5" lean-forward="false" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+                <state relative-caret-position="90">
+                  <caret line="6" column="7" lean-forward="false" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="7" />
                   <folding />
                 </state>
               </provider>
@@ -228,9 +195,21 @@
           <file leaf-file-name="setup.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/setup.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="165">
-                  <caret line="11" column="108" lean-forward="false" selection-start-line="11" selection-start-column="108" selection-end-line="11" selection-end-column="108" />
+                <state relative-caret-position="150">
+                  <caret line="10" column="30" lean-forward="false" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
                   <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/xidplus/__init__.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="105">
+                  <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#24#39#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -248,11 +227,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="index.rst" pinned="false" current-in-tab="true">
+          <file leaf-file-name="index.rst" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/docs/index.rst">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="191">
-                  <caret line="22" column="4" lean-forward="false" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
+                <state relative-caret-position="143">
+                  <caret line="16" column="15" lean-forward="false" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
                   <folding />
                 </state>
               </provider>
@@ -271,18 +250,20 @@
           <file leaf-file-name="conf.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/docs/conf.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1717">
-                  <caret line="38" column="15" lean-forward="false" selection-start-line="38" selection-start-column="15" selection-end-line="38" selection-end-column="15" />
-                  <folding />
+                <state relative-caret-position="-745">
+                  <caret line="101" column="21" lean-forward="false" selection-start-line="101" selection-start-column="21" selection-end-line="101" selection-end-column="21" />
+                  <folding>
+                    <element signature="e#680#689#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Makefile" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/docs/Makefile">
+          <file leaf-file-name="make.bat" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/docs/make.bat">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="291">
-                  <caret line="22" column="11" lean-forward="false" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
+                <state relative-caret-position="-3539">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -355,7 +336,6 @@
         <option value="$PROJECT_DIR$/xidplus/stan_fit/MIPS.py" />
         <option value="$PROJECT_DIR$/xidplus/stan_fit/PACS.py" />
         <option value="$PROJECT_DIR$/xidplus/posterior.py" />
-        <option value="$PROJECT_DIR$/docs/conf.py" />
         <option value="$PROJECT_DIR$/docs/tutorial.rst" />
         <option value="$PROJECT_DIR$/xidplus/catalogue.py" />
         <option value="$PROJECT_DIR$/docs/Makefile" />
@@ -366,10 +346,11 @@
         <option value="$PROJECT_DIR$/xidplus/moc_routines.py" />
         <option value="$PROJECT_DIR$/xidplus/plots.py" />
         <option value="$PROJECT_DIR$/docs/priors.rst" />
-        <option value="$PROJECT_DIR$/setup.py" />
-        <option value="$PROJECT_DIR$/req.txt" />
-        <option value="$PROJECT_DIR$/docs/intro.rst" />
+        <option value="$PROJECT_DIR$/docs/conf.py" />
         <option value="$PROJECT_DIR$/docs/index.rst" />
+        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/docs/intro.rst" />
+        <option value="$PROJECT_DIR$/req.txt" />
       </list>
     </option>
   </component>
@@ -426,66 +407,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="XID_plus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XID_plus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XID_plus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="xidplus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XID_plus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XID_plus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="xidplus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="stan_fit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XID_plus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XID_plus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="stan_models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XID_plus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="XID_plus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="docs" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -813,7 +734,14 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/xidplus/__init__.py</url>
+          <line>1</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -940,7 +868,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2475">
           <caret line="166" column="58" lean-forward="false" selection-start-line="166" selection-start-column="58" selection-end-line="166" selection-end-column="58" />
-          <folding />
+          <folding>
+            <element signature="e#680#689#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1029,19 +959,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/xidplus/catalogue.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2400">
-          <caret line="160" column="92" lean-forward="false" selection-start-line="160" selection-start-column="92" selection-end-line="160" selection-end-column="92" />
+        <state relative-caret-position="56">
+          <caret line="372" column="21" lean-forward="false" selection-start-line="372" selection-start-column="21" selection-end-line="372" selection-end-column="21" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/conf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1717">
-          <caret line="38" column="15" lean-forward="false" selection-start-line="38" selection-start-column="15" selection-end-line="38" selection-end-column="15" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1121,6 +1043,76 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/docs/priors.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="82">
+          <caret line="8" column="126" lean-forward="false" selection-start-line="8" selection-start-column="126" selection-end-line="8" selection-end-column="126" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/stan_fit/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="83">
+          <caret line="36" column="4" lean-forward="false" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/io.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="60" column="54" lean-forward="false" selection-start-line="60" selection-start-column="54" selection-end-line="60" selection-end-column="54" />
+          <folding>
+            <element signature="e#25#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/make.bat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3539">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-745">
+          <caret line="101" column="21" lean-forward="false" selection-start-line="101" selection-start-column="21" selection-end-line="101" selection-end-column="21" />
+          <folding>
+            <element signature="e#680#689#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/index.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="16" column="15" lean-forward="false" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding>
+            <element signature="e#24#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="30" lean-forward="false" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -1138,60 +1130,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/priors.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="82">
-          <caret line="8" column="126" lean-forward="false" selection-start-line="8" selection-start-column="126" selection-end-line="8" selection-end-column="126" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/stan_fit/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="36" column="4" lean-forward="false" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/io.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="60" column="54" lean-forward="false" selection-start-line="60" selection-start-column="54" selection-end-line="60" selection-end-column="54" />
-          <folding>
-            <element signature="e#25#42#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="108" lean-forward="false" selection-start-line="11" selection-start-column="108" selection-end-line="11" selection-end-column="108" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/req.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="5" lean-forward="false" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+        <state relative-caret-position="90">
+          <caret line="6" column="7" lean-forward="false" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/intro.rst">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="78" lean-forward="false" selection-start-line="17" selection-start-column="78" selection-end-line="17" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/index.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="22" column="4" lean-forward="false" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
+        <state relative-caret-position="126">
+          <caret line="28" column="3" lean-forward="false" selection-start-line="28" selection-start-column="3" selection-end-line="28" selection-end-column="22" />
           <folding />
         </state>
       </provider>

@@ -4,6 +4,7 @@ dill
 numpy
 scipy
 seaborn
+jupyter
 healpy
 pymoc
 aplpy

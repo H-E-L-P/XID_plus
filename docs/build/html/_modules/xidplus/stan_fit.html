@@ -188,10 +188,11 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="n">model_file</span><span class="o">+</span><span class="s1">&#39;.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="c1"># using the same model as before</span>
 
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> found. Reusing&quot;</span> <span class="o">%</span> <span class="n">model_file</span><span class="p">)</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
             <span class="n">sm</span><span class="o">=</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;sm&#39;</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">obj</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">io</span><span class="o">.</span><span class="n">git_version</span><span class="p">():</span> <span class="k">raise</span> <span class="ne">IOError</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> found. Reusing&quot;</span> <span class="o">%</span> <span class="n">model_file</span><span class="p">)</span>
+
 
     <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> not found or wrong version. Compiling&quot;</span> <span class="o">%</span> <span class="n">model_file</span><span class="p">)</span>
