@@ -11,6 +11,14 @@ Subpackages
 Submodules
 ----------
 
+xidplus\.HPC module
+-------------------
+
+.. automodule:: xidplus.HPC
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 xidplus\.catalogue module
 -------------------------
 

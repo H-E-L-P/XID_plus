@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Large Fields &mdash; XID+ 2.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="XID+ 2.0.0 documentation" href="index.html"/>
+        <link rel="next" title="Beyond Positional Priors" href="priors.html"/>
+        <link rel="prev" title="XID+ Example Output Analysis" href="notebooks/examples/XID+posterior_analysis_validation.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> XID+
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Large Fields</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="priors.html">Beyond Positional Priors</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">XID+</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Large Fields</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/hpc.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="large-fields">
+<h1>Large Fields<a class="headerlink" href="#large-fields" title="Permalink to this headline">¶</a></h1>
+<p>Running XID+ over large areas or fields is computationally challenging. One way to overcome this
+issue is to split the field into tiles and run them independently. For HELP, we use a tiling scheme based on the <a class="reference external" href="http://healpix.jpl.nasa.gov/">HEALPix</a> scheme.</p>
+<p>We carry out this tiling scheme as follows:</p>
+<ol class="arabic">
+<li><p class="first">Create a prior class containing all raw data (e.g. map, catalogue and PSF)</p>
+</li>
+<li><p class="first">Use that prior class catalogue to construct 2 lists of tiles</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">xidplus</span> <span class="k">import</span> <span class="n">moc_routines</span>
+<span class="n">order</span><span class="o">=</span><span class="mi">11</span>
+<span class="n">tiles</span><span class="o">=</span><span class="n">moc_routines</span><span class="o">.</span><span class="n">get_HEALPix_pixels</span><span class="p">(</span><span class="n">order</span><span class="p">,</span><span class="n">priors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sra</span><span class="p">,</span><span class="n">priors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sdec</span><span class="p">,</span><span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">order_large</span><span class="o">=</span><span class="mi">7</span>
+<span class="n">tiles_large</span><span class="o">=</span><span class="n">moc_routines</span><span class="o">.</span><span class="n">get_HEALPix_pixels</span><span class="p">(</span><span class="n">order_large</span><span class="p">,</span><span class="n">prior250</span><span class="o">.</span><span class="n">sra</span><span class="p">,</span><span class="n">prior250</span><span class="o">.</span><span class="n">sdec</span><span class="p">,</span><span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;----- There are &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tiles</span><span class="p">))</span><span class="o">+</span><span class="s1">&#39; tiles required for input catalogue and &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tiles_large</span><span class="p">))</span><span class="o">+</span><span class="s1">&#39; large tiles&#39;</span><span class="p">)</span>
+<span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./&#39;</span>
+<span class="n">outfile</span><span class="o">=</span><span class="n">output_folder</span><span class="o">+</span><span class="s1">&#39;Master_prior.pkl&#39;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="s1">&#39;priors&#39;</span><span class="p">:,</span><span class="n">priors</span><span class="p">,</span><span class="s1">&#39;tiles&#39;</span><span class="p">:</span><span class="n">tiles</span><span class="p">,</span><span class="s1">&#39;order&#39;</span><span class="p">:</span><span class="n">order</span><span class="p">,</span><span class="s1">&#39;version&#39;</span><span class="p">:</span><span class="n">xidplus</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">git_version</span><span class="p">()},</span><span class="n">f</span><span class="p">)</span>
+<span class="n">outfile</span><span class="o">=</span><span class="n">output_folder</span><span class="o">+</span><span class="s1">&#39;Tiles.pkl&#39;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="s1">&#39;tiles&#39;</span><span class="p">:</span><span class="n">tiles</span><span class="p">,</span><span class="s1">&#39;order&#39;</span><span class="p">:</span><span class="n">order</span><span class="p">,</span><span class="s1">&#39;tiles_large&#39;</span><span class="p">:</span><span class="n">tiles_large</span><span class="p">,</span><span class="s1">&#39;order_large&#39;</span><span class="p">:</span><span class="n">order_large</span><span class="p">,</span><span class="s1">&#39;version&#39;</span><span class="p">:</span><span class="n">xidplus</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">git_version</span><span class="p">()},</span><span class="n">f</span><span class="p">)</span>
+<span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The larger tiles are used to split up the main prior class into slightly smaller regions. The smaller tiles use the larger
+tiles as an input. This reduces the amount of memory required compared to having to read in the original prior class each time.</p>
+</div>
+<ol class="arabic" start="3">
+<li><p class="first">We create the larger tiles by running:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;from xidplus import HPC; HPC.hierarchical_tile(&quot;Master_prior.pkl&quot;,&quot;Tiles.pkl&quot;)&#39;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>By default, this assumes the command is being run as an array job on an HPC environment running SunGrid (as we do at Sussex), with the length of the array equal to the number of large tiles required.
+If it cannot find the <code class="docutils literal"><span class="pre">$SGE_TASK_ID</span></code>, then it will ask for task id number. It reads in the master prior, cuts it down to the tile being referenced by the task id number and saves the cut down prior.</p>
+<ol class="arabic simple" start="4">
+<li>The final stage is to actually run XID+ on each small tile. For HELP, we use an HPC to fit multiple tiles at the same time.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Ideally, each tile being fitted should use four cores (so that each MCMC chain can be run independently).</p>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="priors.html" class="btn btn-neutral float-right" title="Beyond Positional Priors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="notebooks/examples/XID+posterior_analysis_validation.html" class="btn btn-neutral" title="XID+ Example Output Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Peter Hurley.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

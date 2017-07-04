@@ -9,6 +9,9 @@ class posterior_stan(object):
         """
         self.nsrc=priors[0].nsrc
         self.samples=fit.extract()
+        if len(priors) < 2:
+            self.samples['bkg']=self.samples['bkg'][:,None]
+            self.samples['sigma_conf'] = self.samples['sigma_conf'][:, None]
         self.param_names=fit.model_pars
         self.scale_posterior(priors)
         self.ID=priors[0].ID

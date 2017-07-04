@@ -66,3 +66,4 @@ def load(filename):
         posterior=obj['posterior']
 
     return priors,posterior
+

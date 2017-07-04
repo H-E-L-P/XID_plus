@@ -5,42 +5,59 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5590fe4e-d0bd-4215-be50-d94133f988ab" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_15_2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/doctrees/nbsphinx/notebooks_examples_XID+posterior_analysis_validation_15_2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_.ipynb_checkpoints_XID+posterior_analysis_validation-checkpoint_15_2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/html/_images/notebooks_examples_XID+posterior_analysis_validation_15_2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit/MIPS.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit/PACS.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit/SPIRE.html" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/docs/hpc.rst" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/xidplus/HPC.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stan_models/XID+MIPS.stan" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stan_models/XID+MIPS_new.stan" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stan_models/XID+PACS.stan" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stan_models/XID+PACS_new.stan" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" afterPath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/index.doctree" afterPath="$PROJECT_DIR$/docs/build/doctrees/index.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/notebooks/examples/XID+posterior_analysis_validation.doctree" afterPath="$PROJECT_DIR$/docs/build/doctrees/notebooks/examples/XID+posterior_analysis_validation.doctree" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/xidplus.doctree" afterPath="$PROJECT_DIR$/docs/build/doctrees/xidplus.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/doctrees/xidplus.stan_fit.doctree" afterPath="$PROJECT_DIR$/docs/build/doctrees/xidplus.stan_fit.doctree" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/objects.inv" afterPath="$PROJECT_DIR$/docs/build/html/objects.inv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/notebooks/examples/XID+SPIRE.pkl" afterPath="$PROJECT_DIR$/docs/notebooks/examples/XID+SPIRE.pkl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/notebooks/examples/test.pkl" afterPath="$PROJECT_DIR$/docs/notebooks/examples/test.pkl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/.buildinfo" afterPath="$PROJECT_DIR$/docs/build/html/.buildinfo" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/index.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/catalogue.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/catalogue.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/io.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/io.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/moc_routines.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/moc_routines.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/plots.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/plots.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/posterior.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/posterior.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/posterior_maps.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/posterior_maps.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/prior.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/prior.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit/MIPS.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit/MIPS.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit/PACS.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit/PACS.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit/SPIRE.html" afterPath="$PROJECT_DIR$/docs/build/html/_modules/xidplus/stan_fit/SPIRE.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_sources/index.rst.txt" afterPath="$PROJECT_DIR$/docs/build/html/_sources/index.rst.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_sources/notebooks/examples/XID+posterior_analysis_validation.ipynb.txt" afterPath="$PROJECT_DIR$/docs/build/html/_sources/notebooks/examples/XID+posterior_analysis_validation.ipynb.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/_sources/xidplus.rst.txt" afterPath="$PROJECT_DIR$/docs/build/html/_sources/xidplus.rst.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/genindex.html" afterPath="$PROJECT_DIR$/docs/build/html/genindex.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/index.html" afterPath="$PROJECT_DIR$/docs/build/html/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/intro.html" afterPath="$PROJECT_DIR$/docs/build/html/intro.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/modules.html" afterPath="$PROJECT_DIR$/docs/build/html/modules.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/notebooks/examples/.ipynb_checkpoints/XID+example_run_script-checkpoint.html" afterPath="$PROJECT_DIR$/docs/build/html/notebooks/examples/.ipynb_checkpoints/XID+example_run_script-checkpoint.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/notebooks/examples/.ipynb_checkpoints/XID+posterior_analysis_validation-checkpoint.html" afterPath="$PROJECT_DIR$/docs/build/html/notebooks/examples/.ipynb_checkpoints/XID+posterior_analysis_validation-checkpoint.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/notebooks/examples/XID+example_run_script.html" afterPath="$PROJECT_DIR$/docs/build/html/notebooks/examples/XID+example_run_script.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/notebooks/examples/XID+posterior_analysis_validation.html" afterPath="$PROJECT_DIR$/docs/build/html/notebooks/examples/XID+posterior_analysis_validation.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/priors.html" afterPath="$PROJECT_DIR$/docs/build/html/priors.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/py-modindex.html" afterPath="$PROJECT_DIR$/docs/build/html/py-modindex.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/search.html" afterPath="$PROJECT_DIR$/docs/build/html/search.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/searchindex.js" afterPath="$PROJECT_DIR$/docs/build/html/searchindex.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/tutorial.html" afterPath="$PROJECT_DIR$/docs/build/html/tutorial.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/xidplus.html" afterPath="$PROJECT_DIR$/docs/build/html/xidplus.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/conf.py" afterPath="$PROJECT_DIR$/docs/conf.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build/html/xidplus.stan_fit.html" afterPath="$PROJECT_DIR$/docs/build/html/xidplus.stan_fit.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/index.rst" afterPath="$PROJECT_DIR$/docs/index.rst" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/intro.rst" afterPath="$PROJECT_DIR$/docs/intro.rst" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/notebooks/examples/XID+SPIRE.pkl" afterPath="$PROJECT_DIR$/docs/notebooks/examples/XID+SPIRE.pkl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/notebooks/examples/XID+example_run_script.ipynb" afterPath="$PROJECT_DIR$/docs/notebooks/examples/XID+example_run_script.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/notebooks/examples/XID+posterior_analysis_validation.ipynb" afterPath="$PROJECT_DIR$/docs/notebooks/examples/XID+posterior_analysis_validation.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/notebooks/examples/test.fits" afterPath="$PROJECT_DIR$/docs/notebooks/examples/test.fits" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/req.txt" afterPath="$PROJECT_DIR$/req.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/setup.py" afterPath="$PROJECT_DIR$/setup.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/xidplus.rst" afterPath="$PROJECT_DIR$/docs/xidplus.rst" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/io.py" afterPath="$PROJECT_DIR$/xidplus/io.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/posterior.py" afterPath="$PROJECT_DIR$/xidplus/posterior.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/posterior_maps.py" afterPath="$PROJECT_DIR$/xidplus/posterior_maps.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/xidplus/prior.py" afterPath="$PROJECT_DIR$/xidplus/prior.py" />
     </list>
     <ignored path="XID_plus.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -59,14 +76,24 @@
     <favorites_list name="XID_plus" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="vertical" split-proportion="0.44970414">
+    <splitter split-orientation="vertical" split-proportion="0.48296297">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="__init__.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/xidplus/stan_fit/__init__.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="83">
-                  <caret line="36" column="4" lean-forward="false" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
+                <state relative-caret-position="38">
+                  <caret line="33" column="51" lean-forward="false" selection-start-line="33" selection-start-column="51" selection-end-line="33" selection-end-column="51" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="XID+SPIRE.stan" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/stan_models/XID+SPIRE.stan">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-363">
+                  <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -75,22 +102,10 @@
           <file leaf-file-name="catalogue.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/xidplus/catalogue.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="56">
-                  <caret line="372" column="21" lean-forward="false" selection-start-line="372" selection-start-column="21" selection-end-line="372" selection-end-column="21" />
+                <state relative-caret-position="157">
+                  <caret line="131" column="0" lean-forward="true" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#18#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="plots.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/xidplus/plots.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="40">
-                  <caret line="70" column="59" lean-forward="false" selection-start-line="70" selection-start-column="59" selection-end-line="71" selection-end-column="44" />
-                  <folding>
-                    <element signature="e#0#39#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -99,18 +114,8 @@
           <file leaf-file-name="posterior.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/xidplus/posterior.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="15">
-                  <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="SPIRE.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/xidplus/stan_fit/SPIRE.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="90">
-                  <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+                <state relative-caret-position="194">
+                  <caret line="13" column="37" lean-forward="false" selection-start-line="13" selection-start-column="37" selection-end-line="13" selection-end-column="37" />
                   <folding />
                 </state>
               </provider>
@@ -119,8 +124,20 @@
           <file leaf-file-name="posterior_maps.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/xidplus/posterior_maps.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="735">
-                  <caret line="52" column="38" lean-forward="false" selection-start-line="52" selection-start-column="4" selection-end-line="52" selection-end-column="38" />
+                <state relative-caret-position="-26">
+                  <caret line="37" column="47" lean-forward="true" selection-start-line="37" selection-start-column="4" selection-end-line="37" selection-end-column="47" />
+                  <folding>
+                    <element signature="e#21#48#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="XID+MIPS.stan" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/stan_models/XID+MIPS.stan">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-638">
+                  <caret line="9" column="27" lean-forward="true" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
                   <folding />
                 </state>
               </provider>
@@ -129,10 +146,22 @@
           <file leaf-file-name="prior.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/xidplus/prior.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1935">
-                  <caret line="129" column="28" lean-forward="false" selection-start-line="129" selection-start-column="28" selection-end-line="129" selection-end-column="28" />
+                <state relative-caret-position="1617">
+                  <caret line="279" column="44" lean-forward="false" selection-start-line="279" selection-start-column="44" selection-end-line="279" selection-end-column="44" />
                   <folding>
                     <element signature="e#0#18#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="HPC.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/xidplus/HPC.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-11">
+                  <caret line="35" column="36" lean-forward="true" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
+                  <folding>
+                    <element signature="e#0#10#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -141,29 +170,21 @@
           <file leaf-file-name="moc_routines.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/xidplus/moc_routines.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="11">
+                <state relative-caret-position="988">
                   <caret line="103" column="40" lean-forward="false" selection-start-line="103" selection-start-column="40" selection-end-line="103" selection-end-column="40" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="tutorial.rst" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/docs/tutorial.rst">
+          <file leaf-file-name="io.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/xidplus/io.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="26">
-                  <caret line="8" column="147" lean-forward="false" selection-start-line="8" selection-start-column="75" selection-end-line="8" selection-end-column="147" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/docs/index.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="45" lean-forward="false" selection-start-line="0" selection-start-column="45" selection-end-line="0" selection-end-column="45" />
-                  <folding />
+                <state relative-caret-position="225">
+                  <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#25#42#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -172,11 +193,11 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="intro.rst" pinned="false" current-in-tab="true">
+          <file leaf-file-name="intro.rst" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/docs/intro.rst">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="126">
-                  <caret line="28" column="3" lean-forward="false" selection-start-line="28" selection-start-column="3" selection-end-line="28" selection-end-column="22" />
+                <state relative-caret-position="225">
+                  <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="9" />
                   <folding />
                 </state>
               </provider>
@@ -205,11 +226,9 @@
           <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/xidplus/__init__.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="105">
-                  <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#24#39#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="30">
+                  <caret line="2" column="6" lean-forward="false" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -230,18 +249,18 @@
           <file leaf-file-name="index.rst" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/docs/index.rst">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="143">
-                  <caret line="16" column="15" lean-forward="false" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
+                <state relative-caret-position="169">
+                  <caret line="21" column="6" lean-forward="false" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="priors.rst" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/docs/priors.rst">
+          <file leaf-file-name="hpc.rst" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/docs/hpc.rst">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="82">
-                  <caret line="8" column="126" lean-forward="false" selection-start-line="8" selection-start-column="126" selection-end-line="8" selection-end-column="126" />
+                <state relative-caret-position="48">
+                  <caret line="33" column="4" lean-forward="true" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="94" />
                   <folding />
                 </state>
               </provider>
@@ -250,32 +269,10 @@
           <file leaf-file-name="conf.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/docs/conf.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-745">
+                <state relative-caret-position="1500">
                   <caret line="101" column="21" lean-forward="false" selection-start-line="101" selection-start-column="21" selection-end-line="101" selection-end-column="21" />
                   <folding>
                     <element signature="e#680#689#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="make.bat" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/docs/make.bat">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-3539">
-                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="io.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/xidplus/io.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="191">
-                  <caret line="60" column="54" lean-forward="false" selection-start-line="60" selection-start-column="54" selection-end-line="60" selection-end-column="54" />
-                  <folding>
-                    <element signature="e#25#42#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -322,41 +319,45 @@
         <option value="$PROJECT_DIR$/xidplus/confusion_noise.py" />
         <option value="$PROJECT_DIR$/scripts/test_run/Lacey_COSMOS_test.py" />
         <option value="$PROJECT_DIR$/xidplus/segmentation.py" />
-        <option value="$PROJECT_DIR$/stan_models/XID+SPIRE.stan" />
         <option value="$PROJECT_DIR$/xidplus/__init__.py" />
         <option value="$PROJECT_DIR$/docs/source/conf.py" />
         <option value="$PROJECT_DIR$/docs/modules.rst" />
         <option value="$PROJECT_DIR$/docs/notebooks.txt" />
         <option value="$PROJECT_DIR$/xidplus/stan_fit/SPIRE.py" />
-        <option value="$PROJECT_DIR$/xidplus/io.py" />
-        <option value="$PROJECT_DIR$/xidplus/posterior_maps.py" />
         <option value="$PROJECT_DIR$/stan_models/XID+MIPS.stan" />
         <option value="$PROJECT_DIR$/stan_models/XID+MIPS_new.stan" />
         <option value="$PROJECT_DIR$/stan_models/XID+PACS_new.stan" />
         <option value="$PROJECT_DIR$/xidplus/stan_fit/MIPS.py" />
         <option value="$PROJECT_DIR$/xidplus/stan_fit/PACS.py" />
-        <option value="$PROJECT_DIR$/xidplus/posterior.py" />
         <option value="$PROJECT_DIR$/docs/tutorial.rst" />
         <option value="$PROJECT_DIR$/xidplus/catalogue.py" />
         <option value="$PROJECT_DIR$/docs/Makefile" />
         <option value="$PROJECT_DIR$/docs/index.html" />
         <option value="$PROJECT_DIR$/xidplus/stan_fit/__init__.py" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/xidplus/prior.py" />
         <option value="$PROJECT_DIR$/xidplus/moc_routines.py" />
         <option value="$PROJECT_DIR$/xidplus/plots.py" />
         <option value="$PROJECT_DIR$/docs/priors.rst" />
         <option value="$PROJECT_DIR$/docs/conf.py" />
-        <option value="$PROJECT_DIR$/docs/index.rst" />
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/docs/intro.rst" />
         <option value="$PROJECT_DIR$/req.txt" />
+        <option value="$PROJECT_DIR$/xidplus/filters.py" />
+        <option value="$PROJECT_DIR$/stan_models/XID+SED.stan" />
+        <option value="$PROJECT_DIR$/xidplus/io.py" />
+        <option value="$PROJECT_DIR$/xidplus/prior.py" />
+        <option value="$PROJECT_DIR$/docs/index.rst" />
+        <option value="$PROJECT_DIR$/xidplus/HPC.py" />
+        <option value="$PROJECT_DIR$/docs/hpc.rst" />
+        <option value="$PROJECT_DIR$/stan_models/XID+SPIRE.stan" />
+        <option value="$PROJECT_DIR$/xidplus/posterior_maps.py" />
+        <option value="$PROJECT_DIR$/xidplus/posterior.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="18" />
-    <option name="y" value="23" />
+    <option name="x" value="143" />
+    <option name="y" value="115" />
     <option name="width" value="1362" />
     <option name="height" value="745" />
   </component>
@@ -397,7 +398,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -410,9 +411,37 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XID_plus" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XID_plus" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="xidplus" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XID_plus" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="XID_plus" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="stan_models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -676,10 +705,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="18" y="23" width="1362" height="745" extended-state="0" />
+    <frame x="143" y="115" width="1362" height="745" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2246696" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2246696" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32988167" sideWeight="0.50587374" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32840237" sideWeight="0.8737151" order="2" side_tool="false" content_ui="tabs" />
@@ -701,24 +730,26 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42587602" sideWeight="0.50325733" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32988167" sideWeight="0.50587374" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32840237" sideWeight="0.8737151" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292011" sideWeight="0.8786645" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24937862" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2246696" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32988167" sideWeight="0.4941263" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292011" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24937862" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4250326" sideWeight="0.49674267" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42455623" sideWeight="0.4941263" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -734,44 +765,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/xidplus/__init__.py</url>
-          <line>1</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/xidplus/stan_fit/MIPS.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/stan_fit/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="22" lean-forward="false" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/plots.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="25" column="17" lean-forward="false" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/xidplus/posterior.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -818,7 +816,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1215">
           <caret line="81" column="0" lean-forward="false" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -898,13 +895,6 @@
     <entry file="file://$PROJECT_DIR$/xidplus/stan_fit/SPIRE_hier_stack.py" />
     <entry file="file://$PROJECT_DIR$/xidplus/prior_routines.py" />
     <entry file="file://$PROJECT_DIR$/xidplus/segmentation.py" />
-    <entry file="file://$PROJECT_DIR$/stan_models/XID+SPIRE.stan">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/stan_models/XID+PACS.stan">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -919,13 +909,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/stan_models/XID+MIPS.stan">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="27" lean-forward="true" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/xidplus/stan_fit/PACS.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -937,7 +920,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1215">
           <caret line="81" column="0" lean-forward="false" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -945,36 +927,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/posterior_maps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
-          <caret line="52" column="38" lean-forward="false" selection-start-line="52" selection-start-column="4" selection-end-line="52" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/catalogue.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="372" column="21" lean-forward="false" selection-start-line="372" selection-start-column="21" selection-end-line="372" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/build/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/build/index.html" />
     <entry file="file://$PROJECT_DIR$/docs/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -987,21 +943,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="291">
           <caret line="22" column="11" lean-forward="false" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/posterior.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/tutorial.rst">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26">
+        <state relative-caret-position="120">
           <caret line="8" column="147" lean-forward="false" selection-start-line="8" selection-start-column="75" selection-end-line="8" selection-end-column="147" />
           <folding />
         </state>
@@ -1015,27 +962,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/prior.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1935">
-          <caret line="129" column="28" lean-forward="false" selection-start-line="129" selection-start-column="28" selection-end-line="129" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/moc_routines.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11">
-          <caret line="103" column="40" lean-forward="false" selection-start-line="103" selection-start-column="40" selection-end-line="103" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/xidplus/plots.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
+        <state relative-caret-position="900">
           <caret line="70" column="59" lean-forward="false" selection-start-line="70" selection-start-column="59" selection-end-line="71" selection-end-column="44" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
@@ -1045,33 +974,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/priors.rst">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="82">
+        <state relative-caret-position="120">
           <caret line="8" column="126" lean-forward="false" selection-start-line="8" selection-start-column="126" selection-end-line="8" selection-end-column="126" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/stan_fit/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="83">
-          <caret line="36" column="4" lean-forward="false" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/io.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="60" column="54" lean-forward="false" selection-start-line="60" selection-start-column="54" selection-end-line="60" selection-end-column="54" />
-          <folding>
-            <element signature="e#25#42#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/make.bat">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3539">
+        <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -1079,7 +990,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/conf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-745">
+        <state relative-caret-position="1500">
           <caret line="101" column="21" lean-forward="false" selection-start-line="101" selection-start-column="21" selection-end-line="101" selection-end-column="21" />
           <folding>
             <element signature="e#680#689#0" expanded="true" />
@@ -1087,28 +998,68 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/index.rst">
+    <entry file="file://$PROJECT_DIR$/req.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="16" column="15" lean-forward="false" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
+        <state relative-caret-position="90">
+          <caret line="6" column="7" lean-forward="false" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xidplus/__init__.py">
+    <entry file="file://$PROJECT_DIR$/xidplus/filters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+        <state relative-caret-position="106">
+          <caret line="90" column="64" lean-forward="false" selection-start-line="90" selection-start-column="64" selection-end-line="90" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/HELP/XID_plus/stan_models/XID+SED.stan">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-724">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/stan_fit/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="33" column="51" lean-forward="false" selection-start-line="33" selection-start-column="51" selection-end-line="33" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stan_models/XID+SED.stan">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="66" column="12" lean-forward="false" selection-start-line="66" selection-start-column="12" selection-end-line="66" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/moc_routines.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="988">
+          <caret line="103" column="40" lean-forward="false" selection-start-line="103" selection-start-column="40" selection-end-line="103" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/io.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
           <folding>
-            <element signature="e#24#39#0" expanded="true" />
+            <element signature="e#25#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
+    <entry file="file://$PROJECT_DIR$/docs/index.rst">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="30" lean-forward="false" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
+        <state relative-caret-position="169">
+          <caret line="21" column="6" lean-forward="false" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
           <folding />
         </state>
       </provider>
@@ -1130,19 +1081,99 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/req.txt">
+    <entry file="file://$PROJECT_DIR$/xidplus/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="7" lean-forward="false" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="7" />
+        <state relative-caret-position="30">
+          <caret line="2" column="6" lean-forward="false" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="30" lean-forward="false" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/intro.rst">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="28" column="3" lean-forward="false" selection-start-line="28" selection-start-column="3" selection-end-line="28" selection-end-column="22" />
+        <state relative-caret-position="225">
+          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="9" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/prior.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1617">
+          <caret line="279" column="44" lean-forward="false" selection-start-line="279" selection-start-column="44" selection-end-line="279" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stan_models/XID+SPIRE.stan">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-363">
+          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stan_models/XID+MIPS.stan">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-638">
+          <caret line="9" column="27" lean-forward="true" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/catalogue.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="131" column="0" lean-forward="true" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/posterior.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="13" column="37" lean-forward="false" selection-start-line="13" selection-start-column="37" selection-end-line="13" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/posterior_maps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-26">
+          <caret line="37" column="47" lean-forward="true" selection-start-line="37" selection-start-column="4" selection-end-line="37" selection-end-column="47" />
+          <folding>
+            <element signature="e#21#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/hpc.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="33" column="4" lean-forward="true" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="94" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xidplus/HPC.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-11">
+          <caret line="35" column="36" lean-forward="true" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
