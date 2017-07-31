@@ -88,15 +88,15 @@ data
   real SEDs[nTemp,nband,nz];
   //-----------------------
   //----other photometry----
-  vector[nband-3] flux_obs[nsrc];//in mJy
-  vector[nband-3] flux_sig[nsrc];//in mJy
-  real flux_cut[nband-3]; //flux cut in other bands
+  vector[nband-3] src_f_obs[nsrc];//in mJy
+  vector[nband-3] src_f_sig[nsrc];//in mJy
+  real src_f_cut[nband-3]; //src_f cut in other bands
 }
 
 parameters {
   real<lower=8, upper=14> Nbb[nsrc];
   //real<lower=0.001,upper=7> z[nsrc];
-  vector<lower=0.0>[nband] flux[nsrc];//vector of source fluxes
+  vector<lower=0.0>[nband] src_f[nsrc];//vector of source src_fes
   real bkg[3];//background
   real<lower=0.0> sigma_conf[3];
 
@@ -131,10 +131,9 @@ model{
         f_tmp[b]=pow(10.0,Nbb[i])*interpolateLinear(SEDs[t,b], z[i]*100.0);
 	}
 	//print(f_tmp)
-        ps[t]<-normal_lpdf(flux[i]|f_tmp,f_tmp/5.0);   
+        ps[t]<-normal_lpdf(src_f[i]|f_tmp,f_tmp/5.0);   
     }
     target+=log_sum_exp(ps);
-    //flux_obs[i]~normal(flux[i,4:nband],flux_sig[i]);
     //z~normal(z_mean,z_sig);
   }
 
@@ -145,7 +144,7 @@ model{
     sigma_tot_psw[k]<-sqrt(square(sigma_psw[k])+square(sigma_conf[1]));
   }
   for (k in 1:nnz_psw) {
-    db_hat_psw[Row_psw[k]+1] <- db_hat_psw[Row_psw[k]+1] + Val_psw[k]*flux[Col_psw[k]+1][1];
+    db_hat_psw[Row_psw[k]+1] <- db_hat_psw[Row_psw[k]+1] + Val_psw[k]*src_f[Col_psw[k]+1][1];
       }
 
   for (k in 1:npix_pmw) {
@@ -153,7 +152,7 @@ model{
     sigma_tot_pmw[k]<-sqrt(square(sigma_pmw[k])+square(sigma_conf[2]));
   }
   for (k in 1:nnz_pmw) {
-    db_hat_pmw[Row_pmw[k]+1] <- db_hat_pmw[Row_pmw[k]+1] + Val_pmw[k]*flux[Col_pmw[k]+1][2];
+    db_hat_pmw[Row_pmw[k]+1] <- db_hat_pmw[Row_pmw[k]+1] + Val_pmw[k]*src_f[Col_pmw[k]+1][2];
       }
 
   for (k in 1:npix_plw) {
@@ -161,7 +160,7 @@ model{
     sigma_tot_plw[k]<-sqrt(square(sigma_plw[k])+square(sigma_conf[3]));
   }
   for (k in 1:nnz_plw) {
-    db_hat_plw[Row_plw[k]+1] <- db_hat_plw[Row_plw[k]+1] + Val_plw[k]*flux[Col_plw[k]+1][3];
+    db_hat_plw[Row_plw[k]+1] <- db_hat_plw[Row_plw[k]+1] + Val_plw[k]*src_f[Col_plw[k]+1][3];
       }
 
   // likelihood of observed map|model map
@@ -169,10 +168,10 @@ model{
   db_pmw ~ normal(db_hat_pmw,sigma_tot_pmw);
   db_plw ~ normal(db_hat_plw,sigma_tot_plw);
 
-  // likelihood of other fluxes
+  // likelihood of other src_fes
   for (s in 1:nsrc){
 
-  flux_obs[s,1] ~normal(flux[s,1],flux_sig[s,1]) T[flux_cut[1],];
+  src_f_obs[s,1] ~normal(src_f[s,4],src_f_sig[s,1]) T[src_f_cut[1],];
 
 }
 
@@ -188,7 +187,7 @@ for (i in 1:nsrc){
 	for (b in 1:nband) {
         f_tmp[b]=pow(10.0,Nbb[i])*interpolateLinear(SEDs[t,b], z[i]*100.0);
 	}
-        p_raw[t] = (1.0/nTemp)*exp(normal_lpdf(flux[i]|f_tmp,f_tmp/5.0));
+        p_raw[t] = (1.0/nTemp)*exp(normal_lpdf(src_f[i]|f_tmp,f_tmp/5.0));
      }
      for (t in 1:nTemp){
      p[i,t]=p_raw[t]/sum(p_raw);
