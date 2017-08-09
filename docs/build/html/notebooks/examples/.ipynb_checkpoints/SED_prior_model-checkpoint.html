@@ -353,7 +353,7 @@ div.nboutput div.output_area.stderr {
 </style>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [29]:
+<span></span>In [23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -366,11 +366,62 @@ temps=os.listdir(&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm
 </pre></div>
 </div>
 </div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>temps
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[26]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&#39;Blue_SF_glx.norm_LIR&#39;,
+ &#39;BroadFIR_SF_glx.norm_LIR&#39;,
+ &#39;Cold_glx.norm_LIR&#39;,
+ &#39;Elliptical.norm_LIR&#39;,
+ &#39;Ly_break.norm_LIR&#39;,
+ &#39;MIR_powlaw_SF_glx.norm_LIR&#39;,
+ &#39;MIRex_SF_glx.norm_LIR&#39;,
+ &#39;Mod_SF_glx.norm_LIR&#39;,
+ &#39;Obs_SF_glx.norm_LIR&#39;,
+ &#39;PAH_DF_glx.norm_LIR&#39;,
+ &#39;Red_SF_glx_1.norm_LIR&#39;,
+ &#39;Red_SF_glx_2.norm_LIR&#39;,
+ &#39;Secular_glx.norm_LIR&#39;,
+ &#39;SF_glx_1.norm_LIR&#39;,
+ &#39;SF_glx_2.norm_LIR&#39;,
+ &#39;SF_Type1_AGN_1.norm_LIR&#39;,
+ &#39;SF_Type1_AGN_2.norm_LIR&#39;,
+ &#39;SF_Type1_AGN_3.norm_LIR&#39;,
+ &#39;SF_Type1_AGN_4.norm_LIR&#39;,
+ &#39;SF_Type2_AGN_1.norm_LIR&#39;,
+ &#39;SF_Type2_AGN_2.norm_LIR&#39;,
+ &#39;SF_Type2_AGN_3.norm_LIR&#39;,
+ &#39;Si_break.norm_LIR&#39;,
+ &#39;Spiral.norm_LIR&#39;,
+ &#39;Torus.norm_LIR&#39;,
+ &#39;Type1_AGN_1.norm_LIR&#39;,
+ &#39;Type2_AGN_1.norm_LIR&#39;,
+ &#39;Type2_AGN_2.norm_LIR&#39;,
+ &#39;Warm_SF_glx.norm_LIR&#39;,
+ &#39;WeakPAH_SF_glx_1.norm_LIR&#39;,
+ &#39;WeakPAH_SF_glx_2.norm_LIR&#39;,
+ &#39;Young_SF_glx.norm_LIR&#39;]
+</pre></div>
+</div>
+</div>
 <p>Generate Redshift Grid and convert to denominator for flux conversion
 (e.g. <span class="math">\(4 \pi D_l^2)\)</span></p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [30]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -386,24 +437,76 @@ div=div.value
 <p>Get appropriate filters</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [31]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>from xidplus import filters
 filter=filters.FilterFile(file=xidplus.__path__[0]+&#39;/../test_files/filters.res&#39;)
-SPIRE_250=filter.filters[215]
-SPIRE_350=filter.filters[216]
-SPIRE_500=filter.filters[217]
-MIPS_24=filter.filters[201]
-bands=[SPIRE_250,SPIRE_350,SPIRE_500,MIPS_24]
-eff_lam=[250.0,350.0,500.0,24.0]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>PACS_100.name
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[11]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&#39;PACS 100 Instrument Simulator as of Herschel Launch - 0251&#39;
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [43]:
+<span></span>In [12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+
+<span></span>SPIRE_250=filter.filters[215]
+SPIRE_350=filter.filters[216]
+SPIRE_500=filter.filters[217]
+PACS_100=filter.filters[250]
+bands=[SPIRE_250,SPIRE_350,SPIRE_500,PACS_100]
+eff_lam=[250.0,350.0,500.0,100.0]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>for b in bands:
+    print(b.name)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SPIRE 250 micron - 0216
+SPIRE 350 micron - 0217
+SPIRE 500 micron - 0218
+PACS 100 Instrument Simulator as of Herschel Launch - 0251
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -422,7 +525,7 @@ for i in range(0,len(temps)):
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [48]:
+<span></span>In [18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -433,17 +536,17 @@ plt.semilogy(red,SEDs[0,1,:]*np.power(10.0,12),c=&#39;g&#39;)
 plt.semilogy(red,SEDs[0,2,:]*np.power(10.0,12),c=&#39;r&#39;)
 plt.semilogy(red,SEDs[0,3,:]*np.power(10.0,12),c=&#39;m&#39;)
 
-plt.ylim(1E-4,1E2)
+plt.ylim(1E-4,1E4)
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[48]:
+<span></span>Out[18]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>(0.0001, 100.0)
+<span></span>(0.0001, 10000.0)
 </pre></div>
 </div>
 </div>
@@ -451,18 +554,42 @@ plt.ylim(1E-4,1E2)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../../_images/notebooks_examples_.ipynb_checkpoints_SED_prior_model-checkpoint_6_1.png" src="../../../_images/notebooks_examples_.ipynb_checkpoints_SED_prior_model-checkpoint_6_1.png" />
+<img alt="../../../_images/notebooks_examples_.ipynb_checkpoints_SED_prior_model-checkpoint_10_1.png" src="../../../_images/notebooks_examples_.ipynb_checkpoints_SED_prior_model-checkpoint_10_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>
+<span></span>np.save(&#39;SED_SPIRE_PACS100&#39;, SEDs)
 </pre></div>
 </div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SED_SPIRE_PACS100.npy
+SED_prior_model.ipynb
+XID+SPIRE.pkl
+XID+example_run_script.ipynb
+XID+posterior_analysis_validation.ipynb
+test.fits
+test.pkl
+</pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>

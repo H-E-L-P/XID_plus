@@ -431,7 +431,7 @@ and size as COSMOS</li>
 <span></span>In [1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>from astropy.io import ascii, fits
 import pylab as plt
 %matplotlib inline
@@ -451,7 +451,7 @@ import pickle
 <span></span>In [2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>xidplus.__path__[0]
 </pre></div>
 </div>
@@ -471,7 +471,7 @@ import pickle
 <span></span>In [3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>#Folder containing maps
 imfolder=xidplus.__path__[0]+&#39;/../test_files/&#39;
 
@@ -497,7 +497,7 @@ output_folder=&#39;./&#39;
 <span></span>In [4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>#-----250-------------
 hdulist = fits.open(pswfits)
 im250phdu=hdulist[0].header
@@ -536,7 +536,7 @@ hdulist.close()
 <span></span>In [5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>hdulist = fits.open(catfolder+prior_cat)
 fcat=hdulist[1].data
 hdulist.close()
@@ -562,7 +562,7 @@ resolution), have a radius of 100 arcseconds centered around an R.A. of
 <span></span>In [6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>from astropy.coordinates import SkyCoord
 from astropy import units as u
 c = SkyCoord(ra=[150.74]*u.degree, dec=[2.03]*u.degree)
@@ -581,7 +581,7 @@ function.</p>
 <span></span>In [7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>#---prior250--------
 prior250=xidplus.prior(im250,nim250,im250phdu,im250hdu, moc=moc)#Initialise with map, uncertianty map, wcs info and primary header
 prior250.prior_cat(inra,indec,prior_cat)#Set input catalogue
@@ -607,7 +607,7 @@ and assign it to the three XID+ prior classes.</p>
 <span></span>In [8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>#pixsize array (size of pixels in arcseconds)
 pixsize=np.array([pixsize250,pixsize350,pixsize500])
 #point response function for the three bands
@@ -638,7 +638,7 @@ prior500.set_prf(prf500.array,pind500,pind500)
 <span></span>In [9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>print(&#39;fitting &#39;+ str(prior250.nsrc)+&#39; sources \n&#39;)
 print(&#39;using &#39; +  str(prior250.snpix)+&#39;, &#39;+ str(prior250.snpix)+&#39; and &#39;+ str(prior500.snpix)+&#39; pixels&#39;)
 
@@ -664,7 +664,7 @@ prior class</p>
 <span></span>In [10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>prior250.get_pointing_matrix()
 prior350.get_pointing_matrix()
 prior500.get_pointing_matrix()
@@ -682,7 +682,7 @@ map in which the source makes a contribution to.</p>
 <span></span>In [11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>prior250.upper_lim_map()
 prior350.upper_lim_map()
 prior500.upper_lim_map()
@@ -695,7 +695,7 @@ prior500.upper_lim_map()
 <span></span>In [13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>from xidplus.stan_fit import SPIRE
 fit=SPIRE.all_bands(prior250,prior350,prior500,iter=1000)
 
@@ -725,7 +725,7 @@ alongside the prior classes</p>
 <span></span>In [14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>posterior=xidplus.posterior_stan(fit,[prior250,prior350,prior500])
 xidplus.save([prior250,prior350,prior500],posterior,&#39;test&#39;)
 </pre></div>
@@ -736,7 +736,7 @@ xidplus.save([prior250,prior350,prior500],posterior,&#39;test&#39;)
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>
 </pre></div>
 </div>
@@ -746,7 +746,7 @@ xidplus.save([prior250,prior350,prior500],posterior,&#39;test&#39;)
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>
 </pre></div>
 </div>
@@ -756,7 +756,7 @@ xidplus.save([prior250,prior350,prior500],posterior,&#39;test&#39;)
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>
 </pre></div>
 </div>
