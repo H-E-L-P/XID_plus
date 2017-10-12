@@ -11,6 +11,7 @@ class posterior_stan(object):
         self.samples=fit.extract()
         self.param_names=fit.model_pars
         self.scale_posterior(priors)
+        
         self.ID=priors[0].ID
         self.Rhat = {'src_f': fit.summary('src_f')['summary'][:, -1].reshape(priors[0].nsrc, len(priors)),
                      'sigma_conf': fit.summary('sigma_conf')['summary'][:, -1],

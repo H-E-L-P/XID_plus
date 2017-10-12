@@ -61,3 +61,63 @@ def all_bands(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
     fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True)
     #return fit data
     return fit
+
+def all_bands_gaussian(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000,optimise=False):
+    """
+    Fit the three SPIRE bands with informed prior
+
+    :param SPIRE_250: xidplus.prior class
+    :param SPIRE_350: xidplus.prior class
+    :param SPIRE_500: xidplus.prior class
+    :param chains: number of chains
+    :param iter: number of iterations
+    :return: pystan fit object
+    """
+    import numpy as np
+    
+    f_mu_250 = (SPIRE_250.prior_flux_mu - SPIRE_250.prior_flux_lower) / (SPIRE_250.prior_flux_upper - SPIRE_250.prior_flux_lower)
+    f_mu_350 = (SPIRE_350.prior_flux_mu - SPIRE_350.prior_flux_lower) / (SPIRE_350.prior_flux_upper - SPIRE_350.prior_flux_lower)
+    f_mu_500 = (SPIRE_500.prior_flux_mu - SPIRE_500.prior_flux_lower) / (SPIRE_500.prior_flux_upper - SPIRE_500.prior_flux_lower)
+    
+    f_sigma_250 = SPIRE_250.prior_flux_sigma / (SPIRE_250.prior_flux_upper - SPIRE_250.prior_flux_lower)
+    f_sigma_350 = SPIRE_350.prior_flux_sigma / (SPIRE_350.prior_flux_upper - SPIRE_350.prior_flux_lower)
+    f_sigma_500 = SPIRE_500.prior_flux_sigma / (SPIRE_500.prior_flux_upper - SPIRE_500.prior_flux_lower)
+
+    XID_data={'nsrc':SPIRE_250.nsrc,
+              'f_low_lim':[SPIRE_250.prior_flux_lower,SPIRE_350.prior_flux_lower,SPIRE_500.prior_flux_lower],
+              'f_up_lim':[SPIRE_250.prior_flux_upper,SPIRE_350.prior_flux_upper,SPIRE_500.prior_flux_upper],
+              'f_mu':[f_mu_250,f_mu_350,f_mu_500],
+              'f_sigma':[f_sigma_250,f_sigma_350,f_sigma_500],
+              'bkg_prior':[SPIRE_250.bkg[0],SPIRE_350.bkg[0],SPIRE_500.bkg[0]],
+              'bkg_prior_sig':[SPIRE_250.bkg[1],SPIRE_350.bkg[1],SPIRE_500.bkg[1]],
+          'npix_psw':SPIRE_250.snpix,
+          'nnz_psw':SPIRE_250.amat_data.size,
+          'db_psw':SPIRE_250.sim,
+          'sigma_psw':SPIRE_250.snim,
+          'Val_psw':SPIRE_250.amat_data,
+          'Row_psw': SPIRE_250.amat_row.astype(long),
+          'Col_psw': SPIRE_250.amat_col.astype(long),
+          'npix_pmw':SPIRE_350.snpix,
+          'nnz_pmw':SPIRE_350.amat_data.size,
+          'db_pmw':SPIRE_350.sim,
+          'sigma_pmw':SPIRE_350.snim,
+          'Val_pmw':SPIRE_350.amat_data,
+          'Row_pmw': SPIRE_350.amat_row.astype(long),
+          'Col_pmw': SPIRE_350.amat_col.astype(long),
+          'npix_plw':SPIRE_500.snpix,
+          'nnz_plw':SPIRE_500.amat_data.size,
+          'db_plw':SPIRE_500.sim,
+          'sigma_plw':SPIRE_500.snim,
+          'Val_plw':SPIRE_500.amat_data,
+          'Row_plw': SPIRE_500.amat_row.astype(long),
+          'Col_plw': SPIRE_500.amat_col.astype(long)}
+
+    #see if model has already been compiled. If not, compile and save it
+    model_file='/XID+SPIRE_gaussian'
+    from xidplus.stan_fit import get_stancode
+    sm = get_stancode(model_file)
+    
+    fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True)
+
+    #return fit data
+    return fit
