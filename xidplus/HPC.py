@@ -35,8 +35,7 @@ def hierarchical_tile(masterfile,tilefile):
     tiles_large = obj['tiles_large']
     order_large = obj['order_large']
 
-    with open(masterfile, 'rb') as f:
-        obj = pickle.load(f)
+    obj=xidplus.io.pickle_load(masterfile)
     priors = obj['priors']
 
     moc = moc_routines.get_fitting_region(order_large, tiles_large[taskid - 1])
