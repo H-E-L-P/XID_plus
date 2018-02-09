@@ -277,10 +277,11 @@ class prior(object):
             atemp = interpolate.griddata((ipx2.ravel(), ipy2.ravel()), self.prf.ravel(), (dx[good], dy[good]),
                                              method='nearest')
 
-            keep=atemp > np.max(atemp)/1.0E3
-            amat_data = np.append(amat_data, atemp[keep])
-            amat_row = np.append(amat_row,np.arange(0, self.snpix, dtype=int)[good][keep])  # what pixels the source contributes to
-            amat_col = np.append(amat_col, np.full(keep.sum(), s))  # what source we are on
+            if atemp.size > 0:
+                keep=atemp > np.max(atemp)/1.0E3
+                amat_data = np.append(amat_data, atemp[keep])
+                amat_row = np.append(amat_row,np.arange(0, self.snpix, dtype=int)[good][keep])  # what pixels the source contributes to
+                amat_col = np.append(amat_col, np.full(keep.sum(), s))  # what source we are on
 
 
         self.amat_data = amat_data
