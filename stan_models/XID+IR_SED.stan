@@ -111,7 +111,7 @@ data
   int nz;
   int nband;
   real SEDs[nTemp,nband,nz];
-  real SEDs_sig[nTemp,nz];
+  //real SEDs_sig[nTemp,nz];
   //-----------------------
 
 }
@@ -121,7 +121,6 @@ parameters {
   real<lower=0.001,upper=7> z[nsrc];
   vector<lower=0,upper=2000>[nband] src_f[nsrc];//vector of source src_fes
   real bkg[nband];//background
-  //real<lower=0.0> sigma_conf[nband];
 
 }
 transformed parameters{
@@ -179,53 +178,56 @@ model{
 
    
   // Create model maps (i.e. db_hat = A*f) using sparse multiplication
-  for (k in 1:npix_psw) {
-    db_hat_psw[k] <- bkg[1];
-    sigma_tot_psw[k]<-sqrt(square(sigma_psw[k])+square(sigma_conf[1]));
-  }
-  for (k in 1:nnz_psw) {
-    db_hat_psw[Row_psw[k]+1] <- db_hat_psw[Row_psw[k]+1] + Val_psw[k]*src_f[Col_psw[k]+1][1];
-      }
-
-  for (k in 1:npix_pmw) {
-    db_hat_pmw[k] <-  bkg[2];
-    sigma_tot_pmw[k]<-sqrt(square(sigma_pmw[k])+square(sigma_conf[2]));
-  }
-  for (k in 1:nnz_pmw) {
-    db_hat_pmw[Row_pmw[k]+1] <- db_hat_pmw[Row_pmw[k]+1] + Val_pmw[k]*src_f[Col_pmw[k]+1][2];
-      }
-
-  for (k in 1:npix_plw) {
-    db_hat_plw[k] <- bkg[3];
-    sigma_tot_plw[k]<-sqrt(square(sigma_plw[k])+square(sigma_conf[3]));
-  }
-  for (k in 1:nnz_plw) {
-    db_hat_plw[Row_plw[k]+1] <- db_hat_plw[Row_plw[k]+1] + Val_plw[k]*src_f[Col_plw[k]+1][3];
-      }
-
   for (k in 1:npix_mips24) {
-    db_hat_mips24[k] <- bkg[4];
-    sigma_tot_mips24[k]<-sqrt(square(sigma_mips24[k])+square(sigma_conf[4]));
+    db_hat_mips24[k] <- bkg[1];
+    sigma_tot_mips24[k]<-sqrt(square(sigma_mips24[k])+square(sigma_conf[1]));
   }
   for (k in 1:nnz_mips24) {
-    db_hat_mips24[Row_mips24[k]+1] <- db_hat_mips24[Row_mips24[k]+1] + Val_mips24[k]*src_f[Col_mips24[k]+1][4];
+    db_hat_mips24[Row_mips24[k]+1] <- db_hat_mips24[Row_mips24[k]+1] + Val_mips24[k]*src_f[Col_mips24[k]+1][1];
       }
 
   for (k in 1:npix_pacs100) {
-    db_hat_pacs100[k] <- bkg[5];
-    sigma_tot_pacs100[k]<-sqrt(square(sigma_pacs100[k])+square(sigma_conf[5]));
+    db_hat_pacs100[k] <- bkg[2];
+    sigma_tot_pacs100[k]<-sqrt(square(sigma_pacs100[k])+square(sigma_conf[2]));
   }
   for (k in 1:nnz_pacs100) {
-    db_hat_pacs100[Row_pacs100[k]+1] <- db_hat_pacs100[Row_pacs100[k]+1] + Val_pacs100[k]*src_f[Col_pacs100[k]+1][5];
+    db_hat_pacs100[Row_pacs100[k]+1] <- db_hat_pacs100[Row_pacs100[k]+1] + Val_pacs100[k]*src_f[Col_pacs100[k]+1][2];
       }
 
   for (k in 1:npix_pacs160) {
-    db_hat_pacs160[k] <- bkg[6];
-    sigma_tot_pacs160[k]<-sqrt(square(sigma_pacs160[k])+square(sigma_conf[6]));
+    db_hat_pacs160[k] <- bkg[3];
+    sigma_tot_pacs160[k]<-sqrt(square(sigma_pacs160[k])+square(sigma_conf[3]));
   }
   for (k in 1:nnz_pacs160) {
-    db_hat_pacs160[Row_pacs160[k]+1] <- db_hat_pacs160[Row_pacs160[k]+1] + Val_pacs160[k]*src_f[Col_pacs160[k]+1][6];
+    db_hat_pacs160[Row_pacs160[k]+1] <- db_hat_pacs160[Row_pacs160[k]+1] + Val_pacs160[k]*src_f[Col_pacs160[k]+1][3];
       }
+
+
+  for (k in 1:npix_psw) {
+    db_hat_psw[k] <- bkg[4];
+    sigma_tot_psw[k]<-sqrt(square(sigma_psw[k])+square(sigma_conf[4]));
+  }
+  for (k in 1:nnz_psw) {
+    db_hat_psw[Row_psw[k]+1] <- db_hat_psw[Row_psw[k]+1] + Val_psw[k]*src_f[Col_psw[k]+1][4];
+      }
+
+  for (k in 1:npix_pmw) {
+    db_hat_pmw[k] <-  bkg[5];
+    sigma_tot_pmw[k]<-sqrt(square(sigma_pmw[k])+square(sigma_conf[5]));
+  }
+  for (k in 1:nnz_pmw) {
+    db_hat_pmw[Row_pmw[k]+1] <- db_hat_pmw[Row_pmw[k]+1] + Val_pmw[k]*src_f[Col_pmw[k]+1][5];
+      }
+
+  for (k in 1:npix_plw) {
+    db_hat_plw[k] <- bkg[6];
+    sigma_tot_plw[k]<-sqrt(square(sigma_plw[k])+square(sigma_conf[6]));
+  }
+  for (k in 1:nnz_plw) {
+    db_hat_plw[Row_plw[k]+1] <- db_hat_plw[Row_plw[k]+1] + Val_plw[k]*src_f[Col_plw[k]+1][6];
+      }
+
+
 
   // likelihood of observed map|model map
   db_psw ~ normal(db_hat_psw,sigma_tot_psw);
