@@ -93,6 +93,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hpc.html">Large Fields</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../priors.html">Beyond Positional Priors</a></li>
 </ul>
 
@@ -216,6 +217,58 @@
 
     <span class="c1">#see if model has already been compiled. If not, compile and save it</span>
     <span class="n">model_file</span><span class="o">=</span><span class="s1">&#39;/XID+SPIRE&#39;</span>
+    <span class="kn">from</span> <span class="nn">xidplus.stan_fit</span> <span class="k">import</span> <span class="n">get_stancode</span>
+    <span class="n">sm</span> <span class="o">=</span> <span class="n">get_stancode</span><span class="p">(</span><span class="n">model_file</span><span class="p">)</span>
+
+
+    <span class="n">fit</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">sampling</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">XID_data</span><span class="p">,</span><span class="nb">iter</span><span class="o">=</span><span class="nb">iter</span><span class="p">,</span><span class="n">chains</span><span class="o">=</span><span class="n">chains</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1">#return fit data</span>
+    <span class="k">return</span> <span class="n">fit</span></div>
+
+<div class="viewcode-block" id="all_bands_log10"><a class="viewcode-back" href="../../../xidplus.stan_fit.html#xidplus.stan_fit.SPIRE.all_bands_log10">[docs]</a><span class="k">def</span> <span class="nf">all_bands_log10</span><span class="p">(</span><span class="n">SPIRE_250</span><span class="p">,</span><span class="n">SPIRE_350</span><span class="p">,</span><span class="n">SPIRE_500</span><span class="p">,</span><span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="nb">iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fit the three SPIRE bands</span>
+
+<span class="sd">    :param SPIRE_250: xidplus.prior class</span>
+<span class="sd">    :param SPIRE_350: xidplus.prior class</span>
+<span class="sd">    :param SPIRE_500: xidplus.prior class</span>
+<span class="sd">    :param chains: number of chains</span>
+<span class="sd">    :param iter: number of iterations</span>
+<span class="sd">    :return: pystan fit object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#input data into a dictionary</span>
+
+    <span class="n">XID_data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;nsrc&#39;</span><span class="p">:</span><span class="n">SPIRE_250</span><span class="o">.</span><span class="n">nsrc</span><span class="p">,</span>
+              <span class="s1">&#39;f_low_lim&#39;</span><span class="p">:[</span><span class="n">SPIRE_250</span><span class="o">.</span><span class="n">prior_flux_lower</span><span class="p">,</span><span class="n">SPIRE_350</span><span class="o">.</span><span class="n">prior_flux_lower</span><span class="p">,</span><span class="n">SPIRE_500</span><span class="o">.</span><span class="n">prior_flux_lower</span><span class="p">],</span>
+              <span class="s1">&#39;f_up_lim&#39;</span><span class="p">:[</span><span class="n">SPIRE_250</span><span class="o">.</span><span class="n">prior_flux_upper</span><span class="p">,</span><span class="n">SPIRE_350</span><span class="o">.</span><span class="n">prior_flux_upper</span><span class="p">,</span><span class="n">SPIRE_500</span><span class="o">.</span><span class="n">prior_flux_upper</span><span class="p">],</span>
+              <span class="s1">&#39;bkg_prior&#39;</span><span class="p">:[</span><span class="n">SPIRE_250</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">SPIRE_350</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">SPIRE_500</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+              <span class="s1">&#39;bkg_prior_sig&#39;</span><span class="p">:[</span><span class="n">SPIRE_250</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">SPIRE_350</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">SPIRE_500</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+          <span class="s1">&#39;npix_psw&#39;</span><span class="p">:</span><span class="n">SPIRE_250</span><span class="o">.</span><span class="n">snpix</span><span class="p">,</span>
+          <span class="s1">&#39;nnz_psw&#39;</span><span class="p">:</span><span class="n">SPIRE_250</span><span class="o">.</span><span class="n">amat_data</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+          <span class="s1">&#39;db_psw&#39;</span><span class="p">:</span><span class="n">SPIRE_250</span><span class="o">.</span><span class="n">sim</span><span class="p">,</span>
+          <span class="s1">&#39;sigma_psw&#39;</span><span class="p">:</span><span class="n">SPIRE_250</span><span class="o">.</span><span class="n">snim</span><span class="p">,</span>
+          <span class="s1">&#39;Val_psw&#39;</span><span class="p">:</span><span class="n">SPIRE_250</span><span class="o">.</span><span class="n">amat_data</span><span class="p">,</span>
+          <span class="s1">&#39;Row_psw&#39;</span><span class="p">:</span> <span class="n">SPIRE_250</span><span class="o">.</span><span class="n">amat_row</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">long</span><span class="p">),</span>
+          <span class="s1">&#39;Col_psw&#39;</span><span class="p">:</span> <span class="n">SPIRE_250</span><span class="o">.</span><span class="n">amat_col</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">long</span><span class="p">),</span>
+          <span class="s1">&#39;npix_pmw&#39;</span><span class="p">:</span><span class="n">SPIRE_350</span><span class="o">.</span><span class="n">snpix</span><span class="p">,</span>
+          <span class="s1">&#39;nnz_pmw&#39;</span><span class="p">:</span><span class="n">SPIRE_350</span><span class="o">.</span><span class="n">amat_data</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+          <span class="s1">&#39;db_pmw&#39;</span><span class="p">:</span><span class="n">SPIRE_350</span><span class="o">.</span><span class="n">sim</span><span class="p">,</span>
+          <span class="s1">&#39;sigma_pmw&#39;</span><span class="p">:</span><span class="n">SPIRE_350</span><span class="o">.</span><span class="n">snim</span><span class="p">,</span>
+          <span class="s1">&#39;Val_pmw&#39;</span><span class="p">:</span><span class="n">SPIRE_350</span><span class="o">.</span><span class="n">amat_data</span><span class="p">,</span>
+          <span class="s1">&#39;Row_pmw&#39;</span><span class="p">:</span> <span class="n">SPIRE_350</span><span class="o">.</span><span class="n">amat_row</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">long</span><span class="p">),</span>
+          <span class="s1">&#39;Col_pmw&#39;</span><span class="p">:</span> <span class="n">SPIRE_350</span><span class="o">.</span><span class="n">amat_col</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">long</span><span class="p">),</span>
+          <span class="s1">&#39;npix_plw&#39;</span><span class="p">:</span><span class="n">SPIRE_500</span><span class="o">.</span><span class="n">snpix</span><span class="p">,</span>
+          <span class="s1">&#39;nnz_plw&#39;</span><span class="p">:</span><span class="n">SPIRE_500</span><span class="o">.</span><span class="n">amat_data</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+          <span class="s1">&#39;db_plw&#39;</span><span class="p">:</span><span class="n">SPIRE_500</span><span class="o">.</span><span class="n">sim</span><span class="p">,</span>
+          <span class="s1">&#39;sigma_plw&#39;</span><span class="p">:</span><span class="n">SPIRE_500</span><span class="o">.</span><span class="n">snim</span><span class="p">,</span>
+          <span class="s1">&#39;Val_plw&#39;</span><span class="p">:</span><span class="n">SPIRE_500</span><span class="o">.</span><span class="n">amat_data</span><span class="p">,</span>
+          <span class="s1">&#39;Row_plw&#39;</span><span class="p">:</span> <span class="n">SPIRE_500</span><span class="o">.</span><span class="n">amat_row</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">long</span><span class="p">),</span>
+          <span class="s1">&#39;Col_plw&#39;</span><span class="p">:</span> <span class="n">SPIRE_500</span><span class="o">.</span><span class="n">amat_col</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">long</span><span class="p">)}</span>
+
+    <span class="c1">#see if model has already been compiled. If not, compile and save it</span>
+    <span class="n">model_file</span><span class="o">=</span><span class="s1">&#39;/XID+logSPIRE&#39;</span>
     <span class="kn">from</span> <span class="nn">xidplus.stan_fit</span> <span class="k">import</span> <span class="n">get_stancode</span>
     <span class="n">sm</span> <span class="o">=</span> <span class="n">get_stancode</span><span class="p">(</span><span class="n">model_file</span><span class="p">)</span>
 

@@ -1,0 +1,1126 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>&lt;no title&gt; &mdash; XID+ 2.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="XID+ 2.0.0 documentation" href="../../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> XID+
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hpc.html">Large Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../priors.html">Beyond Positional Priors</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">XID+</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>&lt;no title&gt;</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/notebooks/examples/SED_prior_model.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-bold { font-weight: bold; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>import os
+import numpy as np
+from astropy.io import ascii
+from scipy.interpolate import interp1d
+import xidplus
+temps=os.listdir(&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm_LIR/&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>temps
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[2]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&#39;Blue_SF_glx.norm_LIR&#39;,
+ &#39;BroadFIR_SF_glx.norm_LIR&#39;,
+ &#39;Cold_glx.norm_LIR&#39;,
+ &#39;Elliptical.norm_LIR&#39;,
+ &#39;Ly_break.norm_LIR&#39;,
+ &#39;MIR_powlaw_SF_glx.norm_LIR&#39;,
+ &#39;MIRex_SF_glx.norm_LIR&#39;,
+ &#39;Mod_SF_glx.norm_LIR&#39;,
+ &#39;Obs_SF_glx.norm_LIR&#39;,
+ &#39;PAH_DF_glx.norm_LIR&#39;,
+ &#39;Red_SF_glx_1.norm_LIR&#39;,
+ &#39;Red_SF_glx_2.norm_LIR&#39;,
+ &#39;Secular_glx.norm_LIR&#39;,
+ &#39;SF_glx_1.norm_LIR&#39;,
+ &#39;SF_glx_2.norm_LIR&#39;,
+ &#39;SF_Type1_AGN_1.norm_LIR&#39;,
+ &#39;SF_Type1_AGN_2.norm_LIR&#39;,
+ &#39;SF_Type1_AGN_3.norm_LIR&#39;,
+ &#39;SF_Type1_AGN_4.norm_LIR&#39;,
+ &#39;SF_Type2_AGN_1.norm_LIR&#39;,
+ &#39;SF_Type2_AGN_2.norm_LIR&#39;,
+ &#39;SF_Type2_AGN_3.norm_LIR&#39;,
+ &#39;Si_break.norm_LIR&#39;,
+ &#39;Spiral.norm_LIR&#39;,
+ &#39;Torus.norm_LIR&#39;,
+ &#39;Type1_AGN_1.norm_LIR&#39;,
+ &#39;Type2_AGN_1.norm_LIR&#39;,
+ &#39;Type2_AGN_2.norm_LIR&#39;,
+ &#39;Warm_SF_glx.norm_LIR&#39;,
+ &#39;WeakPAH_SF_glx_1.norm_LIR&#39;,
+ &#39;WeakPAH_SF_glx_2.norm_LIR&#39;,
+ &#39;Young_SF_glx.norm_LIR&#39;]
+</pre></div>
+</div>
+</div>
+<p>Generate Redshift Grid and convert to denominator for flux conversion
+(e.g. <span class="math">\(4 \pi D_l^2)\)</span></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>red=np.arange(0,8,0.01)
+red[0]=0.000001
+from astropy.cosmology import Planck13
+import astropy.units as u
+div=(4.0*np.pi * np.square(Planck13.luminosity_distance(red).cgs))
+div=div.value
+</pre></div>
+</div>
+</div>
+<p>Get appropriate filters</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>from xidplus import filters
+filter=filters.FilterFile(file=xidplus.__path__[0]+&#39;/../test_files/filters.res&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>filter.names()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+    1 Koo-Kron U+ filter (Koo&#39;s thesis) - 0001
+    2 Koo-Kron J+ filter (Koo&#39;s thesis) - 0002
+    3 Koo-Kron F+ filter (Koo&#39;s thesis) - 0003
+    4 Koo-Kron N+ filter (Koo&#39;s thesis) - 0004
+    5 Koo-Kron R band (=127+RG610, data from Koo, Durham) - 0005
+    6 Couch and Newell (80) BJ (photographic) filter - 0006
+    7 Couch and Newell (80) RF (photographic) filter - 0007
+    8 Koo-Kron U+ filter (Bruzual&#39;s thesis) - 0008
+    9 Koo-Kron J+ filter (Bruzual&#39;s thesis) - 0009
+   10 Koo-Kron F+ filter (Bruzual&#39;s thesis) - 0010
+   11 Koo-Kron N+ filter (Bruzual&#39;s thesis) - 0011
+   12 Buser&#39;s U filter - 0012
+   13 Buser&#39;s B2 filter - 0013
+   14 Buser&#39;s B3 filter - 0014
+   15 Buser&#39;s V filter - 0015
+   16 Matthews and Sandage U filter - 0016
+   17 Matthews and Sandage B filter - 0017
+   18 Matthews and Sandage V filter - 0018
+   19 Sandage and Smith B filter - 0019
+   20 Sandage and Smith V filter - 0020
+   21 Sandage and Smith R filter - 0021
+   22 ST-UV14 filter - 0022
+   23 ST-UV17 filter - 0023
+   24 ST-UV22 filter - 0024
+   25 ST-UV27 filter - 0025
+   26 OAO-UV1 filter - 0026
+   27 OAO-UV2 filter - 0027
+   28 OAO-UV3 filter - 0028
+   29 OAO-UV4 filter - 0029
+   30 OAO-UV5 filter - 0030
+   31 OAO-UV6 filter - 0031
+   32 Johnson&#39;s R filter - 0032
+   33 Johnson&#39;s I filter - 0033
+   34 Johnson&#39;s J filter - 0034
+   35 Johnson&#39;s K filter - 0035
+   36 Johnson&#39;s L filter - 0036
+   37 Butcher&#39;s r filter - 0037
+   38 Butcher&#39;s i filter - 0038
+   39 Butcher-Oemler R filter (10/75 1978, data from Koo, Durham) - 0039
+   40 Butcher-Oemler R filter ( 5/76 1978, data from Koo, Durham) - 0040
+   41 Bessell u filter - 0041
+   42 Bessell g filter - 0042
+   43 Bessell r filter - 0043
+   44 UKIRT H FILTER (Leiden, 1983) - 0044
+   45 R. S. Ellis U(PE) filter - 0045
+   46 R. S. Ellis J filter - 0046
+   47 R. S. Ellis R filter - 0047
+   48 R. S. Ellis N filter - 0048
+   49 C. MacKay and P. Hall KG3 filter (Cambridge) - 0049
+   50 C. MacKay and P. Hall I filter (Cambridge) - 0050
+   51 Gunn g filter + four-shooter Ti CCD + Palomar 200&#34; atmospher - 0051
+   52 Gunn r filter + four-shooter Ti CCD + Palomar 200&#34; atmospher - 0052
+   53 Gunn i filter + four-shooter Ti CCD + Palomar 200&#34; atmospher - 0053
+   54 Gunn z filter + four-shooter Ti CCD + Palomar 200&#34; atmospher - 0054
+   55 IR J filter + Palomar 200 IR detectors + atmosphere - 0055
+   56 IR H filter + Palomar 200 IR detectors + atmosphere - 0056
+   57 IR K filter + Palomar 200 IR detectors + atmosphere - 0057
+   58 NOAO CTIO 4m ISPI J#186 - 0058
+   59 NOAO CTIO 4m ISPI H#187 - 0059
+   60 NOAO CTIO 4m ISPI K&#39;#188 - 0060
+   61 A. Tyson J filter - 0061
+   62 A. Tyson R filter - 0062
+   63 A. Tyson I filter - 0063
+   64 ANS 1550 Wide Filter (J. Koorneef) - 0064
+   65 ANS 1800 Filter (J. Koorneef) - 0065
+   66 ANS 2200 Filter (J. Koorneef) - 0066
+   67 ANS 2500 Filter (J. Koorneef) - 0067
+   68 ANS 3300 Filter (J. Koorneef) - 0068
+   69 Approximate U band for Lilly and Cowie - 0069
+   70 Approximate I band for Lilly and Cowie - 0070
+   71 IRAS 12 micron, Neugebauer etal 1984,ApJL,278,L1 - 0071
+   72 IRAS 25 micron, Neugebauer etal 1984,ApJL,278,L1 - 0072
+   73 IRAS 60 micron, Neugebauer etal 1984,ApJL,278,L1 - 0073
+   74 IRAS 100 micron, Neugebauer etal 1984,ApJL,278,L1 - 0074
+   75 H filter Bessell and Brett PASP 100, 1134, 1988 - 0075
+   76 J filter Bessell and Brett PASP 100, 1134, 1988 - 0076
+   77 K filter Bessell and Brett PASP 100, 1134, 1988 - 0077
+   78 L (3.5 microns) filter Bessell and Brett PASP 100, 1134, 1988 - 0078
+   79 L&#39; (3.8 microns) filter Bessell and Brett PASP 100, 1134, 1988 - 0079
+   80 M filter Bessell and Brett PASP 100, 1134, 1988 - 0080
+   81 IRAM MAMBO-1 1.2 mm, 37 channel (winter 99/00 -today) - 0081
+   82 IRAM MAMBO-2 1.2 mm,117 channel - 0082
+   83 g Gunn (original) - 0083
+   84 r Gunn (original) - 0084
+   85 i Gunn (original) - 0085
+   86 z (original) - 0086
+   87 z + RCA - 0087
+   88 CCD RCA ESO (JPP reference) - 0088
+   89 CCD RCA CAHA (Manual d&#39;utilisateurs) - 0089
+   90 B CAHA (original manuel) - 0090
+   91 B Bessell - 0091
+   92 V Bessell - 0092
+   93 R Bessell - 0093
+   94 I Bessell - 0094
+   95 K Prime CFHT Redeye - 0095
+   96 CCD RCA2 CFHT (Manuel utilisateurs) - 0096
+   97 Bj TYSON (orig. filter AT, private com.) - 0097
+   98 CCD TEK#25 (ESO, Manuel Utilisateurs) - 0098
+   99 CCD LORAL#34 (ESO, Manuel Utilisateurs) - 0099
+  100 CCD SAIC#1 (CFH, Manuel Utilisateurs) - 0100
+  101 CCD Lick2 CFHT (CFH, Manuel Utilisateurs) - 0101
+  102 ESO NTT SUSI B Bessell#639 - 0102
+  103 ESO NTT SUSI V Bessell#641 - 0103
+  104 ESO NTT SUSI R Bessell#642 - 0104
+  105 ESO NTT EMMI V#606 - 0105
+  106 B#4402 CFHT - 0106
+  107 R#4609 CFHT - 0107
+  108 B #1412 CFHT FOCAM - 0108
+  109 B #1414 CFHT B Tyson selon JB - 0109
+  110 V #1504 CFHT - 0110
+  111 V #1510 CFHT FOCAM - 0111
+  112 R #1611 CFHT - 0112
+  113 I #1808 CFHT FOCAM - 0113
+  114 I #1809 CFHT FOCAM - 0114
+  115 Thomson THX 31156 CCD#17 ESO - 0115
+  116 Thomson THX 31156 CCD#18 ESO - 0116
+  117 R#585 Bessell ESO - 0117
+  118 K #6 UKIRT - 0118
+  119 Passe-tout - 0119
+  120 F555W + WFPC2 normalized - 0120
+  121 F814W + WFPC2 normalized - 0121
+  122 F300W + WFPC2 normalized - 0122
+  123 F450W + WFPC2 normalized - 0123
+  124 F606W + WFPC2 normalized - 0124
+  125 F702W + WFPC2 normalized - 0125
+  126 F675W + WFPC2 normalized - 0126
+  127 F336W + WFPC2 normalized - 0127
+  128 ESO NTT 3.6m SOFI Js - 0128
+  129 ESO NTT 3.6m SOFI J - 0129
+  130 ESO NTT 3.6m SOFI H - 0130
+  131 ESO NTT 3.6m SOFI Ks - 0131
+  132 KPNO IRIM 2.12 Filter - 0132
+  133 KPNO IRIM 2.14 Filter - 0133
+  134 KPNO IRIM 2.16 Filter - 0134
+  135 KPNO IRIM H Filter - 0135
+  136 KPNO IRIM J Filter - 0136
+  137 KPNO IRIM K Filter - 0137
+  138 KPNO IRIM K&#39; Filter - 0138
+  139 VLT Test Camera Detector&#39;s Quantum Efficiency - 0139
+  140 B-band filter of the VLT Test Camera - 0140
+  141 V-band filter of the VLT Test Camera - 0141
+  142 R-band filter of the VLT Test Camera - 0142
+  143 I-band filter of the VLT Test Camera - 0143
+  144 SUSI2&#39;s CCDs Quantum Efficiency - 0144
+  145 SUSI Bessell U #801 - 0145
+  146 SUSI Bessell B #811 - 0146
+  147 SUSI Bessell V #812 - 0147
+  148 SUSI Bessell R #813 - 0148
+  149 SUSI Bessell I #814 - 0149
+  150 FORS Standard U (including instrument + CCD) - 0150
+  151 FORS Standard B (including instrument + CCD) - 0151
+  152 FORS Standard V (including instrument + CCD) - 0152
+  153 FORS Cousins R (including instrument + CCD) - 0153
+  154 FORS Cousins I (including instrument + CCD) - 0154
+  155 FORS Gunn G (including instrument + CCD) - 0155
+  156 ESO 2.2m WFI U#841 + CCD#57 + wfi_2p2_optics (U/38 AKA U38) - 0156
+  157 ESO 2.2m WFI B#842 + CCD#57 (old B/99, for new see B/123) - 0157
+  158 ESO 2.2m WFI V#843 + CCD#57 + wfi_2p2_optics (V/89) - 0158
+  159 ESO 2.2m WFI Rc#844 + CCD#57 + wfi_2p2_optics (Rc/162) - 0159
+  160 ESO 2.2m WFI Ic#845 + CCD#57 + wfi_2p2_optics (Ic/lwp) - 0160
+  161 ESO 2.2m WFI Z#846 + CCD#57 + wfi_2p2_optics (Z+/61) - 0161
+  162 ESO 2.2m WFI U#877 + CCD57 + wfi_2p2_optics (U/50 AKA U35) - 0162
+  163 ESO 2.2m WFI B#878 + CCD#57 + wfi_2p2_optic (latest B filter B/123) - 0163
+  164 SDSS u (http://www.sdss.org/dr7/instruments/imager/index.html) - 0164
+  165 SDSS g (http://www.sdss.org/dr7/instruments/imager/index.html) - 0165
+  166 SDSS r (http://www.sdss.org/dr7/instruments/imager/index.html) - 0166
+  167 SDSS i (http://www.sdss.org/dr7/instruments/imager/index.html) - 0167
+  168 SDSS z (http://www.sdss.org/dr7/instruments/imager/index.html) - 0168
+  169 ESO VST OmegaCAM u - 0169
+  170 ESO VST OmegaCAM g - 0170
+  171 ESO VST OmegaCAM r - 0171
+  172 ESO VST OmegaCAM i - 0172
+  173 ESO VST OmegaCAM z - 0173
+  174 CFHT CFH12k B (Mould) - 0174
+  175 CFHT CFH12k V (Mould) - 0175
+  176 CFHT CFH12k R (Mould) - 0176
+  177 CFHT CFH12k I (Mould) - 0177
+  178 CFHT CFH12k Z (Prime) - 0178
+  179 JCMT SCUBA 450 micron - 0179
+  180 JCMT SCUBA 850 micron - 0180
+  181 AzTEC 1.1 mm - 0181
+  182 Infamous 2.2m UH8K B filter + loral3 + MK atmosphere - 0182
+  183 2.2m UH8K V filter + loral 3 + atmosphere - 0183
+  184 2.2m UH8K I filter + MK atmosphere - 0184
+  185 KPNO B, from AAT Users Manual - 0185
+  186 H+K filter - 0186
+  187 Wyin filter U (filter + CCD reponse) - 0187
+  188 Wyin filter B (filter + CCD reponse) - 0188
+  189 ESO VLT ISAAC J (ESO web pages) - 0189
+  190 ESO VLT ISAAC H (ESO web pages) - 0190
+  191 ESO VLT ISAAC Ks (ESO web pages) - 0191
+  192 ESO VLT ISAAC L (ESO web pages) - 0192
+  193 ESO VLT ISAAC M (ESO web pages) - 0193
+  194 Palomar 200&#34; WIRC J - 0194
+  195 Palomar 200&#34; WIRC K - 0195
+  196 Calar Alto 3.5m Omega2000 J - 0196
+  197 Calar Alto 3.5m OmegaPrime K - 0197
+  198 Spitzer IRAC CH1 (3.6 micron) - 0198
+  199 Spitzer IRAC CH2 (4.5 microns) - 0199
+  200 Spitzer IRAC CH3 (5.8 microns) - 0200
+  201 Spitzer IRAC CH4 (8.0 microns) - 0201
+  202 Spitzer MIPS CH1 (24 microns) - 0202
+  203 Subaru SuprimeCam U - 0203
+  204 Subaru SuprimeCam B - 0204
+  205 Subaru SuprimeCam V - 0205
+  206 Subaru SuprimeCam r - 0206
+  207 Subaru SuprimeCam i - 0207
+  208 Subaru SuprimeCam z - 0208
+  209 UH 2.2m QUIRC H+K (AKA HK&#39;) - 0209
+  210 CFHT MEgaCam i2 AKA y (new,after October 2007 - http://cadcwww.dao.nrc.ca/megapipe/docs/filters.html) - 0210
+  211 NOAO KPNO 4m FLAMINGOS J (J-2000toJuly2003) - 0211
+  212 NOAO KPNO 4m FLAMINGOS H (H-2000toJuly2003) - 0212
+  213 NOAO KPNO 4m FLAMINGOS Ks (Ks-2000toJuly2003) - 0213
+  214 Spitzer MIPS CH2 (70 micron) - 0214
+  215 Spitzer MIPS CH3 (160 micron) - 0215
+  216 SPIRE 250 micron - 0216
+  217 SPIRE 350 micron - 0217
+  218 SPIRE 500 micron - 0218
+  219 2MASS J - 0219
+  220 2MASS H - 0220
+  221 2MASS Ks - 0221
+  222 UKIRT WFCAM (UKIDSS) J - 0222
+  223 UKIRT WFCAM (UKIDSS) H - 0223
+  224 UKIRT WFCAM (UKIDSS) K - 0224
+  225 INT WFC u - 0225
+  226 INT WFC g - 0226
+  227 INT WFC r - 0227
+  228 INT WFC i - 0228
+  229 INT WFC z - 0229
+  230 NOAO KPNO 4m MOSAIC1 U band (k1001) - 0230
+  231 NOAO KPNO 4m MOSAIC1 g band (SDSS k1017) - 0231
+  232 NOAO KPNO 4m MOSAIC1 r band (SDSS k1018) - 0232
+  233 NOAO KPNO 4m MOSAIC1 i band (SDSS k1019) - 0233
+  234 NOAO KPNO 4m MOSAIC1 z band (SDSS k1020) - 0234
+  235 NOAO CTIO 4m MOSAIC2 u band (SDSS c6022) - 0235
+  236 NOAO CTIO 4m MOSAIC2 g band (SDSS c6017) - 0236
+  237 NOAO CTIO 4m MOSAIC2 r band (SDSS c6018) - 0237
+  238 NOAO CTIO 4m MOSAIC2 i band (SDSS c6019) - 0238
+  239 NOAO CTIO 4m MOSAIC2 z band (SDSS c6022) - 0239
+  240 NOAO CTIO 4m MOSAIC2 U band (c6001) - 0240
+  241 CFHT MEgaCam u* http://www2.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/community/CFHTLS-SG/docs/extra/filters.html - 0241
+  242 CFHT MegaCam g http://www2.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/community/CFHTLS-SG/docs/extra/filters.html - 0242
+  243 CFHT MegaCam r http://www2.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/community/CFHTLS-SG/docs/extra/filters.html - 0243
+  244 CFHT MegaCam i AKA i1 (old, before Octorber 2007 for new see CFHT MegaCam i2 AKA y; http://cadcwww.dao.nrc.ca/megapipe/docs/filters.html) - 0244
+  245 CFHT MegaCam z http://www2.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/community/CFHTLS-SG/docs/extra/filters.html - 0245
+  246 AKARI N60 http://www.ir.isas.jaxa.jp/AKARI/Observation/RSRF/FIS_FAD/index.html - 0246
+  247 AKARI WIDE-S http://www.ir.isas.jaxa.jp/AKARI/Observation/RSRF/FIS_FAD/index.html - 0247
+  248 AKARI WIDE-L http://www.ir.isas.jaxa.jp/AKARI/Observation/RSRF/FIS_FAD/index.html - 0248
+  249 AKARI N160 http://www.ir.isas.jaxa.jp/AKARI/Observation/RSRF/FIS_FAD/index.html - 0249
+  250 PACS 70 Instrument Simulator as of Herschel Launch - 0250
+  251 PACS 100 Instrument Simulator as of Herschel Launch - 0251
+  252 PACS 160 Instrument Simulator as of Herschel Launch - 0252
+  253 NOAO KPNO 4m FLAMINGOS J from 2003 to present: http://flamingos.astro.ufl.edu/Filter_Info/index.html (FLAMINGOS.BARR.J.MAN240B.WarmFilter.txt) - 0253
+  254 NOAO KPNO 4m FLAMINGOS H from 2003 to present: http://flamingos.astro.ufl.edu/Filter_Info/index.html (FLAMINGOS.BARR.H.MAN109A.WarmFilter.txt) - 0254
+  255 NOAO KPNO 4m FLAMINGOS Ks from 2003 to present: http://flamingos.astro.ufl.edu/Filter_Info/index.html (FLAMINGOS.BARR.Ks.MAN306A.WarmFilter.txt) - 0255
+  256 NOAO KPNO 4m FLAMINGOS K from 2003 to present: http://flamingos.astro.ufl.edu/Filter_Info/index.html (FLAMINGOS.K-band.2000toPresentDay.NOAO-OCLI-Filter.txt) - 0256
+  257 Subaru SuprimeCam Rc - 0257
+  258 Subaru SuprimeCam Ic - 0258
+  259 Subaru SuprimeCam g - 0259
+  260 Spitzer IRS 16 micron (bluePUtrans) - 0260
+  261 Spitzer IRS 22 micron (redPUtrans) - 0261
+  262 ESO VLT VIMOS U (transmission is average of 4 quadrants) - 0262
+  263 ESO VLT VIMOS B (transmission is average of 4 quadrants) - 0263
+  264 ESO VLT VIMOS V (transmission is average of 4 quadrants) - 0264
+  265 ESO VLT VIMOS R (transmission is average of 4 quadrants) - 0265
+  266 ESO VLT VIMOS I (transmission is average of 4 quadrants) - 0266
+  267 ESO VLT VIMOS z (transmission is average of 4 quadrants) - 0267
+  268 NOAO KPNO 4m MOSAIC1 R - 0268
+  269 UKIRT WFCAM (UKIDSS) Z - 0269
+  270 UKIRT WFCAM (UKIDSS) Y - 0270
+  271 CFHT WIRCam J (cfh8101) - 0271
+  272 CFHT WIRCam H (cfh8201) - 0272
+  273 CFHT WIRCam Ks (cfh8302) - 0273
+  274 NOAO KPNO 4m MOSAIC1 Bw - 0274
+  275 NOAO KPNO 4m MOSAIC1 B - 0275
+  276 NOAO KPNO 4m MOSAIC1 V - 0276
+  277 NOAO KPNO 4m MOSAIC1 I - 0277
+  278 NOAO CTIO 4m MOSAIC2 B - 0278
+  279 NOAO CTIO 4m MOSAIC2 V - 0279
+  280 NOAO CTIO 4m MOSAIC2 R - 0280
+  281 NOAO CTIO 4m MOSAIC2 I - 0281
+  282 TIFKAM/ONIS J - 0282
+  283 TIFKAM/ONIS H - 0283
+  284 TIFKAM/ONIS K - 0284
+  285 90prime SDSS-u - 0285
+  286 90prime SDSS-z - 0286
+  287 90prime U - 0287
+  288 90prime B - 0288
+  289 90prime V - 0289
+  290 90prime R - 0290
+  291 90prime I - 0291
+  292 90prime_Washington_M - 0292
+  293 NEWFIRM J - 0293
+  294 NEWFIRM H - 0294
+  295 NEWFIRM Ks - 0295
+  296 GALEX NUV - 0296
+  297 GALEX FUV - 0297
+  298 MMT Megacam u - 0298
+  299 MMT Megacam g - 0299
+  300 MMT Megacam r - 0300
+  301 MMT Megacam i - 0301
+  302 MMT Megacam z - 0302
+  303 Subaru MOIRCS Y - 0303
+  304 Subaru MOIRCS J - 0304
+  305 Subaru MOIRCS H - 0305
+  306 Subaru MOIRCS Ks - 0306
+  307 Subaru MOIRCS K - 0307
+  308 APEX SABOCA 350 micron - 0308
+  309 APEX LABOCA 850 micron - 0309
+  310 HST NIC3 F110W (J) - 0310
+  311 HST NIC3 F160W (H) - 0311
+  312 HST NIC3 F222M (K) - 0312
+  313 HST ACS/WFC F435W (B) - 0313
+  314 HST ACS/WFC F606W (V) - 0314
+  315 HST ACS/WFC F814W (I) - 0315
+  316 HST ACS/WFC F475W (g) - 0316
+  317 HST ACS/WFC F625W (r) - 0317
+  318 HST ACS/WFC F775W (i) - 0318
+  319 HST ACS/WFC F850LP (z) - 0319
+  320 Subaru SuprimeCam IA427 - 0320
+  321 Subaru SuprimeCam IA445 - 0321
+  322 Subaru SuprimeCam IA464 - 0322
+  323 Subaru SuprimeCam IA484 - 0323
+  324 Subaru SuprimeCam IA505 - 0324
+  325 Subaru SuprimeCam IA527 - 0325
+  326 Subaru SuprimeCam IA550 - 0326
+  327 Subaru SuprimeCam IA574 - 0327
+  328 Subaru SuprimeCam IA598 - 0328
+  329 Subaru SuprimeCam IA624 - 0329
+  330 Subaru SuprimeCam IA651 - 0330
+  331 Subaru SuprimeCam IA679 - 0331
+  332 Subaru SuprimeCam IA709 - 0332
+  333 Subaru SuprimeCam IA738 - 0333
+  334 Subaru SuprimeCam IA767 - 0334
+  335 Subaru SuprimeCam IA797 - 0335
+  336 Subaru SuprimeCam IA827 - 0336
+  337 Subaru SuprimeCam IA856 - 0337
+  338 Subaru SuprimeCam IA907 - 0338
+  339 Subaru SuprimeCam NA656 - 0339
+  340 Subaru SuprimeCam NB711 - 0340
+  341 Subaru SuprimeCam NB816 - 0341
+  342 Subaru SuprimeCam NB921 - 0342
+  343 LBT-LBC blue Uspec - 0343
+  344 LBT-LBC blue U - 0344
+  345 LBT-LBC blue B - 0345
+  346 LBT-LBC blue V - 0346
+  347 LBT-LBC blue g (#1) - 0347
+  348 LBT-LBC blue r (#1) - 0348
+  349 LBT-LBC red V - 0349
+  350 LBT-LBC red R - 0350
+  351 LBT-LBC red I - 0351
+  352 LBT-LBC red r - 0352
+  353 LBT-LBC red i - 0353
+  354 LBT-LBC red z - 0354
+  355 LBT-LBC red F972N20 - 0355
+  356 LBT-LBC red Y - 0356
+  357 ISO CAM LW2 (6.7/7 micron) - 0357
+  358 ISO CAM LW10 (12 micron) - 0358
+  359 ISO CAM LW3 (14.3/15 micron) -0359
+  360 ISO PHT C100-DETECTOR C90-FILTER (90/5 micron) - 0360
+  361 ISO PHT C200-DETECTOR C160-FILTER (170/5 micron) - 0361
+  362 VISTA VIRCAM Z - 0362
+  363 VISTA VIRCAM Y - 0363
+  364 VISTA VIRCAM J - 0364
+  365 VISTA VIRCAM H - 0365
+  366 VISTA VIRCAM Ks - 0366
+  367 HST WFC3 F125W [J band]- 0367
+  368 HST WFC3 F160W [H band]- 0368
+  369 AKARI IRC N2 - 0369
+  370 AKARI IRC N3 - 0370
+  371 AKARI IRC N4 - 0371
+  372 AKARI IRC S7 - 0372
+  373 AKARI IRC S9W - 0373
+  374 AKARI IRC S11 - 0374
+  375 AKARI IRC L15 - 0375
+  376 AKARI IRC L18W - 0376
+  377 AKARI IRC L24 - 0377
+  378 WISE 1 (3.4 mum) - 0378
+  379 WISE 2 (4.6 mum) - 0379
+  380 WISE 3 (12 mum) - 0380
+  381 WISE 4 (22 mum) - 0381
+  382 Pan-STARRS1 gp1 - 0382
+  383 Pan-STARRS1 rp1 - 0383
+  384 Pan-STARRS1 ip1 - 0384
+  385 Pan-STARRS1 zp1 - 0385
+  386 Pan-STARRS1 yp1 - 0386
+  387 Pan-STARRS1 wp1 - 0387
+  388
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+
+<span></span>SPIRE_250=filter.filters[215]
+SPIRE_350=filter.filters[216]
+SPIRE_500=filter.filters[217]
+PACS_100=filter.filters[250]
+PACS_160=filter.filters[251]
+
+bands=[SPIRE_250,SPIRE_350,SPIRE_500,PACS_100,PACS_160]
+eff_lam=[250.0,350.0,500.0,100.0, 160.0]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>for b in bands:
+    print(b.name)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SPIRE 250 micron - 0216
+SPIRE 350 micron - 0217
+SPIRE 500 micron - 0218
+PACS 100 Instrument Simulator as of Herschel Launch - 0251
+PACS 160 Instrument Simulator as of Herschel Launch - 0252
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>import pandas as pd
+template=ascii.read(&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm_LIR/&#39;+temps[0])
+df=pd.DataFrame(template[&#39;col1&#39;].data/1E4,columns=[&#39;wave&#39;])
+print(template[&#39;col1&#39;].data/1E4)
+SEDs=np.empty((len(temps),len(bands),red.size))
+for i in range(0,len(temps)):
+    template=ascii.read(&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm_LIR/&#39;+temps[i])
+    df[temps[i]]=1E30*3.826E33*template[&#39;col2&#39;]*((template[&#39;col1&#39;]/1E4)**2)/3E14
+
+    flux=template[&#39;col2&#39;]*((template[&#39;col1&#39;]/1E4)**2)/3E14
+    wave=template[&#39;col1&#39;]/1E4
+
+    for z in range(0,red.size):
+        sed=interp1d((red[z]+1.0)*wave, flux)
+        for b in range(0,len(bands)):
+            SEDs[i,b,z]=1E30*3.826E33*(1.0+red[z])*filters.fnu_filt(sed(bands[b].wavelength/1E4),3E8/(bands[b].wavelength/1E10),bands[b].transmission,3E8/(eff_lam[b]*1E-6),sed(eff_lam[b]))/div[z]
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[  9.09999900e-03   9.40000000e-03   9.59999900e-03 ...,   1.92899989e+03
+   1.93899920e+03   1.94899898e+03]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>temps[0]
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[31]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&#39;Blue_SF_glx.norm_LIR&#39;
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>import pylab as plt
+%matplotlib inline
+plt.semilogy(red,SEDs[0,0,:]*np.power(10.0,12))
+plt.semilogy(red,SEDs[0,1,:]*np.power(10.0,12),c=&#39;g&#39;)
+plt.semilogy(red,SEDs[0,2,:]*np.power(10.0,12),c=&#39;r&#39;)
+plt.semilogy(red,SEDs[0,3,:]*np.power(10.0,12),c=&#39;m&#39;)
+
+plt.ylim(1E-4,1E4)
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[17]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>(0.0001, 10000.0)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_examples_SED_prior_model_11_1.png" src="../../_images/notebooks_examples_SED_prior_model_11_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>np.save(&#39;SED_Herschel&#39;, SEDs)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SED_SPIRE_PACS100.npy
+SED_prior_model.ipynb
+XID+SPIRE.pkl
+XID+example_run_script.ipynb
+XID+posterior_analysis_validation.ipynb
+test.fits
+test.pkl
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>for i in range(0,len(temps)):
+    template=ascii.read(&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm_LIR/&#39;+temps[i])
+    flux=template[&#39;col2&#39;]*((template[&#39;col1&#39;]/1E4)**2)/3E14
+    wave=template[&#39;col1&#39;]/1E4
+    plt.loglog(wave,flux)
+    plt.xlim(8,800)
+    plt.ylim(10E-20,10E-16)
+    plt.plot([250.0,350.0,500.0, 100.0],SEDs[i,:,0])
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_examples_SED_prior_model_14_0.png" src="../../_images/notebooks_examples_SED_prior_model_14_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>df.to_pickle(&#39;SEDS_Herschel_full.pkl&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Peter Hurley.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'2.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
