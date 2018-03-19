@@ -25,7 +25,7 @@ def create_PACS_cat(posterior, prior100, prior160):
 
     # ----table info-----------------------
     # first define columns
-    c1 = fits.Column(name='help_id', format='100A', array=prior100.ID)
+    c1 = fits.Column(name='help_id', format='27A', array=prior100.ID)
     c2 = fits.Column(name='RA', format='D', unit='degrees', array=prior100.sra)
     c3 = fits.Column(name='Dec', format='D', unit='degrees', array=prior100.sdec)
     c4 = fits.Column(name='F_PACS_100', format='E', unit='mJy',
@@ -37,9 +37,9 @@ def create_PACS_cat(posterior, prior100, prior160):
     c7 = fits.Column(name='F_PACS_160', format='E', unit='mJy',
                      array=np.percentile(posterior.samples['src_f'][:,1,:],50.0,axis=0))
     c8 = fits.Column(name='FErr_PACS_160_u', format='E', unit='mJy',
-                     array=np.percentile(posterior.samples['src_f'][:,0,:],84.1,axis=0))
+                     array=np.percentile(posterior.samples['src_f'][:,1,:],84.1,axis=0))
     c9 = fits.Column(name='FErr_PACS_160_l', format='E', unit='mJy',
-                     array=np.percentile(posterior.samples['src_f'][:,0,:],15.9,axis=0))
+                     array=np.percentile(posterior.samples['src_f'][:,1,:],15.9,axis=0))
     c10 = fits.Column(name='Bkg_PACS_100', format='E', unit='mJy/Beam',
                       array=np.full(nsrc,np.percentile(posterior.samples['bkg'][:,0],50.0,axis=0)))
     c11 = fits.Column(name='Bkg_PACS_160', format='E', unit='mJy/Beam',
@@ -144,7 +144,7 @@ def create_MIPS_cat(posterior, prior24, Bayes_P24):
     Bayes_P24 = postmaps.Bayes_Pval_res(prior24, rep_maps[0])
     # ----table info-----------------------
     # first define columns
-    c1 = fits.Column(name='help_id', format='100A', array=prior24.ID)
+    c1 = fits.Column(name='help_id', format='27A', array=prior24.ID)
     c2 = fits.Column(name='RA', format='D', unit='degrees', array=prior24.sra)
     c3 = fits.Column(name='Dec', format='D', unit='degrees', array=prior24.sdec)
     c4 = fits.Column(name='F_MIPS_24', format='E', unit='muJy',
@@ -235,7 +235,7 @@ def create_SPIRE_cat(posterior,prior250,prior350,prior500):
 
     #----table info-----------------------
     #first define columns
-    c1 = fits.Column(name='HELP_ID', format='100A', array=prior250.ID)
+    c1 = fits.Column(name='HELP_ID', format='27A', array=prior250.ID)
     c2 = fits.Column(name='RA', format='D', unit='degrees', array=prior250.sra)
     c3 = fits.Column(name='Dec', format='D', unit='degrees', array=prior250.sdec)
     c4 = fits.Column(name='F_SPIRE_250', format='E', unit='mJy',

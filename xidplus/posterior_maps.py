@@ -21,7 +21,7 @@ def ymod_map(prior,flux):
 
 
 def Bayesian_pvals(prior,post_rep_map):
-    """Get Bayesian P values for ech pixel
+    """Get Bayesian P values for each pixel
 
     :param prior: xidplus.prior class
     :param post_rep_map: posterior replicated maps
@@ -61,11 +61,11 @@ def Bayes_Pval_res(prior,post_rep_map):
     Bayes_pval_res_vals=np.empty((prior.nsrc))
     for i in range(0,prior.nsrc):
         ind= prior.amat_col == i
+        t = np.sum(((post_rep_map[prior.amat_row[ind], :] - prior.sim[prior.amat_row[ind], None]) / (
+        np.sqrt(2) * prior.snim[prior.amat_row[ind], None])) ** 2.0, axis=0)
+        ind_T = t / ind.sum() > 2
+        Bayes_pval_res_vals[i] = ind_T.sum()/np.float(post_rep_map.shape[1])
 
-        T_data=np.sum((((prior.sim[prior.amat_row[ind]]-np.median(post_rep_map[prior.amat_row[ind],:],axis=1))/prior.snim[prior.amat_row[ind]])**2))
-        T_rep=np.sum((((post_rep_map[prior.amat_row[ind],:]-np.median(post_rep_map[prior.amat_row[ind],:],axis=1)[:,None])/np.std(post_rep_map[prior.amat_row[ind],:],axis=1)[:,None])**2),axis=0)
-        ind_T=T_data > 2*T_rep
-        Bayes_pval_res_vals[i]=sum(ind_T)/np.float(post_rep_map.shape[1])
     return Bayes_pval_res_vals
 
 
@@ -94,13 +94,18 @@ def replicated_maps(priors,posterior,nrep=1000):
     :param nrep: number of replicated maps
     :return: 
     """
-    from xidplus import posterior_maps as postmaps
     mod_map_array=list(map(lambda prior:np.empty((prior.snpix,nrep)), priors))
     for i in range(0,nrep):
-        for b in range(0,len(priors)):
-            mod_map_array[b][:,i]= postmaps.ymod_map(priors[b] \
-                                                     ,posterior.samples['src_f'][i,b,:]).reshape(-1) \
-            +posterior.samples['bkg'][i,b] \
-            +np.random.normal(scale=np.sqrt(priors[b].snim**2\
-                                            +posterior.samples['sigma_conf'][i,b]**2))
+        try:
+            for b in range(0,len(priors)):
+                mod_map_array[b][:,i]= ymod_map(priors[b],posterior.samples['src_f'][i,b,:]).reshape(-1)\
+                                       +posterior.samples['bkg'][i,b]\
+                                       +np.random.normal(scale=np.sqrt(priors[b].snim**2
+                                                                       +posterior.samples['sigma_conf'][i,b]**2))
+        except IndexError:
+            for b in range(0,len(priors)):
+                mod_map_array[b][:,i]= ymod_map(priors[b],posterior.samples['src_f'][i,b,:]).reshape(-1)\
+                                       +posterior.samples['bkg'][i]\
+                                       +np.random.normal(scale=np.sqrt(priors[b].snim**2
+                                                                       +posterior.samples['sigma_conf'][i]**2))
     return mod_map_array

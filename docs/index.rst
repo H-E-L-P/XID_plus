@@ -19,6 +19,7 @@ It is being actively developed in a public repository on `GitHub <https://github
 
    intro
    tutorial
+   hpc
    priors
 
 

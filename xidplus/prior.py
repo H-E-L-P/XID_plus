@@ -114,7 +114,7 @@ class prior(object):
         self.nsrc = self.sra.size
         self.prior_cat = prior_cat_file
         if flux_lower is None:
-            flux_lower = np.full((ra.size), 0.01)
+            flux_lower = np.full((ra.size), 0.00)
             flux_upper = np.full((ra.size), 1000.0)
         self.prior_flux_lower = flux_lower
         self.prior_flux_upper = flux_upper
@@ -164,7 +164,7 @@ class prior(object):
             ID = np.arange(1, ra.size + 1, dtype='int64')
         self.ID = np.append(self.ID, ID)
         if flux_lower is None:
-            flux_lower = np.full((ra.size), 0.01)
+            flux_lower = np.full((ra.size), 0.00)
             flux_upper = np.full((ra.size), 1000.0)
             self.prior_flux_lower = np.append(self.prior_flux_lower,flux_lower)
             self.prior_flux_upper = np.append(self.prior_flux_upper,flux_upper)
@@ -277,11 +277,11 @@ class prior(object):
             atemp = interpolate.griddata((ipx2.ravel(), ipy2.ravel()), self.prf.ravel(), (dx[good], dy[good]),
                                              method='nearest')
 
-
-            keep=atemp > np.max(atemp)/1.0E6
-            amat_data = np.append(amat_data, atemp[keep])
-            amat_row = np.append(amat_row,np.arange(0, self.snpix, dtype=int)[good][keep])  # what pixels the source contributes to
-            amat_col = np.append(amat_col, np.full(keep.sum(), s))  # what source we are on
+            if atemp.size > 0:
+                keep=atemp > np.max(atemp)/1.0E3
+                amat_data = np.append(amat_data, atemp[keep])
+                amat_row = np.append(amat_row,np.arange(0, self.snpix, dtype=int)[good][keep])  # what pixels the source contributes to
+                amat_col = np.append(amat_col, np.full(keep.sum(), s))  # what source we are on
 
 
         self.amat_data = amat_data
