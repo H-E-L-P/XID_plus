@@ -36,6 +36,9 @@ class prior(object):
             self.prior_flux_upper = self.prior_flux_upper[sgood]
         if hasattr(self, 'prior_flux_lower'):
             self.prior_flux_lower = self.prior_flux_lower[sgood]
+        if hasattr(self,'z_median'):
+            self.z_median=self.z_median[sgood]
+            self.z_sig=self.z_sig[sgood]
 
     def cut_down_prior(self):
 
@@ -86,7 +89,7 @@ class prior(object):
 
         self.bkg = (mu, sigma)
 
-    def prior_cat(self, ra, dec, prior_cat_file, flux_lower=None, flux_upper=None, ID=None, moc=None):
+    def prior_cat(self, ra, dec, prior_cat_file, flux_lower=None, flux_upper=None, ID=None, moc=None,z_median=None,z_sig=None):
         """Input info for prior catalogue
 
         :param ra: Right ascension (JD2000) of sources
@@ -96,6 +99,8 @@ class prior(object):
         :param flux_upper: upper limit of flux for each source
         :param ID: HELP_ID for each source
         :param moc: Multi-Order Coverage map
+        :param z_median: median of redshift pdf
+        :param z_sig: sigma of redshift pdf
         """
         # get positions of sources in terms of pixels
         wcs_temp = wcs.WCS(self.imhdu)
@@ -118,6 +123,9 @@ class prior(object):
             flux_upper = np.full((ra.size), 1000.0)
         self.prior_flux_lower = flux_lower
         self.prior_flux_upper = flux_upper
+        if z_median is not None:
+            self.z_median=z_median
+            self.z_sig=z_sig
 
         if ID is None:
             ID = np.arange(1, ra.size + 1, dtype='int64')
