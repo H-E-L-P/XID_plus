@@ -111,23 +111,36 @@ data
   int nz;
   int nband;
   real SEDs[nTemp,nband,nz];
-  real SEDs_sig[nTemp,nz];
   //-----------------------
 
 }
 
 parameters {
-  real<lower=8, upper=14> Nbb[nsrc];
+  vector<lower=5, upper=14>[nTemp] Nbb[nsrc];
   real<lower=0.001,upper=7> z[nsrc];
-  vector<lower=0,upper=2000>[nband] src_f[nsrc];//vector of source src_fes
   real bkg[nband];//background
 
 }
 transformed parameters{
   real<lower=0.0> sigma_conf[nband];
+  vector[nband] src_f[nsrc];//vector of source src_fes
+
   for (i in 1:nband){
     sigma_conf[i]=0.0;
 }
+  for (i in 1:nsrc){
+vector[nTemp] f_tmp[nband];
+    for (b in 1:nband){
+        for (t in 1:nTemp){
+
+            f_tmp[b,t]=pow(10.0,Nbb[i,t])*interpolateLinear(SEDs[t,b], z[i]*100.0);
+
+        }
+        src_f[i,b]=sum(f_tmp[b]);
+
+    }
+}
+
 }
 
 
@@ -139,6 +152,7 @@ model{
   vector[npix_mips24] db_hat_mips24;//model of map
   vector[npix_pacs100] db_hat_pacs100;//model of map
   vector[npix_pacs160] db_hat_pacs160;//model of map
+
 
 
 
@@ -158,23 +172,11 @@ model{
   //sigma_conf[i] ~normal(0,conf_prior_sig[i]);
   }
 
+    z~normal(z_median,z_sig);
 
 
-  for (i in 1:nsrc){
-    vector[nTemp] ps;//log prob
-    z[i]~normal(z_median[i],z_sig[i]);
 
-    for (t in 1:nTemp){
-        vector[nband] f_tmp;
-	for (b in 1:nband){
-        f_tmp[b]=pow(10.0,Nbb[i])*interpolateLinear(SEDs[t,b], z[i]*100.0);
-	}
-	//print(f_tmp)
-        ps[t]<-normal_lpdf(src_f[i]|f_tmp,0.3*f_tmp);//pow(10.0,Nbb[i])*interpolateLinear(SEDs_sig[t],z[i]*100.0));
-    }
-    target+=log_sum_exp(ps);
 
-  }
 
    
   // Create model maps (i.e. db_hat = A*f) using sparse multiplication
@@ -234,24 +236,4 @@ model{
   db_pacs100 ~ normal(db_hat_pacs100,sigma_tot_pacs100);
   db_pacs160 ~ normal(db_hat_pacs160,sigma_tot_pacs160);
 
-
-
-
-}
-generated quantities {
-
-matrix[nsrc,nTemp] p;
-for (i in 1:nsrc){
-    vector[nTemp] p_raw;
-     for (t in 1:nTemp){
-        vector[nband] f_tmp;
-	for (b in 1:nband) {
-        f_tmp[b]=pow(10.0,Nbb[i])*interpolateLinear(SEDs[t,b], z[i]*100.0);
-	}
-        p_raw[t] = (1.0/nTemp)*exp(normal_lpdf(src_f[i]|f_tmp,0.3*f_tmp));//pow(10.0,Nbb[i])*interpolateLinear(SEDs_sig[t],z[i]*100.0)));
-     }
-     for (t in 1:nTemp){
-     p[i,t]=p_raw[t]/sum(p_raw);
-     }
- }
 }

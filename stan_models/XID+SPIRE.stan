@@ -65,7 +65,7 @@ model {
   bkg[i] ~normal(bkg_prior[i],bkg_prior_sig[i]);
 
  //Prior on conf
-  sigma_conf[i] ~normal(0,5);
+  sigma_conf[i] ~cauchy(0,0.5);
   }
    
   // Create model maps (i.e. db_hat = A*f) using sparse multiplication
