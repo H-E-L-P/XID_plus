@@ -10,7 +10,7 @@ def create_PACS_cat(posterior, prior100, prior160):
 
     """
     Create PACS catalogue from posterior
-    
+
     :param posterior: PACS xidplus.posterior class
     :param prior100:  PACS 100 xidplus.prior class
     :param prior160:  PACS 160 xidplus.prior class
@@ -108,7 +108,7 @@ def create_PACS_cat(posterior, prior100, prior160):
 
     tbhdu.header.set('TUCD17', 'stat.value', after='TFORM17')
     tbhdu.header.set('TDESC17', '160 MCMC independence statistic', after='TUCD17')
-    
+
     tbhdu.header.set('TUCD18','stat.value',after='TFORM18')
     tbhdu.header.set('TDESC18','100 Bayes Pval residual statistic',after='TUCD18')
 
@@ -132,7 +132,7 @@ def create_MIPS_cat(posterior, prior24, Bayes_P24):
 
     """
     Create MIPS catalogue from posterior
-    
+
     :param posterior: MIPS xidplus.posterior class
     :param prior24: MIPS xidplus.prior class
     :param Bayes_P24:  Bayes Pvalue residual statistic for MIPS 24
@@ -160,7 +160,7 @@ def create_MIPS_cat(posterior, prior24, Bayes_P24):
     c9 = fits.Column(name='Rhat_MIPS_24', format='E', array=posterior.Rhat['src_f'][:,0])
     c10 = fits.Column(name='n_eff_MIPS_24', format='E', array=posterior.n_eff['src_f'][:,0])
     c11 = fits.Column(name='Pval_res_24', format='E', array=Bayes_P24)
-    
+
     tbhdu = fits.BinTableHDU.from_columns([c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11])
 
     tbhdu.header.set('TUCD1', 'ID', after='TFORM1')
@@ -209,6 +209,85 @@ def create_MIPS_cat(posterior, prior24, Bayes_P24):
     return thdulist
 # noinspection PyPackageRequirements
 
+def create_SCUBA_cat(posterior, priorS2, S2band):
+
+    """
+    Create SCUBA2 catalogue from posterior
+
+    :param posterior: SCUBA2 xidplus.posterior class
+    :param prior24: SCUBA2 xidplus.prior class
+    :return: fits hdulist
+    """
+    import datetime
+    nsrc=priorS2.nsrc
+    rep_maps = postmaps.replicated_maps([priorS2], posterior)
+    Bayes_PS2 = postmaps.Bayes_Pval_res(priorS2, rep_maps[0])
+    # ----table info-----------------------
+    # first define columns
+    c1 = fits.Column(name='help_id', format='27A', array=priorS2.ID)
+    c2 = fits.Column(name='RA', format='D', unit='degrees', array=priorS2.sra)
+    c3 = fits.Column(name='Dec', format='D', unit='degrees', array=priorS2.sdec)
+    c4 = fits.Column(name='F_SCUBA2_'+S2band, format='E', unit='mJy',
+                     array=np.percentile(posterior.samples['src_f'][:,0,:],50.0,axis=0))
+    c5 = fits.Column(name='FErr_SCUBA2_'+S2band+'_u', format='E', unit='mJy',
+                     array=np.percentile(posterior.samples['src_f'][:,0,:],84.1,axis=0))
+    c6 = fits.Column(name='FErr_SCUBA2_'+S2band+'_l', format='E', unit='mJy',
+                     array=np.percentile(posterior.samples['src_f'][:,0,:],15.9,axis=0))
+    c7 = fits.Column(name='Bkg_SCUBA2_'+S2band, format='E', unit='mJy/beam',
+                     array=np.full(nsrc,np.percentile(posterior.samples['bkg'][:,0],50.0,axis=0)))
+    c8 = fits.Column(name='Sig_conf_'+S2band, format='E', unit='mJy/beam',
+                     array=np.full(nsrc, np.percentile(posterior.samples['sigma_conf'][:,0],50.0,axis=0)))
+    c9 = fits.Column(name='Rhat_SCUBA2_'+S2band, format='E', array=posterior.Rhat['src_f'][:,0])
+    c10 = fits.Column(name='n_eff_SCUBA2_', format='E', array=posterior.n_eff['src_f'][:,0])
+    c11 = fits.Column(name='Pval_res_'+S2band, format='E', array=Bayes_PS2)
+
+    tbhdu = fits.BinTableHDU.from_columns([c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11])
+
+    tbhdu.header.set('TUCD1', 'ID', after='TFORM1')
+    tbhdu.header.set('TDESC1', 'ID of source', after='TUCD1')
+
+    tbhdu.header.set('TUCD2', 'pos.eq.RA', after='TUNIT2')
+    tbhdu.header.set('TDESC2', 'R.A. of object J2000', after='TUCD2')
+
+    tbhdu.header.set('TUCD3', 'pos.eq.DEC', after='TUNIT3')
+    tbhdu.header.set('TDESC3', 'Dec. of object J2000', after='TUCD3')
+
+    tbhdu.header.set('TUCD4', 'phot.flux.density', after='TUNIT4')
+    tbhdu.header.set('TDESC4', S2band+' Flux (at 50th percentile)', after='TUCD4')
+
+    tbhdu.header.set('TUCD5','phot.flux.density',after='TUNIT5')
+    tbhdu.header.set('TDESC5',S2band+' Flux (at 84.1 percentile) ',after='TUCD5')
+
+    tbhdu.header.set('TUCD6','phot.flux.density',after='TUNIT6')
+    tbhdu.header.set('TDESC6',S2band+' Flux (at 15.9 percentile)',after='TUCD6')
+
+    tbhdu.header.set('TUCD7','phot.flux.density',after='TUNIT7')
+    tbhdu.header.set('TDESC7',S2band+' background',after='TUCD7')
+
+    tbhdu.header.set('TUCD8','phot.flux.density',after='TUNIT8')
+    tbhdu.header.set('TDESC8',S2band+' residual confusion noise',after='TUCD8')
+
+    tbhdu.header.set('TUCD9','stat.value',after='TFORM9')
+    tbhdu.header.set('TDESC9',S2band+' MCMC Convergence statistic',after='TUCD9')
+
+    tbhdu.header.set('TUCD10','stat.value',after='TFORM10')
+    tbhdu.header.set('TDESC10',S2band+' MCMC independence statistic',after='TUCD10')
+
+    tbhdu.header.set('TUCD11','stat.value',after='TFORM11')
+    tbhdu.header.set('TDESC11',S2band+' Bayes Pval residual statistic',after='TUCD11')
+
+    #----Primary header-----------------------------------
+    prihdr = fits.Header()
+    prihdr['Prior_Cat'] = priorS2.prior_cat
+    prihdr['TITLE']   = 'XID+SCUBA2 catalogue'
+    #prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change
+    prihdr['CREATOR'] = 'WPX'
+    prihdr['XIDplus'] = io.git_version()
+    prihdr['DATE']    = datetime.datetime.now().isoformat()
+    prihdu = fits.PrimaryHDU(header=prihdr)
+    thdulist = fits.HDUList([prihdu, tbhdu])
+    return thdulist
+# noinspection PyPackageRequirements
 
 def create_SPIRE_cat(posterior,prior250,prior350,prior500):
 
@@ -277,7 +356,7 @@ def create_SPIRE_cat(posterior,prior250,prior350,prior500):
     c25 = fits.Column(name='Pval_res_250', format='E', array=Bayes_P250)
     c26 = fits.Column(name='Pval_res_350', format='E', array=Bayes_P350)
     c27 = fits.Column(name='Pval_res_500', format='E', array=Bayes_P500)
-    
+
 
     tbhdu = fits.BinTableHDU.from_columns([c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11,
                             c12, c13, c14, c15, c16, c17, c18, c19, c20, c21, c22,
@@ -286,46 +365,46 @@ def create_SPIRE_cat(posterior,prior250,prior350,prior500):
     tbhdu.header.set('TUCD1','ID',after='TFORM1')
     tbhdu.header.set('TDESC1','ID of source',after='TUCD1')
 
-    tbhdu.header.set('TUCD2','pos.eq.RA',after='TUNIT2')      
-    tbhdu.header.set('TDESC2','R.A. of object J2000',after='TUCD2') 
+    tbhdu.header.set('TUCD2','pos.eq.RA',after='TUNIT2')
+    tbhdu.header.set('TDESC2','R.A. of object J2000',after='TUCD2')
 
-    tbhdu.header.set('TUCD3','pos.eq.DEC',after='TUNIT3')      
-    tbhdu.header.set('TDESC3','Dec. of object J2000',after='TUCD3') 
+    tbhdu.header.set('TUCD3','pos.eq.DEC',after='TUNIT3')
+    tbhdu.header.set('TDESC3','Dec. of object J2000',after='TUCD3')
 
-    tbhdu.header.set('TUCD4','phot.flux.density',after='TUNIT4')      
-    tbhdu.header.set('TDESC4','250 Flux (at 50th percentile)',after='TUCD4') 
+    tbhdu.header.set('TUCD4','phot.flux.density',after='TUNIT4')
+    tbhdu.header.set('TDESC4','250 Flux (at 50th percentile)',after='TUCD4')
 
-    tbhdu.header.set('TUCD5','phot.flux.density',after='TUNIT5')      
-    tbhdu.header.set('TDESC5','250 Flux (at 84.1 percentile) ',after='TUCD5') 
+    tbhdu.header.set('TUCD5','phot.flux.density',after='TUNIT5')
+    tbhdu.header.set('TDESC5','250 Flux (at 84.1 percentile) ',after='TUCD5')
 
-    tbhdu.header.set('TUCD6','phot.flux.density',after='TUNIT6')      
-    tbhdu.header.set('TDESC6','250 Flux (at 15.9 percentile)',after='TUCD6') 
+    tbhdu.header.set('TUCD6','phot.flux.density',after='TUNIT6')
+    tbhdu.header.set('TDESC6','250 Flux (at 15.9 percentile)',after='TUCD6')
 
-    tbhdu.header.set('TUCD7','phot.flux.density',after='TUNIT7')      
-    tbhdu.header.set('TDESC7','350 Flux (at 50th percentile)',after='TUCD7') 
+    tbhdu.header.set('TUCD7','phot.flux.density',after='TUNIT7')
+    tbhdu.header.set('TDESC7','350 Flux (at 50th percentile)',after='TUCD7')
 
-    tbhdu.header.set('TUCD8','phot.flux.density',after='TUNIT8')      
-    tbhdu.header.set('TDESC8','350 Flux (at 84.1 percentile) ',after='TUCD8') 
+    tbhdu.header.set('TUCD8','phot.flux.density',after='TUNIT8')
+    tbhdu.header.set('TDESC8','350 Flux (at 84.1 percentile) ',after='TUCD8')
 
-    tbhdu.header.set('TUCD9','phot.flux.density',after='TUNIT9')      
-    tbhdu.header.set('TDESC9','350 Flux (at 15.9 percentile)',after='TUCD9') 
+    tbhdu.header.set('TUCD9','phot.flux.density',after='TUNIT9')
+    tbhdu.header.set('TDESC9','350 Flux (at 15.9 percentile)',after='TUCD9')
 
-    tbhdu.header.set('TUCD10','phot.flux.density',after='TUNIT10')      
-    tbhdu.header.set('TDESC10','500 Flux (at 50th percentile)',after='TUCD10') 
+    tbhdu.header.set('TUCD10','phot.flux.density',after='TUNIT10')
+    tbhdu.header.set('TDESC10','500 Flux (at 50th percentile)',after='TUCD10')
 
-    tbhdu.header.set('TUCD11','phot.flux.density',after='TUNIT11')      
-    tbhdu.header.set('TDESC11','500 Flux (at 84.1 percentile) ',after='TUCD11') 
+    tbhdu.header.set('TUCD11','phot.flux.density',after='TUNIT11')
+    tbhdu.header.set('TDESC11','500 Flux (at 84.1 percentile) ',after='TUCD11')
 
-    tbhdu.header.set('TUCD12','phot.flux.density',after='TUNIT12')      
+    tbhdu.header.set('TUCD12','phot.flux.density',after='TUNIT12')
     tbhdu.header.set('TDESC12','500 Flux (at 15.9 percentile)',after='TUCD12')
 
-    tbhdu.header.set('TUCD13','phot.flux.density',after='TUNIT13')      
-    tbhdu.header.set('TDESC13','250 background',after='TUCD13') 
+    tbhdu.header.set('TUCD13','phot.flux.density',after='TUNIT13')
+    tbhdu.header.set('TDESC13','250 background',after='TUCD13')
 
-    tbhdu.header.set('TUCD14','phot.flux.density',after='TUNIT14')      
-    tbhdu.header.set('TDESC14','350 background',after='TUCD14') 
+    tbhdu.header.set('TUCD14','phot.flux.density',after='TUNIT14')
+    tbhdu.header.set('TDESC14','350 background',after='TUCD14')
 
-    tbhdu.header.set('TUCD15','phot.flux.density',after='TUNIT15')      
+    tbhdu.header.set('TUCD15','phot.flux.density',after='TUNIT15')
     tbhdu.header.set('TDESC15','500 background',after='TUCD15')
 
     tbhdu.header.set('TUCD16','phot.flux.density',after='TUNIT16')
@@ -368,12 +447,11 @@ def create_SPIRE_cat(posterior,prior250,prior350,prior500):
     prihdr = fits.Header()
     prihdr['Prior_Cat'] = prior250.prior_cat
     prihdr['TITLE']   = 'SPIRE XID+ catalogue'
-    #prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change                              
-    prihdr['CREATOR'] = 'WP5'                                 
+    #prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change
+    prihdr['CREATOR'] = 'WP5'
     prihdr['XIDplus'] = io.git_version()
-    prihdr['DATE']    = datetime.datetime.now().isoformat()              
+    prihdr['DATE']    = datetime.datetime.now().isoformat()
     prihdu = fits.PrimaryHDU(header=prihdr)
-    
+
     thdulist = fits.HDUList([prihdu, tbhdu])
     return thdulist
-
