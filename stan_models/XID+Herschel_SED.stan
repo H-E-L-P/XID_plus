@@ -56,7 +56,7 @@ data
   real bkg_prior[5];//prior estimate of background
   real bkg_prior_sig[5];//sigma of prior estimate of background
   real conf_prior_sig[5];
-  real<lower=0.0> z[nsrc];
+  real<lower=0.0> z_median[nsrc];
   real<lower=0.0> z_sig[nsrc];
   //----PSW----
   int<lower=0> npix_psw;//number of pixels
@@ -103,18 +103,25 @@ data
   int nz;
   int nband;
   real SEDs[nTemp,nband,nz];
+  //real SEDs_sig[nTemp,nz];
   //-----------------------
 
 }
 
 parameters {
-  real<lower=8, upper=14> Nbb[nsrc];
-  //real<lower=0.001,upper=7> z[nsrc];
-  vector<lower=0.0>[nband] src_f[nsrc];//vector of source src_fes
-  real bkg[5];//background
-  real<lower=0.0> sigma_conf[5];
+  real Nbb[nsrc];
+  real<lower=0.001,upper=7> z[nsrc];
+  vector<lower=0,upper=2000>[nband] src_f[nsrc];//vector of source src_fes
+  real bkg[nband];//background
 
 }
+transformed parameters{
+  real<lower=0.0> sigma_conf[nband];
+  for (i in 1:nband){
+    sigma_conf[i]=0.0;
+}
+}
+
 
 
 model{
@@ -133,71 +140,77 @@ model{
   vector[npix_pacs160] sigma_tot_pacs160;
 
 
-  for (i in 1:5){
+  for (i in 1:nband){
   //Prior on background
   bkg[i] ~normal(bkg_prior[i],bkg_prior_sig[i]);
 
  //Prior on conf
-  sigma_conf[i] ~normal(0,conf_prior_sig[i]);
+  //sigma_conf[i] ~normal(0,conf_prior_sig[i]);
   }
 
 
 
   for (i in 1:nsrc){
     vector[nTemp] ps;//log prob
+    z[i]~normal(z_median[i],z_sig[i]);
+    Nbb[i]~normal(10,2);
+
     for (t in 1:nTemp){
         vector[nband] f_tmp;
 	for (b in 1:nband){
         f_tmp[b]=pow(10.0,Nbb[i])*interpolateLinear(SEDs[t,b], z[i]*100.0);
 	}
 	//print(f_tmp)
-        ps[t]<-normal_lpdf(src_f[i]|f_tmp,f_tmp/5.0);   
+        ps[t]<-normal_lpdf(src_f[i]|f_tmp,0.3*f_tmp);//pow(10.0,Nbb[i])*interpolateLinear(SEDs_sig[t],z[i]*100.0));
     }
     target+=log_sum_exp(ps);
-    //z~normal(z_mean,z_sig);
+
   }
 
-   
+
   // Create model maps (i.e. db_hat = A*f) using sparse multiplication
-  for (k in 1:npix_psw) {
-    db_hat_psw[k] <- bkg[1];
-    sigma_tot_psw[k]<-sqrt(square(sigma_psw[k])+square(sigma_conf[1]));
-  }
-  for (k in 1:nnz_psw) {
-    db_hat_psw[Row_psw[k]+1] <- db_hat_psw[Row_psw[k]+1] + Val_psw[k]*src_f[Col_psw[k]+1][1];
-      }
-
-  for (k in 1:npix_pmw) {
-    db_hat_pmw[k] <-  bkg[2];
-    sigma_tot_pmw[k]<-sqrt(square(sigma_pmw[k])+square(sigma_conf[2]));
-  }
-  for (k in 1:nnz_pmw) {
-    db_hat_pmw[Row_pmw[k]+1] <- db_hat_pmw[Row_pmw[k]+1] + Val_pmw[k]*src_f[Col_pmw[k]+1][2];
-      }
-
-  for (k in 1:npix_plw) {
-    db_hat_plw[k] <- bkg[3];
-    sigma_tot_plw[k]<-sqrt(square(sigma_plw[k])+square(sigma_conf[3]));
-  }
-  for (k in 1:nnz_plw) {
-    db_hat_plw[Row_plw[k]+1] <- db_hat_plw[Row_plw[k]+1] + Val_plw[k]*src_f[Col_plw[k]+1][3];
-      }
-
   for (k in 1:npix_pacs100) {
-    db_hat_pacs100[k] <- bkg[4];
-    sigma_tot_pacs100[k]<-sqrt(square(sigma_pacs100[k])+square(sigma_conf[4]));
+    db_hat_pacs100[k] <- bkg[1];
+    sigma_tot_pacs100[k]<-sqrt(square(sigma_pacs100[k])+square(sigma_conf[1]));
   }
   for (k in 1:nnz_pacs100) {
-    db_hat_pacs100[Row_pacs100[k]+1] <- db_hat_pacs100[Row_pacs100[k]+1] + Val_pacs100[k]*src_f[Col_pacs100[k]+1][4];
+    db_hat_pacs100[Row_pacs100[k]+1] <- db_hat_pacs100[Row_pacs100[k]+1] + Val_pacs100[k]*src_f[Col_pacs100[k]+1][1];
       }
 
   for (k in 1:npix_pacs160) {
-    db_hat_pacs160[k] <- bkg[5];
-    sigma_tot_pacs160[k]<-sqrt(square(sigma_pacs160[k])+square(sigma_conf[5]));
+    db_hat_pacs160[k] <- bkg[2];
+    sigma_tot_pacs160[k]<-sqrt(square(sigma_pacs160[k])+square(sigma_conf[2]));
   }
   for (k in 1:nnz_pacs160) {
-    db_hat_pacs160[Row_pacs160[k]+1] <- db_hat_pacs160[Row_pacs160[k]+1] + Val_pacs160[k]*src_f[Col_pacs160[k]+1][5];
+    db_hat_pacs160[Row_pacs160[k]+1] <- db_hat_pacs160[Row_pacs160[k]+1] + Val_pacs160[k]*src_f[Col_pacs160[k]+1][2];
       }
+
+
+  for (k in 1:npix_psw) {
+    db_hat_psw[k] <- bkg[3];
+    sigma_tot_psw[k]<-sqrt(square(sigma_psw[k])+square(sigma_conf[3]));
+  }
+  for (k in 1:nnz_psw) {
+    db_hat_psw[Row_psw[k]+1] <- db_hat_psw[Row_psw[k]+1] + Val_psw[k]*src_f[Col_psw[k]+1][3];
+      }
+
+  for (k in 1:npix_pmw) {
+    db_hat_pmw[k] <-  bkg[4];
+    sigma_tot_pmw[k]<-sqrt(square(sigma_pmw[k])+square(sigma_conf[4]));
+  }
+  for (k in 1:nnz_pmw) {
+    db_hat_pmw[Row_pmw[k]+1] <- db_hat_pmw[Row_pmw[k]+1] + Val_pmw[k]*src_f[Col_pmw[k]+1][4];
+      }
+
+  for (k in 1:npix_plw) {
+    db_hat_plw[k] <- bkg[5];
+    sigma_tot_plw[k]<-sqrt(square(sigma_plw[k])+square(sigma_conf[5]));
+  }
+  for (k in 1:nnz_plw) {
+    db_hat_plw[Row_plw[k]+1] <- db_hat_plw[Row_plw[k]+1] + Val_plw[k]*src_f[Col_plw[k]+1][5];
+      }
+
+
 
   // likelihood of observed map|model map
   db_psw ~ normal(db_hat_psw,sigma_tot_psw);
@@ -220,7 +233,7 @@ for (i in 1:nsrc){
 	for (b in 1:nband) {
         f_tmp[b]=pow(10.0,Nbb[i])*interpolateLinear(SEDs[t,b], z[i]*100.0);
 	}
-        p_raw[t] = (1.0/nTemp)*exp(normal_lpdf(src_f[i]|f_tmp,f_tmp/5.0));
+        p_raw[t] = (1.0/nTemp)*exp(normal_lpdf(src_f[i]|f_tmp,0.3*f_tmp));//pow(10.0,Nbb[i])*interpolateLinear(SEDs_sig[t],z[i]*100.0)));
      }
      for (t in 1:nTemp){
      p[i,t]=p_raw[t]/sum(p_raw);

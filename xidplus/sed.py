@@ -105,7 +105,7 @@ def mrr_templates(SPIRE=True, PACS=True, MIPS=True):
     temps = xidplus.__path__[0] + '/../test_files/MRR/'
 
     # Generate Redshift Grid and convert to denominator for flux conversion(e.g. $4 \pi D_l ^ 2)$
-    red = np.arange(0, 8, 0.01)
+    red = np.arange(0, 8, 0.1)
     red[0] = 0.000001
     from astropy.cosmology import Planck13
     import astropy.units as u
