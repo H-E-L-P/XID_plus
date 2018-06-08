@@ -11,11 +11,11 @@ class posterior_sed():
         self.nsrc = priors[0].nsrc
         self.samples = fit.extract()
         self.samples['src_f']=np.swapaxes(self.samples['src_f'], 1, 2)
-
-
+        nondiv_params, div_params = stan_utility.partition_div(fit)
+        self.nondiv_params=nondiv_params
+        self.div_params=div_params
         self.param_names = fit.model_pars
         self.summary=fit.summary()
-
         self.ID = priors[0].ID
         self.Rhat = {'src_f': fit.summary('src_f')['summary'][:, -1].reshape(priors[0].nsrc, len(priors)),
                      'sigma_conf': fit.summary('sigma_conf')['summary'][:, -1],

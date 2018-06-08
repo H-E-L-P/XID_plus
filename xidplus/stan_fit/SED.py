@@ -12,7 +12,7 @@ import numpy as np
 
 stan_path=os.path.split(os.path.split(path)[0])[0]+'/stan_models/'
 
-def MIPS_PACS_SPIRE(phot_priors,sed_prior_model,chains=4,iter=1000,max_treedepth=10):
+def MIPS_PACS_SPIRE(phot_priors,sed_prior_model,chains=4,iter=1000,max_treedepth=10,seed=143):
 
     """
     Fit the three SPIRE bands
@@ -95,11 +95,11 @@ def MIPS_PACS_SPIRE(phot_priors,sed_prior_model,chains=4,iter=1000,max_treedepth
     sm = get_stancode(model_file)
 
 
-    fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True,control=dict(max_treedepth=max_treedepth))
+    fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True,seed=seed,control=dict(max_treedepth=max_treedepth))
     #return fit data
     return fit
 
-def PACS_SPIRE(phot_priors,sed_prior_model,chains=4,iter=1000,max_treedepth=10):
+def PACS_SPIRE(phot_priors,sed_prior_model,chains=4,iter=1000,seed=1425,max_treedepth=10):
 
     """
     Fit the three SPIRE bands
@@ -174,11 +174,11 @@ def PACS_SPIRE(phot_priors,sed_prior_model,chains=4,iter=1000,max_treedepth=10):
     sm = get_stancode(model_file)
 
 
-    fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True,control=dict(max_treedepth=max_treedepth))
+    fit = sm.sampling(data=XID_data,iter=iter,chains=chains,seed=seed,verbose=True,control=dict(max_treedepth=max_treedepth))
     #return fit data
     return fit
 
-def MIPS_SPIRE(phot_priors,sed_prior_model,chains=4,iter=1000,max_treedepth=10):
+def MIPS_SPIRE(phot_priors,sed_prior_model,chains=4,seed=5363,iter=1000,max_treedepth=10):
 
     """
     Fit the three SPIRE bands
@@ -243,6 +243,6 @@ def MIPS_SPIRE(phot_priors,sed_prior_model,chains=4,iter=1000,max_treedepth=10):
     sm = get_stancode(model_file)
 
 
-    fit = sm.sampling(data=XID_data,iter=iter,chains=chains,verbose=True,control=dict(max_treedepth=max_treedepth))
+    fit = sm.sampling(data=XID_data,iter=iter,chains=chains,seed=seed,verbose=True,control=dict(max_treedepth=max_treedepth))
     #return fit data
     return fit

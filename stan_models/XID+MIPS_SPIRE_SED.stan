@@ -101,7 +101,7 @@ data
 }
 
 parameters {
-  real<lower=4,upper=16> Nbb[nsrc];
+  real<lower=6,upper=16> Nbb[nsrc];
   real<lower=0.001,upper=7> z[nsrc];
   vector<lower=0,upper=2000>[nband] src_f[nsrc];//vector of source src_fes
   real bkg[nband];//background
@@ -144,7 +144,7 @@ model{
   for (i in 1:nsrc){
     vector[nTemp] ps;//log prob
     z[i]~normal(z_median[i],z_sig[i]);
-    //Nbb[i]~normal(9,3);
+    Nbb[i]~normal(10,4);
 
 
     for (t in 1:nTemp){
@@ -152,9 +152,9 @@ model{
         vector[nband] f_sig_tmp;
 	for (b in 1:nband){
         f_tmp[b]=pow(10.0,Nbb[i])*interpolateLinear(SEDs[t,b], z[i]*100.0);
-        f_sig_tmp[b]=0.3*f_tmp[b]
+        f_sig_tmp[b]=0.3*f_tmp[b];
 	}
-	f_sig_tmp[1]=0.05*f_tmp[b]
+	//f_sig_tmp[1]=0.05*f_tmp[b];
 	//print(f_tmp)
         ps[t]<-normal_lpdf(src_f[i]|f_tmp,f_sig_tmp);//pow(10.0,Nbb[i])*interpolateLinear(SEDs_sig[t],z[i]*100.0));
     }
@@ -219,9 +219,9 @@ for (i in 1:nsrc){
         vector[nband] f_sig_tmp;
 	for (b in 1:nband) {
         f_tmp[b]=pow(10.0,Nbb[i])*interpolateLinear(SEDs[t,b], z[i]*100.0);
-        f_sig_tmp[b]=0.3*f_tmp[b]
+        f_sig_tmp[b]=0.3*f_tmp[b];
 	}
-	    f_sig_tmp[1]=0.05*f_tmp[b]
+	    //f_sig_tmp[1]=0.05*f_tmp[b]
         p_raw[t] = (1.0/nTemp)*exp(normal_lpdf(src_f[i]|f_tmp,f_sig_tmp));//pow(10.0,Nbb[i])*interpolateLinear(SEDs_sig[t],z[i]*100.0)));
      }
      for (t in 1:nTemp){
