@@ -103,7 +103,7 @@ data
 parameters {
   real<lower=6,upper=16> Nbb[nsrc];
   real<lower=0.001,upper=7> z[nsrc];
-  vector<lower=0,upper=2000>[nband] src_f[nsrc];//vector of source src_fes
+  vector<lower=0,upper=50>[nband] src_f[nsrc];//vector of source src_fes
   real bkg[nband];//background
 
 }
