@@ -152,7 +152,7 @@ model{
         vector[nband] f_sig_tmp;
 	for (b in 1:nband){
         f_tmp[b]=pow(10.0,Nbb[i])*interpolateLinear(SEDs[t,b], z[i]*100.0);
-        f_sig_tmp[b]=0.05*f_tmp[b];
+        f_sig_tmp[b]=0.3*f_tmp[b];
 	}
 	//f_sig_tmp[1]=0.05*f_tmp[b];
 	//print(f_tmp)
@@ -219,7 +219,7 @@ for (i in 1:nsrc){
         vector[nband] f_sig_tmp;
 	for (b in 1:nband) {
         f_tmp[b]=pow(10.0,Nbb[i])*interpolateLinear(SEDs[t,b], z[i]*100.0);
-        f_sig_tmp[b]=0.05*f_tmp[b];
+        f_sig_tmp[b]=0.3*f_tmp[b];
 	}
 	    //f_sig_tmp[1]=0.05*f_tmp[b]
         p_raw[t] = (1.0/nTemp)*exp(normal_lpdf(src_f[i]|f_tmp,f_sig_tmp));//pow(10.0,Nbb[i])*interpolateLinear(SEDs_sig[t],z[i]*100.0)));
