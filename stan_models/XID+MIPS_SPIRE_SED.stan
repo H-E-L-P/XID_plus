@@ -119,7 +119,7 @@ f_up_lim[4][i]=50.0;
 parameters {
   real<lower=6,upper=16> Nbb[nsrc];
   real<lower=0.001,upper=7> z[nsrc];
-  vector<lower=0.0, upper=1.0 [nband] src_f_tmp[nsrc];//vector of source src_fes
+  vector<lower=0.0, upper=1.0> [nband] src_f_tmp[nsrc];//vector of source src_fes
   real bkg[nband];//background
 
 }
