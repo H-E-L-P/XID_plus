@@ -99,19 +99,37 @@ data
   //-----------------------
 
 }
+transformed data{
+
+vector[nsrc] f_low_lim[nband];//upper limit of flux
+vector[nsrc] f_up_lim[nband];//upper limit of flux
+f_low_lim[1][:]=0.0
+f_up_lim[1][:]=3.0
+f_low_lim[2][:]=0.0
+f_up_lim[2][:]=50.0
+f_low_lim[3][:]=0.0
+f_up_lim[3][:]=50.0
+f_low_lim[4][:]=0.0
+f_up_lim[4][:]=50.0
+}
 
 parameters {
   real<lower=6,upper=16> Nbb[nsrc];
   real<lower=0.001,upper=7> z[nsrc];
-  vector<lower=0.0> [nband] src_f[nsrc];//vector of source src_fes
+  vector<lower=0.0, upper=1.0 [nband] src_f_tmp[nsrc];//vector of source src_fes
   real bkg[nband];//background
 
 }
 transformed parameters{
   real<lower=0.0> sigma_conf[nband];
+  vector [nband] src_f[nsrc]
   for (i in 1:nband){
     sigma_conf[i]=0.0;
+    for (n in 1:nsrc) {
+    src_f[n][i]= f_low_lim[i,n]+(f_up_lim[i,n]-f_low_lim[i,n])*src_f_tmp[n][i];
 }
+}
+
 }
 
 
@@ -146,9 +164,9 @@ model{
     z[i]~normal(z_median[i],z_sig[i]);
     //Nbb[i]~normal(10,4);
     src_f[i][1]~uniform(0,3);
-    src_f[i][2]~uniform(0,50);
-    src_f[i][3]~uniform(0,50);
-    src_f[i][4]~uniform(0,50);
+    //src_f[i][2]~uniform(0,50);
+    //src_f[i][3]~uniform(0,50);
+    //src_f[i][4]~uniform(0,50);
 
     for (t in 1:nTemp){
         vector[nband] f_tmp;
