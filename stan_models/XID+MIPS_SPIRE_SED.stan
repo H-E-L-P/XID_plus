@@ -125,7 +125,7 @@ parameters {
 }
 transformed parameters{
   real<lower=0.0> sigma_conf[nband];
-  vector [nband] src_f[nsrc]
+  vector [nband] src_f[nsrc];
   for (i in 1:nband){
     sigma_conf[i]=0.0;
     for (n in 1:nsrc) {
