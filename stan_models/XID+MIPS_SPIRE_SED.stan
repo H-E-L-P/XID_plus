@@ -103,14 +103,17 @@ transformed data{
 
 vector[nsrc] f_low_lim[nband];//upper limit of flux
 vector[nsrc] f_up_lim[nband];//upper limit of flux
-f_low_lim[1][:]=0.0
-f_up_lim[1][:]=3.0
-f_low_lim[2][:]=0.0
-f_up_lim[2][:]=50.0
-f_low_lim[3][:]=0.0
-f_up_lim[3][:]=50.0
-f_low_lim[4][:]=0.0
-f_up_lim[4][:]=50.0
+
+for (i in 1:nsrc){
+f_low_lim[1][i]=0.0
+f_up_lim[1][i]=3.0
+f_low_lim[2][i]=0.0
+f_up_lim[2][i]=50.0
+f_low_lim[3][i]=0.0
+f_up_lim[3][i]=50.0
+f_low_lim[4][i]=0.0
+f_up_lim[4][i]=50.0
+}
 }
 
 parameters {
