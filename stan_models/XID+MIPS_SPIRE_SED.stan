@@ -165,7 +165,7 @@ model{
   for (i in 1:nsrc){
     vector[nTemp] ps;//log prob
     z[i]~normal(z_median[i],z_sig[i]);
-    Nbb[i]~normal(10,4);
+    //Nbb[i]~normal(10,4);
 
     for (t in 1:nTemp){
         vector[nband] f_tmp;

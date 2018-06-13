@@ -178,7 +178,7 @@ def PACS_SPIRE(phot_priors,sed_prior_model,chains=4,iter=1000,seed=1425,max_tree
     #return fit data
     return fit
 
-def MIPS_SPIRE(phot_priors,sed_prior_model,chains=4,seed=5363,iter=1000,max_treedepth=10):
+def MIPS_SPIRE(phot_priors,sed_prior_model,chains=4,seed=5363,iter=1000,max_treedepth=10,adapt_delta=0.8):
 
     """
     Fit the three SPIRE bands
@@ -243,6 +243,6 @@ def MIPS_SPIRE(phot_priors,sed_prior_model,chains=4,seed=5363,iter=1000,max_tree
     sm = get_stancode(model_file)
 
 
-    fit = sm.sampling(data=XID_data,iter=iter,chains=chains,seed=seed,verbose=True,control=dict(max_treedepth=max_treedepth))
+    fit = sm.sampling(data=XID_data,iter=iter,chains=chains,seed=seed,verbose=True,control=dict(max_treedepth=max_treedepth,adapt_delta=adapt_delta))
     #return fit data
     return fit
