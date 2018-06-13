@@ -165,7 +165,7 @@ model{
   for (i in 1:nsrc){
     vector[nTemp] ps;//log prob
     z[i]~normal(z_median[i],z_sig[i]);
-    //Nbb[i]~normal(10,4);
+    Nbb[i]~normal(10,4);
 
     for (t in 1:nTemp){
         vector[nband] f_tmp;
@@ -176,7 +176,7 @@ model{
 	}
 	//f_sig_tmp[1]=0.05*f_tmp[b];
 	//print(f_tmp)
-        ps[t]<-normal_lpdf(src_f[i]|f_tmp,f_sig_tmp);//pow(10.0,Nbb[i])*interpolateLinear(SEDs_sig[t],z[i]*100.0));
+        ps[t]<-normal_lpdf(src_f[i]|f_tmp,f_sig_tmp);
     }
     target+=log_sum_exp(ps);
 
