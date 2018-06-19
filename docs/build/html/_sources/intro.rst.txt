@@ -13,10 +13,16 @@ Once you have a working Python installation, you can download the code either di
 
 Requirements
 ^^^^^^^^^^^^
+Anaconda Python
+"""""""""""""""
 If using an Anaconda distribution, then it is best to install some prerequisites with conda with the following command::
 
+   conda config --add channels conda-forge && conda install healpy
    while read requirement; do conda install --yes $requirement; done < req.txt
 
+
+Custom Python
+"""""""""""""
 If you are using your own Python setup, install the requirements via the command ::
 
    pip install -r req.txt
