@@ -353,7 +353,7 @@ div.nboutput div.output_area.stderr {
 </style>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [23]:
+<span></span>In [1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -368,7 +368,7 @@ temps=os.listdir(&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [26]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -378,7 +378,7 @@ temps=os.listdir(&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[26]:
+<span></span>Out[2]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
@@ -421,7 +421,7 @@ temps=os.listdir(&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm
 (e.g. <span class="math">\(4 \pi D_l^2)\)</span></p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -437,7 +437,7 @@ div=div.value
 <p>Get appropriate filters</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [3]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -448,27 +448,412 @@ filter=filters.FilterFile(file=xidplus.__path__[0]+&#39;/../test_files/filters.r
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>PACS_100.name
+<span></span>filter.names()
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[11]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&#39;PACS 100 Instrument Simulator as of Herschel Launch - 0251&#39;
-</pre></div>
-</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+    1 Koo-Kron U+ filter (Koo&#39;s thesis) - 0001
+    2 Koo-Kron J+ filter (Koo&#39;s thesis) - 0002
+    3 Koo-Kron F+ filter (Koo&#39;s thesis) - 0003
+    4 Koo-Kron N+ filter (Koo&#39;s thesis) - 0004
+    5 Koo-Kron R band (=127+RG610, data from Koo, Durham) - 0005
+    6 Couch and Newell (80) BJ (photographic) filter - 0006
+    7 Couch and Newell (80) RF (photographic) filter - 0007
+    8 Koo-Kron U+ filter (Bruzual&#39;s thesis) - 0008
+    9 Koo-Kron J+ filter (Bruzual&#39;s thesis) - 0009
+   10 Koo-Kron F+ filter (Bruzual&#39;s thesis) - 0010
+   11 Koo-Kron N+ filter (Bruzual&#39;s thesis) - 0011
+   12 Buser&#39;s U filter - 0012
+   13 Buser&#39;s B2 filter - 0013
+   14 Buser&#39;s B3 filter - 0014
+   15 Buser&#39;s V filter - 0015
+   16 Matthews and Sandage U filter - 0016
+   17 Matthews and Sandage B filter - 0017
+   18 Matthews and Sandage V filter - 0018
+   19 Sandage and Smith B filter - 0019
+   20 Sandage and Smith V filter - 0020
+   21 Sandage and Smith R filter - 0021
+   22 ST-UV14 filter - 0022
+   23 ST-UV17 filter - 0023
+   24 ST-UV22 filter - 0024
+   25 ST-UV27 filter - 0025
+   26 OAO-UV1 filter - 0026
+   27 OAO-UV2 filter - 0027
+   28 OAO-UV3 filter - 0028
+   29 OAO-UV4 filter - 0029
+   30 OAO-UV5 filter - 0030
+   31 OAO-UV6 filter - 0031
+   32 Johnson&#39;s R filter - 0032
+   33 Johnson&#39;s I filter - 0033
+   34 Johnson&#39;s J filter - 0034
+   35 Johnson&#39;s K filter - 0035
+   36 Johnson&#39;s L filter - 0036
+   37 Butcher&#39;s r filter - 0037
+   38 Butcher&#39;s i filter - 0038
+   39 Butcher-Oemler R filter (10/75 1978, data from Koo, Durham) - 0039
+   40 Butcher-Oemler R filter ( 5/76 1978, data from Koo, Durham) - 0040
+   41 Bessell u filter - 0041
+   42 Bessell g filter - 0042
+   43 Bessell r filter - 0043
+   44 UKIRT H FILTER (Leiden, 1983) - 0044
+   45 R. S. Ellis U(PE) filter - 0045
+   46 R. S. Ellis J filter - 0046
+   47 R. S. Ellis R filter - 0047
+   48 R. S. Ellis N filter - 0048
+   49 C. MacKay and P. Hall KG3 filter (Cambridge) - 0049
+   50 C. MacKay and P. Hall I filter (Cambridge) - 0050
+   51 Gunn g filter + four-shooter Ti CCD + Palomar 200&#34; atmospher - 0051
+   52 Gunn r filter + four-shooter Ti CCD + Palomar 200&#34; atmospher - 0052
+   53 Gunn i filter + four-shooter Ti CCD + Palomar 200&#34; atmospher - 0053
+   54 Gunn z filter + four-shooter Ti CCD + Palomar 200&#34; atmospher - 0054
+   55 IR J filter + Palomar 200 IR detectors + atmosphere - 0055
+   56 IR H filter + Palomar 200 IR detectors + atmosphere - 0056
+   57 IR K filter + Palomar 200 IR detectors + atmosphere - 0057
+   58 NOAO CTIO 4m ISPI J#186 - 0058
+   59 NOAO CTIO 4m ISPI H#187 - 0059
+   60 NOAO CTIO 4m ISPI K&#39;#188 - 0060
+   61 A. Tyson J filter - 0061
+   62 A. Tyson R filter - 0062
+   63 A. Tyson I filter - 0063
+   64 ANS 1550 Wide Filter (J. Koorneef) - 0064
+   65 ANS 1800 Filter (J. Koorneef) - 0065
+   66 ANS 2200 Filter (J. Koorneef) - 0066
+   67 ANS 2500 Filter (J. Koorneef) - 0067
+   68 ANS 3300 Filter (J. Koorneef) - 0068
+   69 Approximate U band for Lilly and Cowie - 0069
+   70 Approximate I band for Lilly and Cowie - 0070
+   71 IRAS 12 micron, Neugebauer etal 1984,ApJL,278,L1 - 0071
+   72 IRAS 25 micron, Neugebauer etal 1984,ApJL,278,L1 - 0072
+   73 IRAS 60 micron, Neugebauer etal 1984,ApJL,278,L1 - 0073
+   74 IRAS 100 micron, Neugebauer etal 1984,ApJL,278,L1 - 0074
+   75 H filter Bessell and Brett PASP 100, 1134, 1988 - 0075
+   76 J filter Bessell and Brett PASP 100, 1134, 1988 - 0076
+   77 K filter Bessell and Brett PASP 100, 1134, 1988 - 0077
+   78 L (3.5 microns) filter Bessell and Brett PASP 100, 1134, 1988 - 0078
+   79 L&#39; (3.8 microns) filter Bessell and Brett PASP 100, 1134, 1988 - 0079
+   80 M filter Bessell and Brett PASP 100, 1134, 1988 - 0080
+   81 IRAM MAMBO-1 1.2 mm, 37 channel (winter 99/00 -today) - 0081
+   82 IRAM MAMBO-2 1.2 mm,117 channel - 0082
+   83 g Gunn (original) - 0083
+   84 r Gunn (original) - 0084
+   85 i Gunn (original) - 0085
+   86 z (original) - 0086
+   87 z + RCA - 0087
+   88 CCD RCA ESO (JPP reference) - 0088
+   89 CCD RCA CAHA (Manual d&#39;utilisateurs) - 0089
+   90 B CAHA (original manuel) - 0090
+   91 B Bessell - 0091
+   92 V Bessell - 0092
+   93 R Bessell - 0093
+   94 I Bessell - 0094
+   95 K Prime CFHT Redeye - 0095
+   96 CCD RCA2 CFHT (Manuel utilisateurs) - 0096
+   97 Bj TYSON (orig. filter AT, private com.) - 0097
+   98 CCD TEK#25 (ESO, Manuel Utilisateurs) - 0098
+   99 CCD LORAL#34 (ESO, Manuel Utilisateurs) - 0099
+  100 CCD SAIC#1 (CFH, Manuel Utilisateurs) - 0100
+  101 CCD Lick2 CFHT (CFH, Manuel Utilisateurs) - 0101
+  102 ESO NTT SUSI B Bessell#639 - 0102
+  103 ESO NTT SUSI V Bessell#641 - 0103
+  104 ESO NTT SUSI R Bessell#642 - 0104
+  105 ESO NTT EMMI V#606 - 0105
+  106 B#4402 CFHT - 0106
+  107 R#4609 CFHT - 0107
+  108 B #1412 CFHT FOCAM - 0108
+  109 B #1414 CFHT B Tyson selon JB - 0109
+  110 V #1504 CFHT - 0110
+  111 V #1510 CFHT FOCAM - 0111
+  112 R #1611 CFHT - 0112
+  113 I #1808 CFHT FOCAM - 0113
+  114 I #1809 CFHT FOCAM - 0114
+  115 Thomson THX 31156 CCD#17 ESO - 0115
+  116 Thomson THX 31156 CCD#18 ESO - 0116
+  117 R#585 Bessell ESO - 0117
+  118 K #6 UKIRT - 0118
+  119 Passe-tout - 0119
+  120 F555W + WFPC2 normalized - 0120
+  121 F814W + WFPC2 normalized - 0121
+  122 F300W + WFPC2 normalized - 0122
+  123 F450W + WFPC2 normalized - 0123
+  124 F606W + WFPC2 normalized - 0124
+  125 F702W + WFPC2 normalized - 0125
+  126 F675W + WFPC2 normalized - 0126
+  127 F336W + WFPC2 normalized - 0127
+  128 ESO NTT 3.6m SOFI Js - 0128
+  129 ESO NTT 3.6m SOFI J - 0129
+  130 ESO NTT 3.6m SOFI H - 0130
+  131 ESO NTT 3.6m SOFI Ks - 0131
+  132 KPNO IRIM 2.12 Filter - 0132
+  133 KPNO IRIM 2.14 Filter - 0133
+  134 KPNO IRIM 2.16 Filter - 0134
+  135 KPNO IRIM H Filter - 0135
+  136 KPNO IRIM J Filter - 0136
+  137 KPNO IRIM K Filter - 0137
+  138 KPNO IRIM K&#39; Filter - 0138
+  139 VLT Test Camera Detector&#39;s Quantum Efficiency - 0139
+  140 B-band filter of the VLT Test Camera - 0140
+  141 V-band filter of the VLT Test Camera - 0141
+  142 R-band filter of the VLT Test Camera - 0142
+  143 I-band filter of the VLT Test Camera - 0143
+  144 SUSI2&#39;s CCDs Quantum Efficiency - 0144
+  145 SUSI Bessell U #801 - 0145
+  146 SUSI Bessell B #811 - 0146
+  147 SUSI Bessell V #812 - 0147
+  148 SUSI Bessell R #813 - 0148
+  149 SUSI Bessell I #814 - 0149
+  150 FORS Standard U (including instrument + CCD) - 0150
+  151 FORS Standard B (including instrument + CCD) - 0151
+  152 FORS Standard V (including instrument + CCD) - 0152
+  153 FORS Cousins R (including instrument + CCD) - 0153
+  154 FORS Cousins I (including instrument + CCD) - 0154
+  155 FORS Gunn G (including instrument + CCD) - 0155
+  156 ESO 2.2m WFI U#841 + CCD#57 + wfi_2p2_optics (U/38 AKA U38) - 0156
+  157 ESO 2.2m WFI B#842 + CCD#57 (old B/99, for new see B/123) - 0157
+  158 ESO 2.2m WFI V#843 + CCD#57 + wfi_2p2_optics (V/89) - 0158
+  159 ESO 2.2m WFI Rc#844 + CCD#57 + wfi_2p2_optics (Rc/162) - 0159
+  160 ESO 2.2m WFI Ic#845 + CCD#57 + wfi_2p2_optics (Ic/lwp) - 0160
+  161 ESO 2.2m WFI Z#846 + CCD#57 + wfi_2p2_optics (Z+/61) - 0161
+  162 ESO 2.2m WFI U#877 + CCD57 + wfi_2p2_optics (U/50 AKA U35) - 0162
+  163 ESO 2.2m WFI B#878 + CCD#57 + wfi_2p2_optic (latest B filter B/123) - 0163
+  164 SDSS u (http://www.sdss.org/dr7/instruments/imager/index.html) - 0164
+  165 SDSS g (http://www.sdss.org/dr7/instruments/imager/index.html) - 0165
+  166 SDSS r (http://www.sdss.org/dr7/instruments/imager/index.html) - 0166
+  167 SDSS i (http://www.sdss.org/dr7/instruments/imager/index.html) - 0167
+  168 SDSS z (http://www.sdss.org/dr7/instruments/imager/index.html) - 0168
+  169 ESO VST OmegaCAM u - 0169
+  170 ESO VST OmegaCAM g - 0170
+  171 ESO VST OmegaCAM r - 0171
+  172 ESO VST OmegaCAM i - 0172
+  173 ESO VST OmegaCAM z - 0173
+  174 CFHT CFH12k B (Mould) - 0174
+  175 CFHT CFH12k V (Mould) - 0175
+  176 CFHT CFH12k R (Mould) - 0176
+  177 CFHT CFH12k I (Mould) - 0177
+  178 CFHT CFH12k Z (Prime) - 0178
+  179 JCMT SCUBA 450 micron - 0179
+  180 JCMT SCUBA 850 micron - 0180
+  181 AzTEC 1.1 mm - 0181
+  182 Infamous 2.2m UH8K B filter + loral3 + MK atmosphere - 0182
+  183 2.2m UH8K V filter + loral 3 + atmosphere - 0183
+  184 2.2m UH8K I filter + MK atmosphere - 0184
+  185 KPNO B, from AAT Users Manual - 0185
+  186 H+K filter - 0186
+  187 Wyin filter U (filter + CCD reponse) - 0187
+  188 Wyin filter B (filter + CCD reponse) - 0188
+  189 ESO VLT ISAAC J (ESO web pages) - 0189
+  190 ESO VLT ISAAC H (ESO web pages) - 0190
+  191 ESO VLT ISAAC Ks (ESO web pages) - 0191
+  192 ESO VLT ISAAC L (ESO web pages) - 0192
+  193 ESO VLT ISAAC M (ESO web pages) - 0193
+  194 Palomar 200&#34; WIRC J - 0194
+  195 Palomar 200&#34; WIRC K - 0195
+  196 Calar Alto 3.5m Omega2000 J - 0196
+  197 Calar Alto 3.5m OmegaPrime K - 0197
+  198 Spitzer IRAC CH1 (3.6 micron) - 0198
+  199 Spitzer IRAC CH2 (4.5 microns) - 0199
+  200 Spitzer IRAC CH3 (5.8 microns) - 0200
+  201 Spitzer IRAC CH4 (8.0 microns) - 0201
+  202 Spitzer MIPS CH1 (24 microns) - 0202
+  203 Subaru SuprimeCam U - 0203
+  204 Subaru SuprimeCam B - 0204
+  205 Subaru SuprimeCam V - 0205
+  206 Subaru SuprimeCam r - 0206
+  207 Subaru SuprimeCam i - 0207
+  208 Subaru SuprimeCam z - 0208
+  209 UH 2.2m QUIRC H+K (AKA HK&#39;) - 0209
+  210 CFHT MEgaCam i2 AKA y (new,after October 2007 - http://cadcwww.dao.nrc.ca/megapipe/docs/filters.html) - 0210
+  211 NOAO KPNO 4m FLAMINGOS J (J-2000toJuly2003) - 0211
+  212 NOAO KPNO 4m FLAMINGOS H (H-2000toJuly2003) - 0212
+  213 NOAO KPNO 4m FLAMINGOS Ks (Ks-2000toJuly2003) - 0213
+  214 Spitzer MIPS CH2 (70 micron) - 0214
+  215 Spitzer MIPS CH3 (160 micron) - 0215
+  216 SPIRE 250 micron - 0216
+  217 SPIRE 350 micron - 0217
+  218 SPIRE 500 micron - 0218
+  219 2MASS J - 0219
+  220 2MASS H - 0220
+  221 2MASS Ks - 0221
+  222 UKIRT WFCAM (UKIDSS) J - 0222
+  223 UKIRT WFCAM (UKIDSS) H - 0223
+  224 UKIRT WFCAM (UKIDSS) K - 0224
+  225 INT WFC u - 0225
+  226 INT WFC g - 0226
+  227 INT WFC r - 0227
+  228 INT WFC i - 0228
+  229 INT WFC z - 0229
+  230 NOAO KPNO 4m MOSAIC1 U band (k1001) - 0230
+  231 NOAO KPNO 4m MOSAIC1 g band (SDSS k1017) - 0231
+  232 NOAO KPNO 4m MOSAIC1 r band (SDSS k1018) - 0232
+  233 NOAO KPNO 4m MOSAIC1 i band (SDSS k1019) - 0233
+  234 NOAO KPNO 4m MOSAIC1 z band (SDSS k1020) - 0234
+  235 NOAO CTIO 4m MOSAIC2 u band (SDSS c6022) - 0235
+  236 NOAO CTIO 4m MOSAIC2 g band (SDSS c6017) - 0236
+  237 NOAO CTIO 4m MOSAIC2 r band (SDSS c6018) - 0237
+  238 NOAO CTIO 4m MOSAIC2 i band (SDSS c6019) - 0238
+  239 NOAO CTIO 4m MOSAIC2 z band (SDSS c6022) - 0239
+  240 NOAO CTIO 4m MOSAIC2 U band (c6001) - 0240
+  241 CFHT MEgaCam u* http://www2.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/community/CFHTLS-SG/docs/extra/filters.html - 0241
+  242 CFHT MegaCam g http://www2.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/community/CFHTLS-SG/docs/extra/filters.html - 0242
+  243 CFHT MegaCam r http://www2.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/community/CFHTLS-SG/docs/extra/filters.html - 0243
+  244 CFHT MegaCam i AKA i1 (old, before Octorber 2007 for new see CFHT MegaCam i2 AKA y; http://cadcwww.dao.nrc.ca/megapipe/docs/filters.html) - 0244
+  245 CFHT MegaCam z http://www2.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/community/CFHTLS-SG/docs/extra/filters.html - 0245
+  246 AKARI N60 http://www.ir.isas.jaxa.jp/AKARI/Observation/RSRF/FIS_FAD/index.html - 0246
+  247 AKARI WIDE-S http://www.ir.isas.jaxa.jp/AKARI/Observation/RSRF/FIS_FAD/index.html - 0247
+  248 AKARI WIDE-L http://www.ir.isas.jaxa.jp/AKARI/Observation/RSRF/FIS_FAD/index.html - 0248
+  249 AKARI N160 http://www.ir.isas.jaxa.jp/AKARI/Observation/RSRF/FIS_FAD/index.html - 0249
+  250 PACS 70 Instrument Simulator as of Herschel Launch - 0250
+  251 PACS 100 Instrument Simulator as of Herschel Launch - 0251
+  252 PACS 160 Instrument Simulator as of Herschel Launch - 0252
+  253 NOAO KPNO 4m FLAMINGOS J from 2003 to present: http://flamingos.astro.ufl.edu/Filter_Info/index.html (FLAMINGOS.BARR.J.MAN240B.WarmFilter.txt) - 0253
+  254 NOAO KPNO 4m FLAMINGOS H from 2003 to present: http://flamingos.astro.ufl.edu/Filter_Info/index.html (FLAMINGOS.BARR.H.MAN109A.WarmFilter.txt) - 0254
+  255 NOAO KPNO 4m FLAMINGOS Ks from 2003 to present: http://flamingos.astro.ufl.edu/Filter_Info/index.html (FLAMINGOS.BARR.Ks.MAN306A.WarmFilter.txt) - 0255
+  256 NOAO KPNO 4m FLAMINGOS K from 2003 to present: http://flamingos.astro.ufl.edu/Filter_Info/index.html (FLAMINGOS.K-band.2000toPresentDay.NOAO-OCLI-Filter.txt) - 0256
+  257 Subaru SuprimeCam Rc - 0257
+  258 Subaru SuprimeCam Ic - 0258
+  259 Subaru SuprimeCam g - 0259
+  260 Spitzer IRS 16 micron (bluePUtrans) - 0260
+  261 Spitzer IRS 22 micron (redPUtrans) - 0261
+  262 ESO VLT VIMOS U (transmission is average of 4 quadrants) - 0262
+  263 ESO VLT VIMOS B (transmission is average of 4 quadrants) - 0263
+  264 ESO VLT VIMOS V (transmission is average of 4 quadrants) - 0264
+  265 ESO VLT VIMOS R (transmission is average of 4 quadrants) - 0265
+  266 ESO VLT VIMOS I (transmission is average of 4 quadrants) - 0266
+  267 ESO VLT VIMOS z (transmission is average of 4 quadrants) - 0267
+  268 NOAO KPNO 4m MOSAIC1 R - 0268
+  269 UKIRT WFCAM (UKIDSS) Z - 0269
+  270 UKIRT WFCAM (UKIDSS) Y - 0270
+  271 CFHT WIRCam J (cfh8101) - 0271
+  272 CFHT WIRCam H (cfh8201) - 0272
+  273 CFHT WIRCam Ks (cfh8302) - 0273
+  274 NOAO KPNO 4m MOSAIC1 Bw - 0274
+  275 NOAO KPNO 4m MOSAIC1 B - 0275
+  276 NOAO KPNO 4m MOSAIC1 V - 0276
+  277 NOAO KPNO 4m MOSAIC1 I - 0277
+  278 NOAO CTIO 4m MOSAIC2 B - 0278
+  279 NOAO CTIO 4m MOSAIC2 V - 0279
+  280 NOAO CTIO 4m MOSAIC2 R - 0280
+  281 NOAO CTIO 4m MOSAIC2 I - 0281
+  282 TIFKAM/ONIS J - 0282
+  283 TIFKAM/ONIS H - 0283
+  284 TIFKAM/ONIS K - 0284
+  285 90prime SDSS-u - 0285
+  286 90prime SDSS-z - 0286
+  287 90prime U - 0287
+  288 90prime B - 0288
+  289 90prime V - 0289
+  290 90prime R - 0290
+  291 90prime I - 0291
+  292 90prime_Washington_M - 0292
+  293 NEWFIRM J - 0293
+  294 NEWFIRM H - 0294
+  295 NEWFIRM Ks - 0295
+  296 GALEX NUV - 0296
+  297 GALEX FUV - 0297
+  298 MMT Megacam u - 0298
+  299 MMT Megacam g - 0299
+  300 MMT Megacam r - 0300
+  301 MMT Megacam i - 0301
+  302 MMT Megacam z - 0302
+  303 Subaru MOIRCS Y - 0303
+  304 Subaru MOIRCS J - 0304
+  305 Subaru MOIRCS H - 0305
+  306 Subaru MOIRCS Ks - 0306
+  307 Subaru MOIRCS K - 0307
+  308 APEX SABOCA 350 micron - 0308
+  309 APEX LABOCA 850 micron - 0309
+  310 HST NIC3 F110W (J) - 0310
+  311 HST NIC3 F160W (H) - 0311
+  312 HST NIC3 F222M (K) - 0312
+  313 HST ACS/WFC F435W (B) - 0313
+  314 HST ACS/WFC F606W (V) - 0314
+  315 HST ACS/WFC F814W (I) - 0315
+  316 HST ACS/WFC F475W (g) - 0316
+  317 HST ACS/WFC F625W (r) - 0317
+  318 HST ACS/WFC F775W (i) - 0318
+  319 HST ACS/WFC F850LP (z) - 0319
+  320 Subaru SuprimeCam IA427 - 0320
+  321 Subaru SuprimeCam IA445 - 0321
+  322 Subaru SuprimeCam IA464 - 0322
+  323 Subaru SuprimeCam IA484 - 0323
+  324 Subaru SuprimeCam IA505 - 0324
+  325 Subaru SuprimeCam IA527 - 0325
+  326 Subaru SuprimeCam IA550 - 0326
+  327 Subaru SuprimeCam IA574 - 0327
+  328 Subaru SuprimeCam IA598 - 0328
+  329 Subaru SuprimeCam IA624 - 0329
+  330 Subaru SuprimeCam IA651 - 0330
+  331 Subaru SuprimeCam IA679 - 0331
+  332 Subaru SuprimeCam IA709 - 0332
+  333 Subaru SuprimeCam IA738 - 0333
+  334 Subaru SuprimeCam IA767 - 0334
+  335 Subaru SuprimeCam IA797 - 0335
+  336 Subaru SuprimeCam IA827 - 0336
+  337 Subaru SuprimeCam IA856 - 0337
+  338 Subaru SuprimeCam IA907 - 0338
+  339 Subaru SuprimeCam NA656 - 0339
+  340 Subaru SuprimeCam NB711 - 0340
+  341 Subaru SuprimeCam NB816 - 0341
+  342 Subaru SuprimeCam NB921 - 0342
+  343 LBT-LBC blue Uspec - 0343
+  344 LBT-LBC blue U - 0344
+  345 LBT-LBC blue B - 0345
+  346 LBT-LBC blue V - 0346
+  347 LBT-LBC blue g (#1) - 0347
+  348 LBT-LBC blue r (#1) - 0348
+  349 LBT-LBC red V - 0349
+  350 LBT-LBC red R - 0350
+  351 LBT-LBC red I - 0351
+  352 LBT-LBC red r - 0352
+  353 LBT-LBC red i - 0353
+  354 LBT-LBC red z - 0354
+  355 LBT-LBC red F972N20 - 0355
+  356 LBT-LBC red Y - 0356
+  357 ISO CAM LW2 (6.7/7 micron) - 0357
+  358 ISO CAM LW10 (12 micron) - 0358
+  359 ISO CAM LW3 (14.3/15 micron) -0359
+  360 ISO PHT C100-DETECTOR C90-FILTER (90/5 micron) - 0360
+  361 ISO PHT C200-DETECTOR C160-FILTER (170/5 micron) - 0361
+  362 VISTA VIRCAM Z - 0362
+  363 VISTA VIRCAM Y - 0363
+  364 VISTA VIRCAM J - 0364
+  365 VISTA VIRCAM H - 0365
+  366 VISTA VIRCAM Ks - 0366
+  367 HST WFC3 F125W [J band]- 0367
+  368 HST WFC3 F160W [H band]- 0368
+  369 AKARI IRC N2 - 0369
+  370 AKARI IRC N3 - 0370
+  371 AKARI IRC N4 - 0371
+  372 AKARI IRC S7 - 0372
+  373 AKARI IRC S9W - 0373
+  374 AKARI IRC S11 - 0374
+  375 AKARI IRC L15 - 0375
+  376 AKARI IRC L18W - 0376
+  377 AKARI IRC L24 - 0377
+  378 WISE 1 (3.4 mum) - 0378
+  379 WISE 2 (4.6 mum) - 0379
+  380 WISE 3 (12 mum) - 0380
+  381 WISE 4 (22 mum) - 0381
+  382 Pan-STARRS1 gp1 - 0382
+  383 Pan-STARRS1 rp1 - 0383
+  384 Pan-STARRS1 ip1 - 0384
+  385 Pan-STARRS1 zp1 - 0385
+  386 Pan-STARRS1 yp1 - 0386
+  387 Pan-STARRS1 wp1 - 0387
+  388
+</pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -477,14 +862,16 @@ filter=filters.FilterFile(file=xidplus.__path__[0]+&#39;/../test_files/filters.r
 SPIRE_350=filter.filters[216]
 SPIRE_500=filter.filters[217]
 PACS_100=filter.filters[250]
-bands=[SPIRE_250,SPIRE_350,SPIRE_500,PACS_100]
-eff_lam=[250.0,350.0,500.0,100.0]
+PACS_160=filter.filters[251]
+
+bands=[SPIRE_250,SPIRE_350,SPIRE_500,PACS_100,PACS_160]
+eff_lam=[250.0,350.0,500.0,100.0, 160.0]
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [14]:
+<span></span>In [7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -502,17 +889,24 @@ SPIRE 250 micron - 0216
 SPIRE 350 micron - 0217
 SPIRE 500 micron - 0218
 PACS 100 Instrument Simulator as of Herschel Launch - 0251
+PACS 160 Instrument Simulator as of Herschel Launch - 0252
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [15]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>SEDs=np.empty((len(temps),len(bands),red.size))
+<span></span>import pandas as pd
+template=ascii.read(&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm_LIR/&#39;+temps[0])
+df=pd.DataFrame(template[&#39;col1&#39;].data/1E4,columns=[&#39;wave&#39;])
+print(template[&#39;col1&#39;].data/1E4)
+SEDs=np.empty((len(temps),len(bands),red.size))
 for i in range(0,len(temps)):
     template=ascii.read(&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm_LIR/&#39;+temps[i])
+    df[temps[i]]=1E30*3.826E33*template[&#39;col2&#39;]*((template[&#39;col1&#39;]/1E4)**2)/3E14
+
     flux=template[&#39;col2&#39;]*((template[&#39;col1&#39;]/1E4)**2)/3E14
     wave=template[&#39;col1&#39;]/1E4
 
@@ -523,9 +917,38 @@ for i in range(0,len(temps)):
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[  9.09999900e-03   9.40000000e-03   9.59999900e-03 ...,   1.92899989e+03
+   1.93899920e+03   1.94899898e+03]
+</pre></div></div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [18]:
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>temps[0]
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[9]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&#39;Blue_SF_glx.norm_LIR&#39;
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -542,7 +965,7 @@ plt.ylim(1E-4,1E4)
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[18]:
+<span></span>Out[10]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
@@ -554,22 +977,22 @@ plt.ylim(1E-4,1E4)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../../_images/notebooks_examples_.ipynb_checkpoints_SED_prior_model-checkpoint_10_1.png" src="../../../_images/notebooks_examples_.ipynb_checkpoints_SED_prior_model-checkpoint_10_1.png" />
+<img alt="../../../_images/notebooks_examples_.ipynb_checkpoints_SED_prior_model-checkpoint_11_1.png" src="../../../_images/notebooks_examples_.ipynb_checkpoints_SED_prior_model-checkpoint_11_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [21]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>np.save(&#39;SED_SPIRE_PACS100&#39;, SEDs)
+<span></span>np.save(&#39;SED_Herschel&#39;, SEDs)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [22]:
+<span></span>In [12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -582,14 +1005,461 @@ plt.ylim(1E-4,1E4)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
+SEDS_Herschel_full.pkl
+SEDS_full.pkl
+SED_Herschel.npy
 SED_SPIRE_PACS100.npy
 SED_prior_model.ipynb
 XID+SPIRE.pkl
 XID+example_run_script.ipynb
+XID+example_run_script_SED.ipynb
 XID+posterior_analysis_validation.ipynb
 test.fits
 test.pkl
 </pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>df.to_pickle(&#39;SEDS_Herschel_full.pkl&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>from bokeh.io import output_notebook, show
+from bokeh.layouts import gridplot
+from bokeh.plotting import figure
+from bokeh.io import push_notebook
+output_notebook()
+from bokeh.models import HoverTool
+from bokeh.models import ColumnDataSource
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="bk-root">
+    <a href="http://bokeh.pydata.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
+    <span id="fb0bf2d7-d136-4f74-90ff-7a0a87762895">Loading BokehJS ...</span>
+</div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div id="32597f88-1f24-4790-84c8-e9dc7fc342ad"></div>
+<script type="text/javascript">
+var element = document.getElementById('32597f88-1f24-4790-84c8-e9dc7fc342ad');
+
+(function(global) {
+  function now() {
+    return new Date();
+  }
+
+  var force = true;
+
+  if (typeof (window._bokeh_onload_callbacks) === "undefined" || force === true) {
+    window._bokeh_onload_callbacks = [];
+    window._bokeh_is_loading = undefined;
+  }
+
+
+
+  if (typeof (window._bokeh_timeout) === "undefined" || force === true) {
+    window._bokeh_timeout = Date.now() + 5000;
+    window._bokeh_failed_load = false;
+  }
+
+  var NB_LOAD_WARNING = {'data': {'text/html':
+     "<div style='background-color: #fdd'>\n"+
+     "<p>\n"+
+     "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
+     "may be due to a slow or bad network connection. Possible fixes:\n"+
+     "</p>\n"+
+     "<ul>\n"+
+     "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
+     "<li>use INLINE resources instead, as so:</li>\n"+
+     "</ul>\n"+
+     "<code>\n"+
+     "from bokeh.resources import INLINE\n"+
+     "output_notebook(resources=INLINE)\n"+
+     "</code>\n"+
+     "</div>"}};
+
+  function display_loaded() {
+    if (window.Bokeh !== undefined) {
+      var el = document.getElementById("fb0bf2d7-d136-4f74-90ff-7a0a87762895");
+      el.textContent = "BokehJS " + Bokeh.version + " successfully loaded.";
+    } else if (Date.now() < window._bokeh_timeout) {
+      setTimeout(display_loaded, 100)
+    }
+  }
+
+  function run_callbacks() {
+    try {
+      window._bokeh_onload_callbacks.forEach(function(callback) { callback() });
+    }
+    finally {
+      delete window._bokeh_onload_callbacks
+    }
+    console.info("Bokeh: all callbacks have finished");
+  }
+
+  function load_libs(js_urls, callback) {
+    window._bokeh_onload_callbacks.push(callback);
+    if (window._bokeh_is_loading > 0) {
+      console.log("Bokeh: BokehJS is being loaded, scheduling callback at", now());
+      return null;
+    }
+    if (js_urls == null || js_urls.length === 0) {
+      run_callbacks();
+      return null;
+    }
+    console.log("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
+    window._bokeh_is_loading = js_urls.length;
+    for (var i = 0; i < js_urls.length; i++) {
+      var url = js_urls[i];
+      var s = document.createElement('script');
+      s.src = url;
+      s.async = false;
+      s.onreadystatechange = s.onload = function() {
+        window._bokeh_is_loading--;
+        if (window._bokeh_is_loading === 0) {
+          console.log("Bokeh: all BokehJS libraries loaded");
+          run_callbacks()
+        }
+      };
+      s.onerror = function() {
+        console.warn("failed to load library " + url);
+      };
+      console.log("Bokeh: injecting script tag for BokehJS library: ", url);
+      document.getElementsByTagName("head")[0].appendChild(s);
+    }
+  };var element = document.getElementById("fb0bf2d7-d136-4f74-90ff-7a0a87762895");
+  if (element == null) {
+    console.log("Bokeh: ERROR: autoload.js configured with elementid 'fb0bf2d7-d136-4f74-90ff-7a0a87762895' but no matching script tag was found. ")
+    return false;
+  }
+
+  var js_urls = ["https://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.6.min.js"];
+
+  var inline_js = [
+    function(Bokeh) {
+      Bokeh.set_log_level("info");
+    },
+
+    function(Bokeh) {
+
+    },
+
+    function(Bokeh) {
+
+      document.getElementById("fb0bf2d7-d136-4f74-90ff-7a0a87762895").textContent = "BokehJS is loading...";
+    },
+    function(Bokeh) {
+      console.log("Bokeh: injecting CSS: https://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.css");
+      Bokeh.embed.inject_css("https://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.css");
+      console.log("Bokeh: injecting CSS: https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.6.min.css");
+      Bokeh.embed.inject_css("https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.6.min.css");
+    }
+  ];
+
+  function run_inline_js() {
+
+    if ((window.Bokeh !== undefined) || (force === true)) {
+      for (var i = 0; i < inline_js.length; i++) {
+        inline_js[i](window.Bokeh);
+      }if (force === true) {
+        display_loaded();
+      }} else if (Date.now() < window._bokeh_timeout) {
+      setTimeout(run_inline_js, 100);
+    } else if (!window._bokeh_failed_load) {
+      console.log("Bokeh: BokehJS failed to load within specified timeout.");
+      window._bokeh_failed_load = true;
+    } else if (force !== true) {
+      var cell = $(document.getElementById("fb0bf2d7-d136-4f74-90ff-7a0a87762895")).parents('.cell').data().cell;
+      cell.output_area.append_execute_result(NB_LOAD_WARNING)
+    }
+
+  }
+
+  if (window._bokeh_is_loading === 0) {
+    console.log("Bokeh: BokehJS loaded, going straight to plotting");
+    run_inline_js();
+  } else {
+    load_libs(js_urls, function() {
+      console.log("Bokeh: BokehJS plotting callback run at", now());
+      run_inline_js();
+    });
+  }
+}(this));
+</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>plot_options = dict(width=250, plot_height=250, tools=&#39;pan,wheel_zoom,hover&#39;)
+
+
+
+
+
+# create a new plot
+source = ColumnDataSource(
+        data=dict(
+            x=SEDs[:,0,0],
+            y=SEDs[:,1,0],
+            desc=temps,
+        )
+    )
+
+hover = HoverTool(
+        tooltips=[
+            (&quot;index&quot;, &quot;$index&quot;),
+            (&quot;(x,y)&quot;, &quot;($x, $y)&quot;),
+            (&quot;desc&quot;, &quot;@desc&quot;),
+        ]
+    )
+s1 = figure(**plot_options)
+s1.circle(&#39;x&#39;, &#39;y&#39;, size=20, source=source,color=&quot;navy&quot;)
+
+source = ColumnDataSource(
+        data=dict(
+            x=SEDs[:,0,0],
+            y=SEDs[:,2,0],
+            desc=temps,
+        )
+    )
+
+hover = HoverTool(
+        tooltips=[
+            (&quot;index&quot;, &quot;$index&quot;),
+            (&quot;(x,y)&quot;, &quot;($x, $y)&quot;),
+            (&quot;desc&quot;, &quot;@desc&quot;),
+        ]
+    )
+# create a new plot and share both ranges
+s2 = figure(x_range=s1.x_range, **plot_options)
+s2.circle(&#39;x&#39;, &#39;y&#39;, size=20, source=source,color=&quot;navy&quot;)
+
+source = ColumnDataSource(
+        data=dict(
+            x=SEDs[:,1,0],
+            y=SEDs[:,2,0],
+            desc=temps,
+        )
+    )
+
+hover = HoverTool(
+        tooltips=[
+            (&quot;(x,y)&quot;, &quot;($x, $y)&quot;),
+            (&quot;desc&quot;, &quot;@desc&quot;),
+        ]
+    )
+# create a new plot and share only one range
+s3 = figure(x_range=s1.y_range,y_range=s2.y_range, **plot_options)
+s3.square(&#39;x&#39;, &#39;y&#39;, size=20, source=source,color=&quot;navy&quot;)
+
+p = gridplot([[s1,],[s2, s3]])
+
+# show the results
+show(p,notebook_handle=True)
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+    <div class="bk-root">
+        <div class="bk-plotdiv" id="f78d02ef-2609-4bd8-94b1-c85f1d476655"></div>
+    </div>
+<script type="text/javascript">
+
+  (function(global) {
+    function now() {
+      return new Date();
+    }
+
+    var force = false;
+
+    if (typeof (window._bokeh_onload_callbacks) === "undefined" || force === true) {
+      window._bokeh_onload_callbacks = [];
+      window._bokeh_is_loading = undefined;
+    }
+
+
+
+    if (typeof (window._bokeh_timeout) === "undefined" || force === true) {
+      window._bokeh_timeout = Date.now() + 0;
+      window._bokeh_failed_load = false;
+    }
+
+    var NB_LOAD_WARNING = {'data': {'text/html':
+       "<div style='background-color: #fdd'>\n"+
+       "<p>\n"+
+       "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
+       "may be due to a slow or bad network connection. Possible fixes:\n"+
+       "</p>\n"+
+       "<ul>\n"+
+       "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
+       "<li>use INLINE resources instead, as so:</li>\n"+
+       "</ul>\n"+
+       "<code>\n"+
+       "from bokeh.resources import INLINE\n"+
+       "output_notebook(resources=INLINE)\n"+
+       "</code>\n"+
+       "</div>"}};
+
+    function display_loaded() {
+      if (window.Bokeh !== undefined) {
+        var el = document.getElementById("f78d02ef-2609-4bd8-94b1-c85f1d476655");
+        el.textContent = "BokehJS " + Bokeh.version + " successfully loaded.";
+      } else if (Date.now() < window._bokeh_timeout) {
+        setTimeout(display_loaded, 100)
+      }
+    }if ((window.Jupyter !== undefined) && Jupyter.notebook.kernel) {
+      comm_manager = Jupyter.notebook.kernel.comm_manager
+      comm_manager.register_target("69818bdc-b50e-454f-a6a1-fd388ef626d6", function () {});
+    }
+
+    function run_callbacks() {
+      try {
+        window._bokeh_onload_callbacks.forEach(function(callback) { callback() });
+      }
+      finally {
+        delete window._bokeh_onload_callbacks
+      }
+      console.info("Bokeh: all callbacks have finished");
+    }
+
+    function load_libs(js_urls, callback) {
+      window._bokeh_onload_callbacks.push(callback);
+      if (window._bokeh_is_loading > 0) {
+        console.log("Bokeh: BokehJS is being loaded, scheduling callback at", now());
+        return null;
+      }
+      if (js_urls == null || js_urls.length === 0) {
+        run_callbacks();
+        return null;
+      }
+      console.log("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
+      window._bokeh_is_loading = js_urls.length;
+      for (var i = 0; i < js_urls.length; i++) {
+        var url = js_urls[i];
+        var s = document.createElement('script');
+        s.src = url;
+        s.async = false;
+        s.onreadystatechange = s.onload = function() {
+          window._bokeh_is_loading--;
+          if (window._bokeh_is_loading === 0) {
+            console.log("Bokeh: all BokehJS libraries loaded");
+            run_callbacks()
+          }
+        };
+        s.onerror = function() {
+          console.warn("failed to load library " + url);
+        };
+        console.log("Bokeh: injecting script tag for BokehJS library: ", url);
+        document.getElementsByTagName("head")[0].appendChild(s);
+      }
+    };var element = document.getElementById("f78d02ef-2609-4bd8-94b1-c85f1d476655");
+    if (element == null) {
+      console.log("Bokeh: ERROR: autoload.js configured with elementid 'f78d02ef-2609-4bd8-94b1-c85f1d476655' but no matching script tag was found. ")
+      return false;
+    }
+
+    var js_urls = [];
+
+    var inline_js = [
+      function(Bokeh) {
+        (function() {
+          var fn = function() {
+            var docs_json = {"05869fee-e40f-40df-87d4-fa868d1c2318":{"roots":{"references":[{"attributes":{},"id":"e13a651d-4b0f-4458-bc93-af5bb6d192e0","type":"BasicTickFormatter"},{"attributes":{"plot":{"id":"f3e8bfeb-33e2-4cf4-ac38-223656deacfe","subtype":"Figure","type":"Plot"}},"id":"26ad69a4-95d4-4ecc-ba6d-d25a7cc43400","type":"WheelZoomTool"},{"attributes":{"plot":null,"text":""},"id":"9278d834-9839-41d4-8c0b-71e70d60f96d","type":"Title"},{"attributes":{"callback":null,"plot":{"id":"f3e8bfeb-33e2-4cf4-ac38-223656deacfe","subtype":"Figure","type":"Plot"}},"id":"4143f341-af20-4eb2-bcc0-1958fe21e642","type":"HoverTool"},{"attributes":{"data_source":{"id":"b671691f-7b72-4ee9-ad41-0a7785218549","type":"ColumnDataSource"},"glyph":{"id":"e56dd423-d309-4c3a-84c7-b5ec1d8be88a","type":"Square"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"3756a91e-8ca0-41c0-a6a9-507d7b4dcf5c","type":"Square"},"selection_glyph":null},"id":"3aba0da8-e24e-4ad7-88a7-a26a648254d8","type":"GlyphRenderer"},{"attributes":{"sizing_mode":"scale_width","toolbar_location":"above","tools":[{"id":"c00ec9ab-1faf-48da-8ec7-0beadc4d2262","type":"PanTool"},{"id":"04ac1b31-bea5-485a-83b2-85d50aaa063c","type":"WheelZoomTool"},{"id":"916bf2d7-9e2b-48a8-bec4-960d05ce1c3b","type":"HoverTool"},{"id":"3b5c7324-7819-42d0-aff8-12e027142fc7","type":"PanTool"},{"id":"04e3cf5f-9b1a-4fd3-bf4e-71d9938f89c9","type":"WheelZoomTool"},{"id":"e960a2f7-ea7f-4b54-9dcc-fec03f68a04f","type":"HoverTool"},{"id":"120e91a2-1ea4-486d-8ef5-430ba35f9a49","type":"PanTool"},{"id":"26ad69a4-95d4-4ecc-ba6d-d25a7cc43400","type":"WheelZoomTool"},{"id":"4143f341-af20-4eb2-bcc0-1958fe21e642","type":"HoverTool"}]},"id":"32bd9277-cdc9-4508-a637-a3eda1453ece","type":"ToolbarBox"},{"attributes":{"children":[{"id":"32bd9277-cdc9-4508-a637-a3eda1453ece","type":"ToolbarBox"},{"id":"a0b6ca87-8eda-4a3d-8ffa-1168c1455337","type":"Column"}]},"id":"b17c26c8-53a8-49f5-8d7b-e897f6b00377","type":"Column"},{"attributes":{"children":[{"id":"941665fa-bf9c-4636-acd9-7b22bf2a6eb6","subtype":"Figure","type":"Plot"}]},"id":"22734582-ec14-4b03-8f2f-888f8c0d5f80","type":"Row"},{"attributes":{"children":[{"id":"60cbf794-fd31-4b75-aef6-d68d8ffd4d59","subtype":"Figure","type":"Plot"},{"id":"f3e8bfeb-33e2-4cf4-ac38-223656deacfe","subtype":"Figure","type":"Plot"}]},"id":"5c5e171d-e7cd-48df-8f8b-16a443e8ad63","type":"Row"},{"attributes":{"plot":{"id":"f3e8bfeb-33e2-4cf4-ac38-223656deacfe","subtype":"Figure","type":"Plot"}},"id":"120e91a2-1ea4-486d-8ef5-430ba35f9a49","type":"PanTool"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"size":{"units":"screen","value":20},"x":{"field":"x"},"y":{"field":"y"}},"id":"3756a91e-8ca0-41c0-a6a9-507d7b4dcf5c","type":"Square"},{"attributes":{"below":[{"id":"8e56c6ff-ed46-42f7-af1d-f2ee6d3d212a","type":"LinearAxis"}],"left":[{"id":"1d145e56-30f6-4d8e-95f4-0fddb3a7e607","type":"LinearAxis"}],"plot_height":250,"plot_width":250,"renderers":[{"id":"8e56c6ff-ed46-42f7-af1d-f2ee6d3d212a","type":"LinearAxis"},{"id":"fd29d432-9962-4b26-9702-7f1d1ca1a6ad","type":"Grid"},{"id":"1d145e56-30f6-4d8e-95f4-0fddb3a7e607","type":"LinearAxis"},{"id":"fbc19654-941d-4b8d-b499-561769a9c472","type":"Grid"},{"id":"f3485cce-7587-4143-92f2-3b13f8b66fe4","type":"GlyphRenderer"}],"title":{"id":"fe300685-01c2-4e59-b7bd-ff6f6989237e","type":"Title"},"tool_events":{"id":"357ad29a-b2d2-42af-bc78-85d42f00c792","type":"ToolEvents"},"toolbar":{"id":"f54f8b13-1917-49d9-a607-67cd8642c8eb","type":"Toolbar"},"toolbar_location":null,"x_range":{"id":"58dac3f7-82e5-4d77-8292-5a717c3e9a6a","type":"DataRange1d"},"x_scale":{"id":"cbc40ff3-c7f8-4d8b-8388-f0e5d11bf18a","type":"LinearScale"},"y_range":{"id":"f9dbf249-3ad7-4955-bc5b-dd96786bc485","type":"DataRange1d"},"y_scale":{"id":"c566c817-a3b9-4638-874b-565ea343a74c","type":"LinearScale"}},"id":"941665fa-bf9c-4636-acd9-7b22bf2a6eb6","subtype":"Figure","type":"Plot"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_scroll":"auto","active_tap":"auto","tools":[{"id":"c00ec9ab-1faf-48da-8ec7-0beadc4d2262","type":"PanTool"},{"id":"04ac1b31-bea5-485a-83b2-85d50aaa063c","type":"WheelZoomTool"},{"id":"916bf2d7-9e2b-48a8-bec4-960d05ce1c3b","type":"HoverTool"}]},"id":"f54f8b13-1917-49d9-a607-67cd8642c8eb","type":"Toolbar"},{"attributes":{},"id":"357ad29a-b2d2-42af-bc78-85d42f00c792","type":"ToolEvents"},{"attributes":{"callback":null},"id":"f9dbf249-3ad7-4955-bc5b-dd96786bc485","type":"DataRange1d"},{"attributes":{"below":[{"id":"995ca530-b192-469a-bcfb-83ed8b4997dd","type":"LinearAxis"}],"left":[{"id":"67113b13-0a5e-41da-8910-6f9afcda37bd","type":"LinearAxis"}],"plot_height":250,"plot_width":250,"renderers":[{"id":"995ca530-b192-469a-bcfb-83ed8b4997dd","type":"LinearAxis"},{"id":"f28e9ce1-ad5a-4498-b494-74ba00158f49","type":"Grid"},{"id":"67113b13-0a5e-41da-8910-6f9afcda37bd","type":"LinearAxis"},{"id":"aa3bc715-f160-4752-aefb-11d6d6076c13","type":"Grid"},{"id":"70c88016-6aca-47c8-944b-bfa807bf8fc1","type":"GlyphRenderer"}],"title":{"id":"c54d6124-7894-4d54-a348-50d71a0a8c3c","type":"Title"},"tool_events":{"id":"e502c7c0-9c87-4835-9365-58055507dcd0","type":"ToolEvents"},"toolbar":{"id":"c0a9e901-9b6d-40cd-aca4-20025b5c8a15","type":"Toolbar"},"toolbar_location":null,"x_range":{"id":"58dac3f7-82e5-4d77-8292-5a717c3e9a6a","type":"DataRange1d"},"x_scale":{"id":"52b13f94-5cce-4f97-b366-61aeb69b5049","type":"LinearScale"},"y_range":{"id":"e34a1dc7-77d4-4fc5-bba7-282c2fcc0c52","type":"DataRange1d"},"y_scale":{"id":"d962be62-e2e8-49be-95fd-7c2645123d49","type":"LinearScale"}},"id":"60cbf794-fd31-4b75-aef6-d68d8ffd4d59","subtype":"Figure","type":"Plot"},{"attributes":{"callback":null,"column_names":["x","y","desc"],"data":{"desc":["Blue_SF_glx.norm_LIR","BroadFIR_SF_glx.norm_LIR","Cold_glx.norm_LIR","Elliptical.norm_LIR","Ly_break.norm_LIR","MIR_powlaw_SF_glx.norm_LIR","MIRex_SF_glx.norm_LIR","Mod_SF_glx.norm_LIR","Obs_SF_glx.norm_LIR","PAH_DF_glx.norm_LIR","Red_SF_glx_1.norm_LIR","Red_SF_glx_2.norm_LIR","Secular_glx.norm_LIR","SF_glx_1.norm_LIR","SF_glx_2.norm_LIR","SF_Type1_AGN_1.norm_LIR","SF_Type1_AGN_2.norm_LIR","SF_Type1_AGN_3.norm_LIR","SF_Type1_AGN_4.norm_LIR","SF_Type2_AGN_1.norm_LIR","SF_Type2_AGN_2.norm_LIR","SF_Type2_AGN_3.norm_LIR","Si_break.norm_LIR","Spiral.norm_LIR","Torus.norm_LIR","Type1_AGN_1.norm_LIR","Type2_AGN_1.norm_LIR","Type2_AGN_2.norm_LIR","Warm_SF_glx.norm_LIR","WeakPAH_SF_glx_1.norm_LIR","WeakPAH_SF_glx_2.norm_LIR","Young_SF_glx.norm_LIR"],"x":{"__ndarray__":"MPeSGtnfI0BWMRvI+8smQPsScGW9ET9A8eU5D2iERUBlfTbTBxwsQI05CIhjzRFAAYNhEsakIEDW5r9mDzMqQJ5I+xOCAANAfXA6B4/RIUCO/QpNGrcQQCgk92fW7RFAPDOrrjHDI0DYpaWc9vwxQIgI3UbzsidAz2xbELWiK0CtsdZdT0UeQJBgI1mlwCNA9Q3x2iI6FkB6FrIbmVEqQPaAfhAyCTFAZ9eV/fF7I0B0Kti0DjsbQAvQhHg3+B1AdGuTRS9yFUBuywBCaHoUQLA2p7mo0CRAdZCd0rOBIEBzxAmIBkESQAPs7WQr1yZA46qMQIOBJ0BLcAIHwgstQA==","dtype":"float64","shape":[32]},"y":{"__ndarray__":"ziSCAR/rEEA1a6P4M0QVQB4HLU93UzBAb60NN89RNUBaufbgC/UWQDgMGcZI3Ps/oWUZvzGAC0A9glC0vjsXQOekNf93VO0/+DjpQPDsD0CgljRmxCj6P4plqaYP7vs/Vg+N5CjpD0BBme+xe5EfQLPt9CYs5BRAKHemNdYEGkAQeMU8N68KQDDKcNxTyBBAA6+XkGJHAkCOmPxylHAaQJi9i5+2kyFAxA+AwWqvEEBCpseCtrsFQF/EtuCAQAhAPsvc2ecnAUCR6nVsp54EQOPQpW/cUBFABAgWhSL8C0AuP9uHAk3+P7VmifgmPxNAC3rPcfYbE0A4FQeBl0kZQA==","dtype":"float64","shape":[32]}}},"id":"76d54246-828e-46a1-b4eb-1f020ef68e77","type":"ColumnDataSource"},{"attributes":{"fill_color":{"value":"navy"},"line_color":{"value":"navy"},"size":{"units":"screen","value":20},"x":{"field":"x"},"y":{"field":"y"}},"id":"8633a996-12ff-4784-80c2-db8f1a7d9368","type":"Circle"},{"attributes":{"dimension":1,"plot":{"id":"f3e8bfeb-33e2-4cf4-ac38-223656deacfe","subtype":"Figure","type":"Plot"},"ticker":{"id":"df7abac4-0479-4e46-8a5c-170673138d90","type":"BasicTicker"}},"id":"2a59a524-823d-4371-8336-cd4420a6bc7a","type":"Grid"},{"attributes":{},"id":"c566c817-a3b9-4638-874b-565ea343a74c","type":"LinearScale"},{"attributes":{"plot":{"id":"941665fa-bf9c-4636-acd9-7b22bf2a6eb6","subtype":"Figure","type":"Plot"},"ticker":{"id":"5300f12c-00e7-489b-b487-31becc91205a","type":"BasicTicker"}},"id":"fd29d432-9962-4b26-9702-7f1d1ca1a6ad","type":"Grid"},{"attributes":{"data_source":{"id":"76d54246-828e-46a1-b4eb-1f020ef68e77","type":"ColumnDataSource"},"glyph":{"id":"8633a996-12ff-4784-80c2-db8f1a7d9368","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"eec3cbcb-c1ab-40bc-8b3d-b531d985bb08","type":"Circle"},"selection_glyph":null},"id":"f3485cce-7587-4143-92f2-3b13f8b66fe4","type":"GlyphRenderer"},{"attributes":{},"id":"cbc40ff3-c7f8-4d8b-8388-f0e5d11bf18a","type":"LinearScale"},{"attributes":{"callback":null,"column_names":["x","y","desc"],"data":{"desc":["Blue_SF_glx.norm_LIR","BroadFIR_SF_glx.norm_LIR","Cold_glx.norm_LIR","Elliptical.norm_LIR","Ly_break.norm_LIR","MIR_powlaw_SF_glx.norm_LIR","MIRex_SF_glx.norm_LIR","Mod_SF_glx.norm_LIR","Obs_SF_glx.norm_LIR","PAH_DF_glx.norm_LIR","Red_SF_glx_1.norm_LIR","Red_SF_glx_2.norm_LIR","Secular_glx.norm_LIR","SF_glx_1.norm_LIR","SF_glx_2.norm_LIR","SF_Type1_AGN_1.norm_LIR","SF_Type1_AGN_2.norm_LIR","SF_Type1_AGN_3.norm_LIR","SF_Type1_AGN_4.norm_LIR","SF_Type2_AGN_1.norm_LIR","SF_Type2_AGN_2.norm_LIR","SF_Type2_AGN_3.norm_LIR","Si_break.norm_LIR","Spiral.norm_LIR","Torus.norm_LIR","Type1_AGN_1.norm_LIR","Type2_AGN_1.norm_LIR","Type2_AGN_2.norm_LIR","Warm_SF_glx.norm_LIR","WeakPAH_SF_glx_1.norm_LIR","WeakPAH_SF_glx_2.norm_LIR","Young_SF_glx.norm_LIR"],"x":{"__ndarray__":"MPeSGtnfI0BWMRvI+8smQPsScGW9ET9A8eU5D2iERUBlfTbTBxwsQI05CIhjzRFAAYNhEsakIEDW5r9mDzMqQJ5I+xOCAANAfXA6B4/RIUCO/QpNGrcQQCgk92fW7RFAPDOrrjHDI0DYpaWc9vwxQIgI3UbzsidAz2xbELWiK0CtsdZdT0UeQJBgI1mlwCNA9Q3x2iI6FkB6FrIbmVEqQPaAfhAyCTFAZ9eV/fF7I0B0Kti0DjsbQAvQhHg3+B1AdGuTRS9yFUBuywBCaHoUQLA2p7mo0CRAdZCd0rOBIEBzxAmIBkESQAPs7WQr1yZA46qMQIOBJ0BLcAIHwgstQA==","dtype":"float64","shape":[32]},"y":{"__ndarray__":"hHMSsM799j+4UI/RCzP/P3c740YCzxlAJIkxUUX+H0DwtZiRlVX+P22DDSFOGOI/NrLa4hth8j9WONkFlKcAQFog1vYjI9M/+fPjp8iM9j8i4++3cPPgP28tsgMRneI/JJ63sTpv9T+RSkFUWFkGQKNMryVtYP0/C4ixiSzpAkCK5HuOffHyP4ersqYDnPc/yCbEsUZg6D8YX73VVTcEQNMVCAQoiwtAoU66iqQQ9z+LQ+VlTDLtP/c9lEbc5e8/edmc4Bhe5j9+EsqA2ZrvP6tICL4lJfc/jBgorbgY9D+HRk3pI3DkP/zOHnenPfo/Tymw/J1v+T/3Q9XiAG4CQA==","dtype":"float64","shape":[32]}}},"id":"5fdb2101-12ab-4e73-a98a-4257a9138d9b","type":"ColumnDataSource"},{"attributes":{"formatter":{"id":"da491547-95d6-495e-822a-9e57b41dbc8c","type":"BasicTickFormatter"},"plot":{"id":"941665fa-bf9c-4636-acd9-7b22bf2a6eb6","subtype":"Figure","type":"Plot"},"ticker":{"id":"2b65c40f-0201-437b-92d3-8de3fc596038","type":"BasicTicker"}},"id":"1d145e56-30f6-4d8e-95f4-0fddb3a7e607","type":"LinearAxis"},{"attributes":{"callback":null},"id":"58dac3f7-82e5-4d77-8292-5a717c3e9a6a","type":"DataRange1d"},{"attributes":{"formatter":{"id":"fd973ea2-09a2-4f4a-8d3e-986678452d1f","type":"BasicTickFormatter"},"plot":{"id":"941665fa-bf9c-4636-acd9-7b22bf2a6eb6","subtype":"Figure","type":"Plot"},"ticker":{"id":"5300f12c-00e7-489b-b487-31becc91205a","type":"BasicTicker"}},"id":"8e56c6ff-ed46-42f7-af1d-f2ee6d3d212a","type":"LinearAxis"},{"attributes":{},"id":"879f95ef-417f-47e1-8a34-dc936e613421","type":"BasicTicker"},{"attributes":{"plot":{"id":"941665fa-bf9c-4636-acd9-7b22bf2a6eb6","subtype":"Figure","type":"Plot"}},"id":"04ac1b31-bea5-485a-83b2-85d50aaa063c","type":"WheelZoomTool"},{"attributes":{},"id":"5300f12c-00e7-489b-b487-31becc91205a","type":"BasicTicker"},{"attributes":{"callback":null,"plot":{"id":"941665fa-bf9c-4636-acd9-7b22bf2a6eb6","subtype":"Figure","type":"Plot"}},"id":"916bf2d7-9e2b-48a8-bec4-960d05ce1c3b","type":"HoverTool"},{"attributes":{},"id":"2b65c40f-0201-437b-92d3-8de3fc596038","type":"BasicTicker"},{"attributes":{},"id":"c70e2cc7-a4a0-496a-bf80-722189bfec3c","type":"BasicTickFormatter"},{"attributes":{},"id":"da491547-95d6-495e-822a-9e57b41dbc8c","type":"BasicTickFormatter"},{"attributes":{},"id":"e502c7c0-9c87-4835-9365-58055507dcd0","type":"ToolEvents"},{"attributes":{"formatter":{"id":"e13a651d-4b0f-4458-bc93-af5bb6d192e0","type":"BasicTickFormatter"},"plot":{"id":"f3e8bfeb-33e2-4cf4-ac38-223656deacfe","subtype":"Figure","type":"Plot"},"ticker":{"id":"1754b9cb-334a-45c9-8dae-aaeb19fd4744","type":"BasicTicker"}},"id":"dde7e68d-df27-480e-8386-46fdca845ac5","type":"LinearAxis"},{"attributes":{"fill_color":{"value":"navy"},"line_color":{"value":"navy"},"size":{"units":"screen","value":20},"x":{"field":"x"},"y":{"field":"y"}},"id":"e56dd423-d309-4c3a-84c7-b5ec1d8be88a","type":"Square"},{"attributes":{},"id":"fd973ea2-09a2-4f4a-8d3e-986678452d1f","type":"BasicTickFormatter"},{"attributes":{"plot":null,"text":""},"id":"fe300685-01c2-4e59-b7bd-ff6f6989237e","type":"Title"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"size":{"units":"screen","value":20},"x":{"field":"x"},"y":{"field":"y"}},"id":"e9b00536-f2e3-471c-a0fa-28e73931741d","type":"Circle"},{"attributes":{},"id":"df7abac4-0479-4e46-8a5c-170673138d90","type":"BasicTicker"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_scroll":"auto","active_tap":"auto","tools":[{"id":"120e91a2-1ea4-486d-8ef5-430ba35f9a49","type":"PanTool"},{"id":"26ad69a4-95d4-4ecc-ba6d-d25a7cc43400","type":"WheelZoomTool"},{"id":"4143f341-af20-4eb2-bcc0-1958fe21e642","type":"HoverTool"}]},"id":"868b9edd-a39d-493e-9b29-6fd45bd202e6","type":"Toolbar"},{"attributes":{"plot":{"id":"941665fa-bf9c-4636-acd9-7b22bf2a6eb6","subtype":"Figure","type":"Plot"}},"id":"c00ec9ab-1faf-48da-8ec7-0beadc4d2262","type":"PanTool"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"size":{"units":"screen","value":20},"x":{"field":"x"},"y":{"field":"y"}},"id":"eec3cbcb-c1ab-40bc-8b3d-b531d985bb08","type":"Circle"},{"attributes":{"dimension":1,"plot":{"id":"941665fa-bf9c-4636-acd9-7b22bf2a6eb6","subtype":"Figure","type":"Plot"},"ticker":{"id":"2b65c40f-0201-437b-92d3-8de3fc596038","type":"BasicTicker"}},"id":"fbc19654-941d-4b8d-b499-561769a9c472","type":"Grid"},{"attributes":{"plot":{"id":"60cbf794-fd31-4b75-aef6-d68d8ffd4d59","subtype":"Figure","type":"Plot"}},"id":"3b5c7324-7819-42d0-aff8-12e027142fc7","type":"PanTool"},{"attributes":{"formatter":{"id":"c70e2cc7-a4a0-496a-bf80-722189bfec3c","type":"BasicTickFormatter"},"plot":{"id":"60cbf794-fd31-4b75-aef6-d68d8ffd4d59","subtype":"Figure","type":"Plot"},"ticker":{"id":"f323d2d5-b1eb-46f7-bdbe-6251227a09f9","type":"BasicTicker"}},"id":"67113b13-0a5e-41da-8910-6f9afcda37bd","type":"LinearAxis"},{"attributes":{},"id":"1754b9cb-334a-45c9-8dae-aaeb19fd4744","type":"BasicTicker"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_scroll":"auto","active_tap":"auto","tools":[{"id":"3b5c7324-7819-42d0-aff8-12e027142fc7","type":"PanTool"},{"id":"04e3cf5f-9b1a-4fd3-bf4e-71d9938f89c9","type":"WheelZoomTool"},{"id":"e960a2f7-ea7f-4b54-9dcc-fec03f68a04f","type":"HoverTool"}]},"id":"c0a9e901-9b6d-40cd-aca4-20025b5c8a15","type":"Toolbar"},{"attributes":{"callback":null,"plot":{"id":"60cbf794-fd31-4b75-aef6-d68d8ffd4d59","subtype":"Figure","type":"Plot"}},"id":"e960a2f7-ea7f-4b54-9dcc-fec03f68a04f","type":"HoverTool"},{"attributes":{"callback":null},"id":"e34a1dc7-77d4-4fc5-bba7-282c2fcc0c52","type":"DataRange1d"},{"attributes":{},"id":"52b13f94-5cce-4f97-b366-61aeb69b5049","type":"LinearScale"},{"attributes":{"plot":{"id":"60cbf794-fd31-4b75-aef6-d68d8ffd4d59","subtype":"Figure","type":"Plot"},"ticker":{"id":"879f95ef-417f-47e1-8a34-dc936e613421","type":"BasicTicker"}},"id":"f28e9ce1-ad5a-4498-b494-74ba00158f49","type":"Grid"},{"attributes":{"callback":null,"column_names":["x","y","desc"],"data":{"desc":["Blue_SF_glx.norm_LIR","BroadFIR_SF_glx.norm_LIR","Cold_glx.norm_LIR","Elliptical.norm_LIR","Ly_break.norm_LIR","MIR_powlaw_SF_glx.norm_LIR","MIRex_SF_glx.norm_LIR","Mod_SF_glx.norm_LIR","Obs_SF_glx.norm_LIR","PAH_DF_glx.norm_LIR","Red_SF_glx_1.norm_LIR","Red_SF_glx_2.norm_LIR","Secular_glx.norm_LIR","SF_glx_1.norm_LIR","SF_glx_2.norm_LIR","SF_Type1_AGN_1.norm_LIR","SF_Type1_AGN_2.norm_LIR","SF_Type1_AGN_3.norm_LIR","SF_Type1_AGN_4.norm_LIR","SF_Type2_AGN_1.norm_LIR","SF_Type2_AGN_2.norm_LIR","SF_Type2_AGN_3.norm_LIR","Si_break.norm_LIR","Spiral.norm_LIR","Torus.norm_LIR","Type1_AGN_1.norm_LIR","Type2_AGN_1.norm_LIR","Type2_AGN_2.norm_LIR","Warm_SF_glx.norm_LIR","WeakPAH_SF_glx_1.norm_LIR","WeakPAH_SF_glx_2.norm_LIR","Young_SF_glx.norm_LIR"],"x":{"__ndarray__":"ziSCAR/rEEA1a6P4M0QVQB4HLU93UzBAb60NN89RNUBaufbgC/UWQDgMGcZI3Ps/oWUZvzGAC0A9glC0vjsXQOekNf93VO0/+DjpQPDsD0CgljRmxCj6P4plqaYP7vs/Vg+N5CjpD0BBme+xe5EfQLPt9CYs5BRAKHemNdYEGkAQeMU8N68KQDDKcNxTyBBAA6+XkGJHAkCOmPxylHAaQJi9i5+2kyFAxA+AwWqvEEBCpseCtrsFQF/EtuCAQAhAPsvc2ecnAUCR6nVsp54EQOPQpW/cUBFABAgWhSL8C0AuP9uHAk3+P7VmifgmPxNAC3rPcfYbE0A4FQeBl0kZQA==","dtype":"float64","shape":[32]},"y":{"__ndarray__":"hHMSsM799j+4UI/RCzP/P3c740YCzxlAJIkxUUX+H0DwtZiRlVX+P22DDSFOGOI/NrLa4hth8j9WONkFlKcAQFog1vYjI9M/+fPjp8iM9j8i4++3cPPgP28tsgMRneI/JJ63sTpv9T+RSkFUWFkGQKNMryVtYP0/C4ixiSzpAkCK5HuOffHyP4ersqYDnPc/yCbEsUZg6D8YX73VVTcEQNMVCAQoiwtAoU66iqQQ9z+LQ+VlTDLtP/c9lEbc5e8/edmc4Bhe5j9+EsqA2ZrvP6tICL4lJfc/jBgorbgY9D+HRk3pI3DkP/zOHnenPfo/Tymw/J1v+T/3Q9XiAG4CQA==","dtype":"float64","shape":[32]}}},"id":"b671691f-7b72-4ee9-ad41-0a7785218549","type":"ColumnDataSource"},{"attributes":{},"id":"2146ec1c-69a6-43f7-bca2-ccbe6e3998fa","type":"BasicTickFormatter"},{"attributes":{},"id":"d962be62-e2e8-49be-95fd-7c2645123d49","type":"LinearScale"},{"attributes":{"fill_color":{"value":"navy"},"line_color":{"value":"navy"},"size":{"units":"screen","value":20},"x":{"field":"x"},"y":{"field":"y"}},"id":"9deba0be-2cf0-4d2c-8663-b37900093e83","type":"Circle"},{"attributes":{"data_source":{"id":"5fdb2101-12ab-4e73-a98a-4257a9138d9b","type":"ColumnDataSource"},"glyph":{"id":"9deba0be-2cf0-4d2c-8663-b37900093e83","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"e9b00536-f2e3-471c-a0fa-28e73931741d","type":"Circle"},"selection_glyph":null},"id":"70c88016-6aca-47c8-944b-bfa807bf8fc1","type":"GlyphRenderer"},{"attributes":{"below":[{"id":"dde7e68d-df27-480e-8386-46fdca845ac5","type":"LinearAxis"}],"left":[{"id":"c3071330-ac58-4cb5-b49f-3ca66c97f6c2","type":"LinearAxis"}],"plot_height":250,"plot_width":250,"renderers":[{"id":"dde7e68d-df27-480e-8386-46fdca845ac5","type":"LinearAxis"},{"id":"45552df6-4af9-4a9d-9872-76446a6c7977","type":"Grid"},{"id":"c3071330-ac58-4cb5-b49f-3ca66c97f6c2","type":"LinearAxis"},{"id":"2a59a524-823d-4371-8336-cd4420a6bc7a","type":"Grid"},{"id":"3aba0da8-e24e-4ad7-88a7-a26a648254d8","type":"GlyphRenderer"}],"title":{"id":"9278d834-9839-41d4-8c0b-71e70d60f96d","type":"Title"},"tool_events":{"id":"4dcb57a7-3e99-486e-931a-b87d8815ae5a","type":"ToolEvents"},"toolbar":{"id":"868b9edd-a39d-493e-9b29-6fd45bd202e6","type":"Toolbar"},"toolbar_location":null,"x_range":{"id":"f9dbf249-3ad7-4955-bc5b-dd96786bc485","type":"DataRange1d"},"x_scale":{"id":"1a4d850e-5fb9-4035-9cee-c205e2f02f50","type":"LinearScale"},"y_range":{"id":"e34a1dc7-77d4-4fc5-bba7-282c2fcc0c52","type":"DataRange1d"},"y_scale":{"id":"45a13df6-1f78-4833-a93b-03d59c629802","type":"LinearScale"}},"id":"f3e8bfeb-33e2-4cf4-ac38-223656deacfe","subtype":"Figure","type":"Plot"},{"attributes":{},"id":"f323d2d5-b1eb-46f7-bdbe-6251227a09f9","type":"BasicTicker"},{"attributes":{"plot":null,"text":""},"id":"c54d6124-7894-4d54-a348-50d71a0a8c3c","type":"Title"},{"attributes":{"formatter":{"id":"2146ec1c-69a6-43f7-bca2-ccbe6e3998fa","type":"BasicTickFormatter"},"plot":{"id":"60cbf794-fd31-4b75-aef6-d68d8ffd4d59","subtype":"Figure","type":"Plot"},"ticker":{"id":"879f95ef-417f-47e1-8a34-dc936e613421","type":"BasicTicker"}},"id":"995ca530-b192-469a-bcfb-83ed8b4997dd","type":"LinearAxis"},{"attributes":{},"id":"1df70c2c-dabe-41c5-93c3-4cf8807f2265","type":"BasicTickFormatter"},{"attributes":{"plot":{"id":"f3e8bfeb-33e2-4cf4-ac38-223656deacfe","subtype":"Figure","type":"Plot"},"ticker":{"id":"1754b9cb-334a-45c9-8dae-aaeb19fd4744","type":"BasicTicker"}},"id":"45552df6-4af9-4a9d-9872-76446a6c7977","type":"Grid"},{"attributes":{"dimension":1,"plot":{"id":"60cbf794-fd31-4b75-aef6-d68d8ffd4d59","subtype":"Figure","type":"Plot"},"ticker":{"id":"f323d2d5-b1eb-46f7-bdbe-6251227a09f9","type":"BasicTicker"}},"id":"aa3bc715-f160-4752-aefb-11d6d6076c13","type":"Grid"},{"attributes":{"plot":{"id":"60cbf794-fd31-4b75-aef6-d68d8ffd4d59","subtype":"Figure","type":"Plot"}},"id":"04e3cf5f-9b1a-4fd3-bf4e-71d9938f89c9","type":"WheelZoomTool"},{"attributes":{},"id":"1a4d850e-5fb9-4035-9cee-c205e2f02f50","type":"LinearScale"},{"attributes":{},"id":"4dcb57a7-3e99-486e-931a-b87d8815ae5a","type":"ToolEvents"},{"attributes":{"children":[{"id":"22734582-ec14-4b03-8f2f-888f8c0d5f80","type":"Row"},{"id":"5c5e171d-e7cd-48df-8f8b-16a443e8ad63","type":"Row"}]},"id":"a0b6ca87-8eda-4a3d-8ffa-1168c1455337","type":"Column"},{"attributes":{},"id":"45a13df6-1f78-4833-a93b-03d59c629802","type":"LinearScale"},{"attributes":{"formatter":{"id":"1df70c2c-dabe-41c5-93c3-4cf8807f2265","type":"BasicTickFormatter"},"plot":{"id":"f3e8bfeb-33e2-4cf4-ac38-223656deacfe","subtype":"Figure","type":"Plot"},"ticker":{"id":"df7abac4-0479-4e46-8a5c-170673138d90","type":"BasicTicker"}},"id":"c3071330-ac58-4cb5-b49f-3ca66c97f6c2","type":"LinearAxis"}],"root_ids":["b17c26c8-53a8-49f5-8d7b-e897f6b00377"]},"title":"Bokeh Application","version":"0.12.6"}};
+            var render_items = [{"docid":"05869fee-e40f-40df-87d4-fa868d1c2318","elementid":"f78d02ef-2609-4bd8-94b1-c85f1d476655","modelid":"b17c26c8-53a8-49f5-8d7b-e897f6b00377","notebook_comms_target":"69818bdc-b50e-454f-a6a1-fd388ef626d6"}];
+
+            Bokeh.embed.embed_items(docs_json, render_items);
+          };
+          if (document.readyState != "loading") fn();
+          else document.addEventListener("DOMContentLoaded", fn);
+        })();
+      },
+      function(Bokeh) {
+      }
+    ];
+
+    function run_inline_js() {
+
+      if ((window.Bokeh !== undefined) || (force === true)) {
+        for (var i = 0; i < inline_js.length; i++) {
+          inline_js[i](window.Bokeh);
+        }if (force === true) {
+          display_loaded();
+        }} else if (Date.now() < window._bokeh_timeout) {
+        setTimeout(run_inline_js, 100);
+      } else if (!window._bokeh_failed_load) {
+        console.log("Bokeh: BokehJS failed to load within specified timeout.");
+        window._bokeh_failed_load = true;
+      } else if (force !== true) {
+        var cell = $(document.getElementById("f78d02ef-2609-4bd8-94b1-c85f1d476655")).parents('.cell').data().cell;
+        cell.output_area.append_execute_result(NB_LOAD_WARNING)
+      }
+
+    }
+
+    if (window._bokeh_is_loading === 0) {
+      console.log("Bokeh: BokehJS loaded, going straight to plotting");
+      run_inline_js();
+    } else {
+      load_libs(js_urls, function() {
+        console.log("Bokeh: BokehJS plotting callback run at", now());
+        run_inline_js();
+      });
+    }
+  }(this));
+</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[36]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<p><code>&lt;Bokeh Notebook handle for <strong>In[36]</strong>&gt;</code></p></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>SEDs.shape
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[31]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>(32, 5, 800)
+</pre></div>
+</div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>

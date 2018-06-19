@@ -94,7 +94,11 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#anaconda-python">Anaconda Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#custom-python">Custom Python</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#finally">Finally</a><ul class="simple">
 </ul>
 </li>
@@ -214,13 +218,20 @@
 </div>
 <div class="section" id="requirements">
 <h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="anaconda-python">
+<h4>Anaconda Python<a class="headerlink" href="#anaconda-python" title="Permalink to this headline">¶</a></h4>
 <p>If using an Anaconda distribution, then it is best to install some prerequisites with conda with the following command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>while read requirement; do conda install --yes $requirement; done &lt; req.txt
+<div class="highlight-default"><div class="highlight"><pre><span></span>conda config --add channels conda-forge &amp;&amp; conda install healpy
+while read requirement; do conda install --yes $requirement; done &lt; req.txt
 </pre></div>
 </div>
+</div>
+<div class="section" id="custom-python">
+<h4>Custom Python<a class="headerlink" href="#custom-python" title="Permalink to this headline">¶</a></h4>
 <p>If you are using your own Python setup, install the requirements via the command</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">req</span><span class="o">.</span><span class="n">txt</span>
 </pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="finally">

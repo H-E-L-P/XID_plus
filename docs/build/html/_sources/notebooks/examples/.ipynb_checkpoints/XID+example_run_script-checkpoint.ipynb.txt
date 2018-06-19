@@ -10,6 +10,8 @@
    "source": [
     "# XID+ Example Run Script\n",
     "\n",
+    "(This is based on a Jupyter notebook, available in the [XID+ package](https://github.com/H-E-L-P/XID_plus/tree/master/docs/notebooks/examples/) and can be interactively run and edited)\n",
+    "\n",
     "XID+ is a probababilistic deblender for confusion dominated maps. It is designed to:\n",
     "\n",
     "1. Use a MCMC based approach to get FULL posterior\n",
@@ -152,6 +154,26 @@
   {
    "cell_type": "code",
    "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'/Users/pdh21/Work/Astro/XID_plus/xidplus'"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "xidplus.__path__[0]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
    "metadata": {
     "collapsed": true
    },
@@ -184,7 +206,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 4,
    "metadata": {
     "collapsed": true
    },
@@ -230,7 +252,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 5,
    "metadata": {
     "collapsed": true
    },
@@ -251,28 +273,50 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "XID+ is built around two python classes. A prior and posterior class. There should be a prior class for each map being fitted. It is initiated with a map, noise map, primary header and map header. It also requires an input prior catalogue and point spread function.\n"
+    "XID+ uses Multi Order Coverage (MOC) maps for cutting down maps and catalogues so they cover the same area. It can also take in MOCs as selection functions to carry out additional cuts. Lets use the python module [pymoc](http://pymoc.readthedocs.io/en/latest/) to create a MOC, centered on a specific position we are interested in. We will use a HEALPix order of 15 (the resolution: higher order means higher resolution), have a radius of 100 arcseconds centered around an R.A. of 150.74 degrees and Declination of 2.03 degrees."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 6,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": [
+    "from astropy.coordinates import SkyCoord\n",
+    "from astropy import units as u\n",
+    "c = SkyCoord(ra=[150.74]*u.degree, dec=[2.03]*u.degree)  \n",
+    "import pymoc\n",
+    "moc=pymoc.util.catalog.catalog_to_moc(c,100,15)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "XID+ is built around two python classes. A prior and posterior class. There should be a prior class for each map being fitted. It is initiated with a map, noise map, primary header and map header and can be set with a MOC. It also requires an input prior catalogue and point spread function.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
    "metadata": {
     "collapsed": true
    },
    "outputs": [],
    "source": [
     "#---prior250--------\n",
-    "prior250=xidplus.prior(im250,nim250,im250phdu,im250hdu)#Initialise with map, uncertianty map, wcs info and primary header\n",
+    "prior250=xidplus.prior(im250,nim250,im250phdu,im250hdu, moc=moc)#Initialise with map, uncertianty map, wcs info and primary header\n",
     "prior250.prior_cat(inra,indec,prior_cat)#Set input catalogue\n",
     "prior250.prior_bkg(-5.0,5)#Set prior on background (assumes Gaussian pdf with mu and sigma)\n",
     "#---prior350--------\n",
-    "prior350=xidplus.prior(im350,nim350,im350phdu,im350hdu)\n",
+    "prior350=xidplus.prior(im350,nim350,im350phdu,im350hdu, moc=moc)\n",
     "prior350.prior_cat(inra,indec,prior_cat)\n",
     "prior350.prior_bkg(-5.0,5)\n",
     "\n",
     "#---prior500--------\n",
-    "prior500=xidplus.prior(im500,nim500,im500phdu,im500hdu)\n",
+    "prior500=xidplus.prior(im500,nim500,im500phdu,im500hdu, moc=moc)\n",
     "prior500.prior_cat(inra,indec,prior_cat)\n",
     "prior500.prior_bkg(-5.0,5)"
    ]
@@ -286,7 +330,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 8,
    "metadata": {
     "collapsed": true
    },
@@ -318,53 +362,6 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "fitting 64824 sources \n",
-      "\n",
-      "using 1239145, 1239145 and 309801 pixels\n"
-     ]
-    }
-   ],
-   "source": [
-    "print('fitting '+ str(prior250.nsrc)+' sources \\n')\n",
-    "print('using ' +  str(prior250.snpix)+', '+ str(prior250.snpix)+' and '+ str(prior500.snpix)+' pixels')\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "Fitting this number of sources and datapoints is not practical. XID+ uses Multi Order Coverage (MOC) maps for cutting down maps and catalogues so they cover the same area. It can also take in MOCs as selection functions to carry out additional cuts. \n",
-    "\n",
-    "Suggest cutting down to a MOC based on a HEALPix pixel with an order no greater than 10 for SPIRE (unless being carried out on HPC)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 8,
-   "metadata": {
-    "collapsed": true
-   },
-   "outputs": [],
-   "source": [
-    "order=10\n",
-    "Tile=6977662\n",
-    "\n",
-    "#use XID+ moc routines to get a Tile based on a HEALPix pixel\n",
-    "moc=moc_routines.get_fitting_region(order,Tile)\n",
-    "prior250.set_tile(moc)\n",
-    "prior350.set_tile(moc)\n",
-    "prior500.set_tile(moc)"
-   ]
-  },
-  {
-   "cell_type": "code",
    "execution_count": 9,
    "metadata": {},
    "outputs": [
@@ -372,15 +369,15 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "fitting 165 sources \n",
+      "fitting 51 sources \n",
       "\n",
-      "using 2656, 1378 and 664 pixels\n"
+      "using 870, 870 and 219 pixels\n"
      ]
     }
    ],
    "source": [
     "print('fitting '+ str(prior250.nsrc)+' sources \\n')\n",
-    "print('using ' +  str(prior250.snpix)+', '+ str(prior350.snpix)+' and '+ str(prior500.snpix)+' pixels')\n"
+    "print('using ' +  str(prior250.snpix)+', '+ str(prior250.snpix)+' and '+ str(prior500.snpix)+' pixels')\n"
    ]
   },
   {
@@ -412,7 +409,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": null,
    "metadata": {
     "collapsed": true
    },
@@ -432,14 +429,21 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": null,
    "metadata": {},
    "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_b1d99dae621f9d8744cd35a49a4302a4 NOW.\n"
+     ]
+    },
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "/XID+SPIRE found. Reusing\n"
+      "/XID+SPIRE not found or wrong version. Compiling\n"
      ]
     }
    ],
@@ -457,7 +461,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": null,
    "metadata": {
     "collapsed": true
    },
@@ -466,6 +470,24 @@
     "posterior=xidplus.posterior_stan(fit,[prior250,prior350,prior500])\n",
     "xidplus.save([prior250,prior350,prior500],posterior,'test')"
    ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": []
   },
   {
    "cell_type": "code",
