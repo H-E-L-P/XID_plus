@@ -220,10 +220,10 @@ model{
 
 
   // likelihood of observed map|model map
-  db_psw ~ normal(db_hat_psw,sigma_tot_psw);
-  db_pmw ~ normal(db_hat_pmw,sigma_tot_pmw);
-  db_plw ~ normal(db_hat_plw,sigma_tot_plw);
-  db_mips24 ~ normal(db_hat_mips24,sigma_tot_mips24);
+  //db_psw ~ normal(db_hat_psw,sigma_tot_psw);
+  //db_pmw ~ normal(db_hat_pmw,sigma_tot_pmw);
+  //db_plw ~ normal(db_hat_plw,sigma_tot_plw);
+  //db_mips24 ~ normal(db_hat_mips24,sigma_tot_mips24);
 
 
 

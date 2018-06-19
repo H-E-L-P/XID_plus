@@ -246,3 +246,72 @@ def MIPS_SPIRE(phot_priors,sed_prior_model,chains=4,seed=5363,iter=1000,max_tree
     fit = sm.sampling(data=XID_data,iter=iter,chains=chains,seed=seed,verbose=True,control=dict(max_treedepth=max_treedepth,adapt_delta=adapt_delta))
     #return fit data
     return fit
+
+def MIPS_SPIRE_gen(phot_priors,sed_prior_model,chains=4,seed=5363,iter=1000,max_treedepth=10,adapt_delta=0.8):
+
+    """
+    Fit the three SPIRE bands
+
+    :param priors: list of xidplus.prior class objects. Order (MIPS,PACS100,PACS160,SPIRE250,SPIRE350,SPIRE500)
+    :param sed_prior: xidplus.sed.sed_prior class
+    :param chains: number of chains
+    :param iter: number of iterations
+    :return: pystan fit object
+    """
+    prior24=phot_priors[0]
+    prior250=phot_priors[1]
+    prior350=phot_priors[2]
+    prior500=phot_priors[3]
+
+    #input data into a dictionary
+    XID_data = {
+        'nsrc': prior250.nsrc,
+        'bkg_prior': [prior24.bkg[0],prior250.bkg[0], prior350.bkg[0], prior500.bkg[0]],
+        'bkg_prior_sig': [prior24.bkg[1],prior250.bkg[1], prior350.bkg[1], prior500.bkg[1]],
+        'conf_prior_sig': [0.0001, 0.1, 0.1, 0.1],
+        'z_median': prior24.z_median,
+        'z_sig': prior24.z_sig,
+        'npix_psw': prior250.snpix,
+        'nnz_psw': prior250.amat_data.size,
+        'db_psw': prior250.sim,
+        'sigma_psw': prior250.snim,
+        'Val_psw': prior250.amat_data,
+        'Row_psw': prior250.amat_row.astype(np.long),
+        'Col_psw': prior250.amat_col.astype(np.long),
+        'npix_pmw': prior350.snpix,
+        'nnz_pmw': prior350.amat_data.size,
+        'db_pmw': prior350.sim,
+        'sigma_pmw': prior350.snim,
+        'Val_pmw': prior350.amat_data,
+        'Row_pmw': prior350.amat_row.astype(np.long),
+        'Col_pmw': prior350.amat_col.astype(np.long),
+        'npix_plw': prior500.snpix,
+        'nnz_plw': prior500.amat_data.size,
+        'db_plw': prior500.sim,
+        'sigma_plw': prior500.snim,
+        'Val_plw': prior500.amat_data,
+        'Row_plw': prior500.amat_row.astype(np.long),
+        'Col_plw': prior500.amat_col.astype(np.long),
+        'npix_mips24': prior24.snpix,
+        'nnz_mips24': prior24.amat_data.size,
+        'db_mips24': prior24.sim,
+        'sigma_mips24': prior24.snim,
+        'Val_mips24': prior24.amat_data,
+        'Row_mips24': prior24.amat_row.astype(np.long),
+        'Col_mips24': prior24.amat_col.astype(np.long),
+        'nTemp': sed_prior_model.shape[0],
+        'nz': sed_prior_model.shape[2],
+        'nband': sed_prior_model.shape[1],
+        'SEDs': sed_prior_model,
+    }
+
+
+    #see if model has already been compiled. If not, compile and save it
+    model_file='/XID+MIPS_SPIRE_SED_gen'
+    from xidplus.stan_fit import get_stancode
+    sm = get_stancode(model_file)
+
+
+    fit = sm.sampling(data=XID_data,iter=iter,chains=chains,seed=seed,verbose=True,control=dict(max_treedepth=max_treedepth,adapt_delta=adapt_delta))
+    #return fit data
+    return fit
