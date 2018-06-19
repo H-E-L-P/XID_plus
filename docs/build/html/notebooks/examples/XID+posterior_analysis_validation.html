@@ -560,7 +560,7 @@ to think about one pixel. We can look at where the real flux value for
 our pixel is in relation to the distribution from <span class="math">\(y^{rep}\)</span>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [37]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -571,7 +571,7 @@ rep_maps=postmaps.replicated_maps(priors,posterior)
 import matplotlib as mpl
 sns.set_style(&quot;white&quot;)
 
-fig=plt.figure(figsize=(5,5))
+fig=plt.figure(figsize=(10,5))
 
 
 # This is  the colormap I&#39;d like to use.
@@ -586,15 +586,15 @@ C = [cm(((((x-np.mean(rep_maps[0][20,:]))/np.std(rep_maps[0][20,:]))+6)/12.0)) f
 plt.bar(X[:-1],Y,color=C,width=X[1]-X[0])
 plt.xlabel(&#39;Pixel Flux mJy&#39;)
 plt.ylabel(&#39;p(pixel flux)&#39;)
-plt.axvline(5, linestyle=&#39;--&#39;)
-plt.axvline(-10,linestyle=&#39;:&#39;)
-plt.annotate(&#39;flux in map that \n model cannot explain&#39;,xy=(5, 0.01),  xycoords=&#39;data&#39;,
-            xytext=(5, 0.1), textcoords=&#39;data&#39;,rotation=&#39;vertical&#39;,size=&#39;small&#39;)
+plt.axvline(3.9, linestyle=&#39;--&#39;)
+plt.axvline(-10.1,linestyle=&#39;:&#39;)
+plt.annotate(&#39;flux in map that \n model cannot explain&#39;,xy=(4, 0.01),  xycoords=&#39;data&#39;,
+            xytext=(4, 0.1), textcoords=&#39;data&#39;,rotation=&#39;vertical&#39;,size=&#39;large&#39;)
 plt.annotate(&#39;too much flux in model \n compared to map&#39;,xy=(-10, 0.01),  xycoords=&#39;data&#39;,
-            xytext=(-10, 0.1), textcoords=&#39;data&#39;,rotation=&#39;vertical&#39;,size=&#39;small&#39;)
+            xytext=(-10, 0.1), textcoords=&#39;data&#39;,rotation=&#39;vertical&#39;,size=&#39;large&#39;)
 
 #ax1 = fig.add_axes([0.05, 0.80, 0.9, 0.15])
-ax1 = fig.add_axes([0.95, 0.1, 0.05, 0.8])
+ax1 = fig.add_axes([0.82, 0.15, 0.02, 0.7])
 
 norm = mpl.colors.Normalize(vmin=-6, vmax=6)
 cb1 = mpl.colorbar.ColorbarBase(ax1, cmap=cm,
