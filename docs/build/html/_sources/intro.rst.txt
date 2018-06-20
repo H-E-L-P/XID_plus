@@ -1,8 +1,5 @@
-Getting Started
-===============
-
 Installation
-------------
+===============
 
 XID+ requires a Python (2 or 3) installation. I recommend the `Anaconda distribution <https://www.continuum.io/downloads>`_.
 

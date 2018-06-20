@@ -92,12 +92,14 @@
             
               <p class="caption"><span class="caption-text">User Guide:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">A Generative Probabilistic Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Large Fields</a><ul class="simple">
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="priors.html">Beyond Positional Priors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API documentation</a></li>
 </ul>
 
             
@@ -200,35 +202,16 @@
 <p>Running XID+ over large areas or fields is computationally challenging. One way to overcome this
 issue is to split the field into tiles and run them independently. For HELP, we use a tiling scheme based on the <a class="reference external" href="http://healpix.jpl.nasa.gov/">HEALPix</a> scheme.</p>
 <p>We carry out this tiling scheme as follows:</p>
-<ol class="arabic">
-<li><p class="first">Create a prior class containing all raw data (e.g. map, catalogue and PSF)</p>
-</li>
-<li><p class="first">Use that prior class catalogue to construct 2 lists of tiles</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">xidplus</span> <span class="k">import</span> <span class="n">moc_routines</span>
-<span class="n">order</span><span class="o">=</span><span class="mi">11</span>
-<span class="n">tiles</span><span class="o">=</span><span class="n">moc_routines</span><span class="o">.</span><span class="n">get_HEALPix_pixels</span><span class="p">(</span><span class="n">order</span><span class="p">,</span><span class="n">priors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sra</span><span class="p">,</span><span class="n">priors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sdec</span><span class="p">,</span><span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">order_large</span><span class="o">=</span><span class="mi">7</span>
-<span class="n">tiles_large</span><span class="o">=</span><span class="n">moc_routines</span><span class="o">.</span><span class="n">get_HEALPix_pixels</span><span class="p">(</span><span class="n">order_large</span><span class="p">,</span><span class="n">prior250</span><span class="o">.</span><span class="n">sra</span><span class="p">,</span><span class="n">prior250</span><span class="o">.</span><span class="n">sdec</span><span class="p">,</span><span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;----- There are &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tiles</span><span class="p">))</span><span class="o">+</span><span class="s1">&#39; tiles required for input catalogue and &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tiles_large</span><span class="p">))</span><span class="o">+</span><span class="s1">&#39; large tiles&#39;</span><span class="p">)</span>
-<span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./&#39;</span>
-<span class="n">outfile</span><span class="o">=</span><span class="n">output_folder</span><span class="o">+</span><span class="s1">&#39;Master_prior.pkl&#39;</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="s1">&#39;priors&#39;</span><span class="p">:,</span><span class="n">priors</span><span class="p">,</span><span class="s1">&#39;tiles&#39;</span><span class="p">:</span><span class="n">tiles</span><span class="p">,</span><span class="s1">&#39;order&#39;</span><span class="p">:</span><span class="n">order</span><span class="p">,</span><span class="s1">&#39;version&#39;</span><span class="p">:</span><span class="n">xidplus</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">git_version</span><span class="p">()},</span><span class="n">f</span><span class="p">)</span>
-<span class="n">outfile</span><span class="o">=</span><span class="n">output_folder</span><span class="o">+</span><span class="s1">&#39;Tiles.pkl&#39;</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="s1">&#39;tiles&#39;</span><span class="p">:</span><span class="n">tiles</span><span class="p">,</span><span class="s1">&#39;order&#39;</span><span class="p">:</span><span class="n">order</span><span class="p">,</span><span class="s1">&#39;tiles_large&#39;</span><span class="p">:</span><span class="n">tiles_large</span><span class="p">,</span><span class="s1">&#39;order_large&#39;</span><span class="p">:</span><span class="n">order_large</span><span class="p">,</span><span class="s1">&#39;version&#39;</span><span class="p">:</span><span class="n">xidplus</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">git_version</span><span class="p">()},</span><span class="n">f</span><span class="p">)</span>
-<span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">()</span>
-</pre></div>
-</div>
-</li>
+<ol class="arabic simple">
+<li>Create a prior class containing all raw data (e.g. map, catalogue and PSF) and construct 2 lists of tiles. <a class="reference external" href="https://github.com/H-E-L-P/dmu_products/blob/master/dmu26/dmu26_XID%2BSPIRE_ELAIS-N1/XID%2BSPIRE_prior_SWIRE.ipynb">Here is an example script used for ELAIS-N1</a>:</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The larger tiles are used to split up the main prior class into slightly smaller regions. The smaller tiles use the larger
+<p class="last">The tiling scheme produces hierarchical larger tiles that are used to split up the main prior class into slightly smaller regions. The smaller tiles on which the fitting is actually done, uses the larger
 tiles as an input. This reduces the amount of memory required compared to having to read in the original prior class each time.</p>
 </div>
-<ol class="arabic" start="3">
-<li><p class="first">We create the larger tiles by running:</p>
+<ol class="arabic" start="2">
+<li><p class="first">We create the larger tiles by running for each hierarcical tile:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;from xidplus import HPC; HPC.hierarchical_tile(&quot;Master_prior.pkl&quot;,&quot;Tiles.pkl&quot;)&#39;</span>
 </pre></div>
 </div>
@@ -236,13 +219,16 @@ tiles as an input. This reduces the amount of memory required compared to having
 </ol>
 <p>By default, this assumes the command is being run as an array job on an HPC environment running SunGrid (as we do at Sussex), with the length of the array equal to the number of large tiles required.
 If it cannot find the <code class="docutils literal"><span class="pre">$SGE_TASK_ID</span></code>, then it will ask for task id number. It reads in the master prior, cuts it down to the tile being referenced by the task id number and saves the cut down prior.</p>
-<ol class="arabic simple" start="4">
-<li>The final stage is to actually run XID+ on each small tile. For HELP, we use an HPC to fit multiple tiles at the same time.</li>
+<ol class="arabic simple" start="3">
+<li>Having created the hierarchical tiles, we actually run XID+ on each small tile. For HELP, we use an HPC to fit multiple tiles at the same time.</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Ideally, each tile being fitted should use four cores (so that each MCMC chain can be run independently).</p>
 </div>
+<p>4. Having carried out the fit to all the tiles, we can combine the Bayesian maps into one. <a class="reference external" href="https://github.com/H-E-L-P/dmu_products/blob/master/dmu26/dmu26_XID%2BSPIRE_ELAIS-N1/make_combined_map.py">Here is an example script.</a>:
+This will also pick up any failed tiles and list them in a failed_tiles.pkl
+file, which you can then go back and fit.</p>
 <div class="toctree-wrapper compound">
 </div>
 </div>

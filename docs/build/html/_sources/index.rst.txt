@@ -17,10 +17,13 @@ It is being actively developed in a public repository on `GitHub <https://github
    :maxdepth: 2
    :caption: User Guide:
 
+   philosophy
    intro
    tutorial
    hpc
    priors
+   api
+   Stan
 
 
 
