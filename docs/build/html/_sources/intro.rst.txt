@@ -37,7 +37,8 @@ Docker
 As an alternative to having to install XID_plus, along with all the Python dependencies, we provide a docker image of XID plus.
 
 Docker is an open source tool that allows developers to package up an application with all of the parts it needs, such as libraries and dependencies.
- The resulting Docker image can then be run on ANY machine, be it Windows, Linux, Mac or in the cloud without having to worry about installing numerous dependencies.
+
+The resulting Docker image can then be run on ANY machine, be it Windows, Linux, Mac or in the cloud without having to worry about installing numerous dependencies.
 
 For Docker installation instructions, `see the Docker main page <https://www.docker.com/get-docker>`_.
 
@@ -51,7 +52,8 @@ http://localhost:8888/?token=0312c1ef3b61d7a44ff5346d3d150c23249a548850e13868
 
 Our Docker image has been created to run Jupyter notebook at startup.
 
-To start the
+The different flags do the following:
+
 * The -it flag tells docker that it should open an interactive container instance.
 * The --rm flag tells docker that the container should automatically be removed after we close docker.
 * The -p flag specifies which port we want to make available for docker.
