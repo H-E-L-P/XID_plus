@@ -34,7 +34,7 @@ Then, install the package by running the following command::
 
 Docker
 ======
-As an alternative to having to install XID_plus, along with all the Python dependencies, we provide a docker image of XID plus.
+As an alternative to having to install XID plus, along with all the Python dependencies, we provide a docker image of XID plus.
 
 Docker is an open source tool that allows developers to package up an application with all of the parts it needs, such as libraries and dependencies.
 
@@ -45,6 +45,8 @@ For Docker installation instructions, `see the Docker main page <https://www.doc
 Once Docker is installed, running a docker image on a Linux or Mac OS is very simple. Just open a new terminal and use the command::
 
    docker run -it --rm -v $(pwd):/home -p 8888:8888 pdh21/xidplus:latest
+
+.. note:: The "docker run" command should automatically download the xidplus image from the cloud. Alternatively, one can download the image with out running, using the command "docker pull pdh21/xidplus:latest",
 
 
 Once the docker image is downloaded, open the shown URL link in your browser and you are good to go. The URL will look something like:

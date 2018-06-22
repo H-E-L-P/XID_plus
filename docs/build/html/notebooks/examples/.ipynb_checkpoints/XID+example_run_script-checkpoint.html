@@ -362,9 +362,11 @@ and can be interactively run and edited)</p>
 <p>XID+ is a probababilistic deblender for confusion dominated maps. It is
 designed to:</p>
 <ol class="arabic simple">
-<li>Use a MCMC based approach to get FULL posterior</li>
+<li>Use a MCMC based approach to get FULL posterior probability
+distribution on flux</li>
 <li>Provide a natural framework to introduce additional prior information</li>
-<li>Allows more accurate estimate of flux density errors for each source</li>
+<li>Allows more representative estimation of source flux density
+uncertainties</li>
 <li>Provides a platform for doing science with the maps (e.g XID+
 Hierarchical stacking, Luminosity function from the map etc)</li>
 </ol>
@@ -396,14 +398,11 @@ as:
 <li>A global background (B) contributes to all pixels</li>
 <li>PRF is fixed and known</li>
 <li>Because we are getting the joint probability distribution, our model
-is generative:</li>
-<li>Given parameters, we generate data and vica-versa</li>
+is generative i.e. given parameters, we generate data and vica-versa</li>
 </ul>
 <p>Compared to discriminative model (i.e. neural network), which only
-obtains conditional probability distribution:</p>
-<ul class="simple">
-<li>Neural network, give inputs, get output. Can&#8217;t go other way&#8217;</li>
-</ul>
+obtains conditional probability distribution i.e. Neural network, give
+inputs, get output. Can&#8217;t go other way&#8217;</p>
 <p>Generative model is full probabilistic model. Allows more complex
 relationships between observed and target variables</p>
 <div class="section" id="XID+-SPIRE">
@@ -589,9 +588,9 @@ prior500.prior_bkg(-5.0,5)
 </pre></div>
 </div>
 </div>
-<p>Set PSF. For SPIRE, the PSF can be assumed to be Gaussian with a FWHM of
+<p>Set PRF. For SPIRE, the PRF can be assumed to be Gaussian with a FWHM of
 18.15, 25.15, 36.3 &#8216;&#8217; for 250, 350 and 500 <span class="math">\(\mathrm{\mu m}\)</span>
-respectively. Lets use the astropy module to construct a Gaussian PSF
+respectively. Lets use the astropy module to construct a Gaussian PRF
 and assign it to the three XID+ prior classes.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -618,7 +617,7 @@ pind250=np.arange(0,101,1)*1.0/pixsize[0] #get 250 scale in terms of pixel scale
 pind350=np.arange(0,101,1)*1.0/pixsize[1] #get 350 scale in terms of pixel scale of map
 pind500=np.arange(0,101,1)*1.0/pixsize[2] #get 500 scale in terms of pixel scale of map
 
-prior250.set_prf(prf250.array,pind250,pind250)#requires psf as 2d grid, and x and y bins for grid (in pixel scale)
+prior250.set_prf(prf250.array,pind250,pind250)#requires PRF as 2d grid, and x and y bins for grid (in pixel scale)
 prior350.set_prf(prf350.array,pind350,pind350)
 prior500.set_prf(prf500.array,pind500,pind500)
 </pre></div>
@@ -646,8 +645,8 @@ fitting 51 sources
 using 870, 870 and 219 pixels
 </pre></div></div>
 </div>
-<p>Before fitting, the prior classes need to take the PSF and calculate how
-muich each source contributes to each pixel. This process provides what
+<p>Before fitting, the prior classes need to take the PRF and calculate how
+much each source contributes to each pixel. This process provides what
 we call a pointing matrix. Lets calculate the pointing matrix for each
 prior class</p>
 <div class="nbinput nblast docutils container">
@@ -670,7 +669,7 @@ the maximum flux value (plus a 5 sigma Background value) found in the
 map in which the source makes a contribution to.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -683,7 +682,7 @@ prior500.upper_lim_map()
 <p>Now fit using the XID+ interface to pystan</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -713,7 +712,7 @@ INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_b1d99dae621f9d8744cd35a4
 alongside the prior classes</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
