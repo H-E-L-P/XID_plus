@@ -1,19 +1,19 @@
 Large Fields
 ==========================
 
+.. note:: This section describes how XID+ has been implemented to produce the HELP data products. It is not advised to use this scheme unless running on an HPC running SunGrid Engine.
+
 Running XID+ over large areas or fields is computationally challenging. One way to overcome this
-issue is to split the field into tiles and run them independently. For HELP, we use a tiling scheme based on the `HEALPix <http://healpix.jpl.nasa.gov/>`_ scheme.
+issue is to split the field into tiles and run them independently. For HELP, we use a tiling scheme based on the `HEALPix <http://healpix.jpl.nasa.gov/>`_ scheme and overlap so there are no issues with sources at the edge of the tiles. For more details see the `Hurley et al. 2017 <http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1606.05770>`_.
 
 We carry out this tiling scheme as follows:
 
-1. Create a prior class containing all raw data (e.g. map, catalogue and PSF) and construct 2 lists of tiles. `Here is an example script used for ELAIS-N1 <https://github.com/H-E-L-P/dmu_products/blob/master/dmu26/dmu26_XID%2BSPIRE_ELAIS-N1/XID%2BSPIRE_prior_SWIRE.ipynb>`_:
-
-
+1. Create a prior class containing all raw data (e.g. map, catalogue and PRF) and construct 2 lists of tiles. `Here is an example script used for ELAIS-N1 <https://github.com/H-E-L-P/dmu_products/blob/master/dmu26/dmu26_XID%2BSPIRE_ELAIS-N1/XID%2BSPIRE_prior_SWIRE.ipynb>`_:
 
 .. note:: The tiling scheme produces hierarchical larger tiles that are used to split up the main prior class into slightly smaller regions. The smaller tiles on which the fitting is actually done, uses the larger
  tiles as an input. This reduces the amount of memory required compared to having to read in the original prior class each time.
 
-2. We create the larger tiles by running for each hierarcical tile::
+2. We create the larger tiles by running for each hierarchical tile::
 
     python -c 'from xidplus import HPC; HPC.hierarchical_tile("Master_prior.pkl","Tiles.pkl")'
 
