@@ -90,10 +90,13 @@
             
               <p class="caption"><span class="caption-text">User Guide:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">A Generative Probabilistic Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#docker">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hpc.html">Large Fields</a></li>
 <li class="toctree-l1"><a class="reference internal" href="priors.html">Beyond Positional Priors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API documentation</a></li>
 </ul>
 
             
@@ -307,6 +310,22 @@
 </div>
 <div class="section" id="module-xidplus.io">
 <span id="xidplus-io-module"></span><h2>xidplus.io module<a class="headerlink" href="#module-xidplus.io" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="xidplus.io.MacOSFile">
+<em class="property">class </em><code class="descclassname">xidplus.io.</code><code class="descname">MacOSFile</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/io.html#MacOSFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.io.MacOSFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="xidplus.io.MacOSFile.read">
+<code class="descname">read</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/io.html#MacOSFile.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.io.MacOSFile.read" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="xidplus.io.MacOSFile.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>buffer</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/io.html#MacOSFile.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.io.MacOSFile.write" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="function">
 <dt id="xidplus.io.git_version">
 <code class="descclassname">xidplus.io.</code><code class="descname">git_version</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/io.html#git_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.io.git_version" title="Permalink to this definition">¶</a></dt>
@@ -333,6 +352,16 @@ inside a Jupiter notebook.</p>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="function">
+<dt id="xidplus.io.pickle_dump">
+<code class="descclassname">xidplus.io.</code><code class="descname">pickle_dump</code><span class="sig-paren">(</span><em>obj</em>, <em>file_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/io.html#pickle_dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.io.pickle_dump" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="xidplus.io.pickle_load">
+<code class="descclassname">xidplus.io.</code><code class="descname">pickle_load</code><span class="sig-paren">(</span><em>file_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/io.html#pickle_load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.io.pickle_load" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="xidplus.io.save">
@@ -806,7 +835,7 @@ inside a Jupiter notebook.</p>
 
 <dl class="method">
 <dt id="xidplus.prior.prior.prior_cat">
-<code class="descname">prior_cat</code><span class="sig-paren">(</span><em>ra</em>, <em>dec</em>, <em>prior_cat_file</em>, <em>flux_lower=None</em>, <em>flux_upper=None</em>, <em>ID=None</em>, <em>moc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/prior.html#prior.prior_cat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.prior.prior.prior_cat" title="Permalink to this definition">¶</a></dt>
+<code class="descname">prior_cat</code><span class="sig-paren">(</span><em>ra</em>, <em>dec</em>, <em>prior_cat_file</em>, <em>flux_lower=None</em>, <em>flux_upper=None</em>, <em>ID=None</em>, <em>moc=None</em>, <em>z_median=None</em>, <em>z_sig=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/prior.html#prior.prior_cat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.prior.prior.prior_cat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Input info for prior catalogue</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -820,6 +849,8 @@ inside a Jupiter notebook.</p>
 <li><strong>flux_upper</strong> &#8211; upper limit of flux for each source</li>
 <li><strong>ID</strong> &#8211; HELP_ID for each source</li>
 <li><strong>moc</strong> &#8211; Multi-Order Coverage map</li>
+<li><strong>z_median</strong> &#8211; median of redshift pdf</li>
+<li><strong>z_sig</strong> &#8211; sigma of redshift pdf</li>
 </ul>
 </td>
 </tr>

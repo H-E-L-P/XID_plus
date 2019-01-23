@@ -90,10 +90,13 @@
             
               <p class="caption"><span class="caption-text">User Guide:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">A Generative Probabilistic Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#docker">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../hpc.html">Large Fields</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../priors.html">Beyond Positional Priors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API documentation</a></li>
 </ul>
 
             
@@ -353,12 +356,17 @@ div.nboutput div.output_area.stderr {
 </style>
 <div class="section" id="XID+-Example-Run-Script">
 <h1>XID+ Example Run Script<a class="headerlink" href="#XID+-Example-Run-Script" title="Permalink to this headline">¶</a></h1>
+<p>(This is based on a Jupyter notebook, available in the <a class="reference external" href="https://github.com/H-E-L-P/XID_plus/tree/master/docs/notebooks/examples/">XID+
+package</a>
+and can be interactively run and edited)</p>
 <p>XID+ is a probababilistic deblender for confusion dominated maps. It is
 designed to:</p>
 <ol class="arabic simple">
-<li>Use a MCMC based approach to get FULL posterior</li>
+<li>Use a MCMC based approach to get FULL posterior probability
+distribution on flux</li>
 <li>Provide a natural framework to introduce additional prior information</li>
-<li>Allows more accurate estimate of flux density errors for each source</li>
+<li>Allows more representative estimation of source flux density
+uncertainties</li>
 <li>Provides a platform for doing science with the maps (e.g XID+
 Hierarchical stacking, Luminosity function from the map etc)</li>
 </ol>
@@ -390,14 +398,11 @@ as:
 <li>A global background (B) contributes to all pixels</li>
 <li>PRF is fixed and known</li>
 <li>Because we are getting the joint probability distribution, our model
-is generative:</li>
-<li>Given parameters, we generate data and vica-versa</li>
+is generative i.e. given parameters, we generate data and vica-versa</li>
 </ul>
 <p>Compared to discriminative model (i.e. neural network), which only
-obtains conditional probability distribution:</p>
-<ul class="simple">
-<li>Neural network, give inputs, get output. Can&#8217;t go other way&#8217;</li>
-</ul>
+obtains conditional probability distribution i.e. Neural network, give
+inputs, get output. Can&#8217;t go other way&#8217;</p>
 <p>Generative model is full probabilistic model. Allows more complex
 relationships between observed and target variables</p>
 <div class="section" id="XID+-SPIRE">
@@ -431,9 +436,29 @@ import pickle
 </div>
 </div>
 <p>Set image and catalogue filenames</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>xidplus.__path__[0]
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[2]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&#39;/Users/pdh21/Work/Astro/XID_plus/xidplus&#39;
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -459,7 +484,7 @@ output_folder=&#39;./&#39;
 <p>Load in images, noise maps, header info and WCS information</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [3]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -498,7 +523,7 @@ hdulist.close()
 <p>Load in catalogue you want to fit (and make any cuts)</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -514,39 +539,62 @@ indec=indec[sgood]
 </pre></div>
 </div>
 </div>
-<p>XID+ is built around two python classes. A prior and posterior class.
-There should be a prior class for each map being fitted. It is initiated
-with a map, noise map, primary header and map header. It also requires
-an input prior catalogue and point spread function.</p>
+<p>XID+ uses Multi Order Coverage (MOC) maps for cutting down maps and
+catalogues so they cover the same area. It can also take in MOCs as
+selection functions to carry out additional cuts. Lets use the python
+module <a class="reference external" href="http://pymoc.readthedocs.io/en/latest/">pymoc</a> to create a
+MOC, centered on a specific position we are interested in. We will use a
+HEALPix order of 15 (the resolution: higher order means higher
+resolution), have a radius of 100 arcseconds centered around an R.A. of
+150.74 degrees and Declination of 2.03 degrees.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>from astropy.coordinates import SkyCoord
+from astropy import units as u
+c = SkyCoord(ra=[150.74]*u.degree, dec=[2.03]*u.degree)
+import pymoc
+moc=pymoc.util.catalog.catalog_to_moc(c,100,15)
+</pre></div>
+</div>
+</div>
+<p>XID+ is built around two python classes. A prior and posterior class.
+There should be a prior class for each map being fitted. It is initiated
+with a map, noise map, primary header and map header and can be set with
+a MOC. It also requires an input prior catalogue and point spread
+function.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>#---prior250--------
-prior250=xidplus.prior(im250,nim250,im250phdu,im250hdu)#Initialise with map, uncertianty map, wcs info and primary header
+prior250=xidplus.prior(im250,nim250,im250phdu,im250hdu, moc=moc)#Initialise with map, uncertianty map, wcs info and primary header
 prior250.prior_cat(inra,indec,prior_cat)#Set input catalogue
 prior250.prior_bkg(-5.0,5)#Set prior on background (assumes Gaussian pdf with mu and sigma)
 #---prior350--------
-prior350=xidplus.prior(im350,nim350,im350phdu,im350hdu)
+prior350=xidplus.prior(im350,nim350,im350phdu,im350hdu, moc=moc)
 prior350.prior_cat(inra,indec,prior_cat)
 prior350.prior_bkg(-5.0,5)
 
 #---prior500--------
-prior500=xidplus.prior(im500,nim500,im500phdu,im500hdu)
+prior500=xidplus.prior(im500,nim500,im500phdu,im500hdu, moc=moc)
 prior500.prior_cat(inra,indec,prior_cat)
 prior500.prior_bkg(-5.0,5)
 </pre></div>
 </div>
 </div>
-<p>Set PSF. For SPIRE, the PSF can be assumed to be Gaussian with a FWHM of
+<p>Set PRF. For SPIRE, the PRF can be assumed to be Gaussian with a FWHM of
 18.15, 25.15, 36.3 &#8216;&#8217; for 250, 350 and 500 <span class="math">\(\mathrm{\mu m}\)</span>
-respectively. Lets use the astropy module to construct a Gaussian PSF
+respectively. Lets use the astropy module to construct a Gaussian PRF
 and assign it to the three XID+ prior classes.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [6]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -569,7 +617,7 @@ pind250=np.arange(0,101,1)*1.0/pixsize[0] #get 250 scale in terms of pixel scale
 pind350=np.arange(0,101,1)*1.0/pixsize[1] #get 350 scale in terms of pixel scale of map
 pind500=np.arange(0,101,1)*1.0/pixsize[2] #get 500 scale in terms of pixel scale of map
 
-prior250.set_prf(prf250.array,pind250,pind250)#requires psf as 2d grid, and x and y bins for grid (in pixel scale)
+prior250.set_prf(prf250.array,pind250,pind250)#requires PRF as 2d grid, and x and y bins for grid (in pixel scale)
 prior350.set_prf(prf350.array,pind350,pind350)
 prior500.set_prf(prf500.array,pind500,pind500)
 </pre></div>
@@ -577,7 +625,7 @@ prior500.set_prf(prf500.array,pind500,pind500)
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [7]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -592,58 +640,13 @@ print(&#39;using &#39; +  str(prior250.snpix)+&#39;, &#39;+ str(prior250.snpix)+
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-fitting 64824 sources
+fitting 51 sources
 
-using 1239145, 1239145 and 309801 pixels
+using 870, 870 and 219 pixels
 </pre></div></div>
 </div>
-<p>Fitting this number of sources and datapoints is not practical. XID+
-uses Multi Order Coverage (MOC) maps for cutting down maps and
-catalogues so they cover the same area. It can also take in MOCs as
-selection functions to carry out additional cuts.</p>
-<p>Suggest cutting down to a MOC based on a HEALPix pixel with an order no
-greater than 10 for SPIRE (unless being carried out on HPC)</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [8]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>order=10
-Tile=6977662
-
-#use XID+ moc routines to get a Tile based on a HEALPix pixel
-moc=moc_routines.get_fitting_region(order,Tile)
-prior250.set_tile(moc)
-prior350.set_tile(moc)
-prior500.set_tile(moc)
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [9]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>print(&#39;fitting &#39;+ str(prior250.nsrc)+&#39; sources \n&#39;)
-print(&#39;using &#39; +  str(prior250.snpix)+&#39;, &#39;+ str(prior350.snpix)+&#39; and &#39;+ str(prior500.snpix)+&#39; pixels&#39;)
-
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-fitting 165 sources
-
-using 2656, 1378 and 664 pixels
-</pre></div></div>
-</div>
-<p>Before fitting, the prior classes need to take the PSF and calculate how
-muich each source contributes to each pixel. This process provides what
+<p>Before fitting, the prior classes need to take the PRF and calculate how
+much each source contributes to each pixel. This process provides what
 we call a pointing matrix. Lets calculate the pointing matrix for each
 prior class</p>
 <div class="nbinput nblast docutils container">
@@ -689,12 +692,20 @@ fit=SPIRE.all_bands(prior250,prior350,prior500,iter=1000)
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_b1d99dae621f9d8744cd35a49a4302a4 NOW.
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-/XID+SPIRE found. Reusing
+/XID+SPIRE not found or wrong version. Compiling
 </pre></div></div>
 </div>
 <p>Initialise the posterior class with the fit object from pystan, and save
@@ -707,6 +718,26 @@ alongside the prior classes</p>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span>posterior=xidplus.posterior_stan(fit,[prior250,prior350,prior500])
 xidplus.save([prior250,prior350,prior500],posterior,&#39;test&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>
 </pre></div>
 </div>
 </div>

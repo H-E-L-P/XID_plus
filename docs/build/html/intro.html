@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Getting Started &mdash; XID+ 2.0.0 documentation</title>
+  <title>Installation &mdash; XID+ 2.0.0 documentation</title>
   
 
   
@@ -37,7 +37,7 @@
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="XID+ 2.0.0 documentation" href="index.html"/>
         <link rel="next" title="Tutorials" href="tutorial.html"/>
-        <link rel="prev" title="XID+, The Probabilistic De-blender for confusion dominated maps" href="index.html"/> 
+        <link rel="prev" title="A Generative Probabilistic Framework" href="philosophy.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -92,19 +92,23 @@
             
               <p class="caption"><span class="caption-text">User Guide:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#finally">Finally</a><ul class="simple">
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">A Generative Probabilistic Framework</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#anaconda-python">Anaconda Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-python">Custom Python</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#finally">Finally</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="#docker">Docker</a><ul class="simple">
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hpc.html">Large Fields</a></li>
 <li class="toctree-l1"><a class="reference internal" href="priors.html">Beyond Positional Priors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API documentation</a></li>
 </ul>
 
             
@@ -149,7 +153,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Getting Started</li>
+      <li>Installation</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -202,10 +206,8 @@
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<div class="section" id="getting-started">
-<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>XID+ requires a Python (2 or 3) installation. I recommend the <a class="reference external" href="https://www.continuum.io/downloads">Anaconda distribution</a>.</p>
 <p>Once you have a working Python installation, you can download the code either directly from <a class="reference external" href="https://github.com/H-E-L-P/XID_plus">github</a> or by cloning the git repository:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">H</span><span class="o">-</span><span class="n">E</span><span class="o">-</span><span class="n">L</span><span class="o">-</span><span class="n">P</span><span class="o">/</span><span class="n">XID_plus</span><span class="o">.</span><span class="n">git</span>
@@ -213,29 +215,61 @@
 </pre></div>
 </div>
 <div class="section" id="requirements">
-<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="anaconda-python">
+<h3>Anaconda Python<a class="headerlink" href="#anaconda-python" title="Permalink to this headline">¶</a></h3>
 <p>If using an Anaconda distribution, then it is best to install some prerequisites with conda with the following command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>while read requirement; do conda install --yes $requirement; done &lt; req.txt
+<div class="highlight-default"><div class="highlight"><pre><span></span>conda config --add channels conda-forge &amp;&amp; conda install healpy
+while read requirement; do conda install --yes $requirement; done &lt; req.txt
 </pre></div>
 </div>
+</div>
+<div class="section" id="custom-python">
+<h3>Custom Python<a class="headerlink" href="#custom-python" title="Permalink to this headline">¶</a></h3>
 <p>If you are using your own Python setup, install the requirements via the command</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">req</span><span class="o">.</span><span class="n">txt</span>
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="finally">
-<h3>Finally<a class="headerlink" href="#finally" title="Permalink to this headline">¶</a></h3>
+<h2>Finally<a class="headerlink" href="#finally" title="Permalink to this headline">¶</a></h2>
 <p>Then, install the package by running the following command:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="s1">&#39;./&#39;</span>
 </pre></div>
 </div>
+</div>
+</div>
+<div class="section" id="docker">
+<h1>Docker<a class="headerlink" href="#docker" title="Permalink to this headline">¶</a></h1>
+<p>As an alternative to having to install XID plus, along with all the Python dependencies, we provide a docker image of XID plus.</p>
+<p>Docker is an open source tool that allows developers to package up an application with all of the parts it needs, such as libraries and dependencies.</p>
+<p>The resulting Docker image can then be run on ANY machine, be it Windows, Linux, Mac or in the cloud without having to worry about installing numerous dependencies.</p>
+<p>For Docker installation instructions, <a class="reference external" href="https://www.docker.com/get-docker">see the Docker main page</a>.</p>
+<p>Once Docker is installed, running a docker image on a Linux or Mac OS is very simple. Just open a new terminal and use the command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>docker run -it --rm -v $(pwd):/home -p 8888:8888 pdh21/xidplus:latest
+</pre></div>
+</div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">As part of the Herschel Extragalatic Legacy Project, we will be providing a <a class="reference external" href="https://www.docker.com/">Docker</a> image that will run all HELP tools and Jupyter notebooks, including XID+. Docker is an open source tool that allows developers to package up an application with all of the parts it needs, such as libraries and dependencies. The resulting Docker image can then be run on ANY machine, be it Windows, Linux, Mac or in the cloud without having to worry about installing numerous dependencies. This should be available from October 2017.</p>
+<p class="last">The &#8220;docker run&#8221; command should automatically download the xidplus image from the cloud. Alternatively, one can download the image with out running, using the command &#8220;docker pull pdh21/xidplus:latest&#8221;,</p>
+</div>
+<p>Once the docker image is downloaded, open the shown URL link in your browser and you are good to go. The URL will look something like:
+<a class="reference external" href="http://localhost:8888/?token=0312c1ef3b61d7a44ff5346d3d150c23249a548850e13868">http://localhost:8888/?token=0312c1ef3b61d7a44ff5346d3d150c23249a548850e13868</a></p>
+<p>Our Docker image has been created to run Jupyter notebook at startup.</p>
+<p>The different flags do the following:</p>
+<ul class="simple">
+<li>The -it flag tells docker that it should open an interactive container instance.</li>
+<li>The &#8211;rm flag tells docker that the container should automatically be removed after we close docker.</li>
+<li>The -p flag specifies which port we want to make available for docker.</li>
+<li>The -v flag tells docker which folders should be mount to make them accesible inside the container.</li>
+</ul>
+<p>Here: $(pwd) is your local directory you are running the Docker image from. The second part of the -v flag (here: /home) specifies under which path the mounted folders can be found inside the container.</p>
+<p>Alternatively, rather than starting with the default Jupyter notebook, you can also access the Docker container directly with bash using the following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>docker run -it --rm -v $(pwd):/home -p 8888:8888 pdh21/xidplus:latest /bin/bash
+</pre></div>
 </div>
 <div class="toctree-wrapper compound">
-</div>
-</div>
 </div>
 </div>
 
@@ -252,7 +286,7 @@
         <a href="tutorial.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="XID+, The Probabilistic De-blender for confusion dominated maps" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="philosophy.html" class="btn btn-neutral" title="A Generative Probabilistic Framework" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

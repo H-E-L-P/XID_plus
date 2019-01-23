@@ -1,0 +1,1070 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API documentation &mdash; XID+ 2.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="XID+ 2.0.0 documentation" href="index.html"/>
+        <link rel="prev" title="Beyond Positional Priors" href="priors.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> XID+
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">A Generative Probabilistic Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#docker">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hpc.html">Large Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="priors.html">Beyond Positional Priors</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-prior-class">The &#8220;prior&#8221; class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-posterior-class">The &#8220;posterior&#8221; class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-xidplus.plots">The &#8220;plots&#8221; functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-xidplus.moc_routines">The &#8220;MOC&#8221; functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-posterior-map-functions">The &#8220;posterior map&#8221; functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-catalogue-functions">The &#8220;catalogue&#8221; functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-xidplus.HPC">The &#8220;HPC&#8221; functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-xidplus.io">The &#8220;io&#8221; functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-xidplus.stan_fit">The &#8220;Stan fit&#8221; modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-xidplus.stan_fit.SPIRE">The Stan fit SPIRE module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-xidplus.stan_fit.PACS">The Stan fit PACS module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-xidplus.stan_fit.MIPS">The Stan fit MIPS module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">XID+</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>API documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="api-documentation">
+<h1>API documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Documentation of the different classes and functions in XID+</p>
+<div class="section" id="the-prior-class">
+<h2>The &#8220;prior&#8221; class<a class="headerlink" href="#the-prior-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="xidplus.prior">
+<em class="property">class </em><code class="descclassname">xidplus.</code><code class="descname">prior</code><span class="sig-paren">(</span><em>im</em>, <em>nim</em>, <em>imphdu</em>, <em>imhdu</em>, <em>moc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/prior.html#prior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.prior" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="xidplus.prior.cut_down_cat">
+<code class="descname">cut_down_cat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/prior.html#prior.cut_down_cat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.prior.cut_down_cat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cuts down prior class variables associated with the catalogue data to the MOC assigned to the prior class: self.moc</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xidplus.prior.cut_down_map">
+<code class="descname">cut_down_map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/prior.html#prior.cut_down_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.prior.cut_down_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cuts down prior class variables associated with the map data to the MOC assigned to the prior class: self.moc</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xidplus.prior.cut_down_prior">
+<code class="descname">cut_down_prior</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/prior.html#prior.cut_down_prior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.prior.cut_down_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cuts down prior class variables to the MOC assigned to the prior class</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xidplus.prior.get_pointing_matrix">
+<code class="descname">get_pointing_matrix</code><span class="sig-paren">(</span><em>bkg=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/prior.html#prior.get_pointing_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.prior.get_pointing_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate pointing matrix. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xidplus.prior.get_pointing_matrix_coo">
+<code class="descname">get_pointing_matrix_coo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/prior.html#prior.get_pointing_matrix_coo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.prior.get_pointing_matrix_coo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get scipy coo version of pointing matrix. Useful for sparse matrix multiplication</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xidplus.prior.get_pointing_matrix_unknown_psf">
+<code class="descname">get_pointing_matrix_unknown_psf</code><span class="sig-paren">(</span><em>bkg=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/prior.html#prior.get_pointing_matrix_unknown_psf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.prior.get_pointing_matrix_unknown_psf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate pointing matrix for unknown psf. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xidplus.prior.prior_bkg">
+<code class="descname">prior_bkg</code><span class="sig-paren">(</span><em>mu</em>, <em>sigma</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/prior.html#prior.prior_bkg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.prior.prior_bkg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add background prior. Assumes <span class="math">\(B \sim \mathcal{N}(\mu,\sigma^2)\)</span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mu</strong> &#8211; mean</li>
+<li><strong>sigma</strong> &#8211; standard deviation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="xidplus.prior.prior_cat">
+<code class="descname">prior_cat</code><span class="sig-paren">(</span><em>ra</em>, <em>dec</em>, <em>prior_cat_file</em>, <em>flux_lower=None</em>, <em>flux_upper=None</em>, <em>ID=None</em>, <em>moc=None</em>, <em>z_median=None</em>, <em>z_sig=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/prior.html#prior.prior_cat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.prior.prior_cat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input info for prior catalogue</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ra</strong> &#8211; Right ascension (JD2000) of sources</li>
+<li><strong>dec</strong> &#8211; Declination (JD2000) of sources</li>
+<li><strong>prior_cat_file</strong> &#8211; filename of catalogue</li>
+<li><strong>flux_lower</strong> &#8211; lower limit of flux for each source</li>
+<li><strong>flux_upper</strong> &#8211; upper limit of flux for each source</li>
+<li><strong>ID</strong> &#8211; HELP_ID for each source</li>
+<li><strong>moc</strong> &#8211; Multi-Order Coverage map</li>
+<li><strong>z_median</strong> &#8211; median of redshift pdf</li>
+<li><strong>z_sig</strong> &#8211; sigma of redshift pdf</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="xidplus.prior.prior_cat_stack">
+<code class="descname">prior_cat_stack</code><span class="sig-paren">(</span><em>ra</em>, <em>dec</em>, <em>prior_cat</em>, <em>flux_lower=None</em>, <em>flux_upper=None</em>, <em>ID=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/prior.html#prior.prior_cat_stack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.prior.prior_cat_stack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input info for prior catalogue of sources being stacked</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ra</strong> &#8211; Right ascension (JD2000) of sources</li>
+<li><strong>dec</strong> &#8211; Declination (JD2000) of sources</li>
+<li><strong>prior_cat</strong> &#8211; filename of catalogue</li>
+<li><strong>ID</strong> &#8211; HELP_ID for each source</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="xidplus.prior.set_prf">
+<code class="descname">set_prf</code><span class="sig-paren">(</span><em>prf</em>, <em>pindx</em>, <em>pindy</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/prior.html#prior.set_prf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.prior.set_prf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add prf array and corresponding x and y scales (in terms of pixels in map)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>prf</strong> &#8211; n x n array, where n is an odd number, and the centre of the prf is at the centre of the array</li>
+<li><strong>pindx</strong> &#8211; n array, pixel scale of prf array</li>
+<li><strong>pindy</strong> &#8211; n array, pixel scale of prf array</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="xidplus.prior.set_tile">
+<code class="descname">set_tile</code><span class="sig-paren">(</span><em>moc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/prior.html#prior.set_tile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.prior.set_tile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update prior with new MOC and update appropriate variables
+:param moc: Multi-order Coverage map from pymoc</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="xidplus.prior.upper_lim_map">
+<code class="descname">upper_lim_map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/prior.html#prior.upper_lim_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.prior.upper_lim_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update flux upper limit to abs(bkg)+2*sigma_bkg+max(D)
+where max(D) is maximum value of pixels the source contributes to</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-posterior-class">
+<h2>The &#8220;posterior&#8221; class<a class="headerlink" href="#the-posterior-class" title="Permalink to this headline">¶</a></h2>
+<dl class="attribute">
+<dt id="xidplus.posterior">
+<code class="descclassname">xidplus.</code><code class="descname">posterior</code><a class="headerlink" href="#xidplus.posterior" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="xidplus.html#module-xidplus.posterior" title="xidplus.posterior"><code class="xref py py-class docutils literal"><span class="pre">xidplus.posterior</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xidplus.plots">
+<span id="the-plots-functions"></span><h2>The &#8220;plots&#8221; functions<a class="headerlink" href="#module-xidplus.plots" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="xidplus.plots.anim_to_html">
+<code class="descclassname">xidplus.plots.</code><code class="descname">anim_to_html</code><span class="sig-paren">(</span><em>anim</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/plots.html#anim_to_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.plots.anim_to_html" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>anim</strong> &#8211; matplotlib animation</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an html embedded animation</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.plots.display_animation">
+<code class="descclassname">xidplus.plots.</code><code class="descname">display_animation</code><span class="sig-paren">(</span><em>anim</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/plots.html#display_animation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.plots.display_animation" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>anim</strong> &#8211; matplotlib animation</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">displayed animation in notebook</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.plots.plot_Bayes_pval_map">
+<code class="descclassname">xidplus.plots.</code><code class="descname">plot_Bayes_pval_map</code><span class="sig-paren">(</span><em>priors</em>, <em>posterior</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/plots.html#plot_Bayes_pval_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.plots.plot_Bayes_pval_map" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>priors</strong> &#8211; list of xidplus.prior classes</li>
+<li><strong>posterior</strong> &#8211; xidplus.posterior class</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the default xidplus Bayesian P value map plot</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.plots.plot_map">
+<code class="descclassname">xidplus.plots.</code><code class="descname">plot_map</code><span class="sig-paren">(</span><em>priors</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/plots.html#plot_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.plots.plot_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot of the fitted maps, with fitted objects overplotted</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>priors</strong> &#8211; list of xidplus.prior classes</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the default xidplus map plot</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.plots.replicated_map_movie">
+<code class="descclassname">xidplus.plots.</code><code class="descname">replicated_map_movie</code><span class="sig-paren">(</span><em>priors</em>, <em>posterior</em>, <em>frames</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/plots.html#replicated_map_movie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.plots.replicated_map_movie" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>priors</strong> &#8211; list of xidplus.prior classes</li>
+<li><strong>posterior</strong> &#8211; xidplus.posterior class</li>
+<li><strong>frames</strong> &#8211; number of frames</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Movie of replicated maps. Each frame is a sample from the posterior</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xidplus.moc_routines">
+<span id="the-moc-functions"></span><h2>The &#8220;MOC&#8221; functions<a class="headerlink" href="#module-xidplus.moc_routines" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="xidplus.moc_routines.check_in_moc">
+<code class="descclassname">xidplus.moc_routines.</code><code class="descname">check_in_moc</code><span class="sig-paren">(</span><em>ra</em>, <em>dec</em>, <em>moc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/moc_routines.html#check_in_moc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.moc_routines.check_in_moc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether a source is in MOC or not</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ra</strong> &#8211; Right Ascension</li>
+<li><strong>dec</strong> &#8211; Declination</li>
+<li><strong>moc</strong> &#8211; MOC</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">boolean array expressing whether in MOC or not :rtype: boolean array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.moc_routines.create_MOC_from_cat">
+<code class="descclassname">xidplus.moc_routines.</code><code class="descname">create_MOC_from_cat</code><span class="sig-paren">(</span><em>ra</em>, <em>dec</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/moc_routines.html#create_MOC_from_cat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.moc_routines.create_MOC_from_cat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate MOC from catalogue</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ra</strong> &#8211; Right ascension of sources</li>
+<li><strong>dec</strong> &#8211; Declination of sources</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">MOC :rtype: pymoc.MOC</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.moc_routines.create_MOC_from_map">
+<code class="descclassname">xidplus.moc_routines.</code><code class="descname">create_MOC_from_map</code><span class="sig-paren">(</span><em>good</em>, <em>wcs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/moc_routines.html#create_MOC_from_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.moc_routines.create_MOC_from_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate MOC from map</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>good</strong> &#8211; boolean array associated with map</li>
+<li><strong>wcs</strong> &#8211; wcs information</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">MOC :rtype: pymoc.MOC</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.moc_routines.get_HEALPix_pixels">
+<code class="descclassname">xidplus.moc_routines.</code><code class="descname">get_HEALPix_pixels</code><span class="sig-paren">(</span><em>order</em>, <em>ra</em>, <em>dec</em>, <em>unique=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/moc_routines.html#get_HEALPix_pixels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.moc_routines.get_HEALPix_pixels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Work out what HEALPix a source is in</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>order</strong> &#8211; order of HEALPix</li>
+<li><strong>ra</strong> &#8211; Right Ascension</li>
+<li><strong>dec</strong> &#8211; Declination</li>
+<li><strong>unique</strong> &#8211; if unique is true, removes duplicate pixels</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of HEALPix pixels :rtype:</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.moc_routines.get_fitting_region">
+<code class="descclassname">xidplus.moc_routines.</code><code class="descname">get_fitting_region</code><span class="sig-paren">(</span><em>order</em>, <em>pixel</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/moc_routines.html#get_fitting_region"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.moc_routines.get_fitting_region" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expand tile by quarter of a pixel for fitting</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>order</strong> &#8211; the HEALPix resolution level</li>
+<li><strong>pixel</strong> &#8211; given HEALPix pixel that needs to be fit</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">HEALPix pixels that need to be fit</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.moc_routines.sources_in_tile">
+<code class="descclassname">xidplus.moc_routines.</code><code class="descname">sources_in_tile</code><span class="sig-paren">(</span><em>pixel</em>, <em>order</em>, <em>ra</em>, <em>dec</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/moc_routines.html#sources_in_tile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.moc_routines.sources_in_tile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check which sources are in HEALPix pixel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pixel</strong> &#8211; HEALPix pixel</li>
+<li><strong>order</strong> &#8211; order of HEALPix pixel</li>
+<li><strong>ra</strong> &#8211; Right Ascension</li>
+<li><strong>dec</strong> &#8211; Declination</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">boolean array expressing whether in MOC or not :rtype:boolean array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.moc_routines.tile_in_tile">
+<code class="descclassname">xidplus.moc_routines.</code><code class="descname">tile_in_tile</code><span class="sig-paren">(</span><em>order_small</em>, <em>tile_small</em>, <em>order_large</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/moc_routines.html#tile_in_tile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.moc_routines.tile_in_tile" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Routine to find our what larger tile to load data from when fitting smaller tiles.</dt>
+<dd>Returns larger tile no. Useful for when fitting segmented maps on HPC using a hierarchical segmentation scheme</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>order_small</strong> &#8211; order of smaller tile</li>
+<li><strong>tile_small</strong> &#8211; tile no. of smaller tile</li>
+<li><strong>order_large</strong> &#8211; order of larger tiling scheme</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pixel number of larger tile</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="the-posterior-map-functions">
+<h2>The &#8220;posterior map&#8221; functions<a class="headerlink" href="#the-posterior-map-functions" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-xidplus.posterior_maps"></span><dl class="function">
+<dt id="xidplus.posterior_maps.Bayes_Pval_res">
+<code class="descclassname">xidplus.posterior_maps.</code><code class="descname">Bayes_Pval_res</code><span class="sig-paren">(</span><em>prior</em>, <em>post_rep_map</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/posterior_maps.html#Bayes_Pval_res"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.posterior_maps.Bayes_Pval_res" title="Permalink to this definition">¶</a></dt>
+<dd><p>The local Bayesian P value residual statistic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>prior</strong> &#8211; xidplus.prior class</li>
+<li><strong>post_rep_map</strong> &#8211; posterior replicated maps</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Bayesian P value residual statistic for each source</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.posterior_maps.Bayesian_pvals">
+<code class="descclassname">xidplus.posterior_maps.</code><code class="descname">Bayesian_pvals</code><span class="sig-paren">(</span><em>prior</em>, <em>post_rep_map</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/posterior_maps.html#Bayesian_pvals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.posterior_maps.Bayesian_pvals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Bayesian P values for each pixel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>prior</strong> &#8211; xidplus.prior class</li>
+<li><strong>post_rep_map</strong> &#8211; posterior replicated maps</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Bayesian P values</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.posterior_maps.make_Bayesian_pval_maps">
+<code class="descclassname">xidplus.posterior_maps.</code><code class="descname">make_Bayesian_pval_maps</code><span class="sig-paren">(</span><em>prior</em>, <em>post_rep_map</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/posterior_maps.html#make_Bayesian_pval_maps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.posterior_maps.make_Bayesian_pval_maps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bayesian P values, quoted as sigma level</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>prior</strong> &#8211; xidplus.prior class</li>
+<li><strong>post_rep_map</strong> &#8211; posterior replicated maps</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Bayesian P values converted to sigma level</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.posterior_maps.make_fits_image">
+<code class="descclassname">xidplus.posterior_maps.</code><code class="descname">make_fits_image</code><span class="sig-paren">(</span><em>prior</em>, <em>pixel_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/posterior_maps.html#make_fits_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.posterior_maps.make_fits_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make FITS image realting to map in xidplus.prior class
+:param prior: xidplus.prior class
+:param pixel_values: pixel values in format of xidplus.prior.sim
+:return: FITS hdulist</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.posterior_maps.replicated_maps">
+<code class="descclassname">xidplus.posterior_maps.</code><code class="descname">replicated_maps</code><span class="sig-paren">(</span><em>priors</em>, <em>posterior</em>, <em>nrep=1000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/posterior_maps.html#replicated_maps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.posterior_maps.replicated_maps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create posterior replicated maps</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>priors</strong> &#8211; list of xidplus.prior class</li>
+<li><strong>posterior</strong> &#8211; xidplus.posterior class</li>
+<li><strong>nrep</strong> &#8211; number of replicated maps</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.posterior_maps.ymod_map">
+<code class="descclassname">xidplus.posterior_maps.</code><code class="descname">ymod_map</code><span class="sig-paren">(</span><em>prior</em>, <em>flux</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/posterior_maps.html#ymod_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.posterior_maps.ymod_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create replicated model map (no noise or background) i.e. A*f</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>prior</strong> &#8211; xidplus.prior class</li>
+<li><strong>flux</strong> &#8211; flux vector</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">map array, in same format as prior.sim</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="the-catalogue-functions">
+<h2>The &#8220;catalogue&#8221; functions<a class="headerlink" href="#the-catalogue-functions" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-xidplus.catalogue"></span><dl class="function">
+<dt id="xidplus.catalogue.create_MIPS_cat">
+<code class="descclassname">xidplus.catalogue.</code><code class="descname">create_MIPS_cat</code><span class="sig-paren">(</span><em>posterior</em>, <em>prior24</em>, <em>Bayes_P24</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/catalogue.html#create_MIPS_cat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.catalogue.create_MIPS_cat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create MIPS catalogue from posterior</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>posterior</strong> &#8211; MIPS xidplus.posterior class</li>
+<li><strong>prior24</strong> &#8211; MIPS xidplus.prior class</li>
+<li><strong>Bayes_P24</strong> &#8211; Bayes Pvalue residual statistic for MIPS 24</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">fits hdulist</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.catalogue.create_PACS_cat">
+<code class="descclassname">xidplus.catalogue.</code><code class="descname">create_PACS_cat</code><span class="sig-paren">(</span><em>posterior</em>, <em>prior100</em>, <em>prior160</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/catalogue.html#create_PACS_cat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.catalogue.create_PACS_cat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create PACS catalogue from posterior</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>posterior</strong> &#8211; PACS xidplus.posterior class</li>
+<li><strong>prior100</strong> &#8211; PACS 100 xidplus.prior class</li>
+<li><strong>prior160</strong> &#8211; PACS 160 xidplus.prior class</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">fits hdulist</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.catalogue.create_SPIRE_cat">
+<code class="descclassname">xidplus.catalogue.</code><code class="descname">create_SPIRE_cat</code><span class="sig-paren">(</span><em>posterior</em>, <em>prior250</em>, <em>prior350</em>, <em>prior500</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/catalogue.html#create_SPIRE_cat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.catalogue.create_SPIRE_cat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create SPIRE catalogue from posterior</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>posterior</strong> &#8211; SPIRE xidplus.posterior class</li>
+<li><strong>prior250</strong> &#8211; SPIRE 250 xidplus.prior class</li>
+<li><strong>prior350</strong> &#8211; SPIRE 350 xidplus.prior class</li>
+<li><strong>prior500</strong> &#8211; SPIRE 500 xidplus.prior class</li>
+<li><strong>Bayes_P250</strong> &#8211; Bayes Pvalue residual statistic for SPIRE 250</li>
+<li><strong>Bayes_P350</strong> &#8211; Bayes Pvalue residual statistic for SPIRE 350</li>
+<li><strong>Bayes_P500</strong> &#8211; Bayes Pvalue residual statistic for SPIRE 500</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">fits hdulist</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xidplus.HPC">
+<span id="the-hpc-functions"></span><h2>The &#8220;HPC&#8221; functions<a class="headerlink" href="#module-xidplus.HPC" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="xidplus.HPC.hierarchical_tile">
+<code class="descclassname">xidplus.HPC.</code><code class="descname">hierarchical_tile</code><span class="sig-paren">(</span><em>masterfile</em>, <em>tilefile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/HPC.html#hierarchical_tile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.HPC.hierarchical_tile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create Hierarchical tile from Master prior</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>masterfile</strong> &#8211; Master prior file</li>
+<li><strong>tilefile</strong> &#8211; File containing Tiling scheme</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xidplus.io">
+<span id="the-io-functions"></span><h2>The &#8220;io&#8221; functions<a class="headerlink" href="#module-xidplus.io" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="xidplus.io.git_version">
+<code class="descclassname">xidplus.io.</code><code class="descname">git_version</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/io.html#git_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.io.git_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the git version of the module
+This function returns a string composed of the abbreviated Git hash of the
+module source, followed by the date of the last commit.  If the source has
+some local modifications, “ [with local modifications]” is added to the
+string.
+This is used to print the exact version of the source code that was used
+inside a Jupiter notebook.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.io.load">
+<code class="descclassname">xidplus.io.</code><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/io.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.io.load" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> &#8211; filename of xidplus data to load</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of prior classes and posterior class</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.io.save">
+<code class="descclassname">xidplus.io.</code><code class="descname">save</code><span class="sig-paren">(</span><em>priors</em>, <em>posterior</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/io.html#save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.io.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save xidplus priors and posterior data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>priors</strong> &#8211; list of prior classes</li>
+<li><strong>posterior</strong> &#8211; posterior class</li>
+<li><strong>filename</strong> &#8211; filename to save to</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xidplus.stan_fit">
+<span id="the-stan-fit-modules"></span><h2>The &#8220;Stan fit&#8221; modules<a class="headerlink" href="#module-xidplus.stan_fit" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="xidplus.stan_fit.get_stancode">
+<code class="descclassname">xidplus.stan_fit.</code><code class="descname">get_stancode</code><span class="sig-paren">(</span><em>model_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/stan_fit.html#get_stancode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.stan_fit.get_stancode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if exisiting compiled stan code exists and matches current git version, otherwise compile and save.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_file</strong> &#8211; filename of stan model</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">compiled stan code</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="section" id="module-xidplus.stan_fit.SPIRE">
+<span id="the-stan-fit-spire-module"></span><h3>The Stan fit SPIRE module<a class="headerlink" href="#module-xidplus.stan_fit.SPIRE" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="xidplus.stan_fit.SPIRE.all_bands">
+<code class="descclassname">xidplus.stan_fit.SPIRE.</code><code class="descname">all_bands</code><span class="sig-paren">(</span><em>SPIRE_250</em>, <em>SPIRE_350</em>, <em>SPIRE_500</em>, <em>chains=4</em>, <em>iter=1000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/stan_fit/SPIRE.html#all_bands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.stan_fit.SPIRE.all_bands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the three SPIRE bands</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>SPIRE_250</strong> &#8211; xidplus.prior class</li>
+<li><strong>SPIRE_350</strong> &#8211; xidplus.prior class</li>
+<li><strong>SPIRE_500</strong> &#8211; xidplus.prior class</li>
+<li><strong>chains</strong> &#8211; number of chains</li>
+<li><strong>iter</strong> &#8211; number of iterations</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pystan fit object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="xidplus.stan_fit.SPIRE.all_bands_log10">
+<code class="descclassname">xidplus.stan_fit.SPIRE.</code><code class="descname">all_bands_log10</code><span class="sig-paren">(</span><em>SPIRE_250</em>, <em>SPIRE_350</em>, <em>SPIRE_500</em>, <em>chains=4</em>, <em>iter=1000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/stan_fit/SPIRE.html#all_bands_log10"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.stan_fit.SPIRE.all_bands_log10" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the three SPIRE bands</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>SPIRE_250</strong> &#8211; xidplus.prior class</li>
+<li><strong>SPIRE_350</strong> &#8211; xidplus.prior class</li>
+<li><strong>SPIRE_500</strong> &#8211; xidplus.prior class</li>
+<li><strong>chains</strong> &#8211; number of chains</li>
+<li><strong>iter</strong> &#8211; number of iterations</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pystan fit object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xidplus.stan_fit.PACS">
+<span id="the-stan-fit-pacs-module"></span><h3>The Stan fit PACS module<a class="headerlink" href="#module-xidplus.stan_fit.PACS" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="xidplus.stan_fit.PACS.all_bands">
+<code class="descclassname">xidplus.stan_fit.PACS.</code><code class="descname">all_bands</code><span class="sig-paren">(</span><em>PACS_100</em>, <em>PACS_160</em>, <em>chains=4</em>, <em>iter=1000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/stan_fit/PACS.html#all_bands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.stan_fit.PACS.all_bands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the two PACS bands</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>PACS_100</strong> &#8211; xidplus.prior class</li>
+<li><strong>PACS_160</strong> &#8211; xidplus.prior class</li>
+<li><strong>chains</strong> &#8211; number of chains</li>
+<li><strong>iter</strong> &#8211; number of samples</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pystan fit object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-xidplus.stan_fit.MIPS">
+<span id="the-stan-fit-mips-module"></span><h3>The Stan fit MIPS module<a class="headerlink" href="#module-xidplus.stan_fit.MIPS" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="xidplus.stan_fit.MIPS.MIPS_24">
+<code class="descclassname">xidplus.stan_fit.MIPS.</code><code class="descname">MIPS_24</code><span class="sig-paren">(</span><em>MIPS_24</em>, <em>chains=4</em>, <em>iter=1000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/stan_fit/MIPS.html#MIPS_24"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.stan_fit.MIPS.MIPS_24" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the MIPS 24 band</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>MIPS_24</strong> &#8211; xidplus.prior class</li>
+<li><strong>chains</strong> &#8211; number of chains</li>
+<li><strong>iter</strong> &#8211; number of iterations</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pystan fit object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="priors.html" class="btn btn-neutral" title="Beyond Positional Priors" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Peter Hurley.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

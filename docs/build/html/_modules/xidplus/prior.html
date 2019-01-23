@@ -91,10 +91,13 @@
             
               <p class="caption"><span class="caption-text">User Guide:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">A Generative Probabilistic Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#docker">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../hpc.html">Large Fields</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../priors.html">Beyond Positional Priors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API documentation</a></li>
 </ul>
 
             
@@ -165,8 +168,8 @@
 <span class="kn">from</span> <span class="nn">xidplus</span> <span class="k">import</span> <span class="n">moc_routines</span>
 
 
-<div class="viewcode-block" id="prior"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior">[docs]</a><span class="k">class</span> <span class="nc">prior</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<div class="viewcode-block" id="prior.cut_down_map"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.cut_down_map">[docs]</a>    <span class="k">def</span> <span class="nf">cut_down_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="prior"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior">[docs]</a><span class="k">class</span> <span class="nc">prior</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="prior.cut_down_map"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.cut_down_map">[docs]</a>    <span class="k">def</span> <span class="nf">cut_down_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Cuts down prior class variables associated with the map data to the MOC assigned to the prior class: self.moc</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">wcs_temp</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">WCS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imhdu</span><span class="p">)</span>
@@ -179,7 +182,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="p">[</span><span class="n">ind_map</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">snpix</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ind_map</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="prior.cut_down_cat"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.cut_down_cat">[docs]</a>    <span class="k">def</span> <span class="nf">cut_down_cat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="prior.cut_down_cat"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.cut_down_cat">[docs]</a>    <span class="k">def</span> <span class="nf">cut_down_cat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Cuts down prior class variables associated with the catalogue data to the MOC assigned to the prior class: self.moc</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">sgood</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">moc_routines</span><span class="o">.</span><span class="n">check_in_moc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sra</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sdec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">moc</span><span class="p">))</span>
@@ -196,9 +199,12 @@
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;prior_flux_upper&#39;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_upper</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_upper</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;prior_flux_lower&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_lower</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_lower</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_lower</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_lower</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s1">&#39;z_median&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">z_median</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">z_median</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">z_sig</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">z_sig</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="prior.cut_down_prior"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.cut_down_prior">[docs]</a>    <span class="k">def</span> <span class="nf">cut_down_prior</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="prior.cut_down_prior"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.cut_down_prior">[docs]</a>    <span class="k">def</span> <span class="nf">cut_down_prior</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Cuts down prior class variables to the MOC assigned to the prior class</span>
@@ -238,7 +244,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">moc</span> <span class="o">=</span> <span class="n">moc</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cut_down_map</span><span class="p">()</span>
 
-<div class="viewcode-block" id="prior.prior_bkg"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.prior_bkg">[docs]</a>    <span class="k">def</span> <span class="nf">prior_bkg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+<div class="viewcode-block" id="prior.prior_bkg"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior_bkg">[docs]</a>    <span class="k">def</span> <span class="nf">prior_bkg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Add background prior. Assumes :math:`B \sim \mathcal{N}(\mu,\sigma^2)`</span>
 
 <span class="sd">        :param mu: mean</span>
@@ -247,7 +253,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">bkg</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="prior.prior_cat"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.prior_cat">[docs]</a>    <span class="k">def</span> <span class="nf">prior_cat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">prior_cat_file</span><span class="p">,</span> <span class="n">flux_lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flux_upper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ID</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">moc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="prior.prior_cat"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior_cat">[docs]</a>    <span class="k">def</span> <span class="nf">prior_cat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">prior_cat_file</span><span class="p">,</span> <span class="n">flux_lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flux_upper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ID</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">moc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">z_median</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">z_sig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Input info for prior catalogue</span>
 
 <span class="sd">        :param ra: Right ascension (JD2000) of sources</span>
@@ -257,6 +263,8 @@
 <span class="sd">        :param flux_upper: upper limit of flux for each source</span>
 <span class="sd">        :param ID: HELP_ID for each source</span>
 <span class="sd">        :param moc: Multi-Order Coverage map</span>
+<span class="sd">        :param z_median: median of redshift pdf</span>
+<span class="sd">        :param z_sig: sigma of redshift pdf</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># get positions of sources in terms of pixels</span>
         <span class="n">wcs_temp</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">WCS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imhdu</span><span class="p">)</span>
@@ -279,6 +287,9 @@
             <span class="n">flux_upper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">ra</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="mf">1000.0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_lower</span> <span class="o">=</span> <span class="n">flux_lower</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_upper</span> <span class="o">=</span> <span class="n">flux_upper</span>
+        <span class="k">if</span> <span class="n">z_median</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">z_median</span><span class="o">=</span><span class="n">z_median</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">z_sig</span><span class="o">=</span><span class="n">z_sig</span>
 
         <span class="k">if</span> <span class="n">ID</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ID</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ra</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int64&#39;</span><span class="p">)</span>
@@ -292,14 +303,14 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">cut_down_prior</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="prior.set_tile"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.set_tile">[docs]</a>    <span class="k">def</span> <span class="nf">set_tile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">moc</span><span class="p">):</span>
+<div class="viewcode-block" id="prior.set_tile"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.set_tile">[docs]</a>    <span class="k">def</span> <span class="nf">set_tile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">moc</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Update prior with new MOC and update appropriate variables</span>
 <span class="sd">        :param moc: Multi-order Coverage map from pymoc</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">moc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">moc</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">moc</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cut_down_prior</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="prior.prior_cat_stack"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.prior_cat_stack">[docs]</a>    <span class="k">def</span> <span class="nf">prior_cat_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">prior_cat</span><span class="p">,</span> <span class="n">flux_lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flux_upper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">ID</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="prior.prior_cat_stack"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior_cat_stack">[docs]</a>    <span class="k">def</span> <span class="nf">prior_cat_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">prior_cat</span><span class="p">,</span> <span class="n">flux_lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flux_upper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">ID</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Input info for prior catalogue of sources being stacked</span>
 
 <span class="sd">        :param ra: Right ascension (JD2000) of sources</span>
@@ -332,7 +343,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">cut_down_prior</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="prior.set_prf"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.set_prf">[docs]</a>    <span class="k">def</span> <span class="nf">set_prf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prf</span><span class="p">,</span> <span class="n">pindx</span><span class="p">,</span> <span class="n">pindy</span><span class="p">):</span>
+<div class="viewcode-block" id="prior.set_prf"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.set_prf">[docs]</a>    <span class="k">def</span> <span class="nf">set_prf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prf</span><span class="p">,</span> <span class="n">pindx</span><span class="p">,</span> <span class="n">pindy</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add prf array and corresponding x and y scales (in terms of pixels in map)</span>
 
 <span class="sd">        :param prf: n x n array, where n is an odd number, and the centre of the prf is at the centre of the array</span>
@@ -345,14 +356,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pindy</span> <span class="o">=</span> <span class="n">pindy</span></div>
 
 
-<div class="viewcode-block" id="prior.get_pointing_matrix_coo"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.get_pointing_matrix_coo">[docs]</a>    <span class="k">def</span> <span class="nf">get_pointing_matrix_coo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="prior.get_pointing_matrix_coo"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.get_pointing_matrix_coo">[docs]</a>    <span class="k">def</span> <span class="nf">get_pointing_matrix_coo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get scipy coo version of pointing matrix. Useful for sparse matrix multiplication&quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="k">import</span> <span class="n">coo_matrix</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">coo_matrix</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">amat_data</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amat_row</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">amat_col</span><span class="p">)),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">snpix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsrc</span><span class="p">))</span></div>
 
 
 
-<div class="viewcode-block" id="prior.upper_lim_map"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.upper_lim_map">[docs]</a>    <span class="k">def</span> <span class="nf">upper_lim_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="prior.upper_lim_map"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.upper_lim_map">[docs]</a>    <span class="k">def</span> <span class="nf">upper_lim_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Update flux upper limit to abs(bkg)+2*sigma_bkg+max(D)</span>
 <span class="sd">         where max(D) is maximum value of pixels the source contributes to&quot;&quot;&quot;</span>
 
@@ -362,7 +373,7 @@
             <span class="k">if</span> <span class="n">ind</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">prior_flux_upper</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">amat_row</span><span class="p">[</span><span class="n">ind</span><span class="p">]])</span> <span class="o">+</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="prior.get_pointing_matrix_unknown_psf"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.get_pointing_matrix_unknown_psf">[docs]</a>    <span class="k">def</span> <span class="nf">get_pointing_matrix_unknown_psf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bkg</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="prior.get_pointing_matrix_unknown_psf"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.get_pointing_matrix_unknown_psf">[docs]</a>    <span class="k">def</span> <span class="nf">get_pointing_matrix_unknown_psf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bkg</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate pointing matrix for unknown psf. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">interpolate</span>
@@ -405,7 +416,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">amat_row</span> <span class="o">=</span> <span class="n">amat_row</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">amat_col</span> <span class="o">=</span> <span class="n">amat_col</span></div>
 
-<div class="viewcode-block" id="prior.get_pointing_matrix"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.prior.get_pointing_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">get_pointing_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bkg</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="prior.get_pointing_matrix"><a class="viewcode-back" href="../../xidplus.html#xidplus.prior.get_pointing_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">get_pointing_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bkg</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate pointing matrix. If bkg = True, bkg is fitted to all pixels. If False, bkg only fitted to where prior sources contribute</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">interpolate</span>
@@ -438,10 +449,11 @@
             <span class="n">atemp</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">griddata</span><span class="p">((</span><span class="n">ipx2</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">ipy2</span><span class="o">.</span><span class="n">ravel</span><span class="p">()),</span> <span class="bp">self</span><span class="o">.</span><span class="n">prf</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="p">(</span><span class="n">dx</span><span class="p">[</span><span class="n">good</span><span class="p">],</span> <span class="n">dy</span><span class="p">[</span><span class="n">good</span><span class="p">]),</span>
                                              <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
 
-            <span class="n">keep</span><span class="o">=</span><span class="n">atemp</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">atemp</span><span class="p">)</span><span class="o">/</span><span class="mf">1.0E3</span>
-            <span class="n">amat_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">amat_data</span><span class="p">,</span> <span class="n">atemp</span><span class="p">[</span><span class="n">keep</span><span class="p">])</span>
-            <span class="n">amat_row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">amat_row</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">snpix</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)[</span><span class="n">good</span><span class="p">][</span><span class="n">keep</span><span class="p">])</span>  <span class="c1"># what pixels the source contributes to</span>
-            <span class="n">amat_col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">amat_col</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">keep</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">s</span><span class="p">))</span>  <span class="c1"># what source we are on</span>
+            <span class="k">if</span> <span class="n">atemp</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">keep</span><span class="o">=</span><span class="n">atemp</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">atemp</span><span class="p">)</span><span class="o">/</span><span class="mf">1.0E3</span>
+                <span class="n">amat_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">amat_data</span><span class="p">,</span> <span class="n">atemp</span><span class="p">[</span><span class="n">keep</span><span class="p">])</span>
+                <span class="n">amat_row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">amat_row</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">snpix</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)[</span><span class="n">good</span><span class="p">][</span><span class="n">keep</span><span class="p">])</span>  <span class="c1"># what pixels the source contributes to</span>
+                <span class="n">amat_col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">amat_col</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">keep</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">s</span><span class="p">))</span>  <span class="c1"># what source we are on</span>
 
 
         <span class="bp">self</span><span class="o">.</span><span class="n">amat_data</span> <span class="o">=</span> <span class="n">amat_data</span>
