@@ -105,14 +105,14 @@ vector[nsrc] f_low_lim[nband];//upper limit of flux
 vector[nsrc] f_up_lim[nband];//upper limit of flux
 
 for (i in 1:nsrc){
-f_low_lim[1][i]=-3;
-f_up_lim[1][i]=2.0;
-f_low_lim[2][i]=-3;
-f_up_lim[2][i]=3.0;
-f_low_lim[3][i]=-3.0;
-f_up_lim[3][i]=3.0;
-f_low_lim[4][i]=-3.0;
-f_up_lim[4][i]=3.0;
+f_low_lim[1][i]=0.0;
+f_up_lim[1][i]=3.0;
+f_low_lim[2][i]=0.0;
+f_up_lim[2][i]=40.0;
+f_low_lim[3][i]=0.0;
+f_up_lim[3][i]=40.0;
+f_low_lim[4][i]=0.0;
+f_up_lim[4][i]=40.0;
 }
 }
 
@@ -129,7 +129,7 @@ transformed parameters{
   for (i in 1:nband){
     sigma_conf[i]=0.0;
     for (n in 1:nsrc) {
-    src_f[n][i]= pow(10.0,f_low_lim[i,n]+(f_up_lim[i,n]-f_low_lim[i,n])*src_f_tmp[n][i]);
+    src_f[n][i]= f_low_lim[i,n]+(f_up_lim[i,n]-f_low_lim[i,n])*src_f_tmp[n][i];
 }
 }
 
@@ -165,7 +165,7 @@ model{
   for (i in 1:nsrc){
     vector[nTemp] ps;//log prob
     z[i]~normal(z_median[i],z_sig[i]);
-    Nbb[i]~normal(10.5,3.0);
+    //Nbb[i]~normal(10.5,3.0);
 
     for (t in 1:nTemp){
         vector[nband] f_tmp;
