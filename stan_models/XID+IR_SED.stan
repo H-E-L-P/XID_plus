@@ -117,7 +117,7 @@ data
 }
 
 parameters {
-  real<lower=8, upper=14> Nbb[nsrc];
+  real<lower=4.0,upper=16> Nbb[nsrc];
   real<lower=0.001,upper=7> z[nsrc];
   vector<lower=0,upper=2000>[nband] src_f[nsrc];//vector of source src_fes
   real bkg[nband];//background
@@ -163,6 +163,8 @@ model{
   for (i in 1:nsrc){
     vector[nTemp] ps;//log prob
     z[i]~normal(z_median[i],z_sig[i]);
+    Nbb[i]~normal(9,3);
+
 
     for (t in 1:nTemp){
         vector[nband] f_tmp;
