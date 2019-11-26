@@ -25,7 +25,7 @@ def create_PACS_cat(posterior, prior100, prior160):
 
     # ----table info-----------------------
     # first define columns
-    c1 = fits.Column(name='help_id', format='100A', array=prior100.ID)
+    c1 = fits.Column(name='HELP_ID', format='100A', array=prior100.ID)
     c2 = fits.Column(name='RA', format='D', unit='degrees', array=prior100.sra)
     c3 = fits.Column(name='Dec', format='D', unit='degrees', array=prior100.sdec)
     c4 = fits.Column(name='F_PACS_100', format='E', unit='mJy',
@@ -128,7 +128,7 @@ def create_PACS_cat(posterior, prior100, prior160):
 
 # noinspection PyPackageRequirements
 
-def create_MIPS_cat(posterior, prior24, Bayes_P24):
+def create_MIPS_cat(posterior, prior24): #, Bayes_P24=None):
 
     """
     Create MIPS catalogue from posterior
@@ -142,9 +142,10 @@ def create_MIPS_cat(posterior, prior24, Bayes_P24):
     nsrc=prior24.nsrc
     rep_maps = postmaps.replicated_maps([prior24], posterior)
     Bayes_P24 = postmaps.Bayes_Pval_res(prior24, rep_maps[0])
+
     # ----table info-----------------------
     # first define columns
-    c1 = fits.Column(name='help_id', format='100A', array=prior24.ID)
+    c1 = fits.Column(name='HELP_ID', format='100A', array=prior24.ID)
     c2 = fits.Column(name='RA', format='D', unit='degrees', array=prior24.sra)
     c3 = fits.Column(name='Dec', format='D', unit='degrees', array=prior24.sdec)
     c4 = fits.Column(name='F_MIPS_24', format='E', unit='muJy',
@@ -154,13 +155,13 @@ def create_MIPS_cat(posterior, prior24, Bayes_P24):
     c6 = fits.Column(name='FErr_MIPS_24_l', format='E', unit='muJy',
                      array=np.percentile(posterior.samples['src_f'][:,0,:],15.9,axis=0))
     c7 = fits.Column(name='Bkg_MIPS_24', format='E', unit='MJy/sr',
-                     array=np.full(nsrc,np.percentile(posterior.samples['bkg'][:,0],50.0,axis=0)))
+                     array=np.full(nsrc,np.percentile(posterior.samples['bkg'],50.0,axis=0)))
     c8 = fits.Column(name='Sig_conf_MIPS_24', format='E', unit='MJy/sr',
-                     array=np.full(nsrc, np.percentile(posterior.samples['sigma_conf'][:,0],50.0,axis=0)))
+                     array=np.full(nsrc, np.percentile(posterior.samples['sigma_conf'],50.0,axis=0)))
     c9 = fits.Column(name='Rhat_MIPS_24', format='E', array=posterior.Rhat['src_f'][:,0])
     c10 = fits.Column(name='n_eff_MIPS_24', format='E', array=posterior.n_eff['src_f'][:,0])
     c11 = fits.Column(name='Pval_res_24', format='E', array=Bayes_P24)
-    
+
     tbhdu = fits.BinTableHDU.from_columns([c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11])
 
     tbhdu.header.set('TUCD1', 'ID', after='TFORM1')

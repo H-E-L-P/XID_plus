@@ -96,11 +96,21 @@ def replicated_maps(priors,posterior,nrep=1000):
     """
     from xidplus import posterior_maps as postmaps
     mod_map_array=list(map(lambda prior:np.empty((prior.snpix,nrep)), priors))
-    for i in range(0,nrep):
-        for b in range(0,len(priors)):
-            mod_map_array[b][:,i]= postmaps.ymod_map(priors[b] \
-                                                     ,posterior.samples['src_f'][i,b,:]).reshape(-1) \
-            +posterior.samples['bkg'][i,b] \
-            +np.random.normal(scale=np.sqrt(priors[b].snim**2\
-                                            +posterior.samples['sigma_conf'][i,b]**2))
+
+    if len(priors) == 1:
+        for i in range(0,nrep):
+            mod_map_array[0][:,i]= postmaps.ymod_map(priors[0] \
+                                                     ,posterior.samples['src_f'][i,0,:]).reshape(-1) \
+            +posterior.samples['bkg'][i] \
+            +np.random.normal(scale=np.sqrt(priors[0].snim**2\
+                                            +posterior.samples['sigma_conf'][i]**2))
+
+    else:
+        for i in range(0,nrep):
+            for b in range(0,len(priors)):
+                mod_map_array[b][:,i]= postmaps.ymod_map(priors[b] \
+                                                         ,posterior.samples['src_f'][i,b,:]).reshape(-1) \
+                +posterior.samples['bkg'][i,b] \
+                +np.random.normal(scale=np.sqrt(priors[b].snim**2\
+                                                +posterior.samples['sigma_conf'][i,b]**2))
     return mod_map_array
