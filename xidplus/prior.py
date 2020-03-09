@@ -74,7 +74,7 @@ class prior(object):
         self.imphdu = imphdu
         self.imhdu = imhdu
 
-        x_pix, y_pix = np.meshgrid(np.arange(0, wcs_temp._naxis1), np.arange(0, wcs_temp._naxis2))
+        x_pix, y_pix = np.meshgrid(np.arange(0, wcs_temp.pixel_shape[0]), np.arange(0, wcs_temp.pixel_shape[1]))
         self.sx_pix = x_pix.flatten()
         self.sy_pix = y_pix.flatten()
         self.snim = nim.flatten()
