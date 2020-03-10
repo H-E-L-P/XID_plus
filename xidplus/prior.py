@@ -1,5 +1,7 @@
 import numpy as np
 from astropy import wcs
+from astropy import __version__ as astropy_version
+astropy_version = float(astropy_version)
 
 from xidplus import moc_routines
 
@@ -70,7 +72,10 @@ class prior(object):
         self.imphdu = imphdu
         self.imhdu = imhdu
 
-        x_pix, y_pix = np.meshgrid(np.arange(0, wcs_temp._naxis1), np.arange(0, wcs_temp._naxis2))
+        if astropy_version >= 3.2:
+            x_pix, y_pix = np.meshgrid(np.arange(0, wcs_temp.pixel_shape[0]), np.arange(0, wcs_temp.pixel_shape[1]))
+        else:
+            x_pix, y_pix = np.meshgrid(np.arange(0, wcs_temp._naxis1), np.arange(0, wcs_temp._naxis2))
         self.sx_pix = x_pix.flatten()
         self.sy_pix = y_pix.flatten()
         self.snim = nim.flatten()
