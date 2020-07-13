@@ -37,3 +37,20 @@ class posterior_stan(object):
             lower=priors[i].prior_flux_lower
             upper=priors[i].prior_flux_upper
             self.samples['src_f'][:,i,:]=lower+(upper-lower)*self.samples['src_f'][:,i,:]
+
+
+class posterior_pyro(object):
+    def __init__(self, fit, priors):
+        """ Class for dealing with posterior from pyro
+
+        :param fit: fit object from pystan
+        :param priors: list of prior classes used for fit
+        """
+        self.nsrc=priors[0].nsrc
+        self.samples=fit['samples']
+        self.loss_history=fit['loss_history']
+        if len(priors) < 2:
+            self.samples['bkg']=self.samples['bkg'][:,None]
+            self.samples['sigma_conf'] = self.samples['sigma_conf'][:, None]
+
+
