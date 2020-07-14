@@ -115,7 +115,7 @@ def plot_Bayes_pval_map(priors, posterior):
     :return: the default xidplus Bayesian P value map plot
     """
     sns.set_style("white")
-    mod_map_array = postmaps.replicated_maps(priors, posterior, posterior.samples['lp__'].size)
+    mod_map_array = postmaps.replicated_maps(priors, posterior, posterior.samples['src_f'].shape[0])
     Bayes_pvals = []
 
     cmap = sns.diverging_palette(220, 20, as_cmap=True)
