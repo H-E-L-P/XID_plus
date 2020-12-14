@@ -24,25 +24,17 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="XID+ 2.0.0 documentation" href="index.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -108,7 +100,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">XID+</a>
@@ -116,9 +108,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -175,23 +168,13 @@
     margin-top: -19px;
 }
 
-/* nice headers on first paragraph of info/warning boxes */
-.admonition .first {
-    margin: -12px;
-    padding: 6px 12px;
-    margin-bottom: 12px;
-    color: #fff;
-    line-height: 1;
-    display: block;
-}
-.admonition.warning .first {
-    background: #f0b37e;
-}
-.admonition.note .first {
-    background: #6ab0de;
-}
 .admonition > p:before {
     margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
 }
 </style>
 <div class="section" id="xidplus-stan-fit-package">
@@ -199,134 +182,23 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-xidplus.stan_fit.MIPS">
-<span id="xidplus-stan-fit-mips-module"></span><h2>xidplus.stan_fit.MIPS module<a class="headerlink" href="#module-xidplus.stan_fit.MIPS" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="xidplus.stan_fit.MIPS.MIPS_24">
-<code class="descclassname">xidplus.stan_fit.MIPS.</code><code class="descname">MIPS_24</code><span class="sig-paren">(</span><em>MIPS_24</em>, <em>chains=4</em>, <em>iter=1000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/stan_fit/MIPS.html#MIPS_24"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.stan_fit.MIPS.MIPS_24" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit the MIPS 24 band</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>MIPS_24</strong> &#8211; xidplus.prior class</li>
-<li><strong>chains</strong> &#8211; number of chains</li>
-<li><strong>iter</strong> &#8211; number of iterations</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pystan fit object</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+<div class="section" id="xidplus-stan-fit-mips-module">
+<h2>xidplus.stan_fit.MIPS module<a class="headerlink" href="#xidplus-stan-fit-mips-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-xidplus.stan_fit.PACS">
-<span id="xidplus-stan-fit-pacs-module"></span><h2>xidplus.stan_fit.PACS module<a class="headerlink" href="#module-xidplus.stan_fit.PACS" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="xidplus.stan_fit.PACS.all_bands">
-<code class="descclassname">xidplus.stan_fit.PACS.</code><code class="descname">all_bands</code><span class="sig-paren">(</span><em>PACS_100</em>, <em>PACS_160</em>, <em>chains=4</em>, <em>iter=1000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/stan_fit/PACS.html#all_bands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.stan_fit.PACS.all_bands" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit the two PACS bands</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>PACS_100</strong> &#8211; xidplus.prior class</li>
-<li><strong>PACS_160</strong> &#8211; xidplus.prior class</li>
-<li><strong>chains</strong> &#8211; number of chains</li>
-<li><strong>iter</strong> &#8211; number of samples</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pystan fit object</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+<div class="section" id="xidplus-stan-fit-pacs-module">
+<h2>xidplus.stan_fit.PACS module<a class="headerlink" href="#xidplus-stan-fit-pacs-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-xidplus.stan_fit.SPIRE">
-<span id="xidplus-stan-fit-spire-module"></span><h2>xidplus.stan_fit.SPIRE module<a class="headerlink" href="#module-xidplus.stan_fit.SPIRE" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="xidplus.stan_fit.SPIRE.all_bands">
-<code class="descclassname">xidplus.stan_fit.SPIRE.</code><code class="descname">all_bands</code><span class="sig-paren">(</span><em>SPIRE_250</em>, <em>SPIRE_350</em>, <em>SPIRE_500</em>, <em>chains=4</em>, <em>iter=1000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/stan_fit/SPIRE.html#all_bands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.stan_fit.SPIRE.all_bands" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit the three SPIRE bands</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>SPIRE_250</strong> &#8211; xidplus.prior class</li>
-<li><strong>SPIRE_350</strong> &#8211; xidplus.prior class</li>
-<li><strong>SPIRE_500</strong> &#8211; xidplus.prior class</li>
-<li><strong>chains</strong> &#8211; number of chains</li>
-<li><strong>iter</strong> &#8211; number of iterations</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pystan fit object</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="xidplus.stan_fit.SPIRE.all_bands_log10">
-<code class="descclassname">xidplus.stan_fit.SPIRE.</code><code class="descname">all_bands_log10</code><span class="sig-paren">(</span><em>SPIRE_250</em>, <em>SPIRE_350</em>, <em>SPIRE_500</em>, <em>chains=4</em>, <em>iter=1000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/stan_fit/SPIRE.html#all_bands_log10"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.stan_fit.SPIRE.all_bands_log10" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit the three SPIRE bands</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>SPIRE_250</strong> &#8211; xidplus.prior class</li>
-<li><strong>SPIRE_350</strong> &#8211; xidplus.prior class</li>
-<li><strong>SPIRE_500</strong> &#8211; xidplus.prior class</li>
-<li><strong>chains</strong> &#8211; number of chains</li>
-<li><strong>iter</strong> &#8211; number of iterations</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pystan fit object</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+<div class="section" id="xidplus-stan-fit-spire-module">
+<h2>xidplus.stan_fit.SPIRE module<a class="headerlink" href="#xidplus-stan-fit-spire-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-xidplus.stan_fit">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-xidplus.stan_fit" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="xidplus.stan_fit.get_stancode">
-<code class="descclassname">xidplus.stan_fit.</code><code class="descname">get_stancode</code><span class="sig-paren">(</span><em>model_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xidplus/stan_fit.html#get_stancode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xidplus.stan_fit.get_stancode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if exisiting compiled stan code exists and matches current git version, otherwise compile and save.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_file</strong> &#8211; filename of stan model</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">compiled stan code</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -335,11 +207,11 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Peter Hurley.
+        &copy; Copyright 2017, Peter Hurley
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -354,36 +226,26 @@
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'2.0.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

@@ -24,26 +24,18 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="XID+ 2.0.0 documentation" href="#"/>
-        <link rel="next" title="A Generative Probabilistic Framework" href="philosophy.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="A Generative Probabilistic Framework" href="philosophy.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -109,7 +101,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="#">XID+</a>
@@ -117,9 +109,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -176,23 +169,13 @@
     margin-top: -19px;
 }
 
-/* nice headers on first paragraph of info/warning boxes */
-.admonition .first {
-    margin: -12px;
-    padding: 6px 12px;
-    margin-bottom: 12px;
-    color: #fff;
-    line-height: 1;
-    display: block;
-}
-.admonition.warning .first {
-    background: #f0b37e;
-}
-.admonition.note .first {
-    background: #6ab0de;
-}
 .admonition > p:before {
     margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
 }
 </style>
 <img alt="_images/Help_logo.png" src="_images/Help_logo.png" />
@@ -232,15 +215,15 @@ more information on XID+, have a look at <a class="reference external" href="htt
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#the-prior-class">The &#8220;prior&#8221; class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#the-posterior-class">The &#8220;posterior&#8221; class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-xidplus.plots">The &#8220;plots&#8221; functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-xidplus.moc_routines">The &#8220;MOC&#8221; functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#the-posterior-map-functions">The &#8220;posterior map&#8221; functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#the-catalogue-functions">The &#8220;catalogue&#8221; functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-xidplus.HPC">The &#8220;HPC&#8221; functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-xidplus.io">The &#8220;io&#8221; functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-xidplus.stan_fit">The &#8220;Stan fit&#8221; modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#the-prior-class">The “prior” class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#the-posterior-class">The “posterior” class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#the-plots-functions">The “plots” functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#the-moc-functions">The “MOC” functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#the-posterior-map-functions">The “posterior map” functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#the-catalogue-functions">The “catalogue” functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#the-hpc-functions">The “HPC” functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#the-io-functions">The “io” functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#the-stan-fit-modules">The “Stan fit” modules</a></li>
 </ul>
 </li>
 </ul>
@@ -251,7 +234,7 @@ more information on XID+, have a look at <a class="reference external" href="htt
 <p>Copyright 2017 Peter Hurley and contributors.</p>
 <p>XID+ is being developed by Peter Hurley in a public GitHub repository. The source code is made available under the terms of the MIT license.</p>
 <p>If you make use of this code, please cite <a class="reference external" href="http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1606.05770">Hurley et al. 2017</a>, published in MNRAS:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@ARTICLE</span><span class="p">{</span><span class="mi">2017</span><span class="n">MNRAS</span><span class="o">.</span><span class="mf">464.</span><span class="o">.</span><span class="mi">885</span><span class="n">H</span><span class="p">,</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@ARTICLE</span><span class="p">{</span><span class="mi">2017</span><span class="n">MNRAS</span><span class="o">.</span><span class="mf">464.</span><span class="o">.</span><span class="mi">885</span><span class="n">H</span><span class="p">,</span>
    <span class="n">author</span> <span class="o">=</span> <span class="p">{{</span><span class="n">Hurley</span><span class="p">},</span> <span class="n">P</span><span class="o">.~</span><span class="n">D</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Oliver</span><span class="p">},</span> <span class="n">S</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Betancourt</span><span class="p">},</span> <span class="n">M</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Clarke</span><span class="p">},</span> <span class="n">C</span><span class="o">.</span> <span class="ow">and</span>
        <span class="p">{</span><span class="n">Cowley</span><span class="p">},</span> <span class="n">W</span><span class="o">.~</span><span class="n">I</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Duivenvoorden</span><span class="p">},</span> <span class="n">S</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Farrah</span><span class="p">},</span> <span class="n">D</span><span class="o">.</span> <span class="ow">and</span>
        <span class="p">{</span><span class="n">Griffin</span><span class="p">},</span> <span class="n">M</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Lacey</span><span class="p">},</span> <span class="n">C</span><span class="o">.</span> <span class="ow">and</span> <span class="p">{</span><span class="n">Le</span> <span class="n">Floc</span><span class="s1">&#39;h}, E. and </span><span class="si">{Papadopoulos}</span><span class="s1">, A. and</span>
@@ -273,7 +256,7 @@ more information on XID+, have a look at <a class="reference external" href="htt
 </pre></div>
 </div>
 <p>The research leading to this tool has received funding from the European Union Seventh Framework Programme FP7/2007-2013/ under grant agreement no.607254.
-The documentation reflects only the author&#8217;s view and the European Union is not responsible for any use that may be made of the information contained therein.</p>
+The documentation reflects only the author’s view and the European Union is not responsible for any use that may be made of the information contained therein.</p>
 <a class="reference internal image-reference" href="_images/sussex.jpg"><img alt="_images/sussex.jpg" src="_images/sussex.jpg" style="width: 30%;" /></a>
 <a class="reference internal image-reference" href="_images/logo_en.gif"><img alt="_images/logo_en.gif" src="_images/logo_en.gif" style="width: 30%;" /></a>
 </div>
@@ -288,9 +271,7 @@ The documentation reflects only the author&#8217;s view and the European Union i
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -306,11 +287,11 @@ The documentation reflects only the author&#8217;s view and the European Union i
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Peter Hurley.
+        &copy; Copyright 2017, Peter Hurley
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -325,36 +306,26 @@ The documentation reflects only the author&#8217;s view and the European Union i
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'2.0.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>
