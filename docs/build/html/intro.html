@@ -24,27 +24,19 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="XID+ 2.0.0 documentation" href="index.html"/>
-        <link rel="next" title="Tutorials" href="tutorial.html"/>
-        <link rel="prev" title="A Generative Probabilistic Framework" href="philosophy.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorials" href="tutorial.html" />
+    <link rel="prev" title="A Generative Probabilistic Framework" href="philosophy.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -120,7 +112,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">XID+</a>
@@ -128,9 +120,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -187,30 +180,20 @@
     margin-top: -19px;
 }
 
-/* nice headers on first paragraph of info/warning boxes */
-.admonition .first {
-    margin: -12px;
-    padding: 6px 12px;
-    margin-bottom: 12px;
-    color: #fff;
-    line-height: 1;
-    display: block;
-}
-.admonition.warning .first {
-    background: #f0b37e;
-}
-.admonition.note .first {
-    background: #6ab0de;
-}
 .admonition > p:before {
     margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
 }
 </style>
 <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>XID+ requires a Python (2 or 3) installation. I recommend the <a class="reference external" href="https://www.continuum.io/downloads">Anaconda distribution</a>.</p>
 <p>Once you have a working Python installation, you can download the code either directly from <a class="reference external" href="https://github.com/H-E-L-P/XID_plus">github</a> or by cloning the git repository:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">H</span><span class="o">-</span><span class="n">E</span><span class="o">-</span><span class="n">L</span><span class="o">-</span><span class="n">P</span><span class="o">/</span><span class="n">XID_plus</span><span class="o">.</span><span class="n">git</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">H</span><span class="o">-</span><span class="n">E</span><span class="o">-</span><span class="n">L</span><span class="o">-</span><span class="n">P</span><span class="o">/</span><span class="n">XID_plus</span><span class="o">.</span><span class="n">git</span>
 <span class="n">cd</span> <span class="n">XID_plus</span>
 </pre></div>
 </div>
@@ -219,7 +202,7 @@
 <div class="section" id="anaconda-python">
 <h3>Anaconda Python<a class="headerlink" href="#anaconda-python" title="Permalink to this headline">¶</a></h3>
 <p>If using an Anaconda distribution, then it is best to install some prerequisites with conda with the following command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>conda config --add channels conda-forge &amp;&amp; conda install healpy
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>conda config --add channels conda-forge &amp;&amp; conda install healpy
 while read requirement; do conda install --yes $requirement; done &lt; req.txt
 </pre></div>
 </div>
@@ -227,7 +210,7 @@ while read requirement; do conda install --yes $requirement; done &lt; req.txt
 <div class="section" id="custom-python">
 <h3>Custom Python<a class="headerlink" href="#custom-python" title="Permalink to this headline">¶</a></h3>
 <p>If you are using your own Python setup, install the requirements via the command</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">req</span><span class="o">.</span><span class="n">txt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">req</span><span class="o">.</span><span class="n">txt</span>
 </pre></div>
 </div>
 </div>
@@ -235,7 +218,7 @@ while read requirement; do conda install --yes $requirement; done &lt; req.txt
 <div class="section" id="finally">
 <h2>Finally<a class="headerlink" href="#finally" title="Permalink to this headline">¶</a></h2>
 <p>Then, install the package by running the following command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="s1">&#39;./&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="s1">&#39;./&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -247,12 +230,12 @@ while read requirement; do conda install --yes $requirement; done &lt; req.txt
 <p>The resulting Docker image can then be run on ANY machine, be it Windows, Linux, Mac or in the cloud without having to worry about installing numerous dependencies.</p>
 <p>For Docker installation instructions, <a class="reference external" href="https://www.docker.com/get-docker">see the Docker main page</a>.</p>
 <p>Once Docker is installed, running a docker image on a Linux or Mac OS is very simple. Just open a new terminal and use the command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>docker run -it --rm -v $(pwd):/home -p 8888:8888 pdh21/xidplus:latest
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>docker run -it --rm -v $(pwd):/home -p 8888:8888 pdh21/xidplus:latest
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The &#8220;docker run&#8221; command should automatically download the xidplus image from the cloud. Alternatively, one can download the image with out running, using the command &#8220;docker pull pdh21/xidplus:latest&#8221;,</p>
+<p class="last">The “docker run” command should automatically download the xidplus image from the cloud. Alternatively, one can download the image with out running, using the command “docker pull pdh21/xidplus:latest”,</p>
 </div>
 <p>Once the docker image is downloaded, open the shown URL link in your browser and you are good to go. The URL will look something like:
 <a class="reference external" href="http://localhost:8888/?token=0312c1ef3b61d7a44ff5346d3d150c23249a548850e13868">http://localhost:8888/?token=0312c1ef3b61d7a44ff5346d3d150c23249a548850e13868</a></p>
@@ -260,13 +243,13 @@ while read requirement; do conda install --yes $requirement; done &lt; req.txt
 <p>The different flags do the following:</p>
 <ul class="simple">
 <li>The -it flag tells docker that it should open an interactive container instance.</li>
-<li>The &#8211;rm flag tells docker that the container should automatically be removed after we close docker.</li>
+<li>The –rm flag tells docker that the container should automatically be removed after we close docker.</li>
 <li>The -p flag specifies which port we want to make available for docker.</li>
 <li>The -v flag tells docker which folders should be mount to make them accesible inside the container.</li>
 </ul>
 <p>Here: $(pwd) is your local directory you are running the Docker image from. The second part of the -v flag (here: /home) specifies under which path the mounted folders can be found inside the container.</p>
 <p>Alternatively, rather than starting with the default Jupyter notebook, you can also access the Docker container directly with bash using the following command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>docker run -it --rm -v $(pwd):/home -p 8888:8888 pdh21/xidplus:latest /bin/bash
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>docker run -it --rm -v $(pwd):/home -p 8888:8888 pdh21/xidplus:latest /bin/bash
 </pre></div>
 </div>
 <div class="toctree-wrapper compound">
@@ -275,9 +258,7 @@ while read requirement; do conda install --yes $requirement; done &lt; req.txt
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -295,11 +276,11 @@ while read requirement; do conda install --yes $requirement; done &lt; req.txt
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Peter Hurley.
+        &copy; Copyright 2017, Peter Hurley
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -314,36 +295,26 @@ while read requirement; do conda install --yes $requirement; done &lt; req.txt
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'2.0.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

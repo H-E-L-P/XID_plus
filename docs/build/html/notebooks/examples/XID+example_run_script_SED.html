@@ -24,25 +24,17 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../genindex.html"/>
-        <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="XID+ 2.0.0 documentation" href="../../index.html"/> 
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -108,7 +100,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">XID+</a>
@@ -116,9 +108,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -215,18 +208,18 @@ div.nblast {
 
 /* input prompt */
 div.nbinput div.prompt pre {
-    color: #303F9F;
+    color: #307FC1;
 }
 
 /* output prompt */
 div.nboutput div.prompt pre {
-    color: #D84315;
+    color: #BF5B3D;
 }
 
 /* all prompts */
 div.nbinput div.prompt,
 div.nboutput div.prompt {
-    min-width: 8ex;
+    min-width: 5ex;
     padding-top: 0.4em;
     padding-right: 0.4em;
     text-align: right;
@@ -266,9 +259,9 @@ div.nboutput div.output_area {
 
 /* input area */
 div.nbinput div.input_area {
-    border: 1px solid #cfcfcf;
+    border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f7f7f7;
+    background: #f5f5f5;
 }
 
 /* override MathJax center alignment in output cells */
@@ -276,7 +269,7 @@ div.nboutput div[class*=MathJax] {
     text-align: left !important;
 }
 
-/* override sphinx.ext.pngmath center alignment in output cells */
+/* override sphinx.ext.imgmath center alignment in output cells */
 div.nboutput div.math p {
     text-align: left;
 }
@@ -320,7 +313,45 @@ div.nboutput div.output_area.stderr {
 .ansi-white-intense-fg { color: #A1A6B2; }
 .ansi-white-intense-bg { background-color: #A1A6B2; }
 
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
 .ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
 
 /* CSS overrides for sphinx_rtd_theme */
 
@@ -335,303 +366,258 @@ div.nboutput div.output_area.stderr {
     margin-top: -19px;
 }
 
-/* nice headers on first paragraph of info/warning boxes */
-.admonition .first {
-    margin: -12px;
-    padding: 6px 12px;
-    margin-bottom: 12px;
-    color: #fff;
-    line-height: 1;
-    display: block;
-}
-.admonition.warning .first {
-    background: #f0b37e;
-}
-.admonition.note .first {
-    background: #6ab0de;
-}
 .admonition > p:before {
     margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
 }
 </style>
 <div class="section" id="XID+-Example-Run-Script">
 <h1>XID+ Example Run Script<a class="headerlink" href="#XID+-Example-Run-Script" title="Permalink to this headline">¶</a></h1>
-<p>(This is based on a Jupyter notebook, available in the <a class="reference external" href="https://github.com/H-E-L-P/XID_plus/tree/master/docs/notebooks/examples/">XID+
-package</a>
-and can be interactively run and edited)</p>
-<p>XID+ is a probababilistic deblender for confusion dominated maps. It is
-designed to:</p>
+<p>(This is based on a Jupyter notebook, available in the <a class="reference external" href="https://github.com/H-E-L-P/XID_plus/tree/master/docs/notebooks/examples/">XID+ package</a> and can be interactively run and edited)</p>
+<p>XID+ is a probababilistic deblender for confusion dominated maps. It is designed to:</p>
 <ol class="arabic simple">
 <li>Use a MCMC based approach to get FULL posterior</li>
 <li>Provide a natural framework to introduce additional prior information</li>
 <li>Allows more accurate estimate of flux density errors for each source</li>
-<li>Provides a platform for doing science with the maps (e.g XID+
-Hierarchical stacking, Luminosity function from the map etc)</li>
+<li>Provides a platform for doing science with the maps (e.g XID+ Hierarchical stacking, Luminosity function from the map etc)</li>
 </ol>
-<p>Cross-identification tends to be done with catalogues, then science with
-the matched catalogues.</p>
-<p>XID+ takes a different philosophy. Catalogues are a form of data
-compression. OK in some cases, not so much in others, i.e. confused
-images: catalogue compression loses correlation information. Ideally,
-science should be done without compression.</p>
-<p>XID+ provides a framework to cross identify galaxies we know about in
-different maps, with the idea that it can be extended to do science with
-the maps!!</p>
+<p>Cross-identification tends to be done with catalogues, then science with the matched catalogues.</p>
+<p>XID+ takes a different philosophy. Catalogues are a form of data compression. OK in some cases, not so much in others, i.e.&nbsp;confused images: catalogue compression loses correlation information. Ideally, science should be done without compression.</p>
+<p>XID+ provides a framework to cross identify galaxies we know about in different maps, with the idea that it can be extended to do science with the maps!!</p>
 <p>Philosophy:</p>
 <ul class="simple">
 <li>build a probabilistic generative model for the SPIRE maps</li>
 <li>Infer model on SPIRE maps</li>
 </ul>
 <p>Bayes Theorem</p>
-<p><span class="math">\(p(\mathbf{f}|\mathbf{d}) \propto p(\mathbf{d}|\mathbf{f}) \times p(\mathbf{f})\)</span></p>
-<p>In order to carry out Bayesian inference, we need a model to carry out
-inference on.</p>
-<p>For the SPIRE maps, our model is quite simple, with likelihood defined
-as:
-<span class="math">\(L = p(\mathbf{d}|\mathbf{f}) \propto |\mathbf{N_d}|^{-1/2} \exp\big\{ -\frac{1}{2}(\mathbf{d}-\mathbf{Af})^T\mathbf{N_d}^{-1}(\mathbf{d}-\mathbf{Af})\big\}\)</span></p>
-<p>where: <span class="math">\(\mathbf{N_{d,ii}} =\sigma_{inst.,ii}^2+\sigma_{conf.}^2\)</span></p>
+<p><span class="math notranslate nohighlight">\(p(\mathbf{f}|\mathbf{d}) \propto p(\mathbf{d}|\mathbf{f}) \times p(\mathbf{f})\)</span></p>
+<p>In order to carry out Bayesian inference, we need a model to carry out inference on.</p>
+<p>For the SPIRE maps, our model is quite simple, with likelihood defined as: <span class="math notranslate nohighlight">\(L = p(\mathbf{d}|\mathbf{f}) \propto |\mathbf{N_d}|^{-1/2} \exp\big\{ -\frac{1}{2}(\mathbf{d}-\mathbf{Af})^T\mathbf{N_d}^{-1}(\mathbf{d}-\mathbf{Af})\big\}\)</span></p>
+<p>where: <span class="math notranslate nohighlight">\(\mathbf{N_{d,ii}} =\sigma_{inst.,ii}^2+\sigma_{conf.}^2\)</span></p>
 <p>Simplest model for XID+ assumes following:</p>
-<ul class="simple">
-<li>All sources are known and have positive flux (fi)</li>
-<li>A global background (B) contributes to all pixels</li>
-<li>PRF is fixed and known</li>
-<li>Because we are getting the joint probability distribution, our model
-is generative:</li>
-<li>Given parameters, we generate data and vica-versa</li>
+<ul>
+<li><p class="first">All sources are known and have positive flux (fi)</p>
+</li>
+<li><p class="first">A global background (B) contributes to all pixels</p>
+</li>
+<li><p class="first">PRF is fixed and known</p>
+</li>
+<li><p class="first rubric" id="confusion-noise-is-constant-and-not-correlated-across-pixels">Confusion noise is constant and not correlated across pixels</p>
+<p>Because we are getting the joint probability distribution, our model is generative:</p>
+</li>
+<li><p class="first">Given parameters, we generate data and vica-versa</p>
+</li>
 </ul>
-<p>Compared to discriminative model (i.e. neural network), which only
-obtains conditional probability distribution:</p>
+<p>Compared to discriminative model (i.e.&nbsp;neural network), which only obtains conditional probability distribution:</p>
 <ul class="simple">
-<li>Neural network, give inputs, get output. Can&#8217;t go other way&#8217;</li>
+<li>Neural network, give inputs, get output. Can’t go other way’</li>
 </ul>
-<p>Generative model is full probabilistic model. Allows more complex
-relationships between observed and target variables</p>
+<p>Generative model is full probabilistic model. Allows more complex relationships between observed and target variables</p>
 <div class="section" id="XID+-SPIRE">
 <h2>XID+ SPIRE<a class="headerlink" href="#XID+-SPIRE" title="Permalink to this headline">¶</a></h2>
 <p>XID+ applied to GALFORM simulation of COSMOS field</p>
 <ul class="simple">
-<li>SAM simulation (with dust) ran through SMAP pipeline_ similar depth
-and size as COSMOS</li>
-<li>Use galaxies with an observed 100 micron flux of gt.
-<span class="math">\(50\mathbf{\mu Jy}\)</span>. Gives 64823 sources</li>
-<li>Uninformative prior: uniform <span class="math">\(0 - 10{^3} \mathbf{mJy}\)</span></li>
+<li>SAM simulation (with dust) ran through SMAP pipeline_ similar depth and size as COSMOS</li>
+<li>Use galaxies with an observed 100 micron flux of gt. <span class="math notranslate nohighlight">\(50\mathbf{\mu Jy}\)</span>. Gives 64823 sources</li>
+<li>Uninformative prior: uniform <span class="math notranslate nohighlight">\(0 - 10{^3} \mathbf{mJy}\)</span></li>
 </ul>
 <p>Import required modules</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>from astropy.io import ascii, fits
-import pylab as plt
-%matplotlib inline
-from astropy import wcs
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">astropy.io</span> <span class="k">import</span> <span class="n">ascii</span><span class="p">,</span> <span class="n">fits</span>
+<span class="kn">import</span> <span class="nn">pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">astropy</span> <span class="k">import</span> <span class="n">wcs</span>
 
 
-import numpy as np
-import xidplus
-from xidplus import moc_routines
-import pickle
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xidplus</span>
+<span class="kn">from</span> <span class="nn">xidplus</span> <span class="k">import</span> <span class="n">moc_routines</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
 </pre></div>
 </div>
 </div>
 <p>Set image and catalogue filenames</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>xidplus.__path__[0]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">xidplus</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&#39;/Users/pdh21/Work/Astro/XID_plus/xidplus&#39;
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>#Folder containing maps
-imfolder=xidplus.__path__[0]+&#39;/../test_files/&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#Folder containing maps</span>
+<span class="n">imfolder</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;/../test_files/&#39;</span>
 
-pswfits=imfolder+&#39;cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PSW_hipe.fits.gz&#39;#SPIRE 250 map
-pmwfits=imfolder+&#39;cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PMW_hipe.fits.gz&#39;#SPIRE 350 map
-plwfits=imfolder+&#39;cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PLW_hipe.fits.gz&#39;#SPIRE 500 map
-
-
-#Folder containing prior input catalogue
-catfolder=xidplus.__path__[0]+&#39;/../test_files/&#39;
-#prior catalogue
-prior_cat=&#39;lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS_test.fits&#39;
+<span class="n">pswfits</span><span class="o">=</span><span class="n">imfolder</span><span class="o">+</span><span class="s1">&#39;cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PSW_hipe.fits.gz&#39;</span><span class="c1">#SPIRE 250 map</span>
+<span class="n">pmwfits</span><span class="o">=</span><span class="n">imfolder</span><span class="o">+</span><span class="s1">&#39;cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PMW_hipe.fits.gz&#39;</span><span class="c1">#SPIRE 350 map</span>
+<span class="n">plwfits</span><span class="o">=</span><span class="n">imfolder</span><span class="o">+</span><span class="s1">&#39;cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PLW_hipe.fits.gz&#39;</span><span class="c1">#SPIRE 500 map</span>
 
 
-#output folder
-output_folder=&#39;./&#39;
+<span class="c1">#Folder containing prior input catalogue</span>
+<span class="n">catfolder</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;/../test_files/&#39;</span>
+<span class="c1">#prior catalogue</span>
+<span class="n">prior_cat</span><span class="o">=</span><span class="s1">&#39;lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS_test.fits&#39;</span>
+
+
+<span class="c1">#output folder</span>
+<span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./&#39;</span>
 </pre></div>
 </div>
 </div>
 <p>Load in images, noise maps, header info and WCS information</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>#-----250-------------
-hdulist = fits.open(pswfits)
-im250phdu=hdulist[0].header
-im250hdu=hdulist[1].header
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#-----250-------------</span>
+<span class="n">hdulist</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">pswfits</span><span class="p">)</span>
+<span class="n">im250phdu</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+<span class="n">im250hdu</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
 
-im250=hdulist[1].data*1.0E3 #convert to mJy
-nim250=hdulist[2].data*1.0E3 #convert to mJy
-w_250 = wcs.WCS(hdulist[1].header)
-pixsize250=3600.0*w_250.wcs.cd[1,1] #pixel size (in arcseconds)
-hdulist.close()
-#-----350-------------
-hdulist = fits.open(pmwfits)
-im350phdu=hdulist[0].header
-im350hdu=hdulist[1].header
+<span class="n">im250</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">*</span><span class="mf">1.0E3</span> <span class="c1">#convert to mJy</span>
+<span class="n">nim250</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">*</span><span class="mf">1.0E3</span> <span class="c1">#convert to mJy</span>
+<span class="n">w_250</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">WCS</span><span class="p">(</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+<span class="n">pixsize250</span><span class="o">=</span><span class="mf">3600.0</span><span class="o">*</span><span class="n">w_250</span><span class="o">.</span><span class="n">wcs</span><span class="o">.</span><span class="n">cd</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="c1">#pixel size (in arcseconds)</span>
+<span class="n">hdulist</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="c1">#-----350-------------</span>
+<span class="n">hdulist</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">pmwfits</span><span class="p">)</span>
+<span class="n">im350phdu</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+<span class="n">im350hdu</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
 
-im350=hdulist[1].data*1.0E3 #convert to mJy
-nim350=hdulist[2].data*1.0E3 #convert to mJy
-w_350 = wcs.WCS(hdulist[1].header)
-pixsize350=3600.0*w_350.wcs.cd[1,1] #pixel size (in arcseconds)
-hdulist.close()
-#-----500-------------
-hdulist = fits.open(plwfits)
-im500phdu=hdulist[0].header
-im500hdu=hdulist[1].header
-im500=hdulist[1].data*1.0E3 #convert to mJy
-nim500=hdulist[2].data*1.0E3 #convert to mJy
-w_500 = wcs.WCS(hdulist[1].header)
-pixsize500=3600.0*w_500.wcs.cd[1,1] #pixel size (in arcseconds)
-hdulist.close()
+<span class="n">im350</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">*</span><span class="mf">1.0E3</span> <span class="c1">#convert to mJy</span>
+<span class="n">nim350</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">*</span><span class="mf">1.0E3</span> <span class="c1">#convert to mJy</span>
+<span class="n">w_350</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">WCS</span><span class="p">(</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+<span class="n">pixsize350</span><span class="o">=</span><span class="mf">3600.0</span><span class="o">*</span><span class="n">w_350</span><span class="o">.</span><span class="n">wcs</span><span class="o">.</span><span class="n">cd</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="c1">#pixel size (in arcseconds)</span>
+<span class="n">hdulist</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="c1">#-----500-------------</span>
+<span class="n">hdulist</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">plwfits</span><span class="p">)</span>
+<span class="n">im500phdu</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+<span class="n">im500hdu</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+<span class="n">im500</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">*</span><span class="mf">1.0E3</span> <span class="c1">#convert to mJy</span>
+<span class="n">nim500</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">*</span><span class="mf">1.0E3</span> <span class="c1">#convert to mJy</span>
+<span class="n">w_500</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">WCS</span><span class="p">(</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+<span class="n">pixsize500</span><span class="o">=</span><span class="mf">3600.0</span><span class="o">*</span><span class="n">w_500</span><span class="o">.</span><span class="n">wcs</span><span class="o">.</span><span class="n">cd</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="c1">#pixel size (in arcseconds)</span>
+<span class="n">hdulist</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <p>Load in catalogue you want to fit (and make any cuts)</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>hdulist = fits.open(catfolder+prior_cat)
-fcat=hdulist[1].data
-hdulist.close()
-inra=fcat[&#39;RA&#39;]
-indec=fcat[&#39;DEC&#39;]
-# select only sources with 100micron flux greater than 50 microJy
-sgood=fcat[&#39;S100&#39;]&gt;0.050
-inra=inra[sgood]
-indec=indec[sgood]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">hdulist</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">catfolder</span><span class="o">+</span><span class="n">prior_cat</span><span class="p">)</span>
+<span class="n">fcat</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+<span class="n">hdulist</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">inra</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;RA&#39;</span><span class="p">]</span>
+<span class="n">indec</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;DEC&#39;</span><span class="p">]</span>
+<span class="c1"># select only sources with 100micron flux greater than 50 microJy</span>
+<span class="n">sgood</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S100&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mf">0.050</span>
+<span class="n">inra</span><span class="o">=</span><span class="n">inra</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span>
+<span class="n">indec</span><span class="o">=</span><span class="n">indec</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
-<p>XID+ uses Multi Order Coverage (MOC) maps for cutting down maps and
-catalogues so they cover the same area. It can also take in MOCs as
-selection functions to carry out additional cuts. Lets use the python
-module <a class="reference external" href="http://pymoc.readthedocs.io/en/latest/">pymoc</a> to create a
-MOC, centered on a specific position we are interested in. We will use a
-HEALPix order of 15 (the resolution: higher order means higher
-resolution), have a radius of 100 arcseconds centered around an R.A. of
-150.74 degrees and Declination of 2.03 degrees.</p>
+<p>XID+ uses Multi Order Coverage (MOC) maps for cutting down maps and catalogues so they cover the same area. It can also take in MOCs as selection functions to carry out additional cuts. Lets use the python module <a class="reference external" href="http://pymoc.readthedocs.io/en/latest/">pymoc</a> to create a MOC, centered on a specific position we are interested in. We will use a HEALPix order of 15 (the resolution: higher order means higher resolution), have a radius of 100 arcseconds centered around an R.A. of 150.74 degrees
+and Declination of 2.03 degrees.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>from astropy.coordinates import SkyCoord
-from astropy import units as u
-c = SkyCoord(ra=[150.74]*u.degree, dec=[2.03]*u.degree)
-import pymoc
-moc=pymoc.util.catalog.catalog_to_moc(c,100,15)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="k">import</span> <span class="n">SkyCoord</span>
+<span class="kn">from</span> <span class="nn">astropy</span> <span class="k">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="n">ra</span><span class="o">=</span><span class="p">[</span><span class="mf">150.74</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="p">[</span><span class="mf">2.03</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pymoc</span>
+<span class="n">moc</span><span class="o">=</span><span class="n">pymoc</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">catalog_to_moc</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>XID+ is built around two python classes. A prior and posterior class.
-There should be a prior class for each map being fitted. It is initiated
-with a map, noise map, primary header and map header and can be set with
-a MOC. It also requires an input prior catalogue and point spread
-function.</p>
+<p>XID+ is built around two python classes. A prior and posterior class. There should be a prior class for each map being fitted. It is initiated with a map, noise map, primary header and map header and can be set with a MOC. It also requires an input prior catalogue and point spread function.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>#---prior250--------
-prior250=xidplus.prior(im250,nim250,im250phdu,im250hdu, moc=moc)#Initialise with map, uncertianty map, wcs info and primary header
-prior250.prior_cat(inra,indec,prior_cat)#Set input catalogue
-prior250.prior_bkg(-5.0,5)#Set prior on background (assumes Gaussian pdf with mu and sigma)
-#---prior350--------
-prior350=xidplus.prior(im350,nim350,im350phdu,im350hdu, moc=moc)
-prior350.prior_cat(inra,indec,prior_cat)
-prior350.prior_bkg(-5.0,5)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#---prior250--------</span>
+<span class="n">prior250</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">prior</span><span class="p">(</span><span class="n">im250</span><span class="p">,</span><span class="n">nim250</span><span class="p">,</span><span class="n">im250phdu</span><span class="p">,</span><span class="n">im250hdu</span><span class="p">,</span> <span class="n">moc</span><span class="o">=</span><span class="n">moc</span><span class="p">)</span><span class="c1">#Initialise with map, uncertianty map, wcs info and primary header</span>
+<span class="n">prior250</span><span class="o">.</span><span class="n">prior_cat</span><span class="p">(</span><span class="n">inra</span><span class="p">,</span><span class="n">indec</span><span class="p">,</span><span class="n">prior_cat</span><span class="p">)</span><span class="c1">#Set input catalogue</span>
+<span class="n">prior250</span><span class="o">.</span><span class="n">prior_bkg</span><span class="p">(</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="c1">#Set prior on background (assumes Gaussian pdf with mu and sigma)</span>
+<span class="c1">#---prior350--------</span>
+<span class="n">prior350</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">prior</span><span class="p">(</span><span class="n">im350</span><span class="p">,</span><span class="n">nim350</span><span class="p">,</span><span class="n">im350phdu</span><span class="p">,</span><span class="n">im350hdu</span><span class="p">,</span> <span class="n">moc</span><span class="o">=</span><span class="n">moc</span><span class="p">)</span>
+<span class="n">prior350</span><span class="o">.</span><span class="n">prior_cat</span><span class="p">(</span><span class="n">inra</span><span class="p">,</span><span class="n">indec</span><span class="p">,</span><span class="n">prior_cat</span><span class="p">)</span>
+<span class="n">prior350</span><span class="o">.</span><span class="n">prior_bkg</span><span class="p">(</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
 
-#---prior500--------
-prior500=xidplus.prior(im500,nim500,im500phdu,im500hdu, moc=moc)
-prior500.prior_cat(inra,indec,prior_cat)
-prior500.prior_bkg(-5.0,5)
+<span class="c1">#---prior500--------</span>
+<span class="n">prior500</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">prior</span><span class="p">(</span><span class="n">im500</span><span class="p">,</span><span class="n">nim500</span><span class="p">,</span><span class="n">im500phdu</span><span class="p">,</span><span class="n">im500hdu</span><span class="p">,</span> <span class="n">moc</span><span class="o">=</span><span class="n">moc</span><span class="p">)</span>
+<span class="n">prior500</span><span class="o">.</span><span class="n">prior_cat</span><span class="p">(</span><span class="n">inra</span><span class="p">,</span><span class="n">indec</span><span class="p">,</span><span class="n">prior_cat</span><span class="p">)</span>
+<span class="n">prior500</span><span class="o">.</span><span class="n">prior_bkg</span><span class="p">(</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>Set PSF. For SPIRE, the PSF can be assumed to be Gaussian with a FWHM of
-18.15, 25.15, 36.3 &#8216;&#8217; for 250, 350 and 500 <span class="math">\(\mathrm{\mu m}\)</span>
-respectively. Lets use the astropy module to construct a Gaussian PSF
-and assign it to the three XID+ prior classes.</p>
+<p>Set PSF. For SPIRE, the PSF can be assumed to be Gaussian with a FWHM of 18.15, 25.15, 36.3 ’’ for 250, 350 and 500 <span class="math notranslate nohighlight">\(\mathrm{\mu m}\)</span> respectively. Lets use the astropy module to construct a Gaussian PSF and assign it to the three XID+ prior classes.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>#pixsize array (size of pixels in arcseconds)
-pixsize=np.array([pixsize250,pixsize350,pixsize500])
-#point response function for the three bands
-prfsize=np.array([18.15,25.15,36.3])
-#use Gaussian2DKernel to create prf (requires stddev rather than fwhm hence pfwhm/2.355)
-from astropy.convolution import Gaussian2DKernel
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#pixsize array (size of pixels in arcseconds)</span>
+<span class="n">pixsize</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">pixsize250</span><span class="p">,</span><span class="n">pixsize350</span><span class="p">,</span><span class="n">pixsize500</span><span class="p">])</span>
+<span class="c1">#point response function for the three bands</span>
+<span class="n">prfsize</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">18.15</span><span class="p">,</span><span class="mf">25.15</span><span class="p">,</span><span class="mf">36.3</span><span class="p">])</span>
+<span class="c1">#use Gaussian2DKernel to create prf (requires stddev rather than fwhm hence pfwhm/2.355)</span>
+<span class="kn">from</span> <span class="nn">astropy.convolution</span> <span class="k">import</span> <span class="n">Gaussian2DKernel</span>
 
-##---------fit using Gaussian beam-----------------------
-prf250=Gaussian2DKernel(prfsize[0]/2.355,x_size=101,y_size=101)
-prf250.normalize(mode=&#39;peak&#39;)
-prf350=Gaussian2DKernel(prfsize[1]/2.355,x_size=101,y_size=101)
-prf350.normalize(mode=&#39;peak&#39;)
-prf500=Gaussian2DKernel(prfsize[2]/2.355,x_size=101,y_size=101)
-prf500.normalize(mode=&#39;peak&#39;)
+<span class="c1">##---------fit using Gaussian beam-----------------------</span>
+<span class="n">prf250</span><span class="o">=</span><span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">prfsize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mf">2.355</span><span class="p">,</span><span class="n">x_size</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span><span class="n">y_size</span><span class="o">=</span><span class="mi">101</span><span class="p">)</span>
+<span class="n">prf250</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;peak&#39;</span><span class="p">)</span>
+<span class="n">prf350</span><span class="o">=</span><span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">prfsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mf">2.355</span><span class="p">,</span><span class="n">x_size</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span><span class="n">y_size</span><span class="o">=</span><span class="mi">101</span><span class="p">)</span>
+<span class="n">prf350</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;peak&#39;</span><span class="p">)</span>
+<span class="n">prf500</span><span class="o">=</span><span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">prfsize</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mf">2.355</span><span class="p">,</span><span class="n">x_size</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span><span class="n">y_size</span><span class="o">=</span><span class="mi">101</span><span class="p">)</span>
+<span class="n">prf500</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;peak&#39;</span><span class="p">)</span>
 
-pind250=np.arange(0,101,1)*1.0/pixsize[0] #get 250 scale in terms of pixel scale of map
-pind350=np.arange(0,101,1)*1.0/pixsize[1] #get 350 scale in terms of pixel scale of map
-pind500=np.arange(0,101,1)*1.0/pixsize[2] #get 500 scale in terms of pixel scale of map
+<span class="n">pind250</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">1.0</span><span class="o">/</span><span class="n">pixsize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">#get 250 scale in terms of pixel scale of map</span>
+<span class="n">pind350</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">1.0</span><span class="o">/</span><span class="n">pixsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1">#get 350 scale in terms of pixel scale of map</span>
+<span class="n">pind500</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">1.0</span><span class="o">/</span><span class="n">pixsize</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c1">#get 500 scale in terms of pixel scale of map</span>
 
-prior250.set_prf(prf250.array,pind250,pind250)#requires psf as 2d grid, and x and y bins for grid (in pixel scale)
-prior350.set_prf(prf350.array,pind350,pind350)
-prior500.set_prf(prf500.array,pind500,pind500)
+<span class="n">prior250</span><span class="o">.</span><span class="n">set_prf</span><span class="p">(</span><span class="n">prf250</span><span class="o">.</span><span class="n">array</span><span class="p">,</span><span class="n">pind250</span><span class="p">,</span><span class="n">pind250</span><span class="p">)</span><span class="c1">#requires psf as 2d grid, and x and y bins for grid (in pixel scale)</span>
+<span class="n">prior350</span><span class="o">.</span><span class="n">set_prf</span><span class="p">(</span><span class="n">prf350</span><span class="o">.</span><span class="n">array</span><span class="p">,</span><span class="n">pind350</span><span class="p">,</span><span class="n">pind350</span><span class="p">)</span>
+<span class="n">prior500</span><span class="o">.</span><span class="n">set_prf</span><span class="p">(</span><span class="n">prf500</span><span class="o">.</span><span class="n">array</span><span class="p">,</span><span class="n">pind500</span><span class="p">,</span><span class="n">pind500</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>print(&#39;fitting &#39;+ str(prior250.nsrc)+&#39; sources \n&#39;)
-print(&#39;using &#39; +  str(prior250.snpix)+&#39;, &#39;+ str(prior250.snpix)+&#39; and &#39;+ str(prior500.snpix)+&#39; pixels&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;fitting &#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">prior250</span><span class="o">.</span><span class="n">nsrc</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; sources </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;using &#39;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="n">prior250</span><span class="o">.</span><span class="n">snpix</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;, &#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">prior250</span><span class="o">.</span><span class="n">snpix</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">prior500</span><span class="o">.</span><span class="n">snpix</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; pixels&#39;</span><span class="p">)</span>
 
 </pre></div>
 </div>
@@ -646,49 +632,39 @@ fitting 51 sources
 using 870, 870 and 219 pixels
 </pre></div></div>
 </div>
-<p>Before fitting, the prior classes need to take the PSF and calculate how
-muich each source contributes to each pixel. This process provides what
-we call a pointing matrix. Lets calculate the pointing matrix for each
-prior class</p>
+<p>Before fitting, the prior classes need to take the PSF and calculate how muich each source contributes to each pixel. This process provides what we call a pointing matrix. Lets calculate the pointing matrix for each prior class</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>prior250.get_pointing_matrix()
-prior350.get_pointing_matrix()
-prior500.get_pointing_matrix()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">prior250</span><span class="o">.</span><span class="n">get_pointing_matrix</span><span class="p">()</span>
+<span class="n">prior350</span><span class="o">.</span><span class="n">get_pointing_matrix</span><span class="p">()</span>
+<span class="n">prior500</span><span class="o">.</span><span class="n">get_pointing_matrix</span><span class="p">()</span>
 
 </pre></div>
 </div>
 </div>
-<p>Default prior on flux is a uniform distribution, with a minimum and
-maximum of 0.00 and 1000.0 <span class="math">\(\mathrm{mJy}\)</span> respectively for each
-source. running the function upper_lim _map resets the upper limit to
-the maximum flux value (plus a 5 sigma Background value) found in the
-map in which the source makes a contribution to.</p>
+<p>Default prior on flux is a uniform distribution, with a minimum and maximum of 0.00 and 1000.0 <span class="math notranslate nohighlight">\(\mathrm{mJy}\)</span> respectively for each source. running the function upper_lim _map resets the upper limit to the maximum flux value (plus a 5 sigma Background value) found in the map in which the source makes a contribution to.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>prior250.upper_lim_map()
-prior350.upper_lim_map()
-prior500.upper_lim_map()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">prior250</span><span class="o">.</span><span class="n">upper_lim_map</span><span class="p">()</span>
+<span class="n">prior350</span><span class="o">.</span><span class="n">upper_lim_map</span><span class="p">()</span>
+<span class="n">prior500</span><span class="o">.</span><span class="n">upper_lim_map</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <p>Now fit using the XID+ interface to pystan</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [168]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[168]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>from xidplus.stan_fit import SPIRE
-fit_basic=SPIRE.all_bands(prior250,prior350,prior500,iter=1000)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">xidplus.stan_fit</span> <span class="k">import</span> <span class="n">SPIRE</span>
+<span class="n">fit_basic</span><span class="o">=</span><span class="n">SPIRE</span><span class="o">.</span><span class="n">all_bands</span><span class="p">(</span><span class="n">prior250</span><span class="p">,</span><span class="n">prior350</span><span class="p">,</span><span class="n">prior500</span><span class="p">,</span><span class="nb">iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 
 </pre></div>
 </div>
@@ -696,7 +672,7 @@ fit_basic=SPIRE.all_bands(prior250,prior350,prior500,iter=1000)
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="stderr output_area docutils container">
+<div class="output_area stderr docutils container">
 <div class="highlight"><pre>
 INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_b1d99dae621f9d8744cd35a49a4302a4 NOW.
 </pre></div></div>
@@ -709,26 +685,23 @@ INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_b1d99dae621f9d8744cd35a4
 /XID+SPIRE not found or wrong version. Compiling
 </pre></div></div>
 </div>
-<p>Initialise the posterior class with the fit object from pystan, and save
-alongside the prior classes</p>
+<p>Initialise the posterior class with the fit object from pystan, and save alongside the prior classes</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [170]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[170]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>posterior=xidplus.posterior_stan(fit_basic,[prior250,prior350,prior500])
-#xidplus.save([prior250,prior350,prior500],posterior,&#39;XID+SPIRE&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">posterior</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">posterior_stan</span><span class="p">(</span><span class="n">fit_basic</span><span class="p">,[</span><span class="n">prior250</span><span class="p">,</span><span class="n">prior350</span><span class="p">,</span><span class="n">prior500</span><span class="p">])</span>
+<span class="c1">#xidplus.save([prior250,prior350,prior500],posterior,&#39;XID+SPIRE&#39;)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>plt.hist(np.log10(fcat[&#39;S100&#39;][sgood]), bins=np.arange(-3,3, 0.1));
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S100&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">]),</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">));</span>
 </pre></div>
 </div>
 </div>
@@ -740,104 +713,98 @@ alongside the prior classes</p>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [149]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[149]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>SEDs=np.load(&#39;./SED_SPIRE_PACS100.npy&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">SEDs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;./SED_SPIRE_PACS100.npy&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [150]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[150]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>data={
-&#39;nsrc&#39;:prior250.nsrc,
-&#39;bkg_prior&#39;:[prior250.bkg[0],prior350.bkg[0],prior500.bkg[0]],
-&#39;bkg_prior_sig&#39;:[prior250.bkg[1],prior350.bkg[1],prior500.bkg[1]],
-&#39;z&#39;:fcat[&#39;Z_OBS&#39;][sgood][prior250.ID-1],
-&#39;z_sig&#39;:fcat[&#39;Z_OBS&#39;][sgood][prior250.ID-1]/10.0,
-&#39;npix_psw&#39;:prior250.snpix,
-&#39;nnz_psw&#39;:prior250.amat_data.size,
-&#39;db_psw&#39;:prior250.sim,
-&#39;sigma_psw&#39;:prior250.snim,
-&#39;Val_psw&#39;:prior250.amat_data,
-&#39;Row_psw&#39;: prior250.amat_row.astype(np.long),
-&#39;Col_psw&#39;: prior250.amat_col.astype(np.long),
-&#39;npix_pmw&#39;:prior350.snpix,
-&#39;nnz_pmw&#39;:prior350.amat_data.size,
-&#39;db_pmw&#39;:prior350.sim,
-&#39;sigma_pmw&#39;:prior350.snim,
-&#39;Val_pmw&#39;:prior350.amat_data,
-&#39;Row_pmw&#39;: prior350.amat_row.astype(np.long),
-&#39;Col_pmw&#39;: prior350.amat_col.astype(np.long),
-&#39;npix_plw&#39;:prior500.snpix,
-&#39;nnz_plw&#39;:prior500.amat_data.size,
-&#39;db_plw&#39;:prior500.sim,
-&#39;sigma_plw&#39;:prior500.snim,
-&#39;Val_plw&#39;:prior500.amat_data,
-&#39;Row_plw&#39;: prior500.amat_row.astype(np.long),
-&#39;Col_plw&#39;: prior500.amat_col.astype(np.long),
-&#39;nTemp&#39;:SEDs.shape[0],
-&#39;nz&#39;:SEDs.shape[2],
-&#39;nband&#39;:SEDs.shape[1],
-&#39;SEDs&#39;:SEDs,
-&#39;src_f_obs&#39;:fcat[&#39;S100&#39;][sgood][prior250.ID-1][:,None],
-&#39;src_f_sig&#39;:fcat[&#39;S100&#39;][sgood][prior250.ID-1][:,None]/20.0,
-&#39;src_f_cut&#39;: np.array([0.050])
-}
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">data</span><span class="o">=</span><span class="p">{</span>
+<span class="s1">&#39;nsrc&#39;</span><span class="p">:</span><span class="n">prior250</span><span class="o">.</span><span class="n">nsrc</span><span class="p">,</span>
+<span class="s1">&#39;bkg_prior&#39;</span><span class="p">:[</span><span class="n">prior250</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">prior350</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">prior500</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+<span class="s1">&#39;bkg_prior_sig&#39;</span><span class="p">:[</span><span class="n">prior250</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">prior350</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">prior500</span><span class="o">.</span><span class="n">bkg</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+<span class="s1">&#39;z&#39;</span><span class="p">:</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;Z_OBS&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+<span class="s1">&#39;z_sig&#39;</span><span class="p">:</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;Z_OBS&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mf">10.0</span><span class="p">,</span>
+<span class="s1">&#39;npix_psw&#39;</span><span class="p">:</span><span class="n">prior250</span><span class="o">.</span><span class="n">snpix</span><span class="p">,</span>
+<span class="s1">&#39;nnz_psw&#39;</span><span class="p">:</span><span class="n">prior250</span><span class="o">.</span><span class="n">amat_data</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+<span class="s1">&#39;db_psw&#39;</span><span class="p">:</span><span class="n">prior250</span><span class="o">.</span><span class="n">sim</span><span class="p">,</span>
+<span class="s1">&#39;sigma_psw&#39;</span><span class="p">:</span><span class="n">prior250</span><span class="o">.</span><span class="n">snim</span><span class="p">,</span>
+<span class="s1">&#39;Val_psw&#39;</span><span class="p">:</span><span class="n">prior250</span><span class="o">.</span><span class="n">amat_data</span><span class="p">,</span>
+<span class="s1">&#39;Row_psw&#39;</span><span class="p">:</span> <span class="n">prior250</span><span class="o">.</span><span class="n">amat_row</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">),</span>
+<span class="s1">&#39;Col_psw&#39;</span><span class="p">:</span> <span class="n">prior250</span><span class="o">.</span><span class="n">amat_col</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">),</span>
+<span class="s1">&#39;npix_pmw&#39;</span><span class="p">:</span><span class="n">prior350</span><span class="o">.</span><span class="n">snpix</span><span class="p">,</span>
+<span class="s1">&#39;nnz_pmw&#39;</span><span class="p">:</span><span class="n">prior350</span><span class="o">.</span><span class="n">amat_data</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+<span class="s1">&#39;db_pmw&#39;</span><span class="p">:</span><span class="n">prior350</span><span class="o">.</span><span class="n">sim</span><span class="p">,</span>
+<span class="s1">&#39;sigma_pmw&#39;</span><span class="p">:</span><span class="n">prior350</span><span class="o">.</span><span class="n">snim</span><span class="p">,</span>
+<span class="s1">&#39;Val_pmw&#39;</span><span class="p">:</span><span class="n">prior350</span><span class="o">.</span><span class="n">amat_data</span><span class="p">,</span>
+<span class="s1">&#39;Row_pmw&#39;</span><span class="p">:</span> <span class="n">prior350</span><span class="o">.</span><span class="n">amat_row</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">),</span>
+<span class="s1">&#39;Col_pmw&#39;</span><span class="p">:</span> <span class="n">prior350</span><span class="o">.</span><span class="n">amat_col</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">),</span>
+<span class="s1">&#39;npix_plw&#39;</span><span class="p">:</span><span class="n">prior500</span><span class="o">.</span><span class="n">snpix</span><span class="p">,</span>
+<span class="s1">&#39;nnz_plw&#39;</span><span class="p">:</span><span class="n">prior500</span><span class="o">.</span><span class="n">amat_data</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+<span class="s1">&#39;db_plw&#39;</span><span class="p">:</span><span class="n">prior500</span><span class="o">.</span><span class="n">sim</span><span class="p">,</span>
+<span class="s1">&#39;sigma_plw&#39;</span><span class="p">:</span><span class="n">prior500</span><span class="o">.</span><span class="n">snim</span><span class="p">,</span>
+<span class="s1">&#39;Val_plw&#39;</span><span class="p">:</span><span class="n">prior500</span><span class="o">.</span><span class="n">amat_data</span><span class="p">,</span>
+<span class="s1">&#39;Row_plw&#39;</span><span class="p">:</span> <span class="n">prior500</span><span class="o">.</span><span class="n">amat_row</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">),</span>
+<span class="s1">&#39;Col_plw&#39;</span><span class="p">:</span> <span class="n">prior500</span><span class="o">.</span><span class="n">amat_col</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">long</span><span class="p">),</span>
+<span class="s1">&#39;nTemp&#39;</span><span class="p">:</span><span class="n">SEDs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="s1">&#39;nz&#39;</span><span class="p">:</span><span class="n">SEDs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+<span class="s1">&#39;nband&#39;</span><span class="p">:</span><span class="n">SEDs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+<span class="s1">&#39;SEDs&#39;</span><span class="p">:</span><span class="n">SEDs</span><span class="p">,</span>
+<span class="s1">&#39;src_f_obs&#39;</span><span class="p">:</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S100&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][:,</span><span class="kc">None</span><span class="p">],</span>
+<span class="s1">&#39;src_f_sig&#39;</span><span class="p">:</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S100&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][:,</span><span class="kc">None</span><span class="p">]</span><span class="o">/</span><span class="mf">20.0</span><span class="p">,</span>
+<span class="s1">&#39;src_f_cut&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.050</span><span class="p">])</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [111]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[111]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>import pystan
-sm=pystan.StanModel(file=&#39;/Users/pdh21/Work/Astro/XID_plus/stan_models/XID+SED.stan&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pystan</span>
+<span class="n">sm</span><span class="o">=</span><span class="n">pystan</span><span class="o">.</span><span class="n">StanModel</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s1">&#39;/Users/pdh21/Work/Astro/XID_plus/stan_models/XID+SED.stan&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="stderr output_area docutils container">
+<div class="output_area stderr docutils container">
 <div class="highlight"><pre>
 INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_77f0b102f537d7990bd876fcc53010ee NOW.
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [151]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[151]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>fit=sm.sampling(data=data,verbose=True)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fit</span><span class="o">=</span><span class="n">sm</span><span class="o">.</span><span class="n">sampling</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [152]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[152]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>fit
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fit</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[152]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[152]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>Inference for Stan model: anon_model_77f0b102f537d7990bd876fcc53010ee.
 4 chains, each with iter=2000; warmup=1000; thin=1;
 post-warmup draws per chain=1000, total post-warmup draws=4000.
@@ -2746,51 +2713,48 @@ convergence, Rhat=1).
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [155]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[155]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>samples=fit.extract()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">samples</span><span class="o">=</span><span class="n">fit</span><span class="o">.</span><span class="n">extract</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [153]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[153]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>import seaborn as sns
-sns.set(color_codes=True)
-import pandas as pd
-sns.set_style(&quot;white&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">color_codes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [190]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[190]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>s1=5
-df = pd.DataFrame(np.vstack((samples[&#39;Nbb&#39;][:,s1],samples[&#39;src_f&#39;][:,s1,0],samples[&#39;src_f&#39;][:,s1,1],samples[&#39;src_f&#39;][:,s1,2],samples[&#39;src_f&#39;][:,s1,3])).T,columns=[&#39;Nbb&#39;,&#39;S250&#39;, &#39;S350&#39;,&#39;S500&#39;,&#39;S100&#39;])
-g = sns.PairGrid(df,size=5)
-g.map_diag(plt.hist)
-g.map_lower(sns.kdeplot, cmap=&quot;Reds_d&quot;,alpha=0.5,n_levels=10,normed=True)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">s1</span><span class="o">=</span><span class="mi">5</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;Nbb&#39;</span><span class="p">][:,</span><span class="n">s1</span><span class="p">],</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">][:,</span><span class="n">s1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">][:,</span><span class="n">s1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">][:,</span><span class="n">s1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">][:,</span><span class="n">s1</span><span class="p">,</span><span class="mi">3</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Nbb&#39;</span><span class="p">,</span><span class="s1">&#39;S250&#39;</span><span class="p">,</span> <span class="s1">&#39;S350&#39;</span><span class="p">,</span><span class="s1">&#39;S500&#39;</span><span class="p">,</span><span class="s1">&#39;S100&#39;</span><span class="p">])</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">PairGrid</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_diag</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_lower</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Reds_d&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">n_levels</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
 
 
-for i in g.axes[:,1]: i.axvline(x=fcat[&#39;S250&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
-for i in g.axes[1,[0]]: i.axhline(y=fcat[&#39;S250&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
-for i in g.axes[:,2]: i.axvline(x=fcat[&#39;S350&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
-for i in g.axes[2,[0,1]]: i.axhline(y=fcat[&#39;S350&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
-for i in g.axes[:,3]: i.axvline(x=fcat[&#39;S500&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
-for i in g.axes[3,[0,1,2]]: i.axhline(y=fcat[&#39;S500&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
-for i in g.axes[:,4]: i.axvline(x=fcat[&#39;S100&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
-for i in g.axes[4,[0,1,2,3,]]: i.axhline(y=fcat[&#39;S100&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]:</span> <span class="n">i</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S250&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,[</span><span class="mi">0</span><span class="p">]]:</span> <span class="n">i</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S250&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]:</span> <span class="n">i</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S350&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]]:</span> <span class="n">i</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S350&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[:,</span><span class="mi">3</span><span class="p">]:</span> <span class="n">i</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S500&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]]:</span> <span class="n">i</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S500&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[:,</span><span class="mi">4</span><span class="p">]:</span> <span class="n">i</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S100&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">4</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,]]:</span> <span class="n">i</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S100&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2802,33 +2766,32 @@ for i in g.axes[4,[0,1,2,3,]]: i.axhline(y=fcat[&#39;S100&#39;][sgood][prior250.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [204]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[204]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>s1=17
-df = pd.DataFrame(np.vstack((samples[&#39;src_f&#39;][:,s1,0],samples[&#39;src_f&#39;][:,s1,1],samples[&#39;src_f&#39;][:,s1,2])).T,columns=[&#39;S250&#39;, &#39;S350&#39;,&#39;S500&#39;])
-g = sns.PairGrid(df,size=5)
-g.map_diag(sns.kdeplot)
-g.map_lower(sns.kdeplot, cmap=&quot;Reds_d&quot;,alpha=0.5,n_levels=10,normed=True)
-g.map_upper(plt.scatter,color=&#39;red&#39;,alpha=0.1)
-g.data=pd.DataFrame(np.vstack((posterior.samples[&#39;src_f&#39;][:,0,s1],posterior.samples[&#39;src_f&#39;][:,1,s1],posterior.samples[&#39;src_f&#39;][:,2,s1])).T,columns=[&#39;S250&#39;, &#39;S350&#39;,&#39;S500&#39;])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">s1</span><span class="o">=</span><span class="mi">17</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">][:,</span><span class="n">s1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">][:,</span><span class="n">s1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">][:,</span><span class="n">s1</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;S250&#39;</span><span class="p">,</span> <span class="s1">&#39;S350&#39;</span><span class="p">,</span><span class="s1">&#39;S500&#39;</span><span class="p">])</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">PairGrid</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_diag</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_lower</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Reds_d&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">n_levels</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_upper</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">data</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">posterior</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">][:,</span><span class="mi">0</span><span class="p">,</span><span class="n">s1</span><span class="p">],</span><span class="n">posterior</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">][:,</span><span class="mi">1</span><span class="p">,</span><span class="n">s1</span><span class="p">],</span><span class="n">posterior</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">][:,</span><span class="mi">2</span><span class="p">,</span><span class="n">s1</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;S250&#39;</span><span class="p">,</span> <span class="s1">&#39;S350&#39;</span><span class="p">,</span><span class="s1">&#39;S500&#39;</span><span class="p">])</span>
 
-g.map_diag(sns.kdeplot)
-g.map_lower(sns.kdeplot, cmap=&quot;Blues_d&quot;,alpha=0.5,n_levels=10,normed=True)
-g.map_upper(plt.scatter,color=&#39;blue&#39;,alpha=0.1)
+<span class="n">g</span><span class="o">.</span><span class="n">map_diag</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_lower</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues_d&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">n_levels</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_upper</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 
 
 
-for i in g.axes[:,0]: i.axvline(x=fcat[&#39;S250&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
-for i in g.axes[0,[1,2]]: i.axhline(y=fcat[&#39;S250&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
-for i in g.axes[:,1]: i.axvline(x=fcat[&#39;S350&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
-for i in g.axes[1,[0,2]]: i.axhline(y=fcat[&#39;S350&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
-for i in g.axes[:,2]: i.axvline(x=fcat[&#39;S500&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
-for i in g.axes[2,[0,1]]: i.axhline(y=fcat[&#39;S500&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
-#for i in g.axes[:,4]: i.axvline(x=fcat[&#39;S100&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
-#for i in g.axes[4,[0,1,2,3,]]: i.axhline(y=fcat[&#39;S100&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]:</span> <span class="n">i</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S250&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]]:</span> <span class="n">i</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S250&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]:</span> <span class="n">i</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S350&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]]:</span> <span class="n">i</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S350&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]:</span> <span class="n">i</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S500&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]]:</span> <span class="n">i</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S500&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="c1">#for i in g.axes[:,4]: i.axvline(x=fcat[&#39;S100&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)</span>
+<span class="c1">#for i in g.axes[4,[0,1,2,3,]]: i.axhline(y=fcat[&#39;S100&#39;][sgood][prior250.ID-1][s1],c=&#39;g&#39;,linestyle=&#39;--&#39;)</span>
 </pre></div>
 </div>
 </div>
@@ -2840,41 +2803,37 @@ for i in g.axes[2,[0,1]]: i.axhline(y=fcat[&#39;S500&#39;][sgood][prior250.ID-1]
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [178]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[178]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>posterior.samples[&#39;src_f&#39;].shape
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">posterior</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[178]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[178]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>(2000, 3, 51)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [157]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[157]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>plt.plot(np.log10(samples[&#39;src_f&#39;][:,28,0]))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">][:,</span><span class="mi">28</span><span class="p">,</span><span class="mi">0</span><span class="p">]))</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[157]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[157]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[&lt;matplotlib.lines.Line2D at 0x17fcc5198&gt;]
 </pre></div>
 </div>
@@ -2887,21 +2846,19 @@ for i in g.axes[2,[0,1]]: i.axhline(y=fcat[&#39;S500&#39;][sgood][prior250.ID-1]
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [39]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>plt.plot(samples[&#39;lp__&#39;])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;lp__&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[39]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[&lt;matplotlib.lines.Line2D at 0x12d12f780&gt;]
 </pre></div>
 </div>
@@ -2914,13 +2871,12 @@ for i in g.axes[2,[0,1]]: i.axhline(y=fcat[&#39;S500&#39;][sgood][prior250.ID-1]
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [120]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[120]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>from xidplus import plots
-maps=plots.plot_map([prior250,prior350,prior500])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">xidplus</span> <span class="k">import</span> <span class="n">plots</span>
+<span class="n">maps</span><span class="o">=</span><span class="n">plots</span><span class="o">.</span><span class="n">plot_map</span><span class="p">([</span><span class="n">prior250</span><span class="p">,</span><span class="n">prior350</span><span class="p">,</span><span class="n">prior500</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -2932,44 +2888,40 @@ maps=plots.plot_map([prior250,prior350,prior500])
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [121]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[121]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>for i in np.arange(0,prior250.nsrc):
-    maps[0][0].add_label(prior250.sra[i], prior250.sdec[i]+0.0005, str(i), relative=False,size=20,color=&#39;white&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">prior250</span><span class="o">.</span><span class="n">nsrc</span><span class="p">):</span>
+    <span class="n">maps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="n">prior250</span><span class="o">.</span><span class="n">sra</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">prior250</span><span class="o">.</span><span class="n">sdec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mf">0.0005</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">relative</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
 
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [129]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[129]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>i=22
-maps[0][1].add_label(prior250.sra[i], prior250.sdec[i]+0.0005, str(i), relative=False,size=20,color=&#39;white&#39;)
-i=26
-maps[0][2].add_label(prior250.sra[i], prior250.sdec[i]+0.0005, str(i), relative=False,size=20,color=&#39;white&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">i</span><span class="o">=</span><span class="mi">22</span>
+<span class="n">maps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="n">prior250</span><span class="o">.</span><span class="n">sra</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">prior250</span><span class="o">.</span><span class="n">sdec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mf">0.0005</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">relative</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+<span class="n">i</span><span class="o">=</span><span class="mi">26</span>
+<span class="n">maps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="n">prior250</span><span class="o">.</span><span class="n">sra</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">prior250</span><span class="o">.</span><span class="n">sdec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mf">0.0005</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">relative</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
 
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [130]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[130]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>maps[1]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">maps</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[130]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[130]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -2977,25 +2929,23 @@ maps[0][2].add_label(prior250.sra[i], prior250.sdec[i]+0.0005, str(i), relative=
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [158]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[158]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>df = pd.DataFrame(samples[&#39;src_f&#39;][:,[28,22],0],columns=[&#39;S250 28&#39;,&#39;S250 26&#39;])
-g = sns.PairGrid(df,size=5)
-g.map_diag(plt.hist)
-g.map_lower(sns.kdeplot, cmap=&quot;Reds_d&quot;,alpha=1.0,n_levels=10,normed=True)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">][:,[</span><span class="mi">28</span><span class="p">,</span><span class="mi">22</span><span class="p">],</span><span class="mi">0</span><span class="p">],</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;S250 28&#39;</span><span class="p">,</span><span class="s1">&#39;S250 26&#39;</span><span class="p">])</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">PairGrid</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_diag</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_lower</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Reds_d&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="n">n_levels</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[158]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[158]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;seaborn.axisgrid.PairGrid at 0x17fcaeb70&gt;
 </pre></div>
 </div>
@@ -3008,61 +2958,55 @@ g.map_lower(sns.kdeplot, cmap=&quot;Reds_d&quot;,alpha=1.0,n_levels=10,normed=Tr
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [57]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>fcat[&#39;Z_OBS&#39;][sgood][prior250.ID-1][39]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;Z_OBS&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">39</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[57]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>2.3612638
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [62]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>fcat[[sgood][prior250.ID-1][21]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fcat</span><span class="p">[[</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">21</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[62]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>(&#39;       226002890000018&#39;, &#39;     22600190410000018&#39;, 0.09461537, 0.44664088, 0.51100528, 0.32646787, 0.14614774, 23.095448, 22.963345, 22.325649, 21.71051, 21.510946, 2.0177048852087465, 0.0, 2.5751139e+11, 1.5233551e+09, 3.0002962e+09, 150.74933723718902, 0.65092659, 0.65018713)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [63]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>fcat.columns
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fcat</span><span class="o">.</span><span class="n">columns</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[63]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>ColDefs(
     name = &#39;DHALOID&#39;; format = &#39;22A&#39;
     name = &#39;GALAXYID&#39;; format = &#39;22A&#39;
@@ -3089,67 +3033,62 @@ g.map_lower(sns.kdeplot, cmap=&quot;Reds_d&quot;,alpha=1.0,n_levels=10,normed=Tr
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [71]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>import pandas as pd
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [163]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>SEDS_full=pd.read_pickle(&#39;./SEDS_full.pkl&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [131]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[163]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>from astropy.cosmology import Planck13
-import astropy.units as u
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">SEDS_full</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;./SEDS_full.pkl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[131]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="k">import</span> <span class="n">Planck13</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
 
-div=(4.0*np.pi * np.square(Planck13.luminosity_distance(z).cgs))
-div=div.value
+<span class="n">div</span><span class="o">=</span><span class="p">(</span><span class="mf">4.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">Planck13</span><span class="o">.</span><span class="n">luminosity_distance</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">cgs</span><span class="p">))</span>
+<span class="n">div</span><span class="o">=</span><span class="n">div</span><span class="o">.</span><span class="n">value</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [205]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[205]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>s1=17
-z=fcat[&#39;Z_OBS&#39;][sgood][prior250.ID-1][s1]
-div=(4.0*np.pi * np.square(Planck13.luminosity_distance(z).cgs))
-div=div.value
-for s in range(0,4000,10):
-    plt.loglog((z+1.0)*SEDS_full[&#39;wave&#39;],
-           np.power(10.0,samples[&#39;Nbb&#39;][s,s1])*(1.0+z)
-           *SEDS_full[SEDS_full.columns[np.arange(1,samples[&#39;p&#39;].shape[2]+1)
-                                        [np.random.multinomial(1, samples[&#39;p&#39;][s,s1,:])==1]]]/div,alpha=0.1,c=&#39;b&#39;)
-    plt.plot([250,350,500, 100],samples[&#39;src_f&#39;][s,s1,0:4], &#39;go&#39;, alpha=0.1)
-plt.plot([250,350,500, 100],np.array([fcat[&#39;S250&#39;][sgood][prior250.ID-1][s1],fcat[&#39;S350&#39;][sgood][prior250.ID-1][s1],
-         fcat[&#39;S500&#39;][sgood][prior250.ID-1][s1],fcat[&#39;S100&#39;][sgood][prior250.ID-1][s1]]), &#39;ro&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">s1</span><span class="o">=</span><span class="mi">17</span>
+<span class="n">z</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;Z_OBS&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">]</span>
+<span class="n">div</span><span class="o">=</span><span class="p">(</span><span class="mf">4.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">Planck13</span><span class="o">.</span><span class="n">luminosity_distance</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">cgs</span><span class="p">))</span>
+<span class="n">div</span><span class="o">=</span><span class="n">div</span><span class="o">.</span><span class="n">value</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4000</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">((</span><span class="n">z</span><span class="o">+</span><span class="mf">1.0</span><span class="p">)</span><span class="o">*</span><span class="n">SEDS_full</span><span class="p">[</span><span class="s1">&#39;wave&#39;</span><span class="p">],</span>
+           <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;Nbb&#39;</span><span class="p">][</span><span class="n">s</span><span class="p">,</span><span class="n">s1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="n">z</span><span class="p">)</span>
+           <span class="o">*</span><span class="n">SEDS_full</span><span class="p">[</span><span class="n">SEDS_full</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+                                        <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multinomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">samples</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">][</span><span class="n">s</span><span class="p">,</span><span class="n">s1</span><span class="p">,:])</span><span class="o">==</span><span class="mi">1</span><span class="p">]]]</span><span class="o">/</span><span class="n">div</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">250</span><span class="p">,</span><span class="mi">350</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">][</span><span class="n">s</span><span class="p">,</span><span class="n">s1</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="s1">&#39;go&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">250</span><span class="p">,</span><span class="mi">350</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S250&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S350&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span>
+         <span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S500&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">],</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S100&#39;</span><span class="p">][</span><span class="n">sgood</span><span class="p">][</span><span class="n">prior250</span><span class="o">.</span><span class="n">ID</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">s1</span><span class="p">]]),</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
 
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[205]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[205]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[&lt;matplotlib.lines.Line2D at 0x1a311c588&gt;]
 </pre></div>
 </div>
@@ -3162,21 +3101,19 @@ plt.plot([250,350,500, 100],np.array([fcat[&#39;S250&#39;][sgood][prior250.ID-1]
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span>
 </pre></div>
 </div>
@@ -3186,9 +3123,7 @@ plt.plot([250,350,500, 100],np.array([fcat[&#39;S250&#39;][sgood][prior250.ID-1]
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -3197,11 +3132,11 @@ plt.plot([250,350,500, 100],np.array([fcat[&#39;S250&#39;][sgood][prior250.ID-1]
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Peter Hurley.
+        &copy; Copyright 2017, Peter Hurley
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -3216,36 +3151,26 @@ plt.plot([250,350,500, 100],np.array([fcat[&#39;S250&#39;][sgood][prior250.ID-1]
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../',
-            VERSION:'2.0.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
 
   
 
-  
-  
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

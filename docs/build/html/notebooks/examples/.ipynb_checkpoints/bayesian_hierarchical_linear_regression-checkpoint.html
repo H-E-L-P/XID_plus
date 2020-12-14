@@ -1,0 +1,980 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Bayesian Hierarchical Linear Regression &mdash; XID+ 2.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> XID+
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">A Generative Probabilistic Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#docker">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hpc.html">Large Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../priors.html">Beyond Positional Priors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">XID+</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Bayesian Hierarchical Linear Regression</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/notebooks/examples/.ipynb_checkpoints/bayesian_hierarchical_linear_regression-checkpoint.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Bayesian-Hierarchical-Linear-Regression">
+<h1>Bayesian Hierarchical Linear Regression<a class="headerlink" href="#Bayesian-Hierarchical-Linear-Regression" title="Permalink to this headline">¶</a></h1>
+<p>Author: <a class="reference external" href="mailto:souza&#37;&#52;&#48;gatech&#46;edu">Carlos Souza</a></p>
+<p>Probabilistic Machine Learning models can not only make predictions about future data, but also <strong>model uncertainty</strong>. In areas such as <strong>personalized medicine</strong>, there might be a large amount of data, but there is still a relatively <strong>small amount of data for each patient</strong>. To customize predictions for each person it becomes necessary to <strong>build a model for each person</strong> — with its inherent <strong>uncertainties</strong> — and to couple these models together in a <strong>hierarchy</strong> so that information can be
+borrowed from other <strong>similar people</strong> [1].</p>
+<p>The purpose of this tutorial is to demonstrate how to <strong>implement a Bayesian Hierarchical Linear Regression model using NumPyro</strong>. To motivate the tutorial, I will use <a class="reference external" href="https://www.kaggle.com/c/osic-pulmonary-fibrosis-progression">OSIC Pulmonary Fibrosis Progression</a> competition, hosted at Kaggle.</p>
+<div class="section" id="1.-Understanding-the-task">
+<h2>1. Understanding the task<a class="headerlink" href="#1.-Understanding-the-task" title="Permalink to this headline">¶</a></h2>
+<p>Pulmonary fibrosis is a disorder with no known cause and no known cure, created by scarring of the lungs. In this competition, we were asked to predict a patient’s severity of decline in lung function. Lung function is assessed based on output from a spirometer, which measures the forced vital capacity (FVC), i.e.&nbsp;the volume of air exhaled.</p>
+<p>In medical applications, it is useful to <strong>evaluate a model’s confidence in its decisions</strong>. Accordingly, the metric used to rank the teams was designed to reflect <strong>both the accuracy and certainty of each prediction</strong>. It’s a modified version of the Laplace Log Likelihood (more details on that later).</p>
+<p>Let’s explore the data and see what’s that all about:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://gist.githubusercontent.com/ucals/&#39;</span>
+                    <span class="s1">&#39;2cf9d101992cb1b78c2cdd6e3bac6a4b/raw/&#39;</span>
+                    <span class="s1">&#39;43034c39052dcf97d4b894d2ec1bc3f90f3623d9/&#39;</span>
+                    <span class="s1">&#39;osic_pulmonary_fibrosis.csv&#39;</span><span class="p">)</span>
+<span class="n">train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Patient</th>
+      <th>Weeks</th>
+      <th>FVC</th>
+      <th>Percent</th>
+      <th>Age</th>
+      <th>Sex</th>
+      <th>SmokingStatus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ID00007637202177411956430</td>
+      <td>-4</td>
+      <td>2315</td>
+      <td>58.253649</td>
+      <td>79</td>
+      <td>Male</td>
+      <td>Ex-smoker</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ID00007637202177411956430</td>
+      <td>5</td>
+      <td>2214</td>
+      <td>55.712129</td>
+      <td>79</td>
+      <td>Male</td>
+      <td>Ex-smoker</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>ID00007637202177411956430</td>
+      <td>7</td>
+      <td>2061</td>
+      <td>51.862104</td>
+      <td>79</td>
+      <td>Male</td>
+      <td>Ex-smoker</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>ID00007637202177411956430</td>
+      <td>9</td>
+      <td>2144</td>
+      <td>53.950679</td>
+      <td>79</td>
+      <td>Male</td>
+      <td>Ex-smoker</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ID00007637202177411956430</td>
+      <td>11</td>
+      <td>2069</td>
+      <td>52.063412</td>
+      <td>79</td>
+      <td>Male</td>
+      <td>Ex-smoker</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>In the dataset, we were provided with a baseline chest CT scan and associated clinical information for a set of patients. A patient has an image acquired at time Week = 0 and has numerous follow up visits over the course of approximately 1-2 years, at which time their FVC is measured. For this tutorial, I will use only the Patient ID, the weeks and the FVC measurements, discarding all the rest. Using only these columns enabled our team to achieve a competitive score, which shows the power of
+Bayesian hierarchical linear regression models especially when gauging uncertainty is an important part of the problem.</p>
+<p>Since this is real medical data, the relative timing of FVC measurements varies widely, as shown in the 3 sample patients below:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">chart</span><span class="p">(</span><span class="n">patient_id</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="n">train</span><span class="p">[</span><span class="s1">&#39;Patient&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">patient_id</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Weeks&#39;</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;FVC&#39;</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">patient_id</span><span class="p">)</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">line_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s1">&#39;red&#39;</span><span class="p">})</span>
+
+
+<span class="n">f</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">chart</span><span class="p">(</span><span class="s1">&#39;ID00007637202177411956430&#39;</span><span class="p">,</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">chart</span><span class="p">(</span><span class="s1">&#39;ID00009637202177434476278&#39;</span><span class="p">,</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">chart</span><span class="p">(</span><span class="s1">&#39;ID00010637202177584971671&#39;</span><span class="p">,</span> <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/seaborn/_decorators.py:43: FutureWarning: Pass the following variables as keyword args: x, y. From version 0.12, the only valid positional argument will be `data`, and passing other arguments without an explicit keyword will result in an error or misinterpretation.
+  FutureWarning
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_.ipynb_checkpoints_bayesian_hierarchical_linear_regression-checkpoint_4_1.png" src="../../../_images/notebooks_examples_.ipynb_checkpoints_bayesian_hierarchical_linear_regression-checkpoint_4_1.png" />
+</div>
+</div>
+<p>On average, each of the 176 provided patients made 9 visits, when FVC was measured. The visits happened in specific weeks in the [-12, 133] interval. The decline in lung capacity is very clear. We see, though, they are very different from patient to patient.</p>
+<p>We were are asked to predict every patient’s FVC measurement for every possible week in the [-12, 133] interval, and the confidence for each prediction. In other words: we were asked fill a matrix like the one below, and provide a confidence score for each prediction:</p>
+<p>The task was perfect to apply Bayesian inference. However, the vast majority of solutions shared by Kaggle community used discriminative machine learning models, disconsidering the fact that most discriminative methods are very poor at providing realistic uncertainty estimates. Because they are typically trained in a manner that optimizes the parameters to minimize some loss criterion (e.g.&nbsp;the predictive error), they do not, in general, encode any uncertainty in either their parameters or the
+subsequent predictions. Though many methods can produce uncertainty estimates either as a by-product or from a post-processing step, these are typically heuristic based, rather than stemming naturally from a statistically principled estimate of the target uncertainty distribution [2].</p>
+</div>
+<div class="section" id="2.-Modelling:-Bayesian-Hierarchical-Linear-Regression-with-Partial-Pooling">
+<h2>2. Modelling: Bayesian Hierarchical Linear Regression with Partial Pooling<a class="headerlink" href="#2.-Modelling:-Bayesian-Hierarchical-Linear-Regression-with-Partial-Pooling" title="Permalink to this headline">¶</a></h2>
+<p>The simplest possible linear regression, not hierarchical, would assume all FVC decline curves have the same <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>. That’s the <strong>pooled model</strong>. In the other extreme, we could assume a model where each patient has a personalized FVC decline curve, and <strong>these curves are completely unrelated</strong>. That’s the <strong>unpooled model</strong>, where each patient has completely separate regressions.</p>
+<p>Here, I’ll use the middle ground: <strong>Partial pooling</strong>. Specifically, I’ll assume that while <span class="math notranslate nohighlight">\(\alpha\)</span>’s and <span class="math notranslate nohighlight">\(\beta\)</span>’s are different for each patient as in the unpooled case, <strong>the coefficients all share similarity</strong>. We can model this by assuming that each individual coefficient comes from a common group distribution. The image below represents this model graphically:</p>
+<p>Mathematically, the model is described by the following equations:</p>
+<p><span class="math">\begin{align}
+\mu_{\alpha} &\sim \mathcal{N}(0, 100) \\
+\sigma_{\alpha} &\sim |\mathcal{N}(0, 100)| \\
+\mu_{\beta} &\sim \mathcal{N}(0, 100) \\
+\sigma_{\beta} &\sim |\mathcal{N}(0, 100)| \\
+\alpha_i &\sim \mathcal{N}(\mu_{\alpha}, \sigma_{\alpha}) \\
+\beta_i &\sim \mathcal{N}(\mu_{\beta}, \sigma_{\beta}) \\
+\sigma &\sim \mathcal{N}(0, 100) \\
+FVC_{ij} &\sim \mathcal{N}(\alpha_i + t \beta_i, \sigma)
+\end{align}</span></p>
+<p>where <em>t</em> is the time in weeks. Those are very uninformative priors, but that’s ok: our model will converge!</p>
+<p>Implementing this model in NumPyro is pretty straightforward:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpyro</span>
+<span class="kn">from</span> <span class="nn">numpyro.infer</span> <span class="k">import</span> <span class="n">MCMC</span><span class="p">,</span> <span class="n">NUTS</span><span class="p">,</span> <span class="n">Predictive</span>
+<span class="kn">import</span> <span class="nn">numpyro.distributions</span> <span class="k">as</span> <span class="nn">dist</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="k">import</span> <span class="n">random</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">PatientID</span><span class="p">,</span> <span class="n">Weeks</span><span class="p">,</span> <span class="n">FVC_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">μ_α</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;μ_α&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">))</span>
+    <span class="n">σ_α</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;σ_α&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="mf">100.</span><span class="p">))</span>
+    <span class="n">μ_β</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;μ_β&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">))</span>
+    <span class="n">σ_β</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;σ_β&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="mf">100.</span><span class="p">))</span>
+
+    <span class="n">unique_patient_IDs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">PatientID</span><span class="p">)</span>
+    <span class="n">n_patients</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_patient_IDs</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">plate</span><span class="p">(</span><span class="s2">&quot;plate_i&quot;</span><span class="p">,</span> <span class="n">n_patients</span><span class="p">):</span>
+        <span class="n">α</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;α&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">μ_α</span><span class="p">,</span> <span class="n">σ_α</span><span class="p">))</span>
+        <span class="n">β</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;β&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">μ_β</span><span class="p">,</span> <span class="n">σ_β</span><span class="p">))</span>
+
+    <span class="n">σ</span> <span class="o">=</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;σ&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="mf">100.</span><span class="p">))</span>
+    <span class="n">FVC_est</span> <span class="o">=</span> <span class="n">α</span><span class="p">[</span><span class="n">PatientID</span><span class="p">]</span> <span class="o">+</span> <span class="n">β</span><span class="p">[</span><span class="n">PatientID</span><span class="p">]</span> <span class="o">*</span> <span class="n">Weeks</span>
+
+    <span class="k">with</span> <span class="n">numpyro</span><span class="o">.</span><span class="n">plate</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">PatientID</span><span class="p">)):</span>
+        <span class="n">numpyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;obs&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">FVC_est</span><span class="p">,</span> <span class="n">σ</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">FVC_obs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>That’s all for modelling!</p>
+</div>
+<div class="section" id="3.-Fitting-the-model">
+<h2>3. Fitting the model<a class="headerlink" href="#3.-Fitting-the-model" title="Permalink to this headline">¶</a></h2>
+<p>A great achievement of Probabilistic Programming Languages such as NumPyro is to decouple model specification and inference. After specifying my generative model, with priors, condition statements and data likelihood, I can leave the hard work to NumPyro’s inference engine.</p>
+<p>Calling it requires just a few lines. Before we do it, let’s add a numerical Patient ID for each patient code. That can be easily done with scikit-learn’s LabelEncoder:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">LabelEncoder</span>
+
+<span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">train</span><span class="p">[</span><span class="s1">&#39;PatientID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s1">&#39;Patient&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+<span class="n">FVC_obs</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="s1">&#39;FVC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">Weeks</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="s1">&#39;Weeks&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">PatientID</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="s1">&#39;PatientID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+<p>Now, calling NumPyro’s inference engine:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">nuts_kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="n">mcmc</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">nuts_kernel</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">num_warmup</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">rng_key</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">mcmc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">rng_key</span><span class="p">,</span> <span class="n">PatientID</span><span class="p">,</span> <span class="n">Weeks</span><span class="p">,</span> <span class="n">FVC_obs</span><span class="o">=</span><span class="n">FVC_obs</span><span class="p">)</span>
+
+<span class="n">posterior_samples</span> <span class="o">=</span> <span class="n">mcmc</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+sample: 100%|██████████| 4000/4000 [00:27&lt;00:00, 144.62it/s, 63 steps of size 1.09e-01. acc. prob=0.88]
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="4.-Checking-the-model">
+<h2>4. Checking the model<a class="headerlink" href="#4.-Checking-the-model" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="4.1.-Inspecting-the-learned-parameters">
+<h3>4.1. Inspecting the learned parameters<a class="headerlink" href="#4.1.-Inspecting-the-learned-parameters" title="Permalink to this headline">¶</a></h3>
+<p>First, let’s inspect the parameters learned. To do that, I will use <a class="reference external" href="https://arviz-devs.github.io/arviz/">ArviZ</a>, which perfectly integrates with NumPyro:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">from_numpyro</span><span class="p">(</span><span class="n">mcmc</span><span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/dask/config.py:168: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  data = yaml.load(f.read()) or {}
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_.ipynb_checkpoints_bayesian_hierarchical_linear_regression-checkpoint_13_1.png" src="../../../_images/notebooks_examples_.ipynb_checkpoints_bayesian_hierarchical_linear_regression-checkpoint_13_1.png" />
+</div>
+</div>
+<p>Looks like our model learned personalized alphas and betas for each patient!</p>
+</div>
+<div class="section" id="4.2.-Visualizing-FVC-decline-curves-for-some-patients">
+<h3>4.2. Visualizing FVC decline curves for some patients<a class="headerlink" href="#4.2.-Visualizing-FVC-decline-curves-for-some-patients" title="Permalink to this headline">¶</a></h3>
+<p>Now, let’s visually inspect FVC decline curves predicted by our model. We will completely fill in the FVC table, predicting all missing values. The first step is to create a table to fill:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pred_template</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s1">&#39;Patient&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PatientID&#39;</span><span class="p">,</span> <span class="s1">&#39;Weeks&#39;</span><span class="p">])</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Weeks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">134</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;PatientID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="n">pred_template</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">pred_template</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">pred_template</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Predicting the missing values in the FVC table and confidence (sigma) for each value becomes really easy:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">PatientID</span> <span class="o">=</span> <span class="n">pred_template</span><span class="p">[</span><span class="s1">&#39;PatientID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">Weeks</span> <span class="o">=</span> <span class="n">pred_template</span><span class="p">[</span><span class="s1">&#39;Weeks&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">predictive</span> <span class="o">=</span> <span class="n">Predictive</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">posterior_samples</span><span class="p">,</span>
+                        <span class="n">return_sites</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;σ&#39;</span><span class="p">,</span> <span class="s1">&#39;obs&#39;</span><span class="p">])</span>
+<span class="n">samples_predictive</span> <span class="o">=</span> <span class="n">predictive</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                                <span class="n">PatientID</span><span class="p">,</span> <span class="n">Weeks</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s now put the predictions together with the true values, to visualize them:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Patient&#39;</span><span class="p">,</span> <span class="s1">&#39;Weeks&#39;</span><span class="p">,</span> <span class="s1">&#39;FVC_pred&#39;</span><span class="p">,</span> <span class="s1">&#39;sigma&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Patient&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">pred_template</span><span class="p">[</span><span class="s1">&#39;PatientID&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Weeks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pred_template</span><span class="p">[</span><span class="s1">&#39;Weeks&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;FVC_pred&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">samples_predictive</span><span class="p">[</span><span class="s1">&#39;obs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;sigma&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">samples_predictive</span><span class="p">[</span><span class="s1">&#39;obs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;FVC_inf&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;FVC_pred&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sigma&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;FVC_sup&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;FVC_pred&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sigma&#39;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">train</span><span class="p">[[</span><span class="s1">&#39;Patient&#39;</span><span class="p">,</span> <span class="s1">&#39;Weeks&#39;</span><span class="p">,</span> <span class="s1">&#39;FVC&#39;</span><span class="p">]],</span>
+              <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Patient&#39;</span><span class="p">,</span> <span class="s1">&#39;Weeks&#39;</span><span class="p">])</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;FVC&#39;</span><span class="p">:</span> <span class="s1">&#39;FVC_true&#39;</span><span class="p">})</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Patient</th>
+      <th>Weeks</th>
+      <th>FVC_pred</th>
+      <th>sigma</th>
+      <th>FVC_inf</th>
+      <th>FVC_sup</th>
+      <th>FVC_true</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ID00007637202177411956430</td>
+      <td>-12</td>
+      <td>2220.162598</td>
+      <td>159.290878</td>
+      <td>2060.871826</td>
+      <td>2379.453369</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ID00007637202177411956430</td>
+      <td>-11</td>
+      <td>2210.083496</td>
+      <td>157.518021</td>
+      <td>2052.565430</td>
+      <td>2367.601562</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>ID00007637202177411956430</td>
+      <td>-10</td>
+      <td>2213.199951</td>
+      <td>154.847916</td>
+      <td>2058.352051</td>
+      <td>2368.047852</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>ID00007637202177411956430</td>
+      <td>-9</td>
+      <td>2209.025391</td>
+      <td>153.300079</td>
+      <td>2055.725342</td>
+      <td>2362.325439</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ID00007637202177411956430</td>
+      <td>-8</td>
+      <td>2203.191895</td>
+      <td>156.085449</td>
+      <td>2047.106445</td>
+      <td>2359.277344</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Finally, let’s see our predictions for 3 patients:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">chart</span><span class="p">(</span><span class="n">patient_id</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Patient&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">patient_id</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Weeks&#39;</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">patient_id</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;FVC_true&#39;</span><span class="p">],</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;FVC_pred&#39;</span><span class="p">])</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;FVC_true&#39;</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">line_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s1">&#39;red&#39;</span><span class="p">})</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;FVC_inf&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;FVC_sup&quot;</span><span class="p">],</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#ffcd3c&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;FVC&#39;</span><span class="p">)</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">chart</span><span class="p">(</span><span class="s1">&#39;ID00007637202177411956430&#39;</span><span class="p">,</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">chart</span><span class="p">(</span><span class="s1">&#39;ID00009637202177434476278&#39;</span><span class="p">,</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">chart</span><span class="p">(</span><span class="s1">&#39;ID00011637202177653955184&#39;</span><span class="p">,</span> <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/seaborn/_decorators.py:43: FutureWarning: Pass the following variables as keyword args: x, y. From version 0.12, the only valid positional argument will be `data`, and passing other arguments without an explicit keyword will result in an error or misinterpretation.
+  FutureWarning
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_.ipynb_checkpoints_bayesian_hierarchical_linear_regression-checkpoint_21_1.png" src="../../../_images/notebooks_examples_.ipynb_checkpoints_bayesian_hierarchical_linear_regression-checkpoint_21_1.png" />
+</div>
+</div>
+<p>The results are exactly what we expected to see! Highlight observations: - The model adequately learned Bayesian Linear Regressions! The orange line (learned predicted FVC mean) is very inline with the red line (deterministic linear regression). But most important: it learned to predict uncertainty, showed in the light orange region (one sigma above and below the mean FVC line) - The model predicts a higher uncertainty where the data points are more disperse (1st and 3rd patients). Conversely,
+where the points are closely grouped together (2nd patient), the model predicts a higher confidence (narrower light orange region) - Finally, in all patients, we can see that the uncertainty grows as the look more into the future: the light orange region widens as the # of weeks grow!</p>
+</div>
+<div class="section" id="4.3.-Computing-the-modified-Laplace-Log-Likelihood-and-RMSE">
+<h3>4.3. Computing the modified Laplace Log Likelihood and RMSE<a class="headerlink" href="#4.3.-Computing-the-modified-Laplace-Log-Likelihood-and-RMSE" title="Permalink to this headline">¶</a></h3>
+<p>As mentioned earlier, the competition was evaluated on a modified version of the Laplace Log Likelihood. In medical applications, it is useful to evaluate a model’s confidence in its decisions. Accordingly, the metric is designed to reflect both the accuracy and certainty of each prediction.</p>
+<p>For each true FVC measurement, we predicted both an FVC and a confidence measure (standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>). The metric was computed as:</p>
+<p><span class="math">\begin{align}
+\sigma_{clipped} &= max(\sigma, 70) \\
+\delta &= min(|FVC_{true} - FVC_{pred}|, 1000) \\
+metric &= -\dfrac{\sqrt{2}\delta}{\sigma_{clipped}} - \ln(\sqrt{2} \sigma_{clipped})
+\end{align}</span></p>
+<p>The error was thresholded at 1000 ml to avoid large errors adversely penalizing results, while the confidence values were clipped at 70 ml to reflect the approximate measurement uncertainty in FVC. The final score was calculated by averaging the metric across all (Patient, Week) pairs. Note that metric values will be negative and higher is better.</p>
+<p>Next, we calculate the metric and RMSE:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">rmse</span> <span class="o">=</span> <span class="p">((</span><span class="n">y</span><span class="p">[</span><span class="s1">&#39;FVC_pred&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="s1">&#39;FVC_true&#39;</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;RMSE: </span><span class="si">{rmse:.1f}</span><span class="s1"> ml&#39;</span><span class="p">)</span>
+
+<span class="n">sigma_c</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="s1">&#39;sigma&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">sigma_c</span><span class="p">[</span><span class="n">sigma_c</span> <span class="o">&lt;</span> <span class="mi">70</span><span class="p">]</span> <span class="o">=</span> <span class="mi">70</span>
+<span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="s1">&#39;FVC_pred&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="s1">&#39;FVC_true&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
+<span class="n">delta</span><span class="p">[</span><span class="n">delta</span> <span class="o">&gt;</span> <span class="mi">1000</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">lll</span> <span class="o">=</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">/</span> <span class="n">sigma_c</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma_c</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Laplace Log Likelihood: {lll.mean():.4f}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+RMSE: 122.1 ml
+Laplace Log Likelihood: -6.1375
+</pre></div></div>
+</div>
+<p>What do these numbers mean? It means if you adopted this approach, you would <strong>outperform most of the public solutions</strong> in the competition. Curiously, the vast majority of public solutions adopt a standard deterministic Neural Network, modelling uncertainty through a quantile loss. <strong>Most of the people still adopt a frequentist approach</strong>.</p>
+<p><strong>Uncertainty</strong> for single predictions becomes more and more important in machine learning and is often a requirement. <strong>Especially when the consequenses of a wrong prediction are high</strong>, we need to know what the probability distribution of an individual prediction is. For perspective, Kaggle just launched a new competition sponsored by Lyft, to build motion prediction models for self-driving vehicles. “We ask that you predict a few trajectories for every agent <strong>and provide a confidence score
+for each of them</strong>.”</p>
+<p>Finally, I hope the great work done by Pyro/NumPyro developers help democratize Bayesian methods, empowering an ever growing community of researchers and practitioners to create models that can not only generate predictions, but also assess uncertainty in their predictions.</p>
+</div>
+</div>
+<div class="section" id="References">
+<h2>References<a class="headerlink" href="#References" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Ghahramani, Z. Probabilistic machine learning and artificial intelligence. Nature 521, 452–459 (2015). <a class="reference external" href="https://doi.org/10.1038/nature14541">https://doi.org/10.1038/nature14541</a></li>
+<li>Rainforth, Thomas William Gamlen. Automating Inference, Learning, and Design Using Probabilistic Programming. University of Oxford, 2017.</li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Peter Hurley
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

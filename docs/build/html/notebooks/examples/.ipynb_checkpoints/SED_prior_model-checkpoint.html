@@ -24,25 +24,17 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../../genindex.html"/>
-        <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="XID+ 2.0.0 documentation" href="../../../index.html"/> 
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
 
   
   <script src="../../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -108,7 +100,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">XID+</a>
@@ -116,9 +108,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -215,18 +208,18 @@ div.nblast {
 
 /* input prompt */
 div.nbinput div.prompt pre {
-    color: #303F9F;
+    color: #307FC1;
 }
 
 /* output prompt */
 div.nboutput div.prompt pre {
-    color: #D84315;
+    color: #BF5B3D;
 }
 
 /* all prompts */
 div.nbinput div.prompt,
 div.nboutput div.prompt {
-    min-width: 8ex;
+    min-width: 5ex;
     padding-top: 0.4em;
     padding-right: 0.4em;
     text-align: right;
@@ -266,9 +259,9 @@ div.nboutput div.output_area {
 
 /* input area */
 div.nbinput div.input_area {
-    border: 1px solid #cfcfcf;
+    border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f7f7f7;
+    background: #f5f5f5;
 }
 
 /* override MathJax center alignment in output cells */
@@ -276,7 +269,7 @@ div.nboutput div[class*=MathJax] {
     text-align: left !important;
 }
 
-/* override sphinx.ext.pngmath center alignment in output cells */
+/* override sphinx.ext.imgmath center alignment in output cells */
 div.nboutput div.math p {
     text-align: left;
 }
@@ -320,7 +313,45 @@ div.nboutput div.output_area.stderr {
 .ansi-white-intense-fg { color: #A1A6B2; }
 .ansi-white-intense-bg { background-color: #A1A6B2; }
 
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
 .ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
 
 /* CSS overrides for sphinx_rtd_theme */
 
@@ -335,56 +366,43 @@ div.nboutput div.output_area.stderr {
     margin-top: -19px;
 }
 
-/* nice headers on first paragraph of info/warning boxes */
-.admonition .first {
-    margin: -12px;
-    padding: 6px 12px;
-    margin-bottom: 12px;
-    color: #fff;
-    line-height: 1;
-    display: block;
-}
-.admonition.warning .first {
-    background: #f0b37e;
-}
-.admonition.note .first {
-    background: #6ab0de;
-}
 .admonition > p:before {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
 </style>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>import os
-import numpy as np
-from astropy.io import ascii
-from scipy.interpolate import interp1d
-import xidplus
-temps=os.listdir(&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm_LIR/&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="k">import</span> <span class="n">ascii</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="k">import</span> <span class="n">interp1d</span>
+<span class="kn">import</span> <span class="nn">xidplus</span>
+<span class="n">temps</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm_LIR/&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>temps
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">temps</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[&#39;Blue_SF_glx.norm_LIR&#39;,
  &#39;BroadFIR_SF_glx.norm_LIR&#39;,
  &#39;Cold_glx.norm_LIR&#39;,
@@ -420,42 +438,38 @@ temps=os.listdir(&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm
 </pre></div>
 </div>
 </div>
-<p>Generate Redshift Grid and convert to denominator for flux conversion
-(e.g. <span class="math">\(4 \pi D_l^2)\)</span></p>
+<p>Generate Redshift Grid and convert to denominator for flux conversion (e.g.&nbsp;<span class="math notranslate nohighlight">\(4 \pi D_l^2)\)</span></p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>red=np.arange(0,8,0.01)
-red[0]=0.000001
-from astropy.cosmology import Planck13
-import astropy.units as u
-div=(4.0*np.pi * np.square(Planck13.luminosity_distance(red).cgs))
-div=div.value
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">red</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">red</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mf">0.000001</span>
+<span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="k">import</span> <span class="n">Planck13</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="n">div</span><span class="o">=</span><span class="p">(</span><span class="mf">4.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">Planck13</span><span class="o">.</span><span class="n">luminosity_distance</span><span class="p">(</span><span class="n">red</span><span class="p">)</span><span class="o">.</span><span class="n">cgs</span><span class="p">))</span>
+<span class="n">div</span><span class="o">=</span><span class="n">div</span><span class="o">.</span><span class="n">value</span>
 </pre></div>
 </div>
 </div>
 <p>Get appropriate filters</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>from xidplus import filters
-filter=filters.FilterFile(file=xidplus.__path__[0]+&#39;/../test_files/filters.res&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">xidplus</span> <span class="k">import</span> <span class="n">filters</span>
+<span class="nb">filter</span><span class="o">=</span><span class="n">filters</span><span class="o">.</span><span class="n">FilterFile</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;/../test_files/filters.res&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>filter.names()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">filter</span><span class="o">.</span><span class="n">names</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -855,31 +869,29 @@ filter=filters.FilterFile(file=xidplus.__path__[0]+&#39;/../test_files/filters.r
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 
-<span></span>SPIRE_250=filter.filters[215]
-SPIRE_350=filter.filters[216]
-SPIRE_500=filter.filters[217]
-PACS_100=filter.filters[250]
-PACS_160=filter.filters[251]
+<span></span><span class="n">SPIRE_250</span><span class="o">=</span><span class="nb">filter</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">215</span><span class="p">]</span>
+<span class="n">SPIRE_350</span><span class="o">=</span><span class="nb">filter</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">216</span><span class="p">]</span>
+<span class="n">SPIRE_500</span><span class="o">=</span><span class="nb">filter</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">217</span><span class="p">]</span>
+<span class="n">PACS_100</span><span class="o">=</span><span class="nb">filter</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">250</span><span class="p">]</span>
+<span class="n">PACS_160</span><span class="o">=</span><span class="nb">filter</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">251</span><span class="p">]</span>
 
-bands=[SPIRE_250,SPIRE_350,SPIRE_500,PACS_100,PACS_160]
-eff_lam=[250.0,350.0,500.0,100.0, 160.0]
+<span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="n">SPIRE_250</span><span class="p">,</span><span class="n">SPIRE_350</span><span class="p">,</span><span class="n">SPIRE_500</span><span class="p">,</span><span class="n">PACS_100</span><span class="p">,</span><span class="n">PACS_160</span><span class="p">]</span>
+<span class="n">eff_lam</span><span class="o">=</span><span class="p">[</span><span class="mf">250.0</span><span class="p">,</span><span class="mf">350.0</span><span class="p">,</span><span class="mf">500.0</span><span class="p">,</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">160.0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>for b in bands:
-    print(b.name)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bands</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -896,27 +908,26 @@ PACS 160 Instrument Simulator as of Herschel Launch - 0252
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>import pandas as pd
-template=ascii.read(&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm_LIR/&#39;+temps[0])
-df=pd.DataFrame(template[&#39;col1&#39;].data/1E4,columns=[&#39;wave&#39;])
-print(template[&#39;col1&#39;].data/1E4)
-SEDs=np.empty((len(temps),len(bands),red.size))
-for i in range(0,len(temps)):
-    template=ascii.read(&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm_LIR/&#39;+temps[i])
-    df[temps[i]]=1E30*3.826E33*template[&#39;col2&#39;]*((template[&#39;col1&#39;]/1E4)**2)/3E14
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">template</span><span class="o">=</span><span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm_LIR/&#39;</span><span class="o">+</span><span class="n">temps</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">template</span><span class="p">[</span><span class="s1">&#39;col1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">/</span><span class="mf">1E4</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;wave&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">template</span><span class="p">[</span><span class="s1">&#39;col1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">/</span><span class="mf">1E4</span><span class="p">)</span>
+<span class="n">SEDs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">temps</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">bands</span><span class="p">),</span><span class="n">red</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">temps</span><span class="p">)):</span>
+    <span class="n">template</span><span class="o">=</span><span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;/Users/pdh21/astrodata/SEDs/Berta2013/templates_berta_norm_LIR/&#39;</span><span class="o">+</span><span class="n">temps</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">temps</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">=</span><span class="mf">1E30</span><span class="o">*</span><span class="mf">3.826E33</span><span class="o">*</span><span class="n">template</span><span class="p">[</span><span class="s1">&#39;col2&#39;</span><span class="p">]</span><span class="o">*</span><span class="p">((</span><span class="n">template</span><span class="p">[</span><span class="s1">&#39;col1&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1E4</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">3E14</span>
 
-    flux=template[&#39;col2&#39;]*((template[&#39;col1&#39;]/1E4)**2)/3E14
-    wave=template[&#39;col1&#39;]/1E4
+    <span class="n">flux</span><span class="o">=</span><span class="n">template</span><span class="p">[</span><span class="s1">&#39;col2&#39;</span><span class="p">]</span><span class="o">*</span><span class="p">((</span><span class="n">template</span><span class="p">[</span><span class="s1">&#39;col1&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1E4</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">3E14</span>
+    <span class="n">wave</span><span class="o">=</span><span class="n">template</span><span class="p">[</span><span class="s1">&#39;col1&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1E4</span>
 
-    for z in range(0,red.size):
-        sed=interp1d((red[z]+1.0)*wave, flux)
-        for b in range(0,len(bands)):
-            SEDs[i,b,z]=1E30*3.826E33*(1.0+red[z])*filters.fnu_filt(sed(bands[b].wavelength/1E4),3E8/(bands[b].wavelength/1E10),bands[b].transmission,3E8/(eff_lam[b]*1E-6),sed(eff_lam[b]))/div[z]
+    <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">red</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">sed</span><span class="o">=</span><span class="n">interp1d</span><span class="p">((</span><span class="n">red</span><span class="p">[</span><span class="n">z</span><span class="p">]</span><span class="o">+</span><span class="mf">1.0</span><span class="p">)</span><span class="o">*</span><span class="n">wave</span><span class="p">,</span> <span class="n">flux</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">bands</span><span class="p">)):</span>
+            <span class="n">SEDs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">z</span><span class="p">]</span><span class="o">=</span><span class="mf">1E30</span><span class="o">*</span><span class="mf">3.826E33</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="n">red</span><span class="p">[</span><span class="n">z</span><span class="p">])</span><span class="o">*</span><span class="n">filters</span><span class="o">.</span><span class="n">fnu_filt</span><span class="p">(</span><span class="n">sed</span><span class="p">(</span><span class="n">bands</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="o">.</span><span class="n">wavelength</span><span class="o">/</span><span class="mf">1E4</span><span class="p">),</span><span class="mf">3E8</span><span class="o">/</span><span class="p">(</span><span class="n">bands</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="o">.</span><span class="n">wavelength</span><span class="o">/</span><span class="mf">1E10</span><span class="p">),</span><span class="n">bands</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="o">.</span><span class="n">transmission</span><span class="p">,</span><span class="mf">3E8</span><span class="o">/</span><span class="p">(</span><span class="n">eff_lam</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="o">*</span><span class="mf">1E-6</span><span class="p">),</span><span class="n">sed</span><span class="p">(</span><span class="n">eff_lam</span><span class="p">[</span><span class="n">b</span><span class="p">]))</span><span class="o">/</span><span class="n">div</span><span class="p">[</span><span class="n">z</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -930,48 +941,44 @@ for i in range(0,len(temps)):
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>temps[0]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">temps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&#39;Blue_SF_glx.norm_LIR&#39;
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>import pylab as plt
-%matplotlib inline
-plt.semilogy(red,SEDs[0,0,:]*np.power(10.0,12))
-plt.semilogy(red,SEDs[0,1,:]*np.power(10.0,12),c=&#39;g&#39;)
-plt.semilogy(red,SEDs[0,2,:]*np.power(10.0,12),c=&#39;r&#39;)
-plt.semilogy(red,SEDs[0,3,:]*np.power(10.0,12),c=&#39;m&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">red</span><span class="p">,</span><span class="n">SEDs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,:]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">red</span><span class="p">,</span><span class="n">SEDs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,:]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">red</span><span class="p">,</span><span class="n">SEDs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,:]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">red</span><span class="p">,</span><span class="n">SEDs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,:]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
 
-plt.ylim(1E-4,1E4)
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">1E-4</span><span class="p">,</span><span class="mf">1E4</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>(0.0001, 10000.0)
 </pre></div>
 </div>
@@ -984,22 +991,20 @@ plt.ylim(1E-4,1E4)
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>np.save(&#39;SED_Herschel&#39;, SEDs)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;SED_Herschel&#39;</span><span class="p">,</span> <span class="n">SEDs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>ls
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">ls</span>
 </pre></div>
 </div>
 </div>
@@ -1022,28 +1027,26 @@ test.pkl
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>df.to_pickle(&#39;SEDS_Herschel_full.pkl&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">df</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s1">&#39;SEDS_Herschel_full.pkl&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>from bokeh.io import output_notebook, show
-from bokeh.layouts import gridplot
-from bokeh.plotting import figure
-from bokeh.io import push_notebook
-output_notebook()
-from bokeh.models import HoverTool
-from bokeh.models import ColumnDataSource
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">bokeh.io</span> <span class="k">import</span> <span class="n">output_notebook</span><span class="p">,</span> <span class="n">show</span>
+<span class="kn">from</span> <span class="nn">bokeh.layouts</span> <span class="k">import</span> <span class="n">gridplot</span>
+<span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="k">import</span> <span class="n">figure</span>
+<span class="kn">from</span> <span class="nn">bokeh.io</span> <span class="k">import</span> <span class="n">push_notebook</span>
+<span class="n">output_notebook</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">bokeh.models</span> <span class="k">import</span> <span class="n">HoverTool</span>
+<span class="kn">from</span> <span class="nn">bokeh.models</span> <span class="k">import</span> <span class="n">ColumnDataSource</span>
 
 </pre></div>
 </div>
@@ -1051,7 +1054,7 @@ from bokeh.models import ColumnDataSource
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area docutils container">
+<div class="output_area rendered_html docutils container">
 <div class="bk-root">
     <a href="http://bokeh.pydata.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
     <span id="fb0bf2d7-d136-4f74-90ff-7a0a87762895">Loading BokehJS ...</span>
@@ -1061,9 +1064,9 @@ from bokeh.models import ColumnDataSource
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<div id="170141f1-8495-4b1a-b657-f3d5ea3cf3a1"></div>
+<div></div>
 <script type="text/javascript">
-var element = document.getElementById('170141f1-8495-4b1a-b657-f3d5ea3cf3a1');
+var element = document.currentScript.previousSibling.previousSibling;
 
 (function(global) {
   function now() {
@@ -1210,84 +1213,83 @@ var element = document.getElementById('170141f1-8495-4b1a-b657-f3d5ea3cf3a1');
 </script></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>plot_options = dict(width=250, plot_height=250, tools=&#39;pan,wheel_zoom,hover&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot_options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="s1">&#39;pan,wheel_zoom,hover&#39;</span><span class="p">)</span>
 
 
 
 
 
-# create a new plot
-source = ColumnDataSource(
-        data=dict(
-            x=SEDs[:,0,0],
-            y=SEDs[:,1,0],
-            desc=temps,
-        )
-    )
+<span class="c1"># create a new plot</span>
+<span class="n">source</span> <span class="o">=</span> <span class="n">ColumnDataSource</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">SEDs</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">SEDs</span><span class="p">[:,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">desc</span><span class="o">=</span><span class="n">temps</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
 
-hover = HoverTool(
-        tooltips=[
-            (&quot;index&quot;, &quot;$index&quot;),
-            (&quot;(x,y)&quot;, &quot;($x, $y)&quot;),
-            (&quot;desc&quot;, &quot;@desc&quot;),
-        ]
-    )
-s1 = figure(**plot_options)
-s1.circle(&#39;x&#39;, &#39;y&#39;, size=20, source=source,color=&quot;navy&quot;)
+<span class="n">hover</span> <span class="o">=</span> <span class="n">HoverTool</span><span class="p">(</span>
+        <span class="n">tooltips</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="s2">&quot;$index&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;(x,y)&quot;</span><span class="p">,</span> <span class="s2">&quot;($x, $y)&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;desc&quot;</span><span class="p">,</span> <span class="s2">&quot;@desc&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+<span class="n">s1</span> <span class="o">=</span> <span class="n">figure</span><span class="p">(</span><span class="o">**</span><span class="n">plot_options</span><span class="p">)</span>
+<span class="n">s1</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;navy&quot;</span><span class="p">)</span>
 
-source = ColumnDataSource(
-        data=dict(
-            x=SEDs[:,0,0],
-            y=SEDs[:,2,0],
-            desc=temps,
-        )
-    )
+<span class="n">source</span> <span class="o">=</span> <span class="n">ColumnDataSource</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">SEDs</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">SEDs</span><span class="p">[:,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">desc</span><span class="o">=</span><span class="n">temps</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
 
-hover = HoverTool(
-        tooltips=[
-            (&quot;index&quot;, &quot;$index&quot;),
-            (&quot;(x,y)&quot;, &quot;($x, $y)&quot;),
-            (&quot;desc&quot;, &quot;@desc&quot;),
-        ]
-    )
-# create a new plot and share both ranges
-s2 = figure(x_range=s1.x_range, **plot_options)
-s2.circle(&#39;x&#39;, &#39;y&#39;, size=20, source=source,color=&quot;navy&quot;)
+<span class="n">hover</span> <span class="o">=</span> <span class="n">HoverTool</span><span class="p">(</span>
+        <span class="n">tooltips</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="s2">&quot;$index&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;(x,y)&quot;</span><span class="p">,</span> <span class="s2">&quot;($x, $y)&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;desc&quot;</span><span class="p">,</span> <span class="s2">&quot;@desc&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+<span class="c1"># create a new plot and share both ranges</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="n">figure</span><span class="p">(</span><span class="n">x_range</span><span class="o">=</span><span class="n">s1</span><span class="o">.</span><span class="n">x_range</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_options</span><span class="p">)</span>
+<span class="n">s2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;navy&quot;</span><span class="p">)</span>
 
-source = ColumnDataSource(
-        data=dict(
-            x=SEDs[:,1,0],
-            y=SEDs[:,2,0],
-            desc=temps,
-        )
-    )
+<span class="n">source</span> <span class="o">=</span> <span class="n">ColumnDataSource</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">SEDs</span><span class="p">[:,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">SEDs</span><span class="p">[:,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">desc</span><span class="o">=</span><span class="n">temps</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
 
-hover = HoverTool(
-        tooltips=[
-            (&quot;(x,y)&quot;, &quot;($x, $y)&quot;),
-            (&quot;desc&quot;, &quot;@desc&quot;),
-        ]
-    )
-# create a new plot and share only one range
-s3 = figure(x_range=s1.y_range,y_range=s2.y_range, **plot_options)
-s3.square(&#39;x&#39;, &#39;y&#39;, size=20, source=source,color=&quot;navy&quot;)
+<span class="n">hover</span> <span class="o">=</span> <span class="n">HoverTool</span><span class="p">(</span>
+        <span class="n">tooltips</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;(x,y)&quot;</span><span class="p">,</span> <span class="s2">&quot;($x, $y)&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;desc&quot;</span><span class="p">,</span> <span class="s2">&quot;@desc&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+<span class="c1"># create a new plot and share only one range</span>
+<span class="n">s3</span> <span class="o">=</span> <span class="n">figure</span><span class="p">(</span><span class="n">x_range</span><span class="o">=</span><span class="n">s1</span><span class="o">.</span><span class="n">y_range</span><span class="p">,</span><span class="n">y_range</span><span class="o">=</span><span class="n">s2</span><span class="o">.</span><span class="n">y_range</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_options</span><span class="p">)</span>
+<span class="n">s3</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;navy&quot;</span><span class="p">)</span>
 
-p = gridplot([[s1,],[s2, s3]])
+<span class="n">p</span> <span class="o">=</span> <span class="n">gridplot</span><span class="p">([[</span><span class="n">s1</span><span class="p">,],[</span><span class="n">s2</span><span class="p">,</span> <span class="n">s3</span><span class="p">]])</span>
 
-# show the results
-show(p,notebook_handle=True)
+<span class="c1"># show the results</span>
+<span class="n">show</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">notebook_handle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area docutils container">
+<div class="output_area rendered_html docutils container">
     <div class="bk-root">
         <div class="bk-plotdiv" id="f78d02ef-2609-4bd8-94b1-c85f1d476655"></div>
     </div>
@@ -1437,39 +1439,35 @@ show(p,notebook_handle=True)
 </script></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
-<div class="output_area docutils container">
+<div class="output_area rendered_html docutils container">
 <p><code>&lt;Bokeh Notebook handle for <strong>In[36]</strong>&gt;</code></p></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>SEDs.shape
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">SEDs</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>(32, 5, 800)
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span>
 </pre></div>
 </div>
@@ -1477,9 +1475,7 @@ show(p,notebook_handle=True)
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1488,11 +1484,11 @@ show(p,notebook_handle=True)
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Peter Hurley.
+        &copy; Copyright 2017, Peter Hurley
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1507,36 +1503,26 @@ show(p,notebook_handle=True)
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../../',
-            VERSION:'2.0.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
 
   
 
-  
-  
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>
