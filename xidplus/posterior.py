@@ -68,7 +68,7 @@ class posterior_numpyro(object):
         """
         self.nsrc=priors[0].nsrc
         self.samples=mcmc.get_samples()
-        self.samples['src_f']=#np.swapaxes(self.samples['src_f'],1,2)
+        self.samples['src_f']=np.swapaxes(self.samples['src_f'],1,2)
         # get summary statistics. Code based on numpyro print_summary
         prob = 0.9
         exclude_deterministic = True
