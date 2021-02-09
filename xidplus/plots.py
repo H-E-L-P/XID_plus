@@ -86,25 +86,36 @@ def replicated_map_movie(priors,posterior, frames):
     :param frames: number of frames
     :return: Movie of replicated maps. Each frame is a sample from the posterior
     """
-    figs,fig=plot_map(priors)
     mod_map_array=postmaps.replicated_maps(priors,posterior,frames)
-    cmap=sns.cubehelix_palette(8, start=.5, rot=-.75,as_cmap=True)
+    anim=make_map_animation(priors,mod_map_array,frames)
+    # call our new function to display the animation
+
+
+def make_map_animation(priors,mod_map_array, frames):
+    """
+
+    :param priors: list of xidplus.prior classes
+    :param mod_map_array: list of model map arrays
+    :param frames: number of frames
+    :return: Movie of replicated maps. Each frame is a sample from the posterior
+    """
+    figs, fig = plot_map(priors)
+    cmap = sns.cubehelix_palette(8, start=.5, rot=-.75, as_cmap=True)
 
     def animate(i):
-        for b in range(0,len(priors)):
-            figs[b]._data[priors[b].sy_pix-np.min(priors[b].sy_pix)-1,priors[b].sx_pix-np.min(priors[b].sx_pix)-1]=mod_map_array[b][:,i]
-            figs[b].show_colorscale(vmin=np.min(priors[b].sim),vmax=np.max(priors[b].sim),cmap=cmap)
-
+        for b in range(0, len(priors)):
+            figs[b]._data[
+                priors[b].sy_pix - np.min(priors[b].sy_pix) - 1, priors[b].sx_pix - np.min(priors[b].sx_pix) - 1] = \
+            mod_map_array[b][:, i]
+            figs[b].show_colorscale(vmin=np.min(priors[b].sim), vmax=np.max(priors[b].sim), cmap=cmap)
 
         return figs
+
     # call the animator.  blit=True means only re-draw the parts that have changed.
     anim = animation.FuncAnimation(fig, animate,
-                               frames=frames, interval=1000)
+                                   frames=frames, interval=1000)
 
-
-    # call our new function to display the animation
     return display_animation(anim)
-
 
 def plot_Bayes_pval_map(priors, posterior):
 

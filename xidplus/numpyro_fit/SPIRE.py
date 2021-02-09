@@ -9,25 +9,7 @@ import numpy as np
 import jax
 import os
 numpyro.set_host_device_count(os.cpu_count())
-
-@jax.partial(jax.jit, static_argnums=(2))
-def sp_matmul(A, B, shape):
-    """
-    http://gcucurull.github.io/deep-learning/2020/06/03/jax-sparse-matrix-multiplication/
-    Arguments:
-        A: (N, M) sparse matrix represented as a tuple (indexes, values)
-        B: (M,K) dense matrix
-        shape: value of N
-    Returns:
-        (N, K) dense matrix
-    """
-    assert B.ndim == 2
-    indexes, values = A
-    rows, cols = indexes
-    in_ = B.take(cols, axis=0)
-    prod = in_*values[:, None]
-    res = jax.ops.segment_sum(prod, rows, shape)
-    return res
+from xidplus.numpyro_fit.misc import sp_matmul
 
 def spire_model(priors):
     pointing_matrices = [([p.amat_row, p.amat_col], p.amat_data) for p in priors]
@@ -51,15 +33,16 @@ def spire_model(priors):
     sigma_tot_pmw = jnp.sqrt(jnp.power(priors[1].snim, 2) + jnp.power(sigma_conf[1], 2))
     sigma_tot_plw = jnp.sqrt(jnp.power(priors[2].snim, 2) + jnp.power(sigma_conf[2], 2))
 
-    with numpyro.plate('psw_pixels', priors[0].sim.size):  # as ind_psw:
+    with numpyro.plate('psw_pixels', priors[0].snim.size):  # as ind_psw:
         numpyro.sample("obs_psw", dist.Normal(db_hat_psw, sigma_tot_psw),
                                  obs=priors[0].sim)
-    with numpyro.plate('pmw_pixels', priors[1].sim.size):  # as ind_pmw:
+    with numpyro.plate('pmw_pixels', priors[1].snim.size):  # as ind_pmw:
         numpyro.sample("obs_pmw", dist.Normal(db_hat_pmw, sigma_tot_pmw),
                                  obs=priors[1].sim)
-    with numpyro.plate('plw_pixels', priors[2].sim.size):  # as ind_plw:
+    with numpyro.plate('plw_pixels', priors[2].snim.size):  # as ind_plw:
         numpyro.sample("obs_plw", dist.Normal(db_hat_plw, sigma_tot_plw),
                                  obs=priors[2].sim)
+    #return [db_hat_psw,db_hat_pmw,db_hat_plw]
 
 def all_bands(priors,num_samples=500,num_warmup=500,num_chains=4,chain_method='parallel'):
     numpyro.set_host_device_count(4)

@@ -1,6 +1,6 @@
 import unittest
 import xidplus
-from xidplus.numpyro_fit import SPIRE
+from xidplus.numpyro_fit import SPIRE, SED_prior
 from numpyro.infer import MCMC, NUTS, Predictive
 from jax import random
 import numpy as np
@@ -27,6 +27,11 @@ class test_all_bands(unittest.TestCase):
         posterior_numpyro=xidplus.posterior_numpyro(fit,self.priors)
         self.assertAlmostEqual(np.mean(posterior_numpyro.samples['bkg']),np.mean(self.posterior.samples['bkg']),places=0)
 
+    def test_spire_model_prior_pred_sample(self):
+        for i in range(0,3):
+            self.priors[i].sim=None
+        fit=SPIRE.all_bands(self.priors)
+        fit.print_summary()
 
 if __name__ == '__main__':
     unittest.main()
