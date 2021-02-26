@@ -94,6 +94,10 @@ def replicated_maps(priors,posterior,nrep=1000):
     :param nrep: number of replicated maps
     :return: 
     """
+
+    #check nrep is less than number of samples
+    if nrep>posterior.samples['bkg'].shape[0]:
+        nrep=posterior.samples['bkg'].shape[0]
     mod_map_array=list(map(lambda prior:np.empty((prior.snpix,nrep)), priors))
     for i in range(0,nrep):
         try:

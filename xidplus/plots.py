@@ -87,8 +87,8 @@ def replicated_map_movie(priors,posterior, frames):
     :return: Movie of replicated maps. Each frame is a sample from the posterior
     """
     mod_map_array=postmaps.replicated_maps(priors,posterior,frames)
-    anim=make_map_animation(priors,mod_map_array,frames)
     # call our new function to display the animation
+    return make_map_animation(priors,mod_map_array,frames)
 
 
 def make_map_animation(priors,mod_map_array, frames):

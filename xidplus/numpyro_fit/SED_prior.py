@@ -54,9 +54,9 @@ def spire_model(priors,sed_prior):
     return [db_hat_psw,db_hat_pmw,db_hat_plw]
 
 def all_bands(priors,sed_prior,num_samples=500,num_warmup=500,num_chains=4,chain_method='parallel'):
-    numpyro.set_host_device_count(4)
+    numpyro.set_host_device_count(os.cpu_count())
     nuts_kernel = NUTS(spire_model)
     mcmc = MCMC(nuts_kernel, num_samples=num_samples, num_warmup=num_warmup,num_chains=num_chains,chain_method=chain_method)
     rng_key = random.PRNGKey(0)
-    mcmc.run(rng_key, priors,sed_prior)
+    mcmc.run(rng_key, priors,sed_prior,extra_fields=('potential_energy',))
     return mcmc
