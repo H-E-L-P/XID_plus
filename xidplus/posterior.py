@@ -138,13 +138,10 @@ class posterior_numpyro_sed(object):
         :param priors: list of prior classes used for fit
         """
         self.nsrc=priors[0].nsrc
-        samp=mcmc.get_samples()
-        self.samples={}
-        self.samples['params']=sed_prior.params_mu+samp['params']*sed_prior.params_sig
-        self.samples['src_f']=jnp.exp(sed_prior.emulator['net_apply'](sed_prior.emulator['params'],self.samples['params']))
+        self.samples = mcmc.get_samples()
+        self.samples['src_f']=jnp.power(10.0,sed_prior.emulator['net_apply'](sed_prior.emulator['params'],jnp.vstack((self.samples['sfr'][None,:],self.samples['agn_frac'][None,:],self.samples['redshift'][None,:])).T))
         self.samples['src_f']=np.swapaxes(self.samples['src_f'],1,2)
-        self.samples['bkg']=samp['bkg']
-        self.samples['sigma_conf']=samp['sigma_conf']
+        self.samples['sigma_conf']=np.zeros_like(self.samples['bkg'])
         # get summary statistics. Code based on numpyro print_summary
         prob = 0.9
         exclude_deterministic = True
@@ -162,19 +159,9 @@ class posterior_numpyro_sed(object):
 
         stats_summary = summary(sites, prob=prob)
         diverge = mcmc.get_extra_fields()['diverging']
-
-        self.Rhat = {'params': stats_summary['params']['r_hat'],
-                     'sigma_conf': stats_summary['sigma_conf']['r_hat'],
-                     'bkg': stats_summary['bkg']['r_hat']}
-
-        self.n_eff = {'params': stats_summary['params']['n_eff'],
-                     'sigma_conf': stats_summary['sigma_conf']['n_eff'],
-                     'bkg': stats_summary['bkg']['n_eff']}
+        self.Rhat=[stats_summary[i]['r_hat'] for i in stats_summary.keys()]
+        self.n_eff = [stats_summary[i]['n_eff'] for i in stats_summary.keys()]
         self.divergences=diverge
         print("Number of divergences: {}".format(np.sum(diverge)))
-
-        if len(priors) < 2:
-            self.samples['bkg']=self.samples['bkg'][:,None]
-            self.samples['sigma_conf'] = self.samples['sigma_conf'][:, None]
 
 
