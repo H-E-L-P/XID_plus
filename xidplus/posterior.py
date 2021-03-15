@@ -139,7 +139,8 @@ class posterior_numpyro_sed(object):
         """
         self.nsrc=priors[0].nsrc
         self.samples = mcmc.get_samples()
-        self.samples['src_f']=jnp.power(10.0,sed_prior.emulator['net_apply'](sed_prior.emulator['params'],jnp.vstack((self.samples['sfr'][None,:],self.samples['agn_frac'][None,:],self.samples['redshift'][None,:])).T))
+        self.samples['src_f']=jnp.power(10.0,sed_prior.emulator['net_apply'](sed_prior.emulator['params'],self.samples['params']))
+        #self.samples['src_f']=jnp.power(10.0,sed_prior.emulator['net_apply'](sed_prior.emulator['params'],jnp.vstack((self.samples['sfr'][None,:],self.samples['agn_frac'][None,:],self.samples['redshift'][None,:])).T))
         self.samples['src_f']=np.swapaxes(self.samples['src_f'],1,2)
         self.samples['sigma_conf']=np.zeros_like(self.samples['bkg'])
         # get summary statistics. Code based on numpyro print_summary
