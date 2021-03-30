@@ -12,10 +12,10 @@ def sp_matmul(A, B, shape):
     Returns:
         (N, K) dense matrix
     """
-    assert B.ndim == 2
+    #assert B.ndim == 2
     indexes, values = A
     rows, cols = indexes
-    in_ = B.take(cols, axis=0)
+    in_ = B.take(cols, axis=-2)
     prod = in_*values[:, None]
     res = jax.ops.segment_sum(prod, rows, shape)
     return res
