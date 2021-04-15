@@ -313,12 +313,10 @@ class hier_prior(object):
 
         mu_table.add_column(ID, name='ID')
         sig_table.add_column(ID, name='ID')
-
+        import jax.numpy as jnp
         self.prior_table = join(mu_table, sig_table, keys='ID')
 
         self.emulator = load_emulator(emulator_path)
-        # transform parameters into standardised parameters
-        self.params_mu = self.emulator['transform_parameters'](params_mu.T)
-        # as prior is normal transform mu+sigma then subtract transformed mu
-        self.params_sig = self.emulator['transform_parameters'](params_mu.T + params_sig.T) - self.params_mu
+        self.params_mu = jnp.asarray(params_mu)
+        self.params_sig = jnp.asarray(params_sig)
 

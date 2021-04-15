@@ -86,6 +86,7 @@ def make_fits_image(prior,pixel_values):
 
     return hdulist
 
+
 def replicated_maps(priors,posterior,nrep=1000):
     """Create posterior replicated maps
 
