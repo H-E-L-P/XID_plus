@@ -10,19 +10,31 @@ class posterior_stan(object):
         """
         self.nsrc=priors[0].nsrc
         self.samples=fit.extract()
+        try:
+            self.samples['sigma_conf']
+        except KeyError:
+            self.samples['sigma_conf']=np.zeros_like(self.samples['bkg'])
+
         if len(priors) < 2:
             self.samples['bkg']=self.samples['bkg'][:,None]
             self.samples['sigma_conf'] = self.samples['sigma_conf'][:, None]
         self.param_names=fit.model_pars
 
         self.ID=priors[0].ID
-        self.Rhat = {'src_f': fit.summary('src_f')['summary'][:, -1].reshape(priors[0].nsrc, len(priors)),
-                     'sigma_conf': fit.summary('sigma_conf')['summary'][:, -1],
-                     'bkg': fit.summary('bkg')['summary'][:, -1]}
+        try:
+            self.Rhat = {'src_f': fit.summary('src_f')['summary'][:, -1].reshape(priors[0].nsrc, len(priors)),
+                        'sigma_conf': fit.summary('sigma_conf')['summary'][:, -1],
+                        'bkg': fit.summary('bkg')['summary'][:, -1]}
 
-        self.n_eff = {'src_f': fit.summary('src_f')['summary'][:, -2].reshape(priors[0].nsrc, len(priors)),
-                      'sigma_conf': fit.summary('sigma_conf')['summary'][:, -2],
-                      'bkg': fit.summary('bkg')['summary'][:, -2]}
+            self.n_eff = {'src_f': fit.summary('src_f')['summary'][:, -2].reshape(priors[0].nsrc, len(priors)),
+                        'sigma_conf': fit.summary('sigma_conf')['summary'][:, -2],
+                        'bkg': fit.summary('bkg')['summary'][:, -2]}
+        except ValueError:
+            self.Rhat = {'src_f': fit.summary('src_f')['summary'][:, -1].reshape(priors[0].nsrc, len(priors)),
+                         'bkg': fit.summary('bkg')['summary'][:, -1]}
+
+            self.n_eff = {'src_f': fit.summary('src_f')['summary'][:, -2].reshape(priors[0].nsrc, len(priors)),
+                          'bkg': fit.summary('bkg')['summary'][:, -2]}
         if scale is True:
             self.scale_posterior(priors)
 
@@ -86,19 +98,71 @@ class posterior_numpyro(object):
 
         stats_summary = summary(sites, prob=prob)
         diverge = mcmc.get_extra_fields()['diverging']
+        try:
+            self.Rhat = {'src_f': stats_summary['src_f']['r_hat'],
+                        'sigma_conf': stats_summary['sigma_conf']['r_hat'],
+                        'bkg': stats_summary['bkg']['r_hat']}
 
-        self.Rhat = {'src_f': stats_summary['src_f']['r_hat'],
-                     'sigma_conf': stats_summary['sigma_conf']['r_hat'],
-                     'bkg': stats_summary['bkg']['r_hat']}
+            self.n_eff = {'src_f': stats_summary['src_f']['n_eff'],
+                        'sigma_conf': stats_summary['sigma_conf']['n_eff'],
+                        'bkg': stats_summary['bkg']['n_eff']}
+        except KeyError:
+            self.Rhat = {'src_f': stats_summary['src_f']['r_hat'],
+                        'bkg': stats_summary['bkg']['r_hat']}
 
-        self.n_eff = {'src_f': stats_summary['src_f']['n_eff'],
-                     'sigma_conf': stats_summary['sigma_conf']['n_eff'],
-                     'bkg': stats_summary['bkg']['n_eff']}
+            self.n_eff = {'src_f': stats_summary['src_f']['n_eff'],
+                        'bkg': stats_summary['bkg']['n_eff']}
+
         self.divergences=diverge
         print("Number of divergences: {}".format(np.sum(diverge)))
+        
+        try:
+            self.samples['sigma_conf']
+        except KeyError:
+            self.samples['sigma_conf'] = np.zeros_like(self.samples['bkg'])
 
         if len(priors) < 2:
             self.samples['bkg']=self.samples['bkg'][:,None]
             self.samples['sigma_conf'] = self.samples['sigma_conf'][:, None]
+
+class posterior_numpyro_sed(object):
+    def __init__(self, mcmc, priors, sed_prior):
+        from numpyro.diagnostics import summary
+        import jax.numpy as jnp
+
+        from operator import attrgetter
+
+        """ Class for dealing with posterior from numpyro
+
+        :param fit: fit object from numpyro
+        :param priors: list of prior classes used for fit
+        """
+        self.nsrc=priors[0].nsrc
+        self.samples = mcmc.get_samples()
+        self.samples['src_f']=jnp.power(10.0,sed_prior.emulator['net_apply'](sed_prior.emulator['params'],self.samples['params']))
+        #self.samples['src_f']=jnp.power(10.0,sed_prior.emulator['net_apply'](sed_prior.emulator['params'],jnp.vstack((self.samples['sfr'][None,:],self.samples['agn_frac'][None,:],self.samples['redshift'][None,:])).T))
+        self.samples['src_f']=np.swapaxes(self.samples['src_f'],1,2)
+        self.samples['sigma_conf']=np.zeros_like(self.samples['bkg'])
+        # get summary statistics. Code based on numpyro print_summary
+        prob = 0.9
+        exclude_deterministic = True
+        sites = mcmc._states[mcmc._sample_field]
+        if isinstance(sites, dict) and exclude_deterministic:
+            state_sample_field = attrgetter(mcmc._sample_field)(mcmc._last_state)
+            # XXX: there might be the case that state.z is not a dictionary but
+            # its postprocessed value `sites` is a dictionary.
+            # TODO: in general, when both `sites` and `state.z` are dictionaries,
+            # they can have different key names, not necessary due to deterministic
+            # behavior. We might revise this logic if needed in the future.
+            if isinstance(state_sample_field, dict):
+                sites = {k: v for k, v in mcmc._states[mcmc._sample_field].items()
+                         if k in state_sample_field}
+
+        stats_summary = summary(sites, prob=prob)
+        diverge = mcmc.get_extra_fields()['diverging']
+        self.Rhat=[stats_summary[i]['r_hat'] for i in stats_summary.keys()]
+        self.n_eff = [stats_summary[i]['n_eff'] for i in stats_summary.keys()]
+        self.divergences=diverge
+        print("Number of divergences: {}".format(np.sum(diverge)))
 
 

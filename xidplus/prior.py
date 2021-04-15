@@ -295,3 +295,28 @@ class prior(object):
         self.amat_data = amat_data
         self.amat_row = amat_row
         self.amat_col = amat_col
+
+
+class hier_prior(object):
+    def __init__(self, ID, params_mu, params_sig, params_names, emulator_path):
+        """Initiate SED prior class
+
+        :param params_mu array with mean values of parameters
+        :param params_sig array with sigma values of parameters
+        :param params_names list of names of params
+        :param emulator_path path to saved emulator file"""
+
+        from astropy.table import Table, join
+        from xidplus.numpyro_fit.misc import load_emulator
+        mu_table = Table(params_mu, names=[i + '_mu' for i in params_names])
+        sig_table = Table(params_sig, names=[i + '_sig' for i in params_names])
+
+        mu_table.add_column(ID, name='ID')
+        sig_table.add_column(ID, name='ID')
+        import jax.numpy as jnp
+        self.prior_table = join(mu_table, sig_table, keys='ID')
+
+        self.emulator = load_emulator(emulator_path)
+        self.params_mu = jnp.asarray(params_mu)
+        self.params_sig = jnp.asarray(params_sig)
+
