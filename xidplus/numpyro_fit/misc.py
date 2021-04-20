@@ -1,5 +1,7 @@
 import jax
 import pickle
+from xidplus.numpyro_fit.neuralnet_models import CIGALE_emulator
+import numpy as np
 
 @jax.partial(jax.jit, static_argnums=(2))
 def sp_matmul(A, B, shape):
@@ -21,6 +23,8 @@ def sp_matmul(A, B, shape):
     return res
 
 def load_emulator(filename):
-    with open(filename, "rb") as f:
-        obj = pickle.load(f)
-    return obj
+    #read in net params
+    x=np.load(filename, allow_pickle=True)
+    net_init,net_apply=CIGALE_emulator()
+    return {'net_init':net_init,'net_apply':net_apply,'params':x['arr_0'].tolist()}
+
