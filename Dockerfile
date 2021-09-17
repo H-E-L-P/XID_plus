@@ -7,5 +7,5 @@ WORKDIR XID_plus
 RUN conda config --add channels conda-forge && conda install healpy
 RUN while read requirement; do conda install --yes $requirement; done < req.txt
 RUN pip install -r req.txt && pip install -e './'
+RUN conda update
 
-WORKDIR

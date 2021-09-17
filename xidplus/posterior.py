@@ -52,6 +52,8 @@ class posterior_stan(object):
             self.samples['src_f'][:,i,:]=lower+(upper-lower)*self.samples['src_f'][:,i,:]
 
 
+
+
 class posterior_pyro(object):
     def __init__(self, fit, priors):
         """ Class for dealing with posterior from pyro
