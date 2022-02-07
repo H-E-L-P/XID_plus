@@ -27,7 +27,10 @@ def generate_SEDs(parameter_names,parameters,path_to_cigale,path_to_ini_file,fil
 
     p = subprocess.Popen(['pcigale', 'run'], cwd=path_to_cigale)
     p.wait()
-    rmtree(path_to_cigale+'{}/'.format(filename))
+    try:
+        rmtree(path_to_cigale+'{}/'.format(filename))
+    except FileNotFoundError:
+        print('---')
     move('/Volumes/pdh_storage/cigale/out/', '/Volumes/pdh_storage/cigale/{}/'.format(filename))
     SEDs = Table.read('/Volumes/pdh_storage/cigale/{}//models-block-0.fits'.format(filename))
 
