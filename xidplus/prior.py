@@ -298,16 +298,18 @@ class prior(object):
 
 
 class hier_prior(object):
-    def __init__(self, ID, params_mu, params_sig, params_names, emulator_path):
+    def __init__(self, ID, params_mu, params_sig, params_names, emulator,emulator_file):
         """Initiate SED prior class
 
         :param params_mu array with mean values of parameters
         :param params_sig array with sigma values of parameters
         :param params_names list of names of params
+        :param emulator emulator neural net structure
         :param emulator_path path to saved emulator file"""
 
         from astropy.table import Table, join
-        from xidplus.numpyro_fit.misc import load_emulator
+        from jax import random, vmap
+
         mu_table = Table(params_mu, names=[i + '_mu' for i in params_names])
         sig_table = Table(params_sig, names=[i + '_sig' for i in params_names])
 
@@ -315,8 +317,24 @@ class hier_prior(object):
         sig_table.add_column(ID, name='ID')
         import jax.numpy as jnp
         self.prior_table = join(mu_table, sig_table, keys='ID')
+        # load parameters saved in numpy file
+        x = np.load(emulator_file, allow_pickle=True)
+        # initiate passed emulator
+        net_init, net_apply = emulator()
+        #get input shape
+        in_shape = (-1, x['arr_0'][0][0].shape[0],)
+        key = random.PRNGKey(1)
+        _, init_params = net_init(key, input_shape=in_shape)
+        # check input emulator model and loaded parameters match
+        for a, b in zip(x['arr_0'], init_params):
+            if len(a) != len(b):
+                raise ValueError('neural net emulator structure does not match parameter file')
+                for c, d in zip(a, b):
+                    if len(c) != len(d):
+                        raise ValueError('neural net emulator structure does not match parameter file')
 
-        self.emulator = load_emulator(emulator_path)
+        self.emulator = {'net_init':net_init,'net_apply':net_apply,'params':x['arr_0'].tolist()}
         self.params_mu = jnp.asarray(params_mu)
         self.params_sig = jnp.asarray(params_sig)
+
 

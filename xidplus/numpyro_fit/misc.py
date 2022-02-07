@@ -1,6 +1,6 @@
 import jax
 import pickle
-from xidplus.numpyro_fit.neuralnet_models import CIGALE_emulator
+from xidplus.numpyro_fit.neuralnet_models import CIGALE_emulator, CIGALE_emulator_kasia
 import numpy as np
 
 @jax.partial(jax.jit, static_argnums=(2))
@@ -26,5 +26,11 @@ def load_emulator(filename):
     #read in net params
     x=np.load(filename, allow_pickle=True)
     net_init,net_apply=CIGALE_emulator()
+    return {'net_init':net_init,'net_apply':net_apply,'params':x['arr_0'].tolist()}
+
+def load_emulatorII(filename):
+    #read in net params
+    x=np.load(filename, allow_pickle=True)
+    net_init,net_apply=CIGALE_emulator_kasia()
     return {'net_init':net_init,'net_apply':net_apply,'params':x['arr_0'].tolist()}
 

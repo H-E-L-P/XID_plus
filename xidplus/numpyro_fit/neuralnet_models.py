@@ -10,3 +10,16 @@ def CIGALE_emulator():
         Dense(len(output_cols))
     )
     return net_init,net_apply
+
+
+def CIGALE_emulator_kasia():
+    output_cols=['irac_i1','omegacam_g','omegacam_i','omegacam_r','omegacam_u','omegacam_z','spire_250','spire_350','spire_500']
+    net_init, net_apply = stax.serial(
+        Dense(128), LeakyRelu,
+        Dense(128), LeakyRelu,
+        Dense(128), LeakyRelu,
+        Dense(128), LeakyRelu,
+        Dense(len(output_cols))
+    )
+    return net_init,net_apply
+
