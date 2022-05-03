@@ -21,7 +21,7 @@ def spire_model(priors):
 
 
     with numpyro.plate('bands', len(priors)):
-        sigma_conf = numpyro.sample('sigma_conf', dist.HalfCauchy(0.0,0.5))
+        sigma_conf = numpyro.sample('sigma_conf', dist.HalfCauchy(0.5))
         bkg = numpyro.sample('bkg', dist.Normal(bkg_mu,bkg_sig))
         with numpyro.plate('nsrc', priors[0].nsrc):
             src_f = numpyro.sample('src_f', dist.Uniform(flux_lower, flux_upper))
@@ -62,7 +62,7 @@ def spire_model_log_uniform(priors):
 
 
     with numpyro.plate('bands', len(priors)):
-        sigma_conf = numpyro.sample('sigma_conf', dist.HalfCauchy(0.0,0.5))
+        sigma_conf = numpyro.sample('sigma_conf', dist.HalfCauchy(0.5))
         bkg = numpyro.sample('bkg', dist.Normal(bkg_mu,bkg_sig))
         with numpyro.plate('nsrc', priors[0].nsrc):
             src_f = 10.0**numpyro.sample('src_f', dist.Uniform(flux_lower, flux_upper))

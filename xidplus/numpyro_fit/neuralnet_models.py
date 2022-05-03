@@ -23,3 +23,13 @@ def CIGALE_emulator_kasia():
     )
     return net_init,net_apply
 
+def CIGALE_emulator_GEP():
+    output_cols=['GEP{}'.format(i) for i in range(1,24)]
+    net_init, net_apply = stax.serial(
+        Dense(128), LeakyRelu,
+        Dense(128), LeakyRelu,
+        Dense(128), LeakyRelu,
+        Dense(128), LeakyRelu,
+        Dense(len(output_cols))
+    )
+    return net_init,net_apply
