@@ -237,8 +237,8 @@ def spire_model_CIGALE_kasia_schect(priors, sed_prior, params):
         bkg = numpyro.sample('bkg', dist.Normal(bkg_mu, bkg_sig))
 
     # redshift-sfr relation parameters
-    z_star = numpyro.sample('m', dist.TruncatedNormal(0.01,params['z_star_mu'], params['z_star_sig']))
-    sfr_star = numpyro.sample('c', dist.TruncatedNormal(0.01,params['sfr_star_mu'], params['sfr_star_sig']))
+    z_star = numpyro.sample('m', dist.TruncatedNormal(loc=params['z_star_mu'], scale=params['z_star_sig'],low=0.01,))
+    sfr_star = numpyro.sample('c', dist.TruncatedNormal(loc=params['sfr_star_mu'], scale=params['sfr_star_sig'],low=0.01,))
     alpha= params['alpha']
 
     # sfr dispersion parameter
@@ -248,15 +248,15 @@ def spire_model_CIGALE_kasia_schect(priors, sed_prior, params):
     with numpyro.plate('nsrc', priors[0].nsrc):
         # use truncated normal for redshift, with mean and sigma from prior
         redshift = numpyro.sample('redshift',
-                                  dist.TruncatedNormal(0.01, sed_prior.params_mu[:, 1], sed_prior.params_sig[:, 1]))
+                                  dist.TruncatedNormal(loc=sed_prior.params_mu[:, 1],scale= sed_prior.params_sig[:, 1],low=0.01))
         # use beta distribution for AGN as a fraction
         agn = numpyro.sample('agn', dist.Beta(1.0, 3.0))
 
         sfr = numpyro.sample('sfr', dist.Normal((sfr_star*jnp.exp(-1.0*redshift/z_star)*(redshift/z_star)**alpha)-2.0, jnp.full(priors[0].nsrc, sfr_sig)))
 
-        atten=numpyro.sample('atten',dist.TruncatedNormal(0.0, sed_prior.params_mu[:, 2], sed_prior.params_sig[:, 2]))
+        atten=numpyro.sample('atten',dist.TruncatedNormal(loc=sed_prior.params_mu[:, 2],scale=sed_prior.params_sig[:, 2],low=0.01))
 
-        dust_alpha=numpyro.sample('dust_alpha',dist.TruncatedNormal(0.0, sed_prior.params_mu[:, 3], sed_prior.params_sig[:, 3]))
+        dust_alpha=numpyro.sample('dust_alpha',dist.TruncatedNormal(loc=sed_prior.params_mu[:, 3], scale=sed_prior.params_sig[:, 3],low=0.01))
 
         tau_main=numpyro.sample('tau_main',dist.Normal(sed_prior.params_mu[:, 4], sed_prior.params_sig[:, 4]))
 
