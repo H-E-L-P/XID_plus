@@ -117,7 +117,7 @@ class prior(object):
         self.sra = ra
         self.sdec = dec
         self.nsrc = self.sra.size
-        self.prior_cat = prior_cat_file
+        self.prior_cat_file = prior_cat_file
         if flux_lower is None:
             flux_lower = np.full((ra.size), 0.00)
             flux_upper = np.full((ra.size), 1000.0)
