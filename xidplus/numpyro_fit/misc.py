@@ -1,9 +1,10 @@
 import jax
 import pickle
+import functools
 from xidplus.numpyro_fit.neuralnet_models import CIGALE_emulator, CIGALE_emulator_kasia
 import numpy as np
 
-@jax.partial(jax.jit, static_argnums=(2))
+@functools.partial(jax.jit, static_argnums=(2))
 def sp_matmul(A, B, shape):
     """
     http://gcucurull.github.io/deep-learning/2020/06/03/jax-sparse-matrix-multiplication/
