@@ -1,69 +1,40 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>XID+ Example Output Analysis &mdash; XID+ 2.0.0 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XID+ Example Output Analysis &mdash; XID+ 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-  
-
-  
-
-  
-  
-    
-
-  
-
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Large Fields" href="../../hpc.html" />
-    <link rel="prev" title="XID+ Example Run Script" href="XID+example_run_script.html" /> 
-
-  
-  <script src="../../_static/js/modernizr.min.js"></script>
-
+    <link rel="prev" title="XID+ Example Run Script" href="XID%2Bexample_run_script.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
-
-          
+        <div class="wy-side-nav-search" >
             <a href="../../index.html" class="icon icon-home"> XID+
-          
-
-          
           </a>
-
-          
-            
-            
               <div class="version">
-                2.0.0
+                3.0.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -71,24 +42,14 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">User Guide:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">A Generative Probabilistic Framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html#docker">Docker</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../tutorial.html">Tutorials</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="XID+example_run_script.html">XID+ Example Run Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="XID%2Bexample_run_script.html">XID+ Example Run Script</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">XID+ Example Output Analysis</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Posterior-replicated-data">Posterior replicated data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Joint-Posterior-Analysis-of-sources">Joint Posterior Analysis of sources</a></li>
@@ -104,100 +65,75 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API documentation</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">XID+</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
-        
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../tutorial.html">Tutorials</a> &raquo;</li>
-        
       <li>XID+ Example Output Analysis</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../../_sources/notebooks/examples/XID+posterior_analysis_validation.ipynb.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput div.prompt,
-div.nbinput div.input_area,
-div.nbinput div[class*=highlight],
-div.nbinput div[class*=highlight] pre,
-div.nboutput,
-div.nbinput div.prompt,
-div.nbinput div.output_area,
-div.nboutput div[class*=highlight],
-div.nboutput div[class*=highlight] pre {
-    background: none;
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
     border: none;
-    padding: 0 0;
+    padding: 0;
     margin: 0;
     box-shadow: none;
 }
 
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
 /* avoid gaps between output lines */
-div.nboutput div[class*=highlight] pre {
+div.nboutput.container div[class*=highlight] pre {
     line-height: normal;
 }
 
 /* input/output containers */
-div.nbinput,
-div.nboutput {
+div.nbinput.container,
+div.nboutput.container {
     display: -webkit-flex;
     display: flex;
     align-items: flex-start;
@@ -205,92 +141,104 @@ div.nboutput {
     width: 100%;
 }
 @media (max-width: 540px) {
-    div.nbinput,
-    div.nboutput {
+    div.nbinput.container,
+    div.nboutput.container {
         flex-direction: column;
     }
 }
 
 /* input container */
-div.nbinput {
+div.nbinput.container {
     padding-top: 5px;
 }
 
 /* last container */
-div.nblast {
+div.nblast.container {
     padding-bottom: 5px;
 }
 
 /* input prompt */
-div.nbinput div.prompt pre {
+div.nbinput.container div.prompt pre {
     color: #307FC1;
 }
 
 /* output prompt */
-div.nboutput div.prompt pre {
+div.nboutput.container div.prompt pre {
     color: #BF5B3D;
 }
 
 /* all prompts */
-div.nbinput div.prompt,
-div.nboutput div.prompt {
-    min-width: 5ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
 }
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
 @media (max-width: 540px) {
-    div.nbinput div.prompt,
-    div.nboutput div.prompt {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
         text-align: left;
         padding: 0.4em;
     }
-    div.nboutput div.prompt.empty {
+    div.nboutput.container div.prompt.empty {
         padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
     }
 }
 
 /* disable scrollbars on prompts */
-div.nbinput div.prompt pre,
-div.nboutput div.prompt pre {
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
     overflow: hidden;
 }
 
 /* input/output area */
-div.nbinput div.input_area,
-div.nboutput div.output_area {
-    padding: 0.4em;
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
     -webkit-flex: 1;
     flex: 1;
     overflow: auto;
 }
 @media (max-width: 540px) {
-    div.nbinput div.input_area,
-    div.nboutput div.output_area {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
         width: 100%;
     }
 }
 
 /* input area */
-div.nbinput div.input_area {
+div.nbinput.container div.input_area {
     border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
 }
 
 /* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
+div.nboutput.container div[class*=MathJax] {
     text-align: left !important;
 }
 
 /* override sphinx.ext.imgmath center alignment in output cells */
-div.nboutput div.math p {
+div.nboutput.container div.math p {
     text-align: left;
 }
 
 /* standard error */
-div.nboutput div.output_area.stderr {
+div.nboutput.container div.output_area.stderr {
     background: #fdd;
 }
 
@@ -334,6 +282,28 @@ div.nboutput div.output_area.stderr {
 .ansi-bold { font-weight: bold; }
 .ansi-underline { text-decoration: underline; }
 
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
 /* Some additional styling taken form the Jupyter notebook CSS */
 div.rendered_html table {
   border: none;
@@ -371,13 +341,13 @@ div.rendered_html tbody tr:hover {
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -390,40 +360,48 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="XID+-Example-Output-Analysis">
+<section id="XID+-Example-Output-Analysis">
 <h1>XID+ Example Output Analysis<a class="headerlink" href="#XID+-Example-Output-Analysis" title="Permalink to this headline">¶</a></h1>
 <p>(This is based on a Jupyter notebook, available in the <a class="reference external" href="https://github.com/H-E-L-P/XID_plus/tree/master/docs/notebooks/examples/">XID+ package</a> and can be interactively run and edited)</p>
 <p>This notebook provides some example code for basic analysis of the XID+ outputs, including:</p>
 <ol class="arabic simple">
-<li>Loading up output</li>
-<li>Creating Posterior replicated maps and animations</li>
-<li>Creating marginalised posterior plots</li>
-<li>Creating Bayesian p-value maps</li>
+<li><p>Loading up output</p></li>
+<li><p>Creating Posterior replicated maps and animations</p></li>
+<li><p>Creating marginalised posterior plots</p></li>
+<li><p>Creating Bayesian p-value maps</p></li>
 </ol>
 <p>Import required modules</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pylab</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">xidplus</span>
-<span class="kn">from</span> <span class="nn">xidplus</span> <span class="k">import</span> <span class="n">moc_routines</span>
+<span class="kn">from</span> <span class="nn">xidplus</span> <span class="kn">import</span> <span class="n">moc_routines</span>
 <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./&#39;</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/dask/config.py:168: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  data = yaml.load(f.read()) or {}
+WARNING: AstropyDeprecationWarning: block_reduce was moved to the astropy.nddata.blocks module.  Please update your import statement. [astropy.nddata.utils]
+</pre></div></div>
 </div>
 <p>Load up posterior output from XID+</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">priors</span><span class="p">,</span><span class="n">posterior</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.pkl&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">priors</span><span class="p">,</span><span class="n">posterior</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.pkl&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -433,8 +411,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">figs</span><span class="p">,</span><span class="n">fig</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">plot_map</span><span class="p">(</span><span class="n">priors</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">figs</span><span class="p">,</span><span class="n">fig</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">plot_map</span><span class="p">(</span><span class="n">priors</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -445,17 +422,17 @@ div.rendered_html tbody tr:hover {
 <img alt="../../_images/notebooks_examples_XID+posterior_analysis_validation_8_0.png" src="../../_images/notebooks_examples_XID+posterior_analysis_validation_8_0.png" />
 </div>
 </div>
-<div class="section" id="Posterior-replicated-data">
+<section id="Posterior-replicated-data">
 <h2>Posterior replicated data<a class="headerlink" href="#Posterior-replicated-data" title="Permalink to this headline">¶</a></h2>
 <p>We can use each sample we have from the posterior, and use it to make a replicated map, including simulating the instrumental noise, and the estimated confusion noise. You can think of these maps as all the possible maps that are allowed by the data.</p>
 <blockquote>
-<div>NOTE: You will require the <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code> library installed to run the movie</div></blockquote>
+<div><p>NOTE: You will require the <code class="docutils literal notranslate"><span class="pre">FFmpeg</span></code> library installed to run the movie</p>
+</div></blockquote>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">xidplus</span><span class="o">.</span><span class="n">replicated_map_movie</span><span class="p">(</span><span class="n">priors</span><span class="p">,</span><span class="n">posterior</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xidplus</span><span class="o">.</span><span class="n">replicated_map_movie</span><span class="p">(</span><span class="n">priors</span><span class="p">,</span><span class="n">posterior</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -469,15 +446,14 @@ div.rendered_html tbody tr:hover {
  Your browser does not support the video tag.
 </video></div>
 </div>
-</div>
-<div class="section" id="Joint-Posterior-Analysis-of-sources">
+</section>
+<section id="Joint-Posterior-Analysis-of-sources">
 <h2>Joint Posterior Analysis of sources<a class="headerlink" href="#Joint-Posterior-Analysis-of-sources" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1">#Select source you want to plot joint distribution</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Select source you want to plot joint distribution</span>
 <span class="n">s1</span><span class="o">=</span><span class="mi">2</span>
 <span class="n">s2</span><span class="o">=</span><span class="mi">18</span>
 </pre></div>
@@ -488,8 +464,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">aplpy</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">aplpy</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">color_codes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -508,7 +483,7 @@ div.rendered_html tbody tr:hover {
 
 <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
 <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
-<span class="n">cmap</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">cubehelix_palette</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">start</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">rot</span><span class="o">=-.</span><span class="mi">75</span><span class="p">,</span><span class="n">as_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">cmap</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">cubehelix_palette</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span> <span class="n">rot</span><span class="o">=-</span><span class="mf">.75</span><span class="p">,</span><span class="n">as_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">real_250</span> <span class="o">=</span> <span class="n">aplpy</span><span class="o">.</span><span class="n">FITSFigure</span><span class="p">(</span><span class="n">postmaps</span><span class="o">.</span><span class="n">make_fits_image</span><span class="p">(</span><span class="n">priors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">priors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sim</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span><span class="n">figure</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">fig</span><span class="p">,</span><span class="n">subplot</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
 <span class="n">real_250</span><span class="o">.</span><span class="n">show_colorscale</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
@@ -524,8 +499,7 @@ div.rendered_html tbody tr:hover {
 
 
 <span class="n">real_250</span><span class="o">.</span><span class="n">add_colorbar</span><span class="p">(</span><span class="n">axis_label_text</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$250\mathrm{\mu m}$ flux  (mJy)&#39;</span><span class="p">)</span>
-
-</pre></div>
+<br/></pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -544,17 +518,16 @@ INFO: Auto-setting vmax to  3.332e+01 [aplpy.core]
 <img alt="../../_images/notebooks_examples_XID+posterior_analysis_validation_15_1.png" src="../../_images/notebooks_examples_XID+posterior_analysis_validation_15_1.png" />
 </div>
 </div>
-</div>
-<div class="section" id="Posterior-Predictive-checking-and-Bayesian-P-value-maps">
+</section>
+<section id="Posterior-Predictive-checking-and-Bayesian-P-value-maps">
 <h2>Posterior Predictive checking and Bayesian P-value maps<a class="headerlink" href="#Posterior-Predictive-checking-and-Bayesian-P-value-maps" title="Permalink to this headline">¶</a></h2>
-<p>When examining goodness of fits, the typical method is to look at the residuals. i.e.&nbsp;<span class="math notranslate nohighlight">\(\frac{data - model}{\sigma}\)</span>. Because we have distribution of <span class="math notranslate nohighlight">\(y^{rep}\)</span>, we can do this in a more probabilisitic way using posterior predictive checks. For more information on posterior predictive checks, <a class="reference external" href="http://www.stat.columbia.edu/~gelman/research/published/A6n41.pdf">Gelman et al.&nbsp;1996</a> is a good starting point.</p>
+<p>When examining goodness of fits, the typical method is to look at the residuals. i.e. <span class="math notranslate nohighlight">\(\frac{data - model}{\sigma}\)</span>. Because we have distribution of <span class="math notranslate nohighlight">\(y^{rep}\)</span>, we can do this in a more probabilisitic way using posterior predictive checks. For more information on posterior predictive checks, <a class="reference external" href="http://www.stat.columbia.edu/~gelman/research/published/A6n41.pdf">Gelman et al. 1996</a> is a good starting point.</p>
 <p>For our case, the best way to carry out posterior predictive checks is to think about one pixel. We can look at where the real flux value for our pixel is in relation to the distribution from <span class="math notranslate nohighlight">\(y^{rep}\)</span>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">xidplus</span> <span class="k">import</span> <span class="n">posterior_maps</span> <span class="k">as</span> <span class="n">postmaps</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">xidplus</span> <span class="kn">import</span> <span class="n">posterior_maps</span> <span class="k">as</span> <span class="n">postmaps</span>
 
 <span class="n">rep_maps</span><span class="o">=</span><span class="n">postmaps</span><span class="o">.</span><span class="n">replicated_maps</span><span class="p">(</span><span class="n">priors</span><span class="p">,</span><span class="n">posterior</span><span class="p">)</span>
 
@@ -603,16 +576,15 @@ INFO: Auto-setting vmax to  3.332e+01 [aplpy.core]
 </div>
 <p>We can calculate fraction of <span class="math notranslate nohighlight">\(y^{rep}\)</span> samples above and below real map value. This is often referred to as the Bayesian p-value and is telling us the probability of drawing the real pixel value, from our model which has been inferred on the data. This is tells us if the model is inconsistent with the data, given the uncertianties in parameters and data.</p>
 <ul class="simple">
-<li><span class="math notranslate nohighlight">\(\sim 0.5\)</span> means our model is consistent with the data</li>
-<li>0.99 or 0.01 means model is missing something.</li>
+<li><p><span class="math notranslate nohighlight">\(\sim 0.5\)</span> means our model is consistent with the data</p></li>
+<li><p>0.99 or 0.01 means model is missing something.</p></li>
 </ul>
 <p>We can convert this to a typical ‘<span class="math notranslate nohighlight">\(\sigma\)</span>’ level and create map versions of these Bayesian p-values:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">figs</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">plot_Bayes_pval_map</span><span class="p">(</span><span class="n">priors</span><span class="p">,</span> <span class="n">posterior</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">figs</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">plot_Bayes_pval_map</span><span class="p">(</span><span class="n">priors</span><span class="p">,</span> <span class="n">posterior</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -624,16 +596,15 @@ INFO: Auto-setting vmax to  3.332e+01 [aplpy.core]
 </div>
 </div>
 <p>Red indicates the flux value in the real map is higher than our model thinks is possible. This could be indicating there is a source there that is not in our model. Blue indicates the flux in the real map is lower than in our model. This is either indicating a very low density region or that too much flux has been assigned to one of the sources.</p>
-</div>
-<div class="section" id="Creating-Catalogues">
+</section>
+<section id="Creating-Catalogues">
 <h2>Creating Catalogues<a class="headerlink" href="#Creating-Catalogues" title="Permalink to this headline">¶</a></h2>
 <p>We can also create catalogues from the posterior probability density function</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">xidplus.catalogue</span> <span class="k">as</span> <span class="nn">cat</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xidplus.catalogue</span> <span class="k">as</span> <span class="nn">cat</span>
 </pre></div>
 </div>
 </div>
@@ -641,22 +612,20 @@ INFO: Auto-setting vmax to  3.332e+01 [aplpy.core]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">SPIRE_cat</span><span class="o">=</span><span class="n">cat</span><span class="o">.</span><span class="n">create_SPIRE_cat</span><span class="p">(</span><span class="n">posterior</span><span class="p">,</span><span class="n">priors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">priors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">priors</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SPIRE_cat</span><span class="o">=</span><span class="n">cat</span><span class="o">.</span><span class="n">create_SPIRE_cat</span><span class="p">(</span><span class="n">posterior</span><span class="p">,</span><span class="n">priors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">priors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">priors</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 <span class="n">SPIRE_cat</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="s1">&#39;test.fits&#39;</span><span class="p">,</span><span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Check-table">
+</section>
+<section id="Check-table">
 <h2>Check table<a class="headerlink" href="#Check-table" title="Permalink to this headline">¶</a></h2>
 <p>Lets read in table with Astropy table</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">astropy.table</span> <span class="k">import</span> <span class="n">Table</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">astropy.table</span> <span class="kn">import</span> <span class="n">Table</span>
 </pre></div>
 </div>
 </div>
@@ -664,8 +633,7 @@ INFO: Auto-setting vmax to  3.332e+01 [aplpy.core]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">catalogue</span><span class="o">=</span><span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;test.fits&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">catalogue</span><span class="o">=</span><span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;test.fits&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -673,8 +641,7 @@ INFO: Auto-setting vmax to  3.332e+01 [aplpy.core]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">catalogue</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">catalogue</span>
 </pre></div>
 </div>
 </div>
@@ -710,64 +677,34 @@ INFO: Auto-setting vmax to  3.332e+01 [aplpy.core]
 <tr><td>64790</td><td>150.746006008</td><td>2.02659443544</td><td>3.66645</td><td>5.70863</td><td>1.70092</td><td>9.75185</td><td>11.836</td><td>7.74227</td><td>2.95004</td><td>5.88184</td><td>0.874799</td><td>-2.55132</td><td>-4.50904</td><td>-6.23681</td><td>1.57567</td><td>1.54154</td><td>2.35809</td><td>1.00089</td><td>1.00012</td><td>0.999632</td><td>2000.0</td><td>2000.0</td><td>2000.0</td><td>0.0</td><td>0.004</td><td>0.0</td></tr>
 </table></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../../hpc.html" class="btn btn-neutral float-right" title="Large Fields" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="XID+example_run_script.html" class="btn btn-neutral" title="XID+ Example Run Script" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="XID%2Bexample_run_script.html" class="btn btn-neutral float-left" title="XID+ Example Run Script" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../hpc.html" class="btn btn-neutral float-right" title="Large Fields" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2017, Peter Hurley
-
-    </p>
+    <p>&#169; Copyright 2022, Peter Hurley.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-
-  
-
-  <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

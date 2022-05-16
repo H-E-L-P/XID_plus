@@ -1,0 +1,2125 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Make training set by randomly sampling parameter space &mdash; XID+ 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> XID+
+          </a>
+              <div class="version">
+                3.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">A Generative Probabilistic Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#docker">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hpc.html">Large Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../priors.html">Beyond Positional Priors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">XID+</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Make training set by randomly sampling parameter space</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/notebooks/examples/SED_emulator/Greybody_emulator.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fitIR</span>
+<span class="kn">import</span> <span class="nn">fitIR.models</span> <span class="k">as</span> <span class="nn">models</span>
+<span class="kn">import</span> <span class="nn">fitIR.analyse</span> <span class="k">as</span> <span class="nn">analyse</span>
+<span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">WMAP9</span> <span class="k">as</span> <span class="n">cosmo</span>
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">import</span> <span class="nn">scipy.integrate</span> <span class="k">as</span> <span class="nn">integrate</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">grad</span><span class="p">,</span> <span class="n">jit</span><span class="p">,</span> <span class="n">vmap</span><span class="p">,</span> <span class="n">value_and_grad</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">random</span>
+
+<span class="c1"># Generate key which is used to generate random numbers</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/lib/xla_bridge.py:130: UserWarning: No GPU/TPU found, falling back to CPU.
+  warnings.warn(&#39;No GPU/TPU found, falling back to CPU.&#39;)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">jax.experimental</span> <span class="kn">import</span> <span class="n">stax</span>
+</pre></div>
+</div>
+</div>
+<section id="Make-training-set-by-randomly-sampling-parameter-space">
+<h1>Make training set by randomly sampling parameter space<a class="headerlink" href="#Make-training-set-by-randomly-sampling-parameter-space" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">totlir</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">redshift</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">5.01</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">temperature</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">70</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">generate_samples</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="c1">#get parameter values from uniform distribution</span>
+    <span class="n">LIR</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span><span class="n">high</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+    <span class="n">redshift</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="n">high</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">high</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+    <span class="c1">#get standard deviation and mean for uniform dist</span>
+    <span class="n">LIR_sd</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">LIR_mean</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mi">15</span><span class="o">+</span><span class="mi">8</span><span class="p">)</span>
+
+    <span class="n">red_sd</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="o">-</span><span class="mf">0.01</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">red_mean</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mf">0.01</span><span class="o">+</span><span class="mi">6</span><span class="p">)</span>
+
+    <span class="n">temp_sd</span><span class="o">=</span><span class="p">(</span><span class="mi">70</span><span class="o">-</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">temp_mean</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mi">70</span><span class="o">+</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">LIR</span><span class="p">,</span><span class="n">redshift</span><span class="p">,</span><span class="n">temperature</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(((</span><span class="n">LIR</span><span class="o">-</span><span class="n">LIR_mean</span><span class="p">)</span><span class="o">/</span><span class="n">LIR_sd</span><span class="p">,(</span><span class="n">redshift</span><span class="o">-</span><span class="n">red_mean</span><span class="p">)</span><span class="o">/</span><span class="n">red_sd</span><span class="p">,(</span><span class="n">temperature</span><span class="o">-</span><span class="n">temp_mean</span><span class="p">)</span><span class="o">/</span><span class="n">temp_sd</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samp</span><span class="p">,</span><span class="n">samp_stand</span><span class="o">=</span><span class="n">generate_samples</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samp</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(1000, 3)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xidplus</span>
+<span class="kn">from</span> <span class="nn">xidplus</span> <span class="kn">import</span> <span class="n">filters</span>
+<span class="n">filter_</span><span class="o">=</span><span class="n">filters</span><span class="o">.</span><span class="n">FilterFile</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;/../test_files/filters.res&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/dask/config.py:168: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  data = yaml.load(f.read()) or {}
+WARNING: AstropyDeprecationWarning: block_reduce was moved to the astropy.nddata.blocks module.  Please update your import statement. [astropy.nddata.utils]
+WARNING: Logging before flag parsing goes to stderr.
+W0104 11:48:46.144933 4605595072 logger.py:204] AstropyDeprecationWarning: block_reduce was moved to the astropy.nddata.blocks module.  Please update your import statement.
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SPIRE_250</span><span class="o">=</span><span class="n">filter_</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">215</span><span class="p">]</span>
+<span class="n">SPIRE_350</span><span class="o">=</span><span class="n">filter_</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">216</span><span class="p">]</span>
+<span class="n">SPIRE_500</span><span class="o">=</span><span class="n">filter_</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">217</span><span class="p">]</span>
+<span class="n">MIPS_24</span><span class="o">=</span><span class="n">filter_</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">201</span><span class="p">]</span>
+<span class="n">PACS_100</span><span class="o">=</span><span class="n">filter_</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">250</span><span class="p">]</span>
+<span class="n">PACS_160</span><span class="o">=</span><span class="n">filter_</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">251</span><span class="p">]</span>
+
+<span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="n">SPIRE_250</span><span class="p">,</span><span class="n">SPIRE_350</span><span class="p">,</span><span class="n">SPIRE_500</span><span class="p">,</span><span class="n">MIPS_24</span><span class="p">,</span><span class="n">PACS_100</span><span class="p">,</span><span class="n">PACS_160</span><span class="p">]</span>
+<span class="n">eff_lam</span><span class="o">=</span><span class="p">[</span><span class="mf">250.0</span><span class="p">,</span><span class="mf">350.0</span><span class="p">,</span><span class="mf">500.0</span><span class="p">,</span><span class="mf">24.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span><span class="mf">160.0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
+
+<span class="k">def</span> <span class="nf">get_fluxes</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+    <span class="n">measured</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mf">3E8</span><span class="o">/</span><span class="mf">8E-6</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mf">3E8</span><span class="o">/</span><span class="mf">1E-3</span><span class="p">),</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">val</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+        <span class="n">z</span><span class="o">=</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">prior</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">prior</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">prior</span><span class="p">[</span><span class="s1">&#39;log10LIR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">prior</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">prior</span><span class="p">[</span><span class="s1">&#39;emissivity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.5</span>
+
+
+
+        <span class="n">source</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">greybody</span><span class="p">(</span><span class="n">prior</span><span class="p">)</span>
+
+        <span class="n">nu</span><span class="p">,</span><span class="n">lnu</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">generate_greybody</span><span class="p">(</span><span class="n">val</span><span class="p">,</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">wave</span> <span class="o">=</span> <span class="mf">3E8</span><span class="o">/</span><span class="n">nu</span><span class="o">*</span><span class="mf">1E6</span>
+        <span class="n">sed</span><span class="o">=</span><span class="n">interp1d</span><span class="p">(</span><span class="n">wave</span><span class="p">,</span><span class="n">lnu</span><span class="p">)</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">luminosity_distance</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">measured</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">b</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="n">z</span><span class="p">)</span><span class="o">*</span><span class="n">filters</span><span class="o">.</span><span class="n">fnu_filt</span><span class="p">(</span><span class="n">sed</span><span class="p">(</span><span class="n">bands</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="o">.</span><span class="n">wavelength</span><span class="o">/</span><span class="mf">1E4</span><span class="p">),</span>
+                                     <span class="mf">3E8</span><span class="o">/</span><span class="p">(</span><span class="n">bands</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="o">.</span><span class="n">wavelength</span><span class="o">/</span><span class="mf">1E10</span><span class="p">),</span>
+                                     <span class="n">bands</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="o">.</span><span class="n">transmission</span><span class="p">,</span>
+                                     <span class="mf">3E8</span><span class="o">/</span><span class="p">(</span><span class="n">eff_lam</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="o">*</span><span class="mf">1E-6</span><span class="p">),</span>
+                                     <span class="n">sed</span><span class="p">(</span><span class="n">eff_lam</span><span class="p">[</span><span class="n">b</span><span class="p">]))</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">dist</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">measured</span><span class="o">/</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">26</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">measured</span><span class="o">=</span><span class="n">get_fluxes</span><span class="p">(</span><span class="n">samp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Use-stax-to-create-neural-net">
+<h1>Use stax to create neural net<a class="headerlink" href="#Use-stax-to-create-neural-net" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[221]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">jax.experimental</span> <span class="kn">import</span> <span class="n">stax</span>
+<span class="kn">from</span> <span class="nn">jax.experimental.stax</span> <span class="kn">import</span> <span class="p">(</span><span class="n">BatchNorm</span><span class="p">,</span> <span class="n">Conv</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Flatten</span><span class="p">,</span>
+                                   <span class="n">Relu</span><span class="p">,</span> <span class="n">LogSoftmax</span><span class="p">,</span><span class="n">LeakyRelu</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span>
+<span class="n">num_inputs</span><span class="o">=</span><span class="mi">3</span>
+<span class="n">num_bands</span><span class="o">=</span><span class="mi">3</span>
+<span class="c1">#stax provides an intialising function and a function for doing a forward pass</span>
+<span class="n">init_fun</span><span class="p">,</span><span class="n">sed_emu</span> <span class="o">=</span> <span class="n">stax</span><span class="o">.</span><span class="n">serial</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">),</span><span class="n">Relu</span><span class="p">,</span>
+                               <span class="n">Dense</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="n">Relu</span><span class="p">,</span>
+                              <span class="n">Dense</span><span class="p">(</span><span class="n">num_bands</span><span class="p">))</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#function to get initial parameters of neural net</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">init_fun</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_inputs</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## class for sed using the torch dataset class</span>
+<span class="k">class</span> <span class="nc">sed_data</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">params</span><span class="p">,</span><span class="n">fluxes</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">=</span><span class="n">params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">=</span><span class="n">fluxes</span>
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## generate random SED samples</span>
+<span class="n">samp_train</span><span class="p">,</span><span class="n">samp_stand_train</span><span class="o">=</span><span class="n">generate_samples</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+<span class="c1">## Use Steve&#39;s code and xidplus filters to get fluxes</span>
+<span class="n">measured_train</span><span class="o">=</span><span class="n">get_fluxes</span><span class="p">(</span><span class="n">samp_train</span><span class="p">)</span>
+<span class="c1">## use data in SED dataclass</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">sed_data</span><span class="p">(</span><span class="n">samp_stand_train</span><span class="p">,</span><span class="n">measured_train</span><span class="p">)</span>
+<span class="c1">## use torch DataLoader</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,)</span>
+<span class="c1">## do same but for test set</span>
+<span class="n">samp_test</span><span class="p">,</span><span class="n">samp_stand_test</span><span class="o">=</span><span class="n">generate_samples</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">measured_test</span><span class="o">=</span><span class="n">get_fluxes</span><span class="p">(</span><span class="n">samp_test</span><span class="p">)</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">sed_data</span><span class="p">(</span><span class="n">samp_stand_test</span><span class="p">,</span><span class="n">measured_test</span><span class="p">)</span>
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>the update function computes teh gradient of the loss with respect to the parameters for a batch. We use predefined optimisers and choose Adan to be our optmisier</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">jax.experimental</span> <span class="kn">import</span> <span class="n">optimizers</span>
+
+<span class="nd">@jit</span>
+<span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Compute the gradient for a batch and update the parameters &quot;&quot;&quot;</span>
+    <span class="n">value</span><span class="p">,</span> <span class="n">grads</span> <span class="o">=</span> <span class="n">value_and_grad</span><span class="p">(</span><span class="n">loss</span><span class="p">)(</span><span class="n">params</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">opt_state</span> <span class="o">=</span> <span class="n">opt_update</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">get_params</span><span class="p">(</span><span class="n">opt_state</span><span class="p">),</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">value</span>
+<br/><br/><br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data_loader</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Compute the accuracy for the SED emulator&quot;&quot;&quot;</span>
+    <span class="n">acc_total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_loader</span><span class="p">):</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">predicted_flux</span><span class="o">=</span><span class="n">sed_emu</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">acc_total</span> <span class="o">+=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">predicted_flux</span> <span class="o">-</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">target</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">acc_total</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">images</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">sed_emu</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">images</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span> <span class="o">-</span> <span class="n">preds</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">run_greybody_training_loop</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Implements a learning loop over epochs. &quot;&quot;&quot;</span>
+    <span class="c1"># Initialize placeholder for loggin</span>
+    <span class="n">log_acc_train</span><span class="p">,</span> <span class="n">log_acc_test</span><span class="p">,</span> <span class="n">train_loss</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+
+    <span class="c1"># Get the initial set of parameters</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span><span class="n">opt_state</span><span class="p">)</span>
+
+    <span class="c1"># Get initial accuracy after random init</span>
+    <span class="n">train_acc</span> <span class="o">=</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">)</span>
+    <span class="n">test_acc</span> <span class="o">=</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">)</span>
+    <span class="n">log_acc_train</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_acc</span><span class="p">)</span>
+    <span class="n">log_acc_test</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_acc</span><span class="p">)</span>
+
+    <span class="c1"># Loop over the training epochs</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">):</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">)</span>
+            <span class="n">train_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+
+        <span class="n">epoch_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+        <span class="n">train_acc</span> <span class="o">=</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">)</span>
+        <span class="n">test_acc</span> <span class="o">=</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">)</span>
+        <span class="n">log_acc_train</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_acc</span><span class="p">)</span>
+        <span class="n">log_acc_test</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_acc</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Epoch </span><span class="si">{}</span><span class="s2"> | T: </span><span class="si">{:0.2f}</span><span class="s2"> | Train A: </span><span class="si">{:0.3f}</span><span class="s2"> | Test A: </span><span class="si">{:0.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">epoch_time</span><span class="p">,</span>
+                                                                    <span class="n">train_acc</span><span class="p">,</span> <span class="n">test_acc</span><span class="p">,))</span>
+
+    <span class="k">return</span> <span class="n">train_loss</span><span class="p">,</span> <span class="n">log_acc_train</span><span class="p">,</span> <span class="n">log_acc_test</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">step_size</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="n">opt_init</span><span class="p">,</span> <span class="n">opt_update</span><span class="p">,</span> <span class="n">get_params</span> <span class="o">=</span> <span class="n">optimizers</span><span class="o">.</span><span class="n">adam</span><span class="p">(</span><span class="n">step_size</span><span class="p">)</span>
+<span class="n">opt_state</span> <span class="o">=</span> <span class="n">opt_init</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="n">train_loss</span><span class="p">,</span> <span class="n">train_log</span><span class="p">,</span> <span class="n">test_log</span> <span class="o">=</span> <span class="n">run_greybody_training_loop</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">,</span>
+                                                          <span class="n">opt_state</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+5
+Epoch 1 | T: 0.08 | Train A: 1612982910976.000 | Test A: 202752896.000
+5
+Epoch 2 | T: 0.08 | Train A: 1612982910976.000 | Test A: 202753440.000
+5
+Epoch 3 | T: 0.07 | Train A: 1612982910976.000 | Test A: 202753904.000
+5
+Epoch 4 | T: 0.08 | Train A: 1612982910976.000 | Test A: 202754352.000
+5
+Epoch 5 | T: 0.08 | Train A: 1612982910976.000 | Test A: 202754864.000
+5
+Epoch 6 | T: 0.07 | Train A: 1612982910976.000 | Test A: 202755440.000
+5
+Epoch 7 | T: 0.08 | Train A: 1612982910976.000 | Test A: 202756128.000
+5
+Epoch 8 | T: 0.07 | Train A: 1612983042048.000 | Test A: 202756848.000
+5
+Epoch 9 | T: 0.06 | Train A: 1612983042048.000 | Test A: 202757568.000
+5
+Epoch 10 | T: 0.07 | Train A: 1612983042048.000 | Test A: 202758224.000
+5
+Epoch 11 | T: 0.07 | Train A: 1612983042048.000 | Test A: 202758912.000
+5
+Epoch 12 | T: 0.06 | Train A: 1612983042048.000 | Test A: 202759600.000
+5
+Epoch 13 | T: 0.07 | Train A: 1612983042048.000 | Test A: 202760272.000
+5
+Epoch 14 | T: 0.08 | Train A: 1612983042048.000 | Test A: 202760960.000
+5
+Epoch 15 | T: 0.07 | Train A: 1612983042048.000 | Test A: 202761712.000
+5
+Epoch 16 | T: 0.10 | Train A: 1612983304192.000 | Test A: 202762480.000
+5
+Epoch 17 | T: 0.06 | Train A: 1612983304192.000 | Test A: 202763232.000
+5
+Epoch 18 | T: 0.06 | Train A: 1612983304192.000 | Test A: 202764016.000
+5
+Epoch 19 | T: 0.06 | Train A: 1612983304192.000 | Test A: 202764816.000
+5
+Epoch 20 | T: 0.09 | Train A: 1612983304192.000 | Test A: 202765600.000
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">train_log</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x7f8149a10978&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_24_1.png" src="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_24_1.png" />
+</div>
+</div>
+</section>
+<section id="try-simplifying">
+<h1>try simplifying<a class="headerlink" href="#try-simplifying" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[568]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">samp_train</span><span class="p">,</span><span class="n">samp_stand_train</span><span class="o">=</span><span class="n">generate_samples</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+<span class="n">measured_train</span><span class="o">=</span><span class="n">get_fluxes</span><span class="p">(</span><span class="n">samp_train</span><span class="p">)</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">sed_data</span><span class="p">(</span><span class="n">samp_stand_train</span><span class="p">,</span><span class="n">measured_train</span><span class="p">)</span>
+
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,)</span>
+
+<span class="n">samp_test</span><span class="p">,</span><span class="n">samp_stand_test</span><span class="o">=</span><span class="n">generate_samples</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">measured_test</span><span class="o">=</span><span class="n">get_fluxes</span><span class="p">(</span><span class="n">samp_test</span><span class="p">)</span>
+
+<span class="n">num_inputs</span><span class="o">=</span><span class="mi">3</span>
+<span class="n">num_bands</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">init_fun</span><span class="p">,</span><span class="n">sed_emu</span> <span class="o">=</span> <span class="n">stax</span><span class="o">.</span><span class="n">serial</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">),</span><span class="n">Relu</span><span class="p">,</span>
+                              <span class="n">Dense</span><span class="p">(</span><span class="n">num_bands</span><span class="p">))</span>
+<span class="c1"># Initialise the network with four inputs</span>
+<span class="n">out_shape</span><span class="p">,</span> <span class="n">net_params</span> <span class="o">=</span> <span class="n">init_fun</span><span class="p">(</span><span class="n">key</span><span class="p">,(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+
+<span class="n">ytrain</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">measured_train</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">Xtrain</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">samp_stand_train</span><span class="p">)</span>
+<span class="n">ytest</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">measured_test</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">Xtest</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">samp_stand_test</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">sed_emu</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">Xtrain</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">ytrain</span> <span class="o">-</span> <span class="n">predictions</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">loss_test</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">sed_emu</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">Xtest</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">ytest</span> <span class="o">-</span> <span class="n">predictions</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+
+<span class="n">opt_init</span><span class="p">,</span> <span class="n">opt_update</span><span class="p">,</span> <span class="n">get_params</span> <span class="o">=</span> <span class="n">optimizers</span><span class="o">.</span><span class="n">adam</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="nd">@jit</span>
+<span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">):</span>
+    <span class="c1"># Parameters for the optimisation algorithm</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span><span class="n">opt_state</span><span class="p">)</span>
+    <span class="c1"># Gradient of the loss function</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">loss</span><span class="p">)(</span><span class="n">params</span><span class="p">)</span>
+    <span class="c1"># Update step</span>
+    <span class="k">return</span> <span class="n">opt_update</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">),</span><span class="n">loss</span><span class="p">(</span><span class="n">params</span><span class="p">),</span><span class="n">loss_test</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="c1"># Optimiser initialisation</span>
+<span class="n">opt_state</span> <span class="o">=</span> <span class="n">opt_init</span><span class="p">(</span><span class="n">net_params</span><span class="p">)</span>
+
+<span class="n">all_loss</span><span class="o">=</span><span class="p">[]</span>
+<span class="n">all_loss_test</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50000</span><span class="p">):</span>
+    <span class="c1"># Train step</span>
+    <span class="n">opt_state</span><span class="p">,</span><span class="n">loss_iter</span><span class="p">,</span><span class="n">loss_test_iter</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">)</span>
+    <span class="n">all_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_iter</span><span class="p">)</span>
+    <span class="n">all_loss_test</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_test_iter</span><span class="p">)</span>
+
+<span class="c1"># Final parameters after training</span>
+<span class="n">net_params</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span><span class="n">opt_state</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-568-393ad2f19ff4&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     47</span> <span class="ansi-green-fg">for</span> i <span class="ansi-green-fg">in</span> range<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">50000</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">     48</span>     <span class="ansi-red-fg"># Train step</span>
+<span class="ansi-green-fg">---&gt; 49</span><span class="ansi-red-fg">     </span>opt_state<span class="ansi-blue-fg">,</span>loss_iter<span class="ansi-blue-fg">,</span>loss_test_iter <span class="ansi-blue-fg">=</span> step<span class="ansi-blue-fg">(</span>i<span class="ansi-blue-fg">,</span> opt_state<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     50</span>     all_loss<span class="ansi-blue-fg">.</span>append<span class="ansi-blue-fg">(</span>loss_iter<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     51</span>     all_loss_test<span class="ansi-blue-fg">.</span>append<span class="ansi-blue-fg">(</span>loss_test_iter<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/api.py</span> in <span class="ansi-cyan-fg">f_jitted</span><span class="ansi-blue-fg">(*args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    215</span>         backend<span class="ansi-blue-fg">=</span>backend<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    216</span>         name<span class="ansi-blue-fg">=</span>flat_fun<span class="ansi-blue-fg">.</span>__name__<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-fg">--&gt; 217</span><span class="ansi-red-fg">         donated_invars=donated_invars)
+</span><span class="ansi-green-intense-fg ansi-bold">    218</span>     <span class="ansi-green-fg">return</span> tree_unflatten<span class="ansi-blue-fg">(</span>out_tree<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> out<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    219</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/core.py</span> in <span class="ansi-cyan-fg">bind</span><span class="ansi-blue-fg">(self, fun, *args, **params)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1160</span>
+<span class="ansi-green-intense-fg ansi-bold">   1161</span>   <span class="ansi-green-fg">def</span> bind<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> fun<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>params<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 1162</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> call_bind<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> fun<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>params<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1163</span>
+<span class="ansi-green-intense-fg ansi-bold">   1164</span>   <span class="ansi-green-fg">def</span> process<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> trace<span class="ansi-blue-fg">,</span> fun<span class="ansi-blue-fg">,</span> tracers<span class="ansi-blue-fg">,</span> params<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/core.py</span> in <span class="ansi-cyan-fg">call_bind</span><span class="ansi-blue-fg">(primitive, fun, *args, **params)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1151</span>   tracers <span class="ansi-blue-fg">=</span> map<span class="ansi-blue-fg">(</span>top_trace<span class="ansi-blue-fg">.</span>full_raise<span class="ansi-blue-fg">,</span> args<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1152</span>   <span class="ansi-green-fg">with</span> maybe_new_sublevel<span class="ansi-blue-fg">(</span>top_trace<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 1153</span><span class="ansi-red-fg">     </span>outs <span class="ansi-blue-fg">=</span> primitive<span class="ansi-blue-fg">.</span>process<span class="ansi-blue-fg">(</span>top_trace<span class="ansi-blue-fg">,</span> fun<span class="ansi-blue-fg">,</span> tracers<span class="ansi-blue-fg">,</span> params<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1154</span>   <span class="ansi-green-fg">return</span> map<span class="ansi-blue-fg">(</span>full_lower<span class="ansi-blue-fg">,</span> apply_todos<span class="ansi-blue-fg">(</span>env_trace_todo<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> outs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1155</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/core.py</span> in <span class="ansi-cyan-fg">process</span><span class="ansi-blue-fg">(self, trace, fun, tracers, params)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1163</span>
+<span class="ansi-green-intense-fg ansi-bold">   1164</span>   <span class="ansi-green-fg">def</span> process<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> trace<span class="ansi-blue-fg">,</span> fun<span class="ansi-blue-fg">,</span> tracers<span class="ansi-blue-fg">,</span> params<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 1165</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> trace<span class="ansi-blue-fg">.</span>process_call<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> fun<span class="ansi-blue-fg">,</span> tracers<span class="ansi-blue-fg">,</span> params<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1166</span>
+<span class="ansi-green-intense-fg ansi-bold">   1167</span>   <span class="ansi-green-fg">def</span> post_process<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> trace<span class="ansi-blue-fg">,</span> out_tracers<span class="ansi-blue-fg">,</span> params<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/core.py</span> in <span class="ansi-cyan-fg">process_call</span><span class="ansi-blue-fg">(self, primitive, f, tracers, params)</span>
+<span class="ansi-green-intense-fg ansi-bold">    573</span>
+<span class="ansi-green-intense-fg ansi-bold">    574</span>   <span class="ansi-green-fg">def</span> process_call<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> primitive<span class="ansi-blue-fg">,</span> f<span class="ansi-blue-fg">,</span> tracers<span class="ansi-blue-fg">,</span> params<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 575</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> primitive<span class="ansi-blue-fg">.</span>impl<span class="ansi-blue-fg">(</span>f<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>tracers<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>params<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    576</span>   process_map <span class="ansi-blue-fg">=</span> process_call
+<span class="ansi-green-intense-fg ansi-bold">    577</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/interpreters/xla.py</span> in <span class="ansi-cyan-fg">_xla_call_impl</span><span class="ansi-blue-fg">(fun, device, backend, name, donated_invars, *args)</span>
+<span class="ansi-green-intense-fg ansi-bold">    557</span>                                *unsafe_map(arg_spec, args))
+<span class="ansi-green-intense-fg ansi-bold">    558</span>   <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 559</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> compiled_fun<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    560</span>   <span class="ansi-green-fg">except</span> FloatingPointError<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    561</span>     <span class="ansi-green-fg">assert</span> FLAGS<span class="ansi-blue-fg">.</span>jax_debug_nans  <span class="ansi-red-fg"># compiled_fun can only raise in this case</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/interpreters/xla.py</span> in <span class="ansi-cyan-fg">_execute_compiled</span><span class="ansi-blue-fg">(compiled, avals, handlers, *args)</span>
+<span class="ansi-green-intense-fg ansi-bold">    799</span>   device<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">=</span> compiled<span class="ansi-blue-fg">.</span>local_devices<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    800</span>   input_bufs <span class="ansi-blue-fg">=</span> list<span class="ansi-blue-fg">(</span>it<span class="ansi-blue-fg">.</span>chain<span class="ansi-blue-fg">.</span>from_iterable<span class="ansi-blue-fg">(</span>device_put<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">,</span> device<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">for</span> x <span class="ansi-green-fg">in</span> args <span class="ansi-green-fg">if</span> x <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">not</span> token<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 801</span><span class="ansi-red-fg">   </span>out_bufs <span class="ansi-blue-fg">=</span> compiled<span class="ansi-blue-fg">.</span>execute<span class="ansi-blue-fg">(</span>input_bufs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    802</span>   <span class="ansi-green-fg">if</span> FLAGS<span class="ansi-blue-fg">.</span>jax_debug_nans<span class="ansi-blue-fg">:</span> check_nans<span class="ansi-blue-fg">(</span>xla_call_p<span class="ansi-blue-fg">,</span> out_bufs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    803</span>   <span class="ansi-green-fg">return</span> <span class="ansi-blue-fg">[</span>handler<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>bs<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">for</span> handler<span class="ansi-blue-fg">,</span> bs <span class="ansi-green-fg">in</span> zip<span class="ansi-blue-fg">(</span>handlers<span class="ansi-blue-fg">,</span> _partition_outputs<span class="ansi-blue-fg">(</span>avals<span class="ansi-blue-fg">,</span> out_bufs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">]</span>
+
+<span class="ansi-red-fg">KeyboardInterrupt</span>:
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[569]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sed_emu</span><span class="p">(</span><span class="n">net_params</span><span class="p">,</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">samp_stand_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[569]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+DeviceArray([[ 1.15468442e+00],
+             [-9.58508172e-04],
+             [ 2.54261899e+00],
+             [ 3.60584527e-01],
+             [-9.58508172e-04],
+             [ 2.07726550e+00],
+             [ 9.92553949e-01],
+             [-9.58508172e-04],
+             [ 2.42397380e+00],
+             [ 2.25675121e-01],
+             [-9.58508172e-04],
+             [ 1.56079197e+00],
+             [-9.58508172e-04],
+             [ 2.42112923e+00],
+             [-4.59634215e-02],
+             [-2.07831711e-02],
+             [-3.63815483e-03],
+             [-4.87463474e-02],
+             [ 1.26780784e-02],
+             [ 2.65504003e+00],
+             [ 9.33449447e-01],
+             [ 3.37957054e-01],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 7.08476484e-01],
+             [-9.58508172e-04],
+             [ 6.70050085e-01],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 2.29025197e+00],
+             [ 2.45833492e+00],
+             [-9.58508172e-04],
+             [ 2.53023952e-01],
+             [ 3.36646605e+00],
+             [ 1.12742388e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 7.37486780e-01],
+             [ 1.14556301e+00],
+             [-9.58508172e-04],
+             [ 2.45107889e+00],
+             [-8.30899831e-03],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 1.88620603e+00],
+             [-9.58508172e-04],
+             [-8.54014605e-02],
+             [ 1.26462663e-03],
+             [ 7.60492921e-01],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 2.11973637e-02],
+             [-9.58508172e-04],
+             [ 5.43062389e-01],
+             [-9.58508172e-04],
+             [-3.95501554e-02],
+             [-9.58508172e-04],
+             [ 5.96175730e-01],
+             [ 1.57901466e+00],
+             [ 3.13268751e-02],
+             [-9.58508172e-04],
+             [-4.78294715e-02],
+             [-9.58508172e-04],
+             [ 6.70954704e-01],
+             [ 2.45240355e+00],
+             [ 1.23606078e-01],
+             [ 3.76608753e+00],
+             [-9.58508172e-04],
+             [ 9.04388279e-02],
+             [-9.58508172e-04],
+             [ 9.68263298e-02],
+             [ 1.20879924e+00],
+             [-9.58508172e-04],
+             [ 3.99760783e-01],
+             [-9.58508172e-04],
+             [ 1.06341207e+00],
+             [-9.58508172e-04],
+             [ 1.59416497e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 1.98000729e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 3.10756564e-01],
+             [ 1.43007517e+00],
+             [ 3.09739560e-01],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 2.00219893e+00],
+             [ 4.44864899e-01],
+             [-9.58508172e-04],
+             [-2.23131012e-02],
+             [-9.58508172e-04],
+             [ 5.54561436e-01],
+             [ 3.48940992e+00],
+             [-9.58508172e-04],
+             [ 8.38076234e-01],
+             [ 2.51870096e-01],
+             [ 1.22517738e-02],
+             [ 1.65864229e+00],
+             [-9.58508172e-04],
+             [ 3.26522887e-01],
+             [-9.58508172e-04],
+             [ 2.00894713e+00],
+             [ 1.69056046e+00],
+             [ 2.11957169e+00],
+             [ 4.13133651e-02],
+             [ 2.30553699e+00],
+             [ 4.39177006e-01],
+             [ 9.29203212e-01],
+             [-7.32375905e-02],
+             [ 1.95634222e+00],
+             [ 9.30451453e-02],
+             [ 2.66024208e+00],
+             [ 1.20262635e+00],
+             [ 6.85943246e-01],
+             [-9.58508172e-04],
+             [ 2.04046631e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 4.22765702e-01],
+             [-9.58508172e-04],
+             [ 1.16487467e+00],
+             [-9.58508172e-04],
+             [ 1.86354935e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 2.06652239e-01],
+             [ 2.36769032e+00],
+             [-3.49428840e-02],
+             [ 1.80661845e+00],
+             [ 2.92194390e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 8.83281305e-02],
+             [ 1.00651944e+00],
+             [ 1.32672429e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 1.23403108e+00],
+             [-9.58508172e-04],
+             [ 2.55370712e+00],
+             [ 1.57427931e+00],
+             [-9.58508172e-04],
+             [ 2.74964261e+00],
+             [-9.58508172e-04],
+             [ 2.01618028e+00],
+             [ 2.12437820e+00],
+             [-9.58508172e-04],
+             [ 1.35899627e+00],
+             [-9.58508172e-04],
+             [ 8.47430825e-02],
+             [ 1.93455076e+00],
+             [ 4.79390144e-01],
+             [ 4.26982582e-01],
+             [-9.58508172e-04],
+             [ 1.36406803e+00],
+             [ 1.03376615e+00],
+             [ 2.17851710e+00],
+             [-4.90818778e-03],
+             [-7.52505660e-02],
+             [ 9.08556998e-01],
+             [ 2.23048449e+00],
+             [ 1.88323116e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-7.51304105e-02],
+             [ 1.63734949e+00],
+             [-9.58508172e-04],
+             [ 9.05178666e-01],
+             [ 1.92167208e-01],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 6.48726404e-01],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 4.73501742e-01],
+             [ 2.48021126e+00],
+             [ 5.46120346e-01],
+             [ 2.39680481e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 3.52483541e-01],
+             [ 9.23355043e-01],
+             [-4.91245277e-02],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 4.40184474e-02],
+             [-9.58508172e-04],
+             [ 1.92564821e+00],
+             [ 2.45729908e-02],
+             [ 8.60888958e-01],
+             [-9.58508172e-04],
+             [ 1.10020638e+00],
+             [ 2.01163435e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 6.40236139e-02],
+             [-9.58508172e-04],
+             [ 2.89744663e+00],
+             [ 1.31634557e+00],
+             [ 3.54226613e+00],
+             [-9.58508172e-04],
+             [ 5.94921231e-01],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-2.43302714e-02],
+             [ 4.88250367e-02],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-5.64744212e-02],
+             [ 1.38399935e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 2.02204275e+00],
+             [-9.58508172e-04],
+             [ 3.76921058e-01],
+             [-9.58508172e-04],
+             [ 2.43769269e-02],
+             [-9.58508172e-04],
+             [ 2.69250751e+00],
+             [-9.58508172e-04],
+             [ 2.32621837e+00],
+             [-9.58508172e-04],
+             [ 2.58438587e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 1.01696908e+00],
+             [ 1.73390257e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 1.99509430e+00],
+             [ 2.67987669e-01],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 1.55209315e+00],
+             [ 2.27504349e+00],
+             [ 4.64258194e-01],
+             [ 1.10433686e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 6.90037131e-01],
+             [ 1.00987956e-01],
+             [ 2.27970600e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 1.37808812e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 2.39720154e+00],
+             [ 4.33399320e-01],
+             [ 1.65839744e+00],
+             [ 8.97593558e-01],
+             [-9.58508172e-04],
+             [ 2.35519743e+00],
+             [-9.58508172e-04],
+             [ 5.07159948e-01],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 3.15303898e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-5.45516573e-02],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 3.09337878e+00],
+             [ 2.78536773e+00],
+             [ 1.55179846e+00],
+             [ 1.26088941e+00],
+             [ 3.61017078e-01],
+             [ 3.45767707e-01],
+             [-9.58508172e-04],
+             [ 2.36897063e+00],
+             [ 1.37667274e+00],
+             [-9.58508172e-04],
+             [ 1.83456016e+00],
+             [ 1.44041264e+00],
+             [ 1.20654106e+00],
+             [ 2.65489578e+00],
+             [ 5.55496335e-01],
+             [ 1.02238917e+00],
+             [ 1.37920137e-02],
+             [ 7.86814094e-01],
+             [-9.58508172e-04],
+             [-6.98722973e-02],
+             [ 9.13126469e-01],
+             [ 1.06834280e+00],
+             [ 1.88309038e+00],
+             [-9.58508172e-04],
+             [ 1.54450321e+00],
+             [ 1.04756260e+00],
+             [ 2.53113604e+00],
+             [ 2.85527802e+00],
+             [-2.84498073e-02],
+             [ 3.24711490e+00],
+             [-5.81370434e-03],
+             [ 3.06740403e+00],
+             [ 1.86203986e-01],
+             [ 1.23081028e+00],
+             [-7.00905593e-03],
+             [-9.58508172e-04],
+             [ 6.43971324e-01],
+             [-9.58508172e-04],
+             [ 1.09394586e+00],
+             [ 5.28709926e-02],
+             [ 1.72040805e-01],
+             [-9.58508172e-04],
+             [-2.61565717e-03],
+             [ 1.51694965e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 2.31565833e+00],
+             [-9.58508172e-04],
+             [ 1.35126865e+00],
+             [ 1.45849001e+00],
+             [ 3.05494547e-01],
+             [ 2.87097645e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 4.68674414e-02],
+             [ 1.03463399e+00],
+             [ 1.31633985e+00],
+             [-9.58508172e-04],
+             [ 1.18405735e+00],
+             [ 3.13880825e+00],
+             [-9.58508172e-04],
+             [ 1.50886238e+00],
+             [-2.93864030e-02],
+             [ 2.03841142e-02],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 3.01921701e+00],
+             [ 2.29553556e+00],
+             [ 2.01732588e+00],
+             [-9.58508172e-04],
+             [ 9.46528018e-01],
+             [-9.58508172e-04],
+             [ 2.86717629e+00],
+             [ 2.71883035e+00],
+             [ 7.31794894e-01],
+             [ 5.31512618e-01],
+             [ 8.79150271e-01],
+             [-2.28600409e-02],
+             [ 3.83761692e+00],
+             [ 1.34883475e+00],
+             [ 2.17892602e-01],
+             [ 1.80289721e+00],
+             [-9.58508172e-04],
+             [ 3.15685129e+00],
+             [-9.58508172e-04],
+             [ 2.56981421e+00],
+             [ 1.70582068e+00],
+             [-9.58508172e-04],
+             [ 3.58788967e+00],
+             [ 2.52764678e+00],
+             [-7.90248811e-02],
+             [-9.58508172e-04],
+             [ 3.26229744e-02],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 2.07186556e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 3.46536845e-01],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-3.50891314e-02],
+             [ 2.16071844e+00],
+             [ 2.22161841e+00],
+             [-9.58508172e-04],
+             [ 1.61531448e+00],
+             [ 2.28193617e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 7.46373296e-01],
+             [-4.68290448e-02],
+             [ 1.97060442e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 1.59249604e-01],
+             [-2.71804426e-02],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 5.32205880e-01],
+             [ 1.67027545e+00],
+             [ 1.73068613e-01],
+             [-9.58508172e-04],
+             [ 9.47348952e-01],
+             [ 1.40376246e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 2.01150608e+00],
+             [-9.58508172e-04],
+             [ 1.25453806e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 6.99561387e-02],
+             [-9.66768190e-02],
+             [ 1.45439386e+00],
+             [-9.58508172e-04],
+             [ 9.94647443e-01],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 2.70569825e+00],
+             [ 1.54835320e+00],
+             [ 2.61701584e-01],
+             [ 1.57478595e+00],
+             [ 2.00593066e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 2.87573314e+00],
+             [ 2.29976583e+00],
+             [-5.11386767e-02],
+             [ 2.86163974e+00],
+             [-2.39126179e-02],
+             [-9.58508172e-04],
+             [ 1.57842660e+00],
+             [-9.58508172e-04],
+             [ 5.12519062e-01],
+             [ 5.17725408e-01],
+             [-5.52048571e-02],
+             [-9.58508172e-04],
+             [-3.10496055e-02],
+             [ 3.59770894e-01],
+             [ 8.05077255e-02],
+             [ 1.21304858e+00],
+             [ 1.74713719e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 2.16574207e-01],
+             [ 1.17360139e+00],
+             [-4.75306176e-02],
+             [ 4.00898308e-01],
+             [-1.12742849e-01],
+             [ 2.83119202e-01],
+             [-9.58508172e-04],
+             [ 3.15581274e+00],
+             [ 2.45394722e-01],
+             [ 5.26303768e-01],
+             [ 5.82113922e-01],
+             [-9.58508172e-04],
+             [ 1.65560460e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 1.34197697e-01],
+             [ 2.85542655e+00],
+             [ 2.10580516e+00],
+             [ 1.23970079e+00],
+             [ 1.26059330e+00],
+             [ 1.71865857e+00],
+             [-9.58508172e-04],
+             [ 2.72349739e+00],
+             [-9.58508172e-04],
+             [ 5.35831869e-01],
+             [-4.67675552e-02],
+             [ 6.16959214e-01],
+             [ 7.35738099e-01],
+             [ 1.25880384e+00],
+             [ 7.86045194e-01],
+             [ 1.98532951e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04],
+             [ 2.66943359e+00],
+             [-9.58508172e-04],
+             [-9.58508172e-04]], dtype=float32)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[570]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">all_loss</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">all_loss_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[570]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x7fb1b4507358&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_28_1.png" src="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_28_1.png" />
+</div>
+</div>
+<section id="Try-simple-linear-regression-with-Stax">
+<h2>Try simple linear regression with Stax<a class="headerlink" href="#Try-simple-linear-regression-with-Stax" title="Permalink to this headline">¶</a></h2>
+<p>To get to the bottom of Stax, I will use to predict <span class="math notranslate nohighlight">\(y=xcos(x)+sin(2x)\)</span></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[301]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">simple_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="mf">0.2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[302]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">simple_func</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[302]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0, 0.5, &#39;y&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_31_1.png" src="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_31_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[343]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">batch_size</span><span class="o">=</span><span class="mi">40</span>
+<span class="n">num_inputs</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">num_bands</span><span class="o">=</span><span class="mi">1</span>
+<span class="c1">#stax provides an intialising function and a function for doing a forward pass</span>
+<span class="n">init_fun</span><span class="p">,</span><span class="n">simple_emu</span> <span class="o">=</span> <span class="n">stax</span><span class="o">.</span><span class="n">serial</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">),</span><span class="n">LeakyRelu</span><span class="p">,</span>
+                                  <span class="n">Dense</span><span class="p">(</span><span class="mi">200</span><span class="p">),</span><span class="n">LeakyRelu</span><span class="p">,</span>
+                              <span class="n">Dense</span><span class="p">(</span><span class="n">num_bands</span><span class="p">))</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[344]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#function to get initial parameters of neural net</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">init_fun</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_inputs</span><span class="p">))</span>
+
+<span class="c1">## class for sed using the torch dataset class</span>
+<span class="k">class</span> <span class="nc">simple_data</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">=</span><span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">=</span><span class="n">y</span>
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[345]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,(</span><span class="mi">4000</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">train_y</span><span class="o">=</span><span class="n">simple_func</span><span class="p">(</span><span class="n">train_x</span><span class="p">)</span>
+<span class="n">test_x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,(</span><span class="mi">1000</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">test_y</span><span class="o">=</span><span class="n">simple_func</span><span class="p">(</span><span class="n">test_x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[346]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="c1">## use data in Simple dataclass</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">simple_data</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span><span class="n">train_y</span><span class="p">)</span>
+<span class="c1">## use torch DataLoader</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,)</span>
+<span class="c1">## do same but for test set</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">sed_data</span><span class="p">(</span><span class="n">test_x</span><span class="p">,</span><span class="n">test_y</span><span class="p">)</span>
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[347]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data_loader</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Compute the accuracy for the SED emulator&quot;&quot;&quot;</span>
+    <span class="n">acc_total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_loader</span><span class="p">):</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">predicted</span><span class="o">=</span><span class="n">simple_emu</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">acc_total</span> <span class="o">+=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">predicted</span> <span class="o">-</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">target</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">acc_total</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">images</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">simple_emu</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">images</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span> <span class="o">-</span> <span class="n">preds</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[348]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">run_simple_training_loop</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Implements a learning loop over epochs. &quot;&quot;&quot;</span>
+    <span class="c1"># Initialize placeholder for loggin</span>
+    <span class="n">log_acc_train</span><span class="p">,</span> <span class="n">log_acc_test</span><span class="p">,</span> <span class="n">train_loss</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+
+    <span class="c1"># Get the initial set of parameters</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span><span class="n">opt_state</span><span class="p">)</span>
+
+    <span class="c1"># Get initial accuracy after random init</span>
+    <span class="n">train_acc</span> <span class="o">=</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">)</span>
+    <span class="n">test_acc</span> <span class="o">=</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">)</span>
+    <span class="n">log_acc_train</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_acc</span><span class="p">)</span>
+    <span class="n">log_acc_test</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_acc</span><span class="p">)</span>
+
+    <span class="c1"># Loop over the training epochs</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">):</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">)</span>
+            <span class="n">train_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+
+        <span class="n">epoch_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+        <span class="n">train_acc</span> <span class="o">=</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">)</span>
+        <span class="n">test_acc</span> <span class="o">=</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">)</span>
+        <span class="n">log_acc_train</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_acc</span><span class="p">)</span>
+        <span class="n">log_acc_test</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_acc</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">epoch</span><span class="o">%</span><span class="k">50</span>==0:
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Epoch </span><span class="si">{}</span><span class="s2"> | T: </span><span class="si">{:0.2f}</span><span class="s2"> | Train A: </span><span class="si">{:0.3f}</span><span class="s2"> | Test A: </span><span class="si">{:0.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">epoch_time</span><span class="p">,</span>
+                                                                        <span class="n">train_acc</span><span class="p">,</span> <span class="n">test_acc</span><span class="p">,))</span>
+
+    <span class="k">return</span> <span class="n">train_loss</span><span class="p">,</span> <span class="n">log_acc_train</span><span class="p">,</span> <span class="n">log_acc_test</span><span class="p">,</span><span class="n">params</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[349]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#function to get initial parameters of neural net</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">init_fun</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_inputs</span><span class="p">))</span>
+<span class="n">step_size</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">opt_init</span><span class="p">,</span> <span class="n">opt_update</span><span class="p">,</span> <span class="n">get_params</span> <span class="o">=</span> <span class="n">optimizers</span><span class="o">.</span><span class="n">adam</span><span class="p">(</span><span class="n">step_size</span><span class="p">)</span>
+<span class="n">opt_state</span> <span class="o">=</span> <span class="n">opt_init</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">my_images</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">train_loss</span><span class="p">,</span> <span class="n">train_log</span><span class="p">,</span> <span class="n">test_log</span><span class="p">,</span><span class="n">params</span> <span class="o">=</span> <span class="n">run_simple_training_loop</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">,</span>
+                                                          <span class="n">opt_state</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[(Traced&lt;ShapedArray(float32[1,1])&gt;with&lt;DynamicJaxprTrace(level=0/1)&gt;, Traced&lt;ShapedArray(float32[1])&gt;with&lt;DynamicJaxprTrace(level=0/1)&gt;), (), (Traced&lt;ShapedArray(float32[1,200])&gt;with&lt;DynamicJaxprTrace(level=0/1)&gt;, Traced&lt;ShapedArray(float32[200])&gt;with&lt;DynamicJaxprTrace(level=0/1)&gt;), (), (Traced&lt;ShapedArray(float32[200,1])&gt;with&lt;DynamicJaxprTrace(level=0/1)&gt;, Traced&lt;ShapedArray(float32[1])&gt;with&lt;DynamicJaxprTrace(level=0/1)&gt;)]
+Epoch 1 | T: 0.87 | Train A: 0.527 | Test A: 0.509
+Epoch 51 | T: 0.21 | Train A: 0.508 | Test A: 0.498
+Epoch 101 | T: 0.25 | Train A: 0.502 | Test A: 0.500
+Epoch 151 | T: 0.25 | Train A: 0.503 | Test A: 0.504
+Epoch 201 | T: 0.18 | Train A: 0.503 | Test A: 0.500
+Epoch 251 | T: 0.27 | Train A: 0.503 | Test A: 0.500
+Epoch 301 | T: 0.22 | Train A: 0.503 | Test A: 0.501
+Epoch 351 | T: 0.27 | Train A: 0.503 | Test A: 0.500
+Epoch 401 | T: 0.22 | Train A: 0.504 | Test A: 0.501
+Epoch 451 | T: 0.23 | Train A: 0.503 | Test A: 0.500
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[339]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">train_loss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[339]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x7f811e3e2940&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_39_1.png" src="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_39_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[340]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">predicted</span><span class="o">=</span><span class="n">simple_emu</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">test_x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[341]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">test_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(1000, 1)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[342]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_x</span><span class="p">,</span><span class="n">predicted</span><span class="p">,</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_x</span><span class="p">,</span><span class="n">test_y</span><span class="p">,</span><span class="s1">&#39;ro&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[342]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x7f81233f6828&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_42_1.png" src="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_42_1.png" />
+</div>
+</div>
+</section>
+<section id="Retry-with-Eric-Jang’s-tutorial-on-meta-learning">
+<h2>Retry with <a class="reference external" href="https://blog.evjang.com/2019/02/maml-jax.html">Eric Jang’s tutorial on meta learning</a><a class="headerlink" href="#Retry-with-Eric-Jang’s-tutorial-on-meta-learning" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[350]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">grad</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[351]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">)(</span><span class="mf">1.</span><span class="p">))</span> <span class="c1"># = e^{1}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">))(</span><span class="mf">1.</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">)))(</span><span class="mf">1.</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">g</span><span class="p">)(</span><span class="mf">2.</span><span class="p">))</span> <span class="c1"># 2x = 4</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">g</span><span class="p">))(</span><span class="mf">2.</span><span class="p">))</span> <span class="c1"># x = 2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">g</span><span class="p">)))(</span><span class="mf">2.</span><span class="p">))</span> <span class="c1"># x = 0</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2.7182817
+2.7182817
+2.7182817
+4.0
+2.0
+0.0
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[353]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">vmap</span> <span class="c1"># for auto-vectorizing functions</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span> <span class="c1"># for use with vmap</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">jit</span> <span class="c1"># for compiling functions for speedup</span>
+<span class="kn">from</span> <span class="nn">jax.experimental</span> <span class="kn">import</span> <span class="n">stax</span> <span class="c1"># neural network library</span>
+<span class="kn">from</span> <span class="nn">jax.experimental.stax</span> <span class="kn">import</span> <span class="n">Conv</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">MaxPool</span><span class="p">,</span> <span class="n">Relu</span><span class="p">,</span> <span class="n">Flatten</span><span class="p">,</span> <span class="n">LogSoftmax</span> <span class="c1"># neural network layers</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> <span class="c1"># visualization</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[355]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use stax to set up network initialization and evaluation functions</span>
+<span class="n">net_init</span><span class="p">,</span> <span class="n">net_apply</span> <span class="o">=</span> <span class="n">stax</span><span class="o">.</span><span class="n">serial</span><span class="p">(</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">40</span><span class="p">),</span> <span class="n">Relu</span><span class="p">,</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">40</span><span class="p">),</span> <span class="n">Relu</span><span class="p">,</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">in_shape</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,)</span>
+<span class="n">out_shape</span><span class="p">,</span> <span class="n">net_params</span> <span class="o">=</span> <span class="n">net_init</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">in_shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[356]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="c1"># Computes average loss for the batch</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">net_apply</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">targets</span> <span class="o">-</span> <span class="n">predictions</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[357]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># batch the inference across K=100</span>
+<span class="n">xrange_inputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># (k, 1)</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xrange_inputs</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">vmap</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">net_apply</span><span class="p">,</span> <span class="n">net_params</span><span class="p">))(</span><span class="n">xrange_inputs</span><span class="p">)</span>
+<span class="n">losses</span> <span class="o">=</span> <span class="n">vmap</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">net_params</span><span class="p">))(</span><span class="n">xrange_inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span> <span class="c1"># per-input loss</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xrange_inputs</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;prediction&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xrange_inputs</span><span class="p">,</span> <span class="n">losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xrange_inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[357]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.legend.Legend at 0x7f811f500cf8&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_49_1.png" src="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_49_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[358]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">onp</span>
+<span class="kn">from</span> <span class="nn">jax.experimental</span> <span class="kn">import</span> <span class="n">optimizers</span>
+<span class="kn">from</span> <span class="nn">jax.tree_util</span> <span class="kn">import</span> <span class="n">tree_multimap</span>  <span class="c1"># Element-wise manipulation of collections of numpy arrays</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[364]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">opt_init</span><span class="p">,</span> <span class="n">opt_update</span><span class="p">,</span><span class="n">get_params</span> <span class="o">=</span> <span class="n">optimizers</span><span class="o">.</span><span class="n">adam</span><span class="p">(</span><span class="n">step_size</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">)</span>
+<span class="n">opt_state</span> <span class="o">=</span> <span class="n">opt_init</span><span class="p">(</span><span class="n">net_params</span><span class="p">)</span>
+<span class="c1"># Define a compiled update step</span>
+<span class="nd">@jit</span>
+<span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span><span class="n">opt_state</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">loss</span><span class="p">)(</span><span class="n">p</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+    <span class="n">loss_tmp</span><span class="o">=</span><span class="n">loss</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">opt_update</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">),</span><span class="n">loss_tmp</span>
+<span class="n">loss_all</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">opt_state</span><span class="p">,</span><span class="n">loss_tmp</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">xrange_inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+    <span class="n">loss_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_tmp</span><span class="p">)</span>
+<span class="n">net_params</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span><span class="n">opt_state</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[365]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#batch the inference across K=100</span>
+<span class="n">xrange_inputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># (k, 1)</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xrange_inputs</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">vmap</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">net_apply</span><span class="p">,</span> <span class="n">net_params</span><span class="p">))(</span><span class="n">xrange_inputs</span><span class="p">)</span>
+<span class="n">losses</span> <span class="o">=</span> <span class="n">vmap</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">net_params</span><span class="p">))(</span><span class="n">xrange_inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span> <span class="c1"># per-input loss</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xrange_inputs</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;prediction&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xrange_inputs</span><span class="p">,</span> <span class="n">losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xrange_inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[365]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.legend.Legend at 0x7f81366d8b38&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_52_1.png" src="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_52_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[366]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_all</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[366]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x7f8133029208&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_53_1.png" src="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_53_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">maml_loss</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">):</span>
+    <span class="n">p2</span> <span class="o">=</span> <span class="n">inner_update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">loss</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># vmapped version of maml loss.</span>
+<span class="c1"># returns scalar for all tasks.</span>
+<span class="k">def</span> <span class="nf">batch_maml_loss</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x1_b</span><span class="p">,</span> <span class="n">y1_b</span><span class="p">,</span> <span class="n">x2_b</span><span class="p">,</span> <span class="n">y2_b</span><span class="p">):</span>
+    <span class="n">task_losses</span> <span class="o">=</span> <span class="n">vmap</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">maml_loss</span><span class="p">,</span> <span class="n">p</span><span class="p">))(</span><span class="n">x1_b</span><span class="p">,</span> <span class="n">y1_b</span><span class="p">,</span> <span class="n">x2_b</span><span class="p">,</span> <span class="n">y2_b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">task_losses</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[372]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">batch_loss</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x_b</span><span class="p">,</span><span class="n">y_b</span><span class="p">):</span>
+    <span class="n">loss_b</span><span class="o">=</span><span class="n">vmap</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span><span class="n">p</span><span class="p">))(</span><span class="n">x_b</span><span class="p">,</span><span class="n">y_b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">loss_b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[373]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">onp</span>
+<span class="c1"># batch the inference across K=100</span>
+<span class="n">xrange_inputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># (k, 1)</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xrange_inputs</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">sample_batch</span><span class="p">(</span><span class="n">outer_batch_size</span><span class="p">,</span><span class="n">inner_batch_size</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_batch</span><span class="p">():</span>
+        <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="n">A</span><span class="o">=</span><span class="mi">1</span>
+        <span class="n">phase</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">outer_batch_size</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">onp</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mf">5.</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">5.</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">inner_batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">A</span> <span class="o">*</span> <span class="n">onp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">phase</span><span class="p">)</span>
+            <span class="n">xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">ys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">get_batch</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[377]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">opt_init</span><span class="p">,</span> <span class="n">opt_update</span><span class="p">,</span> <span class="n">get_params</span><span class="o">=</span> <span class="n">optimizers</span><span class="o">.</span><span class="n">adam</span><span class="p">(</span><span class="n">step_size</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+<span class="n">out_shape</span><span class="p">,</span> <span class="n">net_params</span> <span class="o">=</span> <span class="n">net_init</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">in_shape</span><span class="p">)</span>
+<span class="n">opt_state</span> <span class="o">=</span> <span class="n">opt_init</span><span class="p">(</span><span class="n">net_params</span><span class="p">)</span>
+
+<span class="nd">@jit</span>
+<span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span><span class="n">opt_state</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">batch_loss</span><span class="p">)(</span><span class="n">p</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+    <span class="n">loss_tmp</span><span class="o">=</span><span class="n">batch_loss</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">opt_update</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">),</span><span class="n">loss_tmp</span>
+
+<span class="n">np_batched_loss_1</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">K</span><span class="o">=</span><span class="mi">20</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20000</span><span class="p">):</span>
+    <span class="n">x1_b</span><span class="p">,</span> <span class="n">y1_b</span> <span class="o">=</span> <span class="n">sample_batch</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+    <span class="n">opt_state</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">x1_b</span><span class="p">,</span> <span class="n">y1_b</span><span class="p">)</span>
+    <span class="n">np_batched_loss_1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="n">net_params</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span><span class="n">opt_state</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0
+1000
+2000
+3000
+4000
+5000
+6000
+7000
+8000
+9000
+10000
+11000
+12000
+13000
+14000
+15000
+16000
+17000
+18000
+19000
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[379]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[379]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x7f8110a182e8&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_59_1.png" src="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_59_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[380]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#batch the inference across K=100</span>
+<span class="n">xrange_inputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># (k, 1)</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xrange_inputs</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">vmap</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">net_apply</span><span class="p">,</span> <span class="n">net_params</span><span class="p">))(</span><span class="n">xrange_inputs</span><span class="p">)</span>
+<span class="n">losses</span> <span class="o">=</span> <span class="n">vmap</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">net_params</span><span class="p">))(</span><span class="n">xrange_inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span> <span class="c1"># per-input loss</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xrange_inputs</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;prediction&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xrange_inputs</span><span class="p">,</span> <span class="n">losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xrange_inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[380]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.legend.Legend at 0x7f81125b06d8&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_60_1.png" src="../../../_images/notebooks_examples_SED_emulator_Greybody_emulator_60_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Peter Hurley.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

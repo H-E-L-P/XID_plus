@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The JAX emulator: CIGALE prototype &mdash; XID+ 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> XID+
+          </a>
+              <div class="version">
+                3.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">A Generative Probabilistic Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#docker">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hpc.html">Large Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../priors.html">Beyond Positional Priors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">XID+</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>The JAX emulator: CIGALE prototype</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/notebooks/examples/SED_emulator/JAX_CIGALE_emulator-LIR.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="The-JAX-emulator:-CIGALE-prototype">
+<h1>The JAX emulator: CIGALE prototype<a class="headerlink" href="#The-JAX-emulator:-CIGALE-prototype" title="Permalink to this headline">¶</a></h1>
+<p>In this notebook, I will prototype my idea for emulating radiative transfer codes with a Deepnet in order for it to be used inside xidplus. As <code class="docutils literal notranslate"><span class="pre">numpyro</span></code> uses JAX, the Deepnet wil ideally be trained with a JAX network. I will use CIGALE</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">WMAP9</span> <span class="k">as</span> <span class="n">cosmo</span>
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">onp</span>
+<span class="kn">import</span> <span class="nn">pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">import</span> <span class="nn">scipy.integrate</span> <span class="k">as</span> <span class="nn">integrate</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">grad</span><span class="p">,</span> <span class="n">jit</span><span class="p">,</span> <span class="n">vmap</span><span class="p">,</span> <span class="n">value_and_grad</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">random</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">vmap</span> <span class="c1"># for auto-vectorizing functions</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span> <span class="c1"># for use with vmap</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">jit</span> <span class="c1"># for compiling functions for speedup</span>
+<span class="kn">from</span> <span class="nn">jax.experimental</span> <span class="kn">import</span> <span class="n">stax</span> <span class="c1"># neural network library</span>
+<span class="kn">from</span> <span class="nn">jax.experimental.stax</span> <span class="kn">import</span> <span class="n">Conv</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">MaxPool</span><span class="p">,</span> <span class="n">Relu</span><span class="p">,</span> <span class="n">Flatten</span><span class="p">,</span> <span class="n">LogSoftmax</span><span class="p">,</span> <span class="n">LeakyRelu</span> <span class="c1"># neural network layers</span>
+
+<span class="kn">from</span> <span class="nn">jax.experimental</span> <span class="kn">import</span> <span class="n">optimizers</span>
+<span class="kn">from</span> <span class="nn">jax.tree_util</span> <span class="kn">import</span> <span class="n">tree_multimap</span>  <span class="c1"># Element-wise manipulation of collections of numpy arrays</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> <span class="c1"># visualization</span>
+<span class="c1"># Generate key which is used to generate random numbers</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="Read-in-CIGALE-SEDs">
+<h2>Read in CIGALE SEDs<a class="headerlink" href="#Read-in-CIGALE-SEDs" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">from</span> <span class="nn">astropy.table</span> <span class="kn">import</span> <span class="n">Table</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/dask/config.py:168: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  data = yaml.load(f.read()) or {}
+</pre></div></div>
+</div>
+</section>
+<section id="Generate-values-for-CIGALE">
+<h2>Generate values for CIGALE<a class="headerlink" href="#Generate-values-for-CIGALE" title="Permalink to this headline">¶</a></h2>
+<p>Redshift</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">onp</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="mf">10.0</span><span class="o">**</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">0.77</span><span class="p">,</span><span class="mf">0.02</span><span class="p">),</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="n">formatter</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;float_kind&#39;</span><span class="p">:</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span><span class="p">})</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;[0.0032,0.0033,0.0035,0.0036,0.0038,0.0040,0.0042,0.0044,0.0046,0.0048, 0.0050,0.0052,0.0055,0.0058,0.0060,0.0063,0.0066,0.0069,0.0072,0.0076, 0.0079,0.0083,0.0087,0.0091,0.0095,0.0100,0.0105,0.0110,0.0115,0.0120, 0.0126,0.0132,0.0138,0.0145,0.0151,0.0158,0.0166,0.0174,0.0182,0.0191, 0.0200,0.0209,0.0219,0.0229,0.0240,0.0251,0.0263,0.0275,0.0288,0.0302, 0.0316,0.0331,0.0347,0.0363,0.0380,0.0398,0.0417,0.0437,0.0457,0.0479, 0.0501,0.0525,0.0550,0.0575,0.0603,0.0631,0.0661,0.0692,0.0724,0.0759, 0.0794,0.0832,0.0871,0.0912,0.0955,0.1000,0.1047,0.1096,0.1148,0.1202, 0.1259,0.1318,0.1380,0.1445,0.1514,0.1585,0.1660,0.1738,0.1820,0.1905, 0.1995,0.2089,0.2188,0.2291,0.2399,0.2512,0.2630,0.2754,0.2884,0.3020, 0.3162,0.3311,0.3467,0.3631,0.3802,0.3981,0.4169,0.4365,0.4571,0.4786, 0.5012,0.5248,0.5495,0.5754,0.6026,0.6310,0.6607,0.6918,0.7244,0.7586, 0.7943,0.8318,0.8710,0.9120,0.9550,1.0000,1.0471,1.0965,1.1481,1.2023, 1.2589,1.3182,1.3804,1.4454,1.5136,1.5849,1.6596,1.7378,1.8197,1.9054, 1.9953,2.0893,2.1877,2.2909,2.3988,2.5119,2.6303,2.7542,2.8840,3.0199, 3.1623,3.3113,3.4673,3.6308,3.8019,3.9810,4.1687,4.3651,4.5709,4.7863, 5.0118,5.2480,5.4954,5.7544]&#39;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">onp</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span><span class="n">separator</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="n">formatter</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;float_kind&#39;</span><span class="p">:</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span><span class="p">})</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;[0.001,0.101,0.201,0.301,0.401,0.501,0.601,0.701,0.801,0.901,1.001,1.101, 1.201,1.301,1.401,1.501,1.601,1.701,1.801,1.901,2.001,2.101,2.201,2.301, 2.401,2.501,2.601,2.701,2.801,2.901,3.001,3.101,3.201,3.301,3.401,3.501, 3.601,3.701,3.801,3.901]&#39;
+</pre></div></div>
+</div>
+<p>AGN frac</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">onp</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.05</span><span class="p">),</span><span class="n">separator</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="n">formatter</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;float_kind&#39;</span><span class="p">:</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span><span class="p">})</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;[0.001,0.051,0.101,0.151,0.201,0.251,0.301,0.351,0.401,0.451,0.501,0.551, 0.601,0.651,0.701,0.751,0.801,0.851,0.901,0.951]&#39;
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SEDs</span><span class="o">=</span><span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;/Volumes/pdh_storage/cigale/out/models-block-0.fits&#39;</span><span class="p">)</span>
+<span class="c1">#set more appropriate units for dust</span>
+<span class="kn">from</span> <span class="nn">astropy.constants</span> <span class="kn">import</span> <span class="n">L_sun</span><span class="p">,</span> <span class="n">M_sun</span>
+<span class="n">SEDs</span><span class="p">[</span><span class="s1">&#39;dust.luminosity&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">SEDs</span><span class="p">[</span><span class="s1">&#39;dust.luminosity&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">L_sun</span><span class="o">.</span><span class="n">value</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">WMAP9</span> <span class="k">as</span> <span class="n">cosmo</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SEDs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">cosmo</span><span class="o">.</span><span class="n">age</span><span class="p">(</span><span class="n">SEDs</span><span class="p">[</span><span class="s1">&#39;universe.redshift&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SEDs</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<i>Table length=78078</i>
+<table id="table140579038140512" class="table-striped table-bordered table-condensed">
+<thead><tr><th>id</th><th>spire_250</th><th>spire_350</th><th>spire_500</th><th>dust.luminosity</th><th>sfh.sfr</th><th>stellar.m_star</th><th>agn.fracAGN</th><th>attenuation.Av_BC</th><th>dust.alpha</th><th>sfh.age_main</th><th>sfh.tau_main</th><th>universe.redshift</th><th>age</th></tr></thead>
+<thead><tr><th></th><th>mJy</th><th>mJy</th><th>mJy</th><th>W</th><th>solMass / yr</th><th>solMass</th><th></th><th>mag</th><th></th><th>Myr</th><th>Myr</th><th></th><th>Gyr</th></tr></thead>
+<thead><tr><th>int64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th></tr></thead>
+<tr><td>0</td><td>2.483569390216447e-05</td><td>1.0593748007021323e-05</td><td>3.592925955555265e-06</td><td>17.528194564703544</td><td>2.7883022290174163e-09</td><td>0.8242083379958213</td><td>0.001</td><td>2.0</td><td>2.0</td><td>500.0</td><td>500.0</td><td>0.0032</td><td>13.723864637701897</td></tr>
+<tr><td>1</td><td>1.5914414028313326e-05</td><td>6.792110620273684e-06</td><td>2.3045404893406092e-06</td><td>17.528194564703544</td><td>2.7883022290174163e-09</td><td>0.8242083379958213</td><td>0.001</td><td>2.0</td><td>2.0</td><td>500.0</td><td>500.0</td><td>0.004</td><td>13.712638151638188</td></tr>
+<tr><td>2</td><td>1.0200878494009736e-05</td><td>4.356654595212937e-06</td><td>1.4789651704929802e-06</td><td>17.528194564703544</td><td>2.7883022290174163e-09</td><td>0.8242083379958213</td><td>0.001</td><td>2.0</td><td>2.0</td><td>500.0</td><td>500.0</td><td>0.005</td><td>13.698623065653468</td></tr>
+<tr><td>3</td><td>6.438172984246985e-06</td><td>2.752126692864912e-06</td><td>9.349012027266638e-07</td><td>17.528194564703544</td><td>2.7883022290174163e-09</td><td>0.8242083379958213</td><td>0.001</td><td>2.0</td><td>2.0</td><td>500.0</td><td>500.0</td><td>0.0063</td><td>13.680433334722181</td></tr>
+<tr><td>4</td><td>4.104420781163532e-06</td><td>1.7564606198599434e-06</td><td>5.971685095321366e-07</td><td>17.528194564703544</td><td>2.7883022290174163e-09</td><td>0.8242083379958213</td><td>0.001</td><td>2.0</td><td>2.0</td><td>500.0</td><td>500.0</td><td>0.0079</td><td>13.65809223674737</td></tr>
+<tr><td>5</td><td>2.5697806399122347e-06</td><td>1.1013170924323035e-06</td><td>3.748324309221219e-07</td><td>17.528194564703544</td><td>2.7883022290174163e-09</td><td>0.8242083379958213</td><td>0.001</td><td>2.0</td><td>2.0</td><td>500.0</td><td>500.0</td><td>0.01</td><td>13.628846787427767</td></tr>
+<tr><td>6</td><td>1.6250614701486728e-06</td><td>6.97689325791634e-07</td><td>2.3777982538983434e-07</td><td>17.528194564703544</td><td>2.7883022290174163e-09</td><td>0.8242083379958213</td><td>0.001</td><td>2.0</td><td>2.0</td><td>500.0</td><td>500.0</td><td>0.0126</td><td>13.592759163364258</td></tr>
+<tr><td>7</td><td>1.0384749600401003e-06</td><td>4.4682912036065384e-07</td><td>1.5253884444343589e-07</td><td>17.528194564703544</td><td>2.7883022290174163e-09</td><td>0.8242083379958213</td><td>0.001</td><td>2.0</td><td>2.0</td><td>500.0</td><td>500.0</td><td>0.0158</td><td>13.548526589613978</td></tr>
+<tr><td>8</td><td>6.522093890374468e-07</td><td>2.8143698723106385e-07</td><td>9.628642491354726e-08</td><td>17.528194564703544</td><td>2.7883022290174163e-09</td><td>0.8242083379958213</td><td>0.001</td><td>2.0</td><td>2.0</td><td>500.0</td><td>500.0</td><td>0.02</td><td>13.490775921460315</td></tr>
+<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+<tr><td>78068</td><td>1.2707730185931123e-10</td><td>7.99560442522587e-11</td><td>3.6525996712531594e-11</td><td>1.9185955911153239</td><td>2.142092765182828e-10</td><td>0.7357661283759438</td><td>0.976</td><td>2.0</td><td>2.0</td><td>6500.0</td><td>6500.0</td><td>0.631</td><td>7.778913954543725</td></tr>
+<tr><td>78069</td><td>8.564210737875827e-11</td><td>5.845536034952961e-11</td><td>2.8943480212944228e-11</td><td>1.9185955911153239</td><td>2.142092765182828e-10</td><td>0.7357661283759438</td><td>0.976</td><td>2.0</td><td>2.0</td><td>6500.0</td><td>6500.0</td><td>0.7943</td><td>6.86064543273556</td></tr>
+<tr><td>78070</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr>
+<tr><td>78071</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr>
+<tr><td>78072</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr>
+<tr><td>78073</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr>
+<tr><td>78074</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr>
+<tr><td>78075</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr>
+<tr><td>78076</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr>
+<tr><td>78077</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">SEDs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">],</span><span class="n">SEDs</span><span class="p">[</span><span class="s1">&#39;sfh.age_main&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">,</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;age_main&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0, 0.5, &#39;age_main&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_JAX_CIGALE_emulator-LIR_14_1.png" src="../../../_images/notebooks_examples_SED_emulator_JAX_CIGALE_emulator-LIR_14_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SEDs</span><span class="o">=</span><span class="n">SEDs</span><span class="p">[</span><span class="n">SEDs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="n">SEDs</span><span class="p">[</span><span class="s1">&#39;sfh.age_main&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">astropy.table</span> <span class="kn">import</span> <span class="n">vstack</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define a range of scales</span>
+<span class="n">scale</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="c1">#repeat the SED table by the number of scale steps</span>
+<span class="n">dataset</span><span class="o">=</span><span class="n">vstack</span><span class="p">([</span><span class="n">SEDs</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">scale</span><span class="o">.</span><span class="n">size</span><span class="p">)])</span>
+<span class="c1">#repeat the scale range by the number of entries in table (so I can easily multiply each column)</span>
+<span class="n">scale_table</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">scale</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">SEDs</span><span class="p">))</span>
+<span class="c1">#parameters to scale</span>
+<span class="n">col_scale</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;spire_250&#39;</span><span class="p">,</span><span class="s1">&#39;spire_350&#39;</span><span class="p">,</span><span class="s1">&#39;spire_500&#39;</span><span class="p">,</span><span class="s1">&#39;dust.luminosity&#39;</span><span class="p">,</span><span class="s1">&#39;sfh.sfr&#39;</span><span class="p">,</span><span class="s1">&#39;stellar.m_star&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">col_scale</span><span class="p">:</span>
+    <span class="n">dataset</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">=</span><span class="n">dataset</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">*</span><span class="mf">10.0</span><span class="o">**</span><span class="n">scale_table</span>
+<span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;log10_sfh.sfr&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">onp</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;sfh.sfr&#39;</span><span class="p">])</span>
+<span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;log10_universe.redshift&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">onp</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;universe.redshift&#39;</span><span class="p">])</span>
+<span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;log10_dust.luminosity&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">onp</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;dust.luminosity&#39;</span><span class="p">])</span>
+<span class="c1"># transform AGN fraction to logit scale</span>
+<span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;logit_agnfrac&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">onp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;agn.fracAGN&#39;</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;agn.fracAGN&#39;</span><span class="p">]))</span>
+<span class="c1">#shuffle dataset</span>
+<span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">[</span><span class="n">onp</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<i>Table length=4073160</i>
+<table id="table140579094925096" class="table-striped table-bordered table-condensed">
+<thead><tr><th>id</th><th>spire_250</th><th>spire_350</th><th>spire_500</th><th>dust.luminosity</th><th>sfh.sfr</th><th>stellar.m_star</th><th>agn.fracAGN</th><th>attenuation.Av_BC</th><th>dust.alpha</th><th>sfh.age_main</th><th>sfh.tau_main</th><th>universe.redshift</th><th>age</th><th>log10_sfh.sfr</th><th>log10_universe.redshift</th><th>log10_dust.luminosity</th><th>logit_agnfrac</th></tr></thead>
+<thead><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th>mag</th><th></th><th>Myr</th><th>Myr</th><th></th><th>Gyr</th><th></th><th></th><th></th><th></th></tr></thead>
+<thead><tr><th>int64</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float32</th><th>float64</th><th>float32</th><th>float64</th></tr></thead>
+<tr><td>6183</td><td>629.08325</td><td>276.98486</td><td>96.2432</td><td>101488525000.0</td><td>16.861614</td><td>4151344400.0</td><td>0.376</td><td>2.0</td><td>2.0</td><td>500.0</td><td>1000.0</td><td>0.0501</td><td>13.086795073751802</td><td>1.2268991</td><td>-1.3001622741327543</td><td>11.006417</td><td>-0.5065612249795332</td></tr>
+<tr><td>62330</td><td>219.22636</td><td>198.20009</td><td>122.93513</td><td>12807676000000.0</td><td>1717.1844</td><td>1939714500000.0</td><td>0.901</td><td>2.0</td><td>2.0</td><td>2500.0</td><td>5500.0</td><td>1.2589</td><td>4.999581495754065</td><td>3.234817</td><td>0.0999912335446844</td><td>13.1074705</td><td>2.2083854074737483</td></tr>
+<tr><td>7533</td><td>1148081.5</td><td>497103.3</td><td>170525.81</td><td>48214397000000.0</td><td>5741.091</td><td>9672386000000.0</td><td>0.301</td><td>2.0</td><td>2.0</td><td>2000.0</td><td>1000.0</td><td>0.0251</td><td>13.421111522903503</td><td>3.7589943</td><td>-1.6003262785189618</td><td>13.683177</td><td>-0.8425404774849347</td></tr>
+<tr><td>4106</td><td>8137.792</td><td>3646.94</td><td>1285.8159</td><td>3145446000000.0</td><td>17.699045</td><td>5674899000000.0</td><td>0.901</td><td>2.0</td><td>2.0</td><td>4500.0</td><td>500.0</td><td>0.0794</td><td>12.709636707074642</td><td>1.2479498</td><td>-1.1001794975729038</td><td>12.497683</td><td>2.2083854074737483</td></tr>
+<tr><td>12559</td><td>26.02795</td><td>13.206891</td><td>5.044233</td><td>83940080000.0</td><td>12.566458</td><td>6378414000.0</td><td>0.151</td><td>2.0</td><td>2.0</td><td>1000.0</td><td>1500.0</td><td>0.2512</td><td>10.77926856875124</td><td>1.0992129</td><td>-0.5999803649348415</td><td>10.923969</td><td>-1.726779349496423</td></tr>
+<tr><td>40673</td><td>52440.312</td><td>24855.805</td><td>9092.859</td><td>73803470000000.0</td><td>7974.1294</td><td>29334499000000.0</td><td>0.001</td><td>2.0</td><td>2.0</td><td>5500.0</td><td>3500.0</td><td>0.1585</td><td>11.76472753278671</td><td>3.9016833</td><td>-0.7999707334462297</td><td>13.868076</td><td>-6.906754778648554</td></tr>
+<tr><td>1810</td><td>1.2106247</td><td>1.4278586</td><td>1.1903943</td><td>195976840000.0</td><td>16.155579</td><td>75519540000.0</td><td>0.901</td><td>2.0</td><td>2.0</td><td>2000.0</td><td>500.0</td><td>1.9953</td><td>3.3343983346367896</td><td>1.2083225</td><td>0.30000820255381305</td><td>11.292205</td><td>2.2083854074737483</td></tr>
+<tr><td>11752</td><td>22924.414</td><td>9809.195</td><td>3335.0715</td><td>97843020000.0</td><td>2.4848874</td><td>178071370000.0</td><td>0.451</td><td>2.0</td><td>2.0</td><td>6500.0</td><td>1000.0</td><td>0.0079</td><td>13.65809223674737</td><td>0.3953067</td><td>-2.1023729087095586</td><td>10.99053</td><td>-0.19663110200685208</td></tr>
+<tr><td>42160</td><td>55.24763</td><td>28.032192</td><td>10.706522</td><td>178153600000.0</td><td>30.468765</td><td>6604001000.0</td><td>0.226</td><td>2.0</td><td>2.0</td><td>500.0</td><td>4000.0</td><td>0.2512</td><td>10.77926856875124</td><td>1.4838549</td><td>-0.5999803649348415</td><td>11.250794</td><td>-1.2310368743174411</td></tr>
+<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+<tr><td>33675</td><td>277206.75</td><td>125908.3</td><td>44830.816</td><td>165353840000000.0</td><td>19208.326</td><td>47253243000000.0</td><td>0.901</td><td>2.0</td><td>2.0</td><td>4000.0</td><td>3000.0</td><td>0.1</td><td>12.45354201347718</td><td>4.2834897</td><td>-1.0</td><td>14.218414</td><td>2.2083854074737483</td></tr>
+<tr><td>77507</td><td>0.20706932</td><td>0.13447303</td><td>0.062008087</td><td>3330932700.0</td><td>0.37899053</td><td>1170958700.0</td><td>0.751</td><td>2.0</td><td>2.0</td><td>6000.0</td><td>6500.0</td><td>0.631</td><td>7.778913954543725</td><td>-0.42137164</td><td>-0.19997064075586568</td><td>9.522566</td><td>1.1039527552994273</td></tr>
+<tr><td>19094</td><td>150.2377</td><td>79.654816</td><td>31.497305</td><td>726610100000.0</td><td>102.217705</td><td>78834070000.0</td><td>0.301</td><td>2.0</td><td>2.0</td><td>1500.0</td><td>2000.0</td><td>0.3162</td><td>10.157315361930312</td><td>2.009526</td><td>-0.5000381344038097</td><td>11.861301</td><td>-0.8425404774849347</td></tr>
+<tr><td>50067</td><td>3649458.0</td><td>1566686.5</td><td>533954.44</td><td>39346736000000.0</td><td>5235.2554</td><td>6127537000000.0</td><td>0.376</td><td>2.0</td><td>2.0</td><td>2500.0</td><td>4500.0</td><td>0.0126</td><td>13.592759163364258</td><td>3.7189379</td><td>-1.899629454882437</td><td>13.594909</td><td>-0.5065612249795332</td></tr>
+<tr><td>29644</td><td>2.7660642</td><td>1.2029994</td><td>0.41406193</td><td>182393890.0</td><td>0.016715616</td><td>114889980.0</td><td>0.151</td><td>2.0</td><td>2.0</td><td>6500.0</td><td>2500.0</td><td>0.0316</td><td>13.333050317983625</td><td>-1.7768776</td><td>-1.5003129173815961</td><td>8.26101</td><td>-1.726779349496423</td></tr>
+<tr><td>68148</td><td>3780146.2</td><td>1615643.1</td><td>548859.44</td><td>10283501000000.0</td><td>1382.626</td><td>1541371900000.0</td><td>0.526</td><td>2.0</td><td>2.0</td><td>2500.0</td><td>6000.0</td><td>0.0063</td><td>13.680433334722181</td><td>3.1407046</td><td>-2.2006594505464183</td><td>13.012141</td><td>0.10409389104263336</td></tr>
+<tr><td>47074</td><td>2.1547182</td><td>0.9957947</td><td>0.35885814</td><td>1971839600.0</td><td>0.21759313</td><td>738238800.0</td><td>0.901</td><td>2.0</td><td>2.0</td><td>5500.0</td><td>4000.0</td><td>0.1259</td><td>12.141745468542592</td><td>-0.6623548</td><td>-0.8999742698921374</td><td>9.294871</td><td>2.2083854074737483</td></tr>
+<tr><td>3006</td><td>43.465538</td><td>18.577272</td><td>6.3109913</td><td>118243560.0</td><td>0.0025703665</td><td>144646350.0</td><td>0.526</td><td>2.0</td><td>2.0</td><td>3500.0</td><td>500.0</td><td>0.0063</td><td>13.680433334722181</td><td>-2.590005</td><td>-2.2006594505464183</td><td>8.072778</td><td>0.10409389104263336</td></tr>
+<tr><td>49079</td><td>242.17828</td><td>104.4985</td><td>35.751797</td><td>6507199500.0</td><td>0.9449148</td><td>628755650.0</td><td>0.226</td><td>2.0</td><td>2.0</td><td>1500.0</td><td>4500.0</td><td>0.02</td><td>13.490775921460315</td><td>-0.02460734</td><td>-1.6989700043360187</td><td>9.813395</td><td>-1.2310368743174411</td></tr>
+<tr><td>7749</td><td>151.53848</td><td>163.58595</td><td>116.46215</td><td>15246664000000.0</td><td>1815.4844</td><td>3058663700000.0</td><td>0.751</td><td>2.0</td><td>2.0</td><td>2000.0</td><td>1000.0</td><td>1.5849</td><td>4.127201679252431</td><td>3.2589924</td><td>0.20000186540660178</td><td>13.183175</td><td>1.1039527552994273</td></tr>
+</table></div>
+</div>
+<section id="DeepNet-building">
+<h3>DeepNet building<a class="headerlink" href="#DeepNet-building" title="Permalink to this headline">¶</a></h3>
+<p>I will build a multi input, multi output deepnet model as my emulator, with parameters as input and the observed flux as outputs. I will train on log10 flux to make the model easier to train, and have already standarised the input parameters. I wilkl be using <code class="docutils literal notranslate"><span class="pre">stax</span></code> which can be thought of as the <code class="docutils literal notranslate"><span class="pre">Keras</span></code> equivalent for <code class="docutils literal notranslate"><span class="pre">JAX</span></code>. This <a class="reference external" href="https://blog.evjang.com/2019/02/maml-jax.html">blog</a> was useful starting point.</p>
+<p>I will use batches to help train the network</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_cols</span><span class="p">),</span><span class="n">inner_batch_size</span><span class="p">,</span><span class="n">onp</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">)</span><span class="o">/</span><span class="n">inner_batch_size</span><span class="p">),</span><span class="mi">120</span><span class="o">*</span><span class="mi">25457</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+4 120 25457.0 3054840 3054870
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mf">0.75</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+3054870.0
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">split</span><span class="o">=</span><span class="mf">0.75</span>
+<span class="n">inner_batch_size</span><span class="o">=</span><span class="mi">1200</span>
+
+<span class="n">train_ind</span><span class="o">=</span><span class="n">onp</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mf">0.75</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">train</span><span class="o">=</span><span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">train_ind</span><span class="p">]</span>
+<span class="n">validation</span><span class="o">=</span><span class="n">dataset</span><span class="p">[</span><span class="n">train_ind</span><span class="p">:]</span>
+<span class="n">input_cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;log10_dust.luminosity&#39;</span><span class="p">,</span><span class="s1">&#39;agn.fracAGN&#39;</span><span class="p">,</span><span class="s1">&#39;universe.redshift&#39;</span><span class="p">,</span><span class="s1">&#39;sfh.age_main&#39;</span><span class="p">]</span>
+<span class="n">output_cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;spire_250&#39;</span><span class="p">,</span><span class="s1">&#39;spire_350&#39;</span><span class="p">,</span><span class="s1">&#39;spire_500&#39;</span><span class="p">]</span>
+<span class="n">train_batch_X</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">i</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">train</span><span class="p">[</span><span class="n">input_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_cols</span><span class="p">)</span>
+                                                                               <span class="p">,</span><span class="n">inner_batch_size</span><span class="p">,</span><span class="n">onp</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">)</span><span class="o">/</span><span class="n">inner_batch_size</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">train_batch_Y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">train</span><span class="p">[</span><span class="n">output_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">output_cols</span><span class="p">),</span>
+                                                                                          <span class="n">inner_batch_size</span><span class="p">,</span><span class="n">onp</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">)</span><span class="o">/</span><span class="n">inner_batch_size</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">validation_batch_X</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">i</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">validation</span><span class="p">[</span><span class="n">input_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_cols</span><span class="p">)</span>
+                                                                               <span class="p">,</span><span class="n">inner_batch_size</span><span class="p">,</span><span class="n">onp</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">validation</span><span class="p">)</span><span class="o">/</span><span class="n">inner_batch_size</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">validation_batch_Y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">validation</span><span class="p">[</span><span class="n">output_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">output_cols</span><span class="p">),</span>
+                                                                                          <span class="n">inner_batch_size</span><span class="p">,</span><span class="n">onp</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">validation</span><span class="p">)</span><span class="o">/</span><span class="n">inner_batch_size</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-52-4da904723d65&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      8</span> output_cols<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;spire_250&#39;</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">&#39;spire_350&#39;</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">&#39;spire_500&#39;</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">      9</span> train_batch_X=np.asarray([i.data for i in train[input_cols].values()]).reshape(len(input_cols)
+<span class="ansi-green-fg">---&gt; 10</span><span class="ansi-red-fg">                                                                                ,inner_batch_size,onp.round(len(train)/inner_batch_size).astype(int)).T.astype(float)
+</span><span class="ansi-green-intense-fg ansi-bold">     11</span> train_batch_Y=np.asarray([np.log(i.data) for i in train[output_cols].values()]).reshape(len(output_cols),
+<span class="ansi-green-intense-fg ansi-bold">     12</span>                                                                                           inner_batch_size,onp.round(len(train)/inner_batch_size).astype(int)).T.astype(float)
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/_src/numpy/lax_numpy.py</span> in <span class="ansi-cyan-fg">_reshape</span><span class="ansi-blue-fg">(a, order, *args)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1292</span>   newshape <span class="ansi-blue-fg">=</span> _compute_newshape<span class="ansi-blue-fg">(</span>a<span class="ansi-blue-fg">,</span> args<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span> <span class="ansi-green-fg">if</span> len<span class="ansi-blue-fg">(</span>args<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">==</span> <span class="ansi-cyan-fg">1</span> <span class="ansi-green-fg">else</span> args<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1293</span>   <span class="ansi-green-fg">if</span> order <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;C&#34;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 1294</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> lax<span class="ansi-blue-fg">.</span>reshape<span class="ansi-blue-fg">(</span>a<span class="ansi-blue-fg">,</span> newshape<span class="ansi-blue-fg">,</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1295</span>   <span class="ansi-green-fg">elif</span> order <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;F&#34;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1296</span>     dims <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>arange<span class="ansi-blue-fg">(</span>ndim<span class="ansi-blue-fg">(</span>a<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">]</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/_src/lax/lax.py</span> in <span class="ansi-cyan-fg">reshape</span><span class="ansi-blue-fg">(operand, new_sizes, dimensions)</span>
+<span class="ansi-green-intense-fg ansi-bold">    732</span>     return reshape_p.bind(
+<span class="ansi-green-intense-fg ansi-bold">    733</span>       operand<span class="ansi-blue-fg">,</span> new_sizes<span class="ansi-blue-fg">=</span>new_sizes<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-fg">--&gt; 734</span><span class="ansi-red-fg">       dimensions=None if dimensions is None or same_dims else tuple(dimensions))
+</span><span class="ansi-green-intense-fg ansi-bold">    735</span>
+<span class="ansi-green-intense-fg ansi-bold">    736</span> def pad(operand: Array, padding_value: Array,
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/core.py</span> in <span class="ansi-cyan-fg">bind</span><span class="ansi-blue-fg">(self, *args, **params)</span>
+<span class="ansi-green-intense-fg ansi-bold">    282</span>     top_trace <span class="ansi-blue-fg">=</span> find_top_trace<span class="ansi-blue-fg">(</span>args<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    283</span>     tracers <span class="ansi-blue-fg">=</span> map<span class="ansi-blue-fg">(</span>top_trace<span class="ansi-blue-fg">.</span>full_raise<span class="ansi-blue-fg">,</span> args<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 284</span><span class="ansi-red-fg">     </span>out <span class="ansi-blue-fg">=</span> top_trace<span class="ansi-blue-fg">.</span>process_primitive<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> tracers<span class="ansi-blue-fg">,</span> params<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    285</span>     <span class="ansi-green-fg">return</span> map<span class="ansi-blue-fg">(</span>full_lower<span class="ansi-blue-fg">,</span> out<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">if</span> self<span class="ansi-blue-fg">.</span>multiple_results <span class="ansi-green-fg">else</span> full_lower<span class="ansi-blue-fg">(</span>out<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    286</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/core.py</span> in <span class="ansi-cyan-fg">process_primitive</span><span class="ansi-blue-fg">(self, primitive, tracers, params)</span>
+<span class="ansi-green-intense-fg ansi-bold">    620</span>
+<span class="ansi-green-intense-fg ansi-bold">    621</span>   <span class="ansi-green-fg">def</span> process_primitive<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> primitive<span class="ansi-blue-fg">,</span> tracers<span class="ansi-blue-fg">,</span> params<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 622</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> primitive<span class="ansi-blue-fg">.</span>impl<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>tracers<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>params<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    623</span>
+<span class="ansi-green-intense-fg ansi-bold">    624</span>   <span class="ansi-green-fg">def</span> process_call<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> primitive<span class="ansi-blue-fg">,</span> f<span class="ansi-blue-fg">,</span> tracers<span class="ansi-blue-fg">,</span> params<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/_src/lax/lax.py</span> in <span class="ansi-cyan-fg">_reshape_impl</span><span class="ansi-blue-fg">(operand, new_sizes, dimensions)</span>
+<span class="ansi-green-intense-fg ansi-bold">   3634</span>       <span class="ansi-green-fg">return</span> xla<span class="ansi-blue-fg">.</span>_DeviceArray<span class="ansi-blue-fg">(</span>aval<span class="ansi-blue-fg">,</span> operand<span class="ansi-blue-fg">.</span>_device<span class="ansi-blue-fg">,</span> lazy_expr<span class="ansi-blue-fg">,</span> operand<span class="ansi-blue-fg">.</span>device_buffer<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   3635</span>   return xla.apply_primitive(reshape_p, operand, new_sizes=new_sizes,
+<span class="ansi-green-fg">-&gt; 3636</span><span class="ansi-red-fg">                              dimensions=dimensions)
+</span><span class="ansi-green-intense-fg ansi-bold">   3637</span>
+<span class="ansi-green-intense-fg ansi-bold">   3638</span> <span class="ansi-green-fg">def</span> _is_singleton_reshape<span class="ansi-blue-fg">(</span>old<span class="ansi-blue-fg">,</span> new<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/interpreters/xla.py</span> in <span class="ansi-cyan-fg">apply_primitive</span><span class="ansi-blue-fg">(prim, *args, **params)</span>
+<span class="ansi-green-intense-fg ansi-bold">    239</span> <span class="ansi-green-fg">def</span> apply_primitive<span class="ansi-blue-fg">(</span>prim<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>params<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    240</span>   <span class="ansi-blue-fg">&#34;&#34;&#34;Impl rule that compiles and runs a single primitive &#39;prim&#39; using XLA.&#34;&#34;&#34;</span>
+<span class="ansi-green-fg">--&gt; 241</span><span class="ansi-red-fg">   </span>compiled_fun <span class="ansi-blue-fg">=</span> xla_primitive_callable<span class="ansi-blue-fg">(</span>prim<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>unsafe_map<span class="ansi-blue-fg">(</span>arg_spec<span class="ansi-blue-fg">,</span> args<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>params<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    242</span>   <span class="ansi-green-fg">return</span> compiled_fun<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    243</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/_src/util.py</span> in <span class="ansi-cyan-fg">wrapper</span><span class="ansi-blue-fg">(*args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    196</span>         <span class="ansi-green-fg">return</span> f<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    197</span>       <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 198</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> cached<span class="ansi-blue-fg">(</span>bool<span class="ansi-blue-fg">(</span>config<span class="ansi-blue-fg">.</span>x64_enabled<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    199</span>
+<span class="ansi-green-intense-fg ansi-bold">    200</span>     wrapper<span class="ansi-blue-fg">.</span>cache_clear <span class="ansi-blue-fg">=</span> cached<span class="ansi-blue-fg">.</span>cache_clear
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/_src/util.py</span> in <span class="ansi-cyan-fg">cached</span><span class="ansi-blue-fg">(_, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    189</span>     <span class="ansi-blue-fg">@</span>functools<span class="ansi-blue-fg">.</span>lru_cache<span class="ansi-blue-fg">(</span>max_size<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    190</span>     <span class="ansi-green-fg">def</span> cached<span class="ansi-blue-fg">(</span>_<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 191</span><span class="ansi-red-fg">       </span><span class="ansi-green-fg">return</span> f<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    192</span>
+<span class="ansi-green-intense-fg ansi-bold">    193</span>     <span class="ansi-blue-fg">@</span>functools<span class="ansi-blue-fg">.</span>wraps<span class="ansi-blue-fg">(</span>f<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/interpreters/xla.py</span> in <span class="ansi-cyan-fg">xla_primitive_callable</span><span class="ansi-blue-fg">(prim, *arg_specs, **params)</span>
+<span class="ansi-green-intense-fg ansi-bold">    264</span>     return _xla_callable(lu.wrap_init(prim_fun), device, None, &#34;prim&#34;, donated_invars,
+<span class="ansi-green-intense-fg ansi-bold">    265</span>                          *arg_specs)
+<span class="ansi-green-fg">--&gt; 266</span><span class="ansi-red-fg">   </span>aval_out <span class="ansi-blue-fg">=</span> prim<span class="ansi-blue-fg">.</span>abstract_eval<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>avals<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>params<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    267</span>   <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> prim<span class="ansi-blue-fg">.</span>multiple_results<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    268</span>     handle_result <span class="ansi-blue-fg">=</span> aval_to_result_handler<span class="ansi-blue-fg">(</span>device<span class="ansi-blue-fg">,</span> aval_out<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/_src/lax/lax.py</span> in <span class="ansi-cyan-fg">standard_abstract_eval</span><span class="ansi-blue-fg">(prim, shape_rule, dtype_rule, weak_type_rule, *avals, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1992</span>                          weak_type=weak_type)
+<span class="ansi-green-intense-fg ansi-bold">   1993</span>   <span class="ansi-green-fg">elif</span> least_specialized <span class="ansi-green-fg">is</span> ShapedArray<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 1994</span><span class="ansi-red-fg">     return ShapedArray(shape_rule(*avals, **kwargs), dtype_rule(*avals, **kwargs),
+</span><span class="ansi-green-intense-fg ansi-bold">   1995</span>                        weak_type=weak_type)
+<span class="ansi-green-intense-fg ansi-bold">   1996</span>   <span class="ansi-green-fg">elif</span> least_specialized <span class="ansi-green-fg">is</span> UnshapedArray<span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/jax/_src/lax/lax.py</span> in <span class="ansi-cyan-fg">_reshape_shape_rule</span><span class="ansi-blue-fg">(operand, new_sizes, dimensions)</span>
+<span class="ansi-green-intense-fg ansi-bold">   3662</span>   <span class="ansi-green-fg">if</span> prod<span class="ansi-blue-fg">(</span>np<span class="ansi-blue-fg">.</span>shape<span class="ansi-blue-fg">(</span>operand<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">!=</span> prod<span class="ansi-blue-fg">(</span>new_sizes<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   3663</span>     msg <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;reshape total size must be unchanged, got new_sizes {} for shape {}.&#39;</span>
+<span class="ansi-green-fg">-&gt; 3664</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">raise</span> TypeError<span class="ansi-blue-fg">(</span>msg<span class="ansi-blue-fg">.</span>format<span class="ansi-blue-fg">(</span>new_sizes<span class="ansi-blue-fg">,</span> np<span class="ansi-blue-fg">.</span>shape<span class="ansi-blue-fg">(</span>operand<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   3665</span>   <span class="ansi-green-fg">if</span> dimensions <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   3666</span>     <span class="ansi-green-fg">if</span> set<span class="ansi-blue-fg">(</span>dimensions<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">!=</span> set<span class="ansi-blue-fg">(</span>range<span class="ansi-blue-fg">(</span>np<span class="ansi-blue-fg">.</span>ndim<span class="ansi-blue-fg">(</span>operand<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-red-fg">TypeError</span>: reshape total size must be unchanged, got new_sizes (4, 120, 25457) for shape (4, 3054870).
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+  id   spire_250    spire_350   ... log10_dust.luminosity    logit_agnfrac
+                                ...
+----- ------------ ------------ ... --------------------- --------------------
+ 6183    629.08325    276.98486 ...             11.006417  -0.5065612249795332
+62330    219.22636    198.20009 ...            13.1074705   2.2083854074737483
+ 7533    1148081.5     497103.3 ...             13.683177  -0.8425404774849347
+ 4106     8137.792      3646.94 ...             12.497683   2.2083854074737483
+12559     26.02795    13.206891 ...             10.923969   -1.726779349496423
+40673    52440.312    24855.805 ...             13.868076   -6.906754778648554
+ 1810    1.2106247    1.4278586 ...             11.292205   2.2083854074737483
+11752    22924.414     9809.195 ...              10.99053 -0.19663110200685208
+42160     55.24763    28.032192 ...             11.250794  -1.2310368743174411
+48676   86514380.0   36920316.0 ...             13.978849  -0.5065612249795332
+  ...          ...          ... ...                   ...                  ...
+46236    816663.56    349095.22 ...            12.3469925   -2.497978731355353
+31924    114616.89    50906.332 ...             13.459568   -2.497978731355353
+32197    535.34076    319.57196 ...             12.759565   0.7354495602506349
+74719     816.7468    351.26694 ...             10.138489   1.1039527552994273
+50369     9963.326    4357.2705 ...            12.0128145   -6.906754778648554
+14839    3.9340384    2.3515375 ...             10.627012   -2.497978731355353
+ 4150     468.4571    352.90033 ...             13.197685    3.705408756065146
+ 4327    160.52441     68.68943 ...               8.83584  -0.5065612249795332
+11078 0.0072505586 0.0045619863 ...              8.039286    3.705408756065146
+12736     146.7166    230.44016 ...             14.223982  0.10409389104263336
+Length = 3054870 rows
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use stax to set up network initialization and evaluation functions</span>
+<span class="n">net_init</span><span class="p">,</span> <span class="n">net_apply</span> <span class="o">=</span> <span class="n">stax</span><span class="o">.</span><span class="n">serial</span><span class="p">(</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span> <span class="n">LeakyRelu</span><span class="p">,</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span> <span class="n">LeakyRelu</span><span class="p">,</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">output_cols</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="n">in_shape</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_cols</span><span class="p">),)</span>
+<span class="n">out_shape</span><span class="p">,</span> <span class="n">net_params</span> <span class="o">=</span> <span class="n">net_init</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">in_shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="c1"># Computes average loss for the batch</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">net_apply</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">targets</span> <span class="o">-</span> <span class="n">predictions</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">batch_loss</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x_b</span><span class="p">,</span><span class="n">y_b</span><span class="p">):</span>
+    <span class="n">loss_b</span><span class="o">=</span><span class="n">vmap</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span><span class="n">p</span><span class="p">))(</span><span class="n">x_b</span><span class="p">,</span><span class="n">y_b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">loss_b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">opt_init</span><span class="p">,</span> <span class="n">opt_update</span><span class="p">,</span> <span class="n">get_params</span><span class="o">=</span> <span class="n">optimizers</span><span class="o">.</span><span class="n">adam</span><span class="p">(</span><span class="n">step_size</span><span class="o">=</span><span class="mf">5e-4</span><span class="p">)</span>
+<span class="n">out_shape</span><span class="p">,</span> <span class="n">net_params</span> <span class="o">=</span> <span class="n">net_init</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">in_shape</span><span class="p">)</span>
+<span class="n">opt_state</span> <span class="o">=</span> <span class="n">opt_init</span><span class="p">(</span><span class="n">net_params</span><span class="p">)</span>
+
+<span class="nd">@jit</span>
+<span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span><span class="n">opt_state</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">batch_loss</span><span class="p">)(</span><span class="n">p</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+    <span class="n">loss_tmp</span><span class="o">=</span><span class="n">batch_loss</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">opt_update</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">),</span><span class="n">loss_tmp</span>
+
+<span class="n">np_batched_loss_1</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">valid_loss</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="n">opt_state</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">train_batch_X</span><span class="p">,</span> <span class="n">train_batch_Y</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span><span class="n">opt_state</span><span class="p">)</span>
+    <span class="n">valid_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">batch_loss</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">validation_batch_X</span><span class="p">,</span><span class="n">validation_batch_Y</span><span class="p">))</span>
+    <span class="n">np_batched_loss_1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="n">net_params</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span><span class="n">opt_state</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+1200
+1300
+1400
+1500
+1600
+1700
+1800
+1900
+2000
+2100
+2200
+2300
+2400
+2500
+2600
+2700
+2800
+2900
+3000
+3100
+3200
+3300
+3400
+3500
+3600
+3700
+3800
+3900
+4000
+4100
+4200
+4300
+4400
+4500
+4600
+4700
+4800
+4900
+5000
+5100
+5200
+5300
+5400
+5500
+5600
+5700
+5800
+5900
+6000
+6100
+6200
+6300
+6400
+6500
+6600
+6700
+6800
+6900
+7000
+7100
+7200
+7300
+7400
+7500
+7600
+7700
+7800
+7900
+8000
+8100
+8200
+8300
+8400
+8500
+8600
+8700
+8800
+8900
+9000
+9100
+9200
+9300
+9400
+9500
+9600
+9700
+9800
+9900
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2000</span><span class="p">):</span>
+    <span class="n">opt_state</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">train_batch_X</span><span class="p">,</span> <span class="n">train_batch_Y</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span><span class="n">opt_state</span><span class="p">)</span>
+    <span class="n">valid_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">batch_loss</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">validation_batch_X</span><span class="p">,</span><span class="n">validation_batch_Y</span><span class="p">))</span>
+    <span class="n">np_batched_loss_1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="n">net_params</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span><span class="n">opt_state</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+1200
+1300
+1400
+1500
+1600
+1700
+1800
+1900
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np_batched_loss_1</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">valid_loss</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Validation loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Iteration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Loss (MSE)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.legend.Legend at 0x7fbc8e8fedd8&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_JAX_CIGALE_emulator-LIR_29_1.png" src="../../../_images/notebooks_examples_SED_emulator_JAX_CIGALE_emulator-LIR_29_1.png" />
+</div>
+</div>
+</section>
+<section id="Investigate-performance-of-each-band-of-emulator">
+<h3>Investigate performance of each band of emulator<a class="headerlink" href="#Investigate-performance-of-each-band-of-emulator" title="Permalink to this headline">¶</a></h3>
+<p>To visulise performance of the trainied emulator, I will show the difference between real and emulated for each band.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">net_params</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span><span class="n">opt_state</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">net_apply</span><span class="p">(</span><span class="n">net_params</span><span class="p">,</span><span class="n">validation_batch_X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">validation_batch_X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(41, 1200, 3)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">validation_batch_X</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(1200, 3)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">=</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">validation_batch_Y</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">validation_batch_Y</span><span class="p">)))</span>
+<span class="n">fig</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">output_cols</span><span class="p">),</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">output_cols</span><span class="p">)))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">output_cols</span><span class="p">)):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">res</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">*</span><span class="mf">100.0</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mf">0.1</span><span class="p">))</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">output_cols</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\frac{f_</span><span class="si">{pred}</span><span class="s1"> - f_</span><span class="si">{True}</span><span class="s1">}{f_</span><span class="si">{True}</span><span class="s1">} \ \%$ error&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_JAX_CIGALE_emulator-LIR_34_0.png" src="../../../_images/notebooks_examples_SED_emulator_JAX_CIGALE_emulator-LIR_34_0.png" />
+</div>
+</div>
+</section>
+<section id="Save-network">
+<h3>Save network<a class="headerlink" href="#Save-network" title="Permalink to this headline">¶</a></h3>
+<p>Having trained and validated network, I need to save the network and relevant functions</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cloudpickle</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;CIGALE_emulator_20210330_log10sfr_uniformAGN_z.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">cloudpickle</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="s1">&#39;net_init&#39;</span><span class="p">:</span><span class="n">net_init</span><span class="p">,</span><span class="s1">&#39;net_apply&#39;</span><span class="p">:</span> <span class="n">net_apply</span><span class="p">,</span><span class="s1">&#39;params&#39;</span><span class="p">:</span><span class="n">net_params</span><span class="p">},</span> <span class="n">f</span><span class="p">)</span>
+
+<span class="n">net_init</span><span class="p">,</span> <span class="n">net_apply</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;function jax.experimental.stax.serial.&lt;locals&gt;.init_fun(rng, input_shape)&gt;,
+ &lt;function jax.experimental.stax.serial.&lt;locals&gt;.apply_fun(params, inputs, **kwargs)&gt;)
+</pre></div></div>
+</div>
+</section>
+<section id="Does-SED-look-right?">
+<h3>Does SED look right?<a class="headerlink" href="#Does-SED-look-right?" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wave</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">250</span><span class="p">,</span><span class="mi">350</span><span class="p">,</span><span class="mi">500</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">wave</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">net_apply</span><span class="p">(</span><span class="n">net_params</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.95</span><span class="p">,</span> <span class="mf">0.801</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]))),</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="c1">#plt.loglog(wave,10.0**net_apply(net_params,np.array([3.0,0.0,0.0])),&#39;o&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">wave</span><span class="p">,</span><span class="n">dataset</span><span class="p">[(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;universe.redshift&#39;</span><span class="p">]</span><span class="o">==</span><span class="mf">0.1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;agn.fracAGN&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.801</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;sfh.sfr&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">900</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;sfh.sfr&#39;</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">1100</span><span class="p">)][</span><span class="n">output_cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x7fbc8a5d20b8&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_JAX_CIGALE_emulator-LIR_40_1.png" src="../../../_images/notebooks_examples_SED_emulator_JAX_CIGALE_emulator-LIR_40_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span><span class="p">[(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;universe.redshift&#39;</span><span class="p">]</span><span class="o">==</span><span class="mf">0.1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;agn.fracAGN&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.801</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;sfh.sfr&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">900</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;sfh.sfr&#39;</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">1100</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<i>Table length=1</i>
+<table id="table140447713941040" class="table-striped table-bordered table-condensed">
+<thead><tr><th>id</th><th>IRAC1</th><th>megacam_g</th><th>megacam_i</th><th>megacam_r</th><th>megacam_u</th><th>megacam_y</th><th>megacam_z</th><th>mips_24</th><th>spire_250</th><th>spire_350</th><th>spire_500</th><th>dust.luminosity</th><th>dust.mass</th><th>sfh.sfr</th><th>stellar.m_star</th><th>agn.fracAGN</th><th>attenuation.BC_to_ISM_factor</th><th>attenuation.bessell_b</th><th>attenuation.galex_fuv</th><th>attenuation.slope_BC</th><th>attenuation.slope_ISM</th><th>dust.qpah</th><th>dust.umin</th><th>sfh.age</th><th>sfh.burst_age</th><th>sfh.f_burst</th><th>sfh.tau_main</th><th>universe.redshift</th><th>log10_sfh.sfr</th><th>log10_universe.redshift</th><th>logit_agnfrac</th></tr></thead>
+<thead><tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th>mag</th><th>mag</th><th>mag</th><th></th><th></th><th></th><th>Myr</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></thead>
+<thead><tr><th>int64</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float32</th><th>float64</th><th>float64</th></tr></thead>
+<tr><td>2699</td><td>3561.7131</td><td>0.81075984</td><td>2.373399</td><td>1.5528784</td><td>0.25492316</td><td>2.4790812</td><td>3.5117917</td><td>12396.599</td><td>8839.021</td><td>3535.3625</td><td>1214.4366</td><td>8037312500000.0</td><td>4314639400.0</td><td>904.5928</td><td>175056060000.0</td><td>0.801</td><td>0.5</td><td>4.376290746740257</td><td>9.392077535240679</td><td>-0.7</td><td>-0.7</td><td>1.12</td><td>10.0</td><td>1000.0</td><td>50.0</td><td>0.1</td><td>3000.0</td><td>0.1</td><td>2.956453</td><td>-1.0</td><td>1.3925561223438672</td></tr>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xidplus</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/dask/config.py:168: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  data = yaml.load(f.read()) or {}
+WARNING: AstropyDeprecationWarning: block_reduce was moved to the astropy.nddata.blocks module.  Please update your import statement. [astropy.nddata.utils]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">xidplus.numpyro_fit.misc</span> <span class="kn">import</span> <span class="n">load_emulator</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span><span class="o">=</span><span class="n">load_emulator</span><span class="p">(</span><span class="s1">&#39;CIGALE_emulator_20210330_log10sfr_uniformAGN_z.pkl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+list
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="s1">&#39;CIGALE_emulator_20210420_log10sfr_uniformAGN_z&#39;</span><span class="p">,</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">],</span><span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CIGALE_emulator_20210303.pkl
+CIGALE_emulator_20210305.pkl
+CIGALE_emulator_20210310_log10sfr_uniformAGN_log10z.pkl
+CIGALE_emulator_20210311_log10sfr_uniformAGN_log10z_irac1.pkl
+CIGALE_emulator_20210315_log10sfr_uniformAGN_log10z_irac1_megacam.pkl
+CIGALE_emulator_20210329_log10sfr_uniformAGN_z_log_irac1_megacam.pkl
+CIGALE_emulator_20210330_log10sfr_uniformAGN_z.pkl
+CIGALE_emulator_20210420_log10sfr_uniformAGN_z.pkl.npz
+GB_emulator_20210106.pkl
+GB_emulator_20210209.pkl
+GB_emulator_20210323.pkl
+GB_emulator_20210324_notlog10z_T.pkl
+Greybody_emulator.ipynb
+JAX_CIGALE_emulator.ipynb
+JAX_greybody_emulator.ipynb
+Prior_pred_fits_0.pkl
+Prior_pred_fits_1.pkl
+Prior_pred_fits_2.pkl
+Prior_pred_fits_3.pkl
+Prior_pred_fits_4.pkl
+Prior_pred_fits_5.pkl
+Prior_pred_fits_6.pkl
+Prior_pred_fits_7.pkl
+Prior_pred_fits_8.pkl
+Prior_pred_fits_9.pkl
+XID+SED_Model_Building.ipynb
+XID+SED_Principled_Workflow-VI.ipynb
+XID+SED_Principled_Workflow.ipynb
+XID+example_run_script-Prior_predictive_checks.ipynb
+XID+posterior_analysis_validation-sed_emulator.ipynb
+params_save.npz
+params_save.txt
+prior_pred_dist.m4v
+prior_pred_dist_fit.m4v
+test.fits
+test_multivariate_cholesky.ipynb
+test_numpyro_sed.pkl
+test_numpyro_sed_prior_pred.pkl
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;params_save.npz&#39;</span><span class="p">,</span><span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;arr_0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[(array([[ 1.53069824e-01, -2.10883975e-01,  2.01293573e-01,
+           2.00886243e-05,  8.39339555e-05, -1.59104392e-01,
+          -3.11721444e-01,  8.15778226e-02, -1.30519122e-01,
+           2.66870164e-04,  2.02755541e-01,  2.00401381e-01,
+           2.55665570e-01,  9.49345157e-03, -2.87445990e-04,
+           2.97707498e-01,  2.03495666e-01,  6.32490441e-02,
+           1.99170873e-01,  1.80119430e-04,  1.20747246e-01,
+          -1.67233795e-01, -2.98334770e-02, -3.50672485e-06,
+           1.22021355e-01,  1.01019315e-01,  1.96768597e-01,
+          -1.26161918e-01,  3.03663150e-03,  2.84228637e-03,
+           1.29882827e-01, -7.99915791e-02, -1.29280478e-01,
+           4.20932584e-02, -8.54701623e-02,  5.27626090e-02,
+          -1.17510051e-01,  1.01156078e-01,  4.60322537e-02,
+           8.14467445e-02,  5.08916415e-02,  1.00427233e-01,
+           9.20651853e-03,  4.08653691e-02, -4.04455874e-04,
+          -8.63167420e-02, -1.63388662e-02, -6.32612929e-02,
+          -4.41273190e-02,  1.39217749e-01,  1.20777473e-01,
+          -2.40870282e-01,  2.55658120e-01,  1.09948285e-01,
+          -3.47286537e-02,  2.67806593e-02,  9.29918215e-02,
+           1.18900443e-05, -1.36361867e-01,  8.80834250e-06,
+           8.88264403e-02, -9.57389420e-05, -9.50625315e-02,
+           2.03881428e-01, -1.61554329e-02, -1.62480952e-04,
+          -2.17100427e-01,  6.52862415e-02, -2.11271066e-02,
+          -8.55357293e-03,  1.26932263e-01, -1.71124235e-01,
+          -5.88358827e-02, -5.16286343e-02, -1.39274625e-05,
+           5.35593834e-04,  9.61367711e-02,  1.18201040e-01,
+          -4.81214654e-03,  9.21703850e-06, -6.21714629e-02,
+          -8.35517049e-02,  1.48129642e-01,  9.29927846e-05,
+           1.15547804e-02, -1.89512312e-01,  4.78157401e-02,
+           1.76594645e-01,  1.74783200e-01,  5.14295287e-02,
+           8.22573304e-02,  9.21452641e-02,  4.19164710e-02,
+          -2.96897590e-01, -3.95684547e-05, -1.62488356e-01,
+          -5.28006442e-03, -2.46928513e-01,  1.66877523e-01,
+          -7.30078593e-02, -5.51951900e-02, -2.95307606e-01,
+           5.55741927e-03, -1.36754781e-01,  3.92581522e-02,
+          -6.33591320e-04,  2.59832561e-01, -1.40803531e-01,
+           2.81424731e-01,  2.48177692e-01, -2.55979836e-01,
+          -2.00387673e-03,  9.41594772e-06,  4.10088524e-02,
+          -2.16915846e-01,  2.05238029e-01,  5.90725578e-02,
+          -1.07257450e-02,  4.88407686e-02,  1.20324254e-01,
+          -3.98441069e-02, -8.82441998e-02, -6.40106574e-02,
+           9.10342392e-03,  3.94968502e-03,  6.52407557e-02,
+          -4.41694545e-04,  2.32200782e-05],
+         [-9.56135169e-02, -4.26747017e-02,  2.31635168e-01,
+          -4.34760768e-05, -1.41721021e-03, -1.05505474e-01,
+          -1.71429455e-01,  2.83397526e-01, -2.90613860e-01,
+           1.34984814e-02, -2.04954833e-01, -1.09364532e-01,
+           2.36716960e-02,  1.02085277e-01, -7.57721486e-04,
+           3.01513523e-01, -7.43361935e-02,  6.67992011e-02,
+          -2.26764724e-01,  1.24011317e-03, -6.82956874e-02,
+          -2.27028634e-02, -3.38605016e-01, -7.59451223e-06,
+           2.47587293e-01, -1.05594315e-01,  6.80167899e-02,
+          -3.21082734e-02,  2.73950666e-01,  2.28774473e-02,
+           1.39960796e-01,  1.27722230e-02, -1.43947393e-01,
+           3.11916452e-02, -1.90591291e-01, -8.27737749e-02,
+          -1.02607206e-01,  1.33461252e-01, -1.05700260e-02,
+          -1.02083698e-01,  5.75763918e-02,  1.34090975e-01,
+           2.15719789e-01,  2.12458178e-01, -4.04632092e-03,
+          -3.49481136e-01,  2.00065210e-01,  2.42629960e-01,
+           1.93042323e-01,  2.50296980e-01,  8.94507915e-02,
+          -9.58382115e-02, -2.28494462e-02,  2.36369818e-01,
+          -1.27528459e-01, -3.69563773e-02, -4.67114002e-02,
+           2.74982722e-03, -9.03799571e-03, -4.51136657e-05,
+           2.58287728e-01,  3.40779708e-03,  9.73177031e-02,
+          -6.85589537e-02,  6.38271775e-03,  1.67258189e-03,
+           1.97855867e-02, -9.07262564e-02, -2.09668845e-01,
+          -4.53785360e-02,  1.67807788e-01, -8.33287239e-02,
+           3.52400422e-01,  1.22029133e-01,  8.00654367e-02,
+           9.65318363e-03,  1.72288101e-02, -1.01203807e-02,
+           1.56366780e-01, -1.68244774e-03, -2.37100329e-02,
+          -1.73389837e-01,  1.95295420e-02, -1.99440308e-03,
+           8.00025314e-02, -5.56620248e-02,  1.02638401e-01,
+          -1.10902466e-01,  3.06838099e-02, -4.44191992e-02,
+          -8.43552127e-02, -1.01193162e-02,  2.33832449e-02,
+          -6.29129075e-03,  4.06327425e-03, -8.32595825e-02,
+          -3.15990485e-02, -1.56893134e-02,  2.82309711e-01,
+           2.82361269e-01, -5.72224781e-02,  1.26476690e-01,
+          -2.54863471e-01,  2.34438434e-01,  2.19621658e-01,
+          -3.14361751e-01,  1.25776291e-01,  3.03557932e-01,
+           5.59490025e-02,  1.51903592e-02, -2.60025859e-02,
+          -5.54666389e-03, -1.84743130e-05, -6.40727952e-02,
+          -2.44256482e-01, -4.81589586e-02, -2.26609573e-01,
+           1.23653643e-01,  1.95894942e-01, -6.13540150e-02,
+           1.45041913e-01, -2.85595238e-01, -4.65233065e-02,
+           5.48471771e-02,  1.05303042e-01,  2.79892176e-01,
+           5.61308339e-02, -1.89330840e-05],
+         [ 1.41446022e-02, -2.01077163e-01, -1.00045651e-01,
+          -8.03999066e-01, -8.95831764e-01,  4.21975218e-02,
+          -1.63626343e-01, -2.76833862e-01, -9.76875201e-02,
+           5.06179988e-01,  4.87757809e-02,  1.41420245e-01,
+          -2.07441241e-01,  4.01056767e-01, -8.05710256e-01,
+           6.44692872e-03,  2.21009120e-01, -1.69436529e-01,
+          -6.67921826e-02, -1.05775523e+00,  8.38957876e-02,
+          -2.98910160e-02, -1.46367446e-01, -6.53301001e-01,
+          -1.04626469e-01, -1.58328131e-01,  2.53040403e-01,
+           6.34190068e-02,  4.76733029e-01, -5.84724784e-01,
+           3.33633602e-01, -1.21292204e-01, -2.23500072e-03,
+           2.00990856e-01, -1.68379713e-02,  1.11320294e-01,
+          -1.31700095e-02, -1.03982717e-01, -4.40700680e-01,
+           2.74899751e-01,  2.59439200e-01,  2.15766475e-01,
+           3.26091349e-01, -6.15844578e-02, -6.39787376e-01,
+           1.57167748e-01, -1.39899984e-01,  8.18154663e-02,
+          -2.17399538e-01, -6.46281019e-02,  1.34346440e-01,
+           2.12652043e-01, -9.76891369e-02,  3.79553400e-02,
+           1.54967695e-01, -4.33932215e-01, -1.18579738e-01,
+          -1.39027762e+00,  2.06093520e-01, -7.32906520e-01,
+          -2.59851754e-01, -9.46300507e-01,  5.03597856e-02,
+          -7.38284066e-02, -3.75461280e-01, -8.37107539e-01,
+          -2.82007039e-01, -1.31407663e-01,  1.10969849e-01,
+           2.02970564e-01, -7.02738762e-02,  3.28801498e-02,
+           1.80798143e-01, -3.50165248e-01,  4.46210891e-01,
+          -6.59628510e-01, -2.87261099e-01,  2.80246645e-01,
+           2.50837177e-01, -1.16137397e+00, -1.68976769e-01,
+          -8.80870670e-02, -4.61860485e-02, -9.82364774e-01,
+           3.16690683e-01,  1.90806836e-01,  5.66026270e-02,
+          -1.44116074e-01, -2.78943963e-03,  2.78720170e-01,
+          -8.42702761e-02, -4.45272118e-01,  2.31863722e-01,
+           3.17606293e-02, -1.17060268e+00,  8.20184126e-02,
+          -5.30681014e-01,  1.83141917e-01, -4.02189136e-01,
+          -2.00566091e-03,  8.20839126e-03,  2.02945963e-01,
+           1.09732404e-01,  2.25487888e-01,  4.87290174e-02,
+          -1.38762947e-02,  1.79363459e-01,  1.78430855e-01,
+          -2.75342762e-02, -1.79975152e-01, -2.09120149e-03,
+          -6.71783090e-01, -6.95732594e-01,  2.93099910e-01,
+          -2.42147833e-01, -2.94341862e-01,  5.07360250e-02,
+           3.43546301e-01,  6.06366359e-02,  9.93927941e-02,
+           1.48736641e-01,  2.39289686e-01,  1.30173057e-01,
+           3.49565655e-01,  1.92776322e-01, -5.48308827e-02,
+          -4.40925032e-01, -8.10449481e-01]], dtype=float32),
+  array([ 0.04993482, -0.01212634,  0.0791207 ,  0.00492666,  0.01319074,
+         -0.10325487, -0.1346548 ,  0.10120684, -0.0575023 , -0.02011754,
+          0.06913678,  0.04907846,  0.04280977,  0.00189588,  0.00704372,
+          0.05355757,  0.06565716,  0.08904282,  0.03973582,  0.00688254,
+          0.06209717, -0.08303745, -0.03966172,  0.00399084,  0.06877296,
+          0.12979364,  0.06964204,  0.31554383,  0.13802093,  0.02556979,
+          0.4289254 , -0.0503752 , -0.07069702,  0.03091657, -0.06025747,
+          0.0746284 , -0.08132786,  0.04863249,  0.06814621,  0.0508422 ,
+          0.08750687,  0.06362367,  0.05117381,  0.07356688,  0.02762729,
+          0.09656563,  0.07198024, -0.26193607, -0.0602057 ,  0.08606211,
+          0.07281027, -0.06211648,  0.07160514,  0.06034514,  0.30626503,
+          0.0429852 ,  0.14285904,  0.03020917,  0.13712466,  0.00450039,
+          0.09005794,  0.0123495 ,  0.36532483,  0.08149678,  0.18150629,
+          0.00565592, -0.11370263,  0.09517168,  0.21982178,  0.08685449,
+          0.08191731, -0.07257076,  0.2534638 ,  0.3897213 , -0.00143844,
+          0.01895614,  0.10273186,  0.11818916,  0.00264214,  0.0128728 ,
+         -0.08194415, -0.0661905 ,  0.07294855,  0.00806362, -0.00107712,
+         -0.00505454,  0.06896237,  0.0813387 ,  0.06515121, -0.07235986,
+          0.07138455,  0.10467188,  0.16391854, -0.0606044 ,  0.010386  ,
+          0.19612047,  0.10880241, -0.08573751,  0.07287953,  0.3737235 ,
+         -0.02502817, -0.07157979, -0.01277431,  0.14055003,  0.05926196,
+          0.29733676,  0.05263878, -0.1505707 ,  0.05544473,  0.07868218,
+         -0.07834595,  0.05206577,  0.00429451,  0.05404095, -0.09889918,
+         -0.0151882 ,  0.09757402,  0.19194539,  0.07196058,  0.03609553,
+         -0.3547578 ,  0.04935162,  0.14975967,  0.01198729,  0.01796428,
+          0.02070589,  0.04502893,  0.00497391], dtype=float32)),
+ (),
+ (array([[-0.03422838, -0.02585936,  0.07256419, ...,  0.10604588,
+           0.07892369,  0.1075211 ],
+         [-0.02576409, -0.04324246, -0.14388034, ..., -0.14141543,
+          -0.14632596, -0.13177887],
+         [-0.03215259,  0.08260014,  0.04717227, ...,  0.12862837,
+          -0.10882525,  0.09364428],
+         ...,
+         [-0.08749322, -0.0168451 , -0.05433867, ..., -0.03359725,
+          -0.00382601,  0.15514964],
+         [-0.10678113,  0.2651945 , -0.29697   , ..., -0.05284815,
+          -0.02245768,  0.07594308],
+         [-0.8964345 ,  0.4518805 , -0.8790541 , ...,  0.1999891 ,
+          -0.5511756 ,  0.20147882]], dtype=float32),
+  array([ 0.04318503,  0.06401413,  0.10552775,  0.1473793 ,  0.03431362,
+         -0.04497027,  0.04367442,  0.07699274,  0.04165394,  0.07037516,
+          0.08304454,  0.0683172 ,  0.00262007,  0.05374337,  0.03608707,
+          0.16427258,  0.04042302, -0.00634741, -0.02428112,  0.06873304,
+          0.0518212 ,  0.04075989,  0.06424611,  0.05797005,  0.0316513 ,
+          0.2345811 , -0.02713604,  0.04995387, -0.04329855,  0.1378327 ,
+          0.05642162,  0.06783304,  0.0543987 ,  0.05031141, -0.02864387,
+          0.1944591 ,  0.20191945, -0.23888457, -0.00107816,  0.05796514,
+          0.06788929,  0.06220463,  0.04600336,  0.04127879,  0.23460324,
+          0.02737976, -0.02148593,  0.12680675,  0.07559889,  0.09663132,
+          0.09608997,  0.02774669,  0.05582898,  0.01978187,  0.0213549 ,
+          0.15664043,  0.05999393, -0.03036105,  0.07454889,  0.12296706,
+          0.00878114,  0.04319701,  0.03167537,  0.05068729, -0.01067725,
+          0.06127113,  0.14654745, -0.01772743,  0.04000608,  0.07163013,
+          0.05569566,  0.06486893, -0.03135101,  0.04571848,  0.07377528,
+          0.06323048,  0.05599957, -0.00325564,  0.05290375,  0.18670882,
+          0.04943348,  0.05839921, -0.01254695,  0.00374835,  0.04091755,
+          0.06934862,  0.05295921,  0.12965381,  0.26518968,  0.02922123,
+          0.0759641 ,  0.06503931, -0.02622866,  0.08374478, -0.05003466,
+          0.04679668,  0.00959557, -0.00260884, -0.01219916,  0.0059711 ,
+          0.05894898,  0.04760699,  0.04448665,  0.14146328,  0.04171022,
+          0.00039654,  0.14147858,  0.05612815,  0.03840605,  0.04201587,
+          0.0598927 ,  0.0404181 , -0.0121826 ,  0.002291  ,  0.02991664,
+          0.06338561,  0.05918598,  0.10408899, -0.05643817,  0.04786403,
+          0.17926623,  0.04988811,  0.05208017,  0.05186151,  0.0571902 ,
+          0.05716937, -0.02336271,  0.04936297], dtype=float32)),
+ (),
+ (array([[-4.78656381e-01, -4.84813273e-01, -5.50405860e-01],
+         [ 3.35031658e-01,  1.76466942e-01,  1.48843542e-01],
+         [-3.45053434e-01, -6.55529320e-01, -2.37278402e-01],
+         [-9.41956460e-01, -9.29954112e-01, -8.69155824e-01],
+         [ 2.55623072e-01, -3.67746176e-03,  1.26485467e-01],
+         [-5.47391735e-02, -1.23208657e-01, -1.38787791e-01],
+         [ 2.61397302e-01,  2.81228703e-02,  6.48772046e-02],
+         [ 2.01461002e-01,  1.97006389e-01,  1.24496259e-01],
+         [ 1.88138280e-02,  2.08875373e-01,  2.70739555e-01],
+         [ 2.38008395e-01,  2.37070963e-01,  4.67405587e-01],
+         [ 1.37017727e-01,  3.44284713e-01,  1.73349738e-01],
+         [ 2.18866974e-01,  2.30267376e-01, -6.88656420e-02],
+         [-6.76326990e-01, -6.99695110e-01, -1.38253331e-01],
+         [ 7.44611695e-02,  3.46906662e-01,  1.94446564e-01],
+         [ 1.27352834e-01,  3.37143987e-02,  7.34688267e-02],
+         [-1.10179520e+00, -9.15884078e-01, -9.38202620e-01],
+         [ 2.16434851e-01,  1.61506251e-01,  4.67592180e-02],
+         [-8.43614116e-02, -1.60350174e-01, -4.02493781e-04],
+         [-2.11055398e-01, -8.97642747e-02,  5.72317876e-02],
+         [ 2.15646937e-01,  2.57510275e-01,  1.78803712e-01],
+         [ 2.71565050e-01, -5.99395931e-02,  1.79622740e-01],
+         [ 7.15189651e-02,  2.59319156e-01,  2.61098385e-01],
+         [ 1.86891183e-01,  2.48789236e-01,  2.18168437e-01],
+         [ 1.84291024e-02,  2.42671505e-01,  2.19747853e-02],
+         [ 2.03428015e-01,  3.54187727e-01,  2.82053471e-01],
+         [ 7.03351319e-01,  8.09539080e-01,  7.72811830e-01],
+         [ 9.11437124e-02, -1.44656196e-01,  2.22388536e-01],
+         [ 2.26557896e-01, -1.10934088e-02,  2.13816017e-01],
+         [-1.12496905e-01, -1.87045932e-01, -5.97019009e-02],
+         [-7.61769235e-01, -7.72123635e-01, -9.75890219e-01],
+         [ 3.05190325e-01,  1.32497445e-01,  2.17855945e-01],
+         [ 1.31501675e-01,  1.12660259e-01,  1.65270157e-02],
+         [-5.56640387e-01, -4.99232233e-01, -2.92703152e-01],
+         [ 2.19774038e-01,  3.95686179e-02,  2.31017187e-01],
+         [-1.77604914e-01, -6.38101920e-02, -4.09325399e-02],
+         [-1.03784680e+00, -9.10168588e-01, -1.07743847e+00],
+         [-1.00170982e+00, -1.04068625e+00, -8.59334171e-01],
+         [ 8.45464468e-01,  2.08024696e-01, -4.88651544e-02],
+         [-4.31112051e-01, -1.91040486e-01, -3.56914222e-01],
+         [ 2.79779643e-01,  2.50112742e-01,  2.09560946e-01],
+         [ 5.63736148e-02,  2.27240503e-01,  2.81559199e-01],
+         [-7.16340959e-01, -4.02274430e-01, -5.70875406e-01],
+         [ 2.46527553e-01, -8.15471187e-02,  2.10321933e-01],
+         [ 1.37722507e-01, -1.67197183e-01,  3.23957533e-01],
+         [-8.45782340e-01, -1.05558038e+00, -1.12943280e+00],
+         [-3.96439135e-01, -2.55469799e-01, -4.35159922e-01],
+         [-2.39666134e-01,  1.18508175e-01, -3.05553824e-01],
+         [-6.16362095e-01, -5.21952748e-01, -6.37968063e-01],
+         [ 1.39270779e-02,  2.06092358e-01,  2.47910649e-01],
+         [-6.25008523e-01, -6.01777017e-01, -5.92815816e-01],
+         [ 1.96474746e-01,  1.98963687e-01, -1.47557515e-03],
+         [ 1.63086876e-01,  1.93513006e-01,  2.37006247e-01],
+         [ 1.29517719e-01,  1.98047608e-01,  2.71610498e-01],
+         [-1.42343462e-01,  7.90357590e-02, -8.58355612e-02],
+         [-5.27097523e-01, -3.60084742e-01, -4.36733454e-01],
+         [-8.70184779e-01, -2.06790432e-01, -1.00296281e-01],
+         [ 1.94708794e-01,  6.13125302e-02,  4.15276922e-02],
+         [ 1.23108901e-01, -2.63996720e-01, -2.07525179e-01],
+         [ 8.23504180e-02,  2.37032309e-01,  1.45315722e-01],
+         [-3.39615971e-01, -5.39651752e-01, -5.03607452e-01],
+         [-1.77049398e-01, -7.85850435e-02, -1.31696507e-01],
+         [ 4.49967720e-02,  3.20405841e-01,  1.52601779e-01],
+         [ 2.26537839e-01,  2.06401661e-01, -1.26141608e-01],
+         [-9.73755196e-02,  3.00717533e-01,  2.03305751e-01],
+         [-1.77933872e-02, -1.02676630e-01, -3.10888700e-02],
+         [ 2.64976263e-01,  2.50689447e-01,  1.67717174e-01],
+         [-2.89391667e-01, -5.38424611e-01, -5.13043404e-01],
+         [-1.12035535e-01, -2.91938297e-02,  5.71100600e-02],
+         [-6.81093931e-01, -7.79274285e-01, -8.95485103e-01],
+         [ 7.11113261e-03,  2.08368346e-01,  1.09029703e-01],
+         [ 2.67163366e-01,  9.01261866e-02,  2.32021391e-01],
+         [ 7.61629567e-02,  1.28208548e-01,  1.77933559e-01],
+         [-2.42862012e-02, -1.42082199e-01,  9.67771187e-02],
+         [ 1.93336159e-01,  8.01900402e-02,  1.84268087e-01],
+         [ 3.80656809e-01,  1.73509553e-01,  3.48442614e-01],
+         [-4.12368387e-01, -5.81474602e-01, -3.72003049e-01],
+         [ 2.31199354e-01,  9.51954871e-02,  9.01686102e-02],
+         [-2.30810836e-01,  3.19271423e-02, -2.17658013e-01],
+         [ 1.37645110e-01,  1.10636175e-01,  1.41822726e-01],
+         [-8.80627453e-01, -1.19069552e+00, -1.06030595e+00],
+         [ 1.34634405e-01,  2.07669675e-01,  3.21988791e-01],
+         [ 1.95426956e-01,  2.12161362e-01,  1.53630190e-02],
+         [-1.22733235e-01,  2.31809001e-02, -2.72758193e-02],
+         [ 3.04959603e-02, -6.61364049e-02, -2.81280249e-01],
+         [ 1.67098984e-01,  5.76136671e-02,  2.03342289e-01],
+         [ 2.42621675e-01,  4.24271375e-01,  3.72970521e-01],
+         [ 3.52295369e-01,  1.11584626e-01, -6.89266324e-02],
+         [-4.39384192e-01, -4.31890994e-01, -6.38583899e-01],
+         [ 5.71117282e-01,  4.89224911e-01,  3.75584066e-01],
+         [-3.42314690e-01, -6.00230023e-02,  3.19120228e-01],
+         [-5.33911943e-01, -4.10487771e-01, -4.53867435e-01],
+         [ 6.27191663e-02,  1.59758374e-01,  2.63538938e-02],
+         [ 1.95248798e-01,  3.79788578e-02,  2.10875288e-01],
+         [-5.45423508e-01, -3.39853108e-01, -3.81522626e-01],
+         [-2.18804523e-01, -5.64338192e-02, -2.85992641e-02],
+         [-5.62148280e-02,  2.20772356e-01,  8.28550979e-02],
+         [-4.09969002e-01, -3.73499215e-01, -1.92373544e-01],
+         [-5.19106209e-01, -1.23261869e-01, -1.96268767e-01],
+         [-1.57062620e-01, -1.10868244e-02,  6.20706715e-02],
+         [-1.57321051e-01, -3.06500614e-01, -2.30024591e-01],
+         [ 3.59437205e-02,  3.52994859e-01,  2.38882601e-01],
+         [ 1.36312008e-01,  1.38561815e-01,  2.23111033e-01],
+         [ 1.66426688e-01,  1.44103363e-01,  1.08864978e-01],
+         [-4.31933135e-01, -4.29439902e-01, -5.28308690e-01],
+         [-4.10688035e-02,  2.73244053e-01,  1.24709614e-01],
+         [-1.84629008e-01, -1.24577269e-01,  5.33142388e-02],
+         [-1.08149683e+00, -8.98993015e-01, -1.14275980e+00],
+         [ 2.08761305e-01,  1.56309798e-01, -1.25824418e-02],
+         [-4.95516181e-01, -3.53564203e-01, -1.31432191e-01],
+         [ 3.55273299e-02,  1.20648474e-01,  2.36399055e-01],
+         [ 8.50410089e-02, -1.47752538e-02,  2.15277553e-01],
+         [ 2.11633042e-01,  1.01077348e-01,  3.30886878e-02],
+         [-1.06111094e-01,  1.07693918e-01, -9.53614414e-02],
+         [-1.75395906e-01, -3.53530228e-01, -1.19211458e-01],
+         [ 2.68203467e-01,  2.82129109e-01, -1.54477522e-01],
+         [ 1.70596585e-01,  1.52597874e-01,  6.76318184e-02],
+         [ 5.46143129e-02,  1.23157211e-01,  8.29520896e-02],
+         [-5.31307220e-01, -1.78458467e-01, -5.32431602e-01],
+         [-1.97006300e-01, -1.22562185e-01, -7.49048591e-02],
+         [ 2.81229258e-01, -6.29485771e-02,  2.03068763e-01],
+         [-4.78337079e-01, -7.24266708e-01, -7.22120702e-01],
+         [ 3.39150280e-01,  6.52333498e-02,  1.42264619e-01],
+         [ 1.33290380e-01,  3.07468604e-02,  2.74779916e-01],
+         [-7.64167402e-04,  4.02096054e-03,  2.88234293e-01],
+         [ 2.67466605e-01,  2.52607644e-01,  2.24442825e-01],
+         [ 1.75580591e-01,  1.17959879e-01,  2.54109591e-01],
+         [-1.54530272e-01, -1.21206172e-01,  6.84056804e-02],
+         [ 3.03603262e-01,  1.25999466e-01,  8.91618878e-02]], dtype=float32),
+  array([0.02325003, 0.04449695, 0.04215444], dtype=float32))]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[(array([[ 1.53069824e-01, -2.10883975e-01,  2.01293573e-01,
+           2.00886243e-05,  8.39339555e-05, -1.59104392e-01,
+          -3.11721444e-01,  8.15778226e-02, -1.30519122e-01,
+           2.66870164e-04,  2.02755541e-01,  2.00401381e-01,
+           2.55665570e-01,  9.49345157e-03, -2.87445990e-04,
+           2.97707498e-01,  2.03495666e-01,  6.32490441e-02,
+           1.99170873e-01,  1.80119430e-04,  1.20747246e-01,
+          -1.67233795e-01, -2.98334770e-02, -3.50672485e-06,
+           1.22021355e-01,  1.01019315e-01,  1.96768597e-01,
+          -1.26161918e-01,  3.03663150e-03,  2.84228637e-03,
+           1.29882827e-01, -7.99915791e-02, -1.29280478e-01,
+           4.20932584e-02, -8.54701623e-02,  5.27626090e-02,
+          -1.17510051e-01,  1.01156078e-01,  4.60322537e-02,
+           8.14467445e-02,  5.08916415e-02,  1.00427233e-01,
+           9.20651853e-03,  4.08653691e-02, -4.04455874e-04,
+          -8.63167420e-02, -1.63388662e-02, -6.32612929e-02,
+          -4.41273190e-02,  1.39217749e-01,  1.20777473e-01,
+          -2.40870282e-01,  2.55658120e-01,  1.09948285e-01,
+          -3.47286537e-02,  2.67806593e-02,  9.29918215e-02,
+           1.18900443e-05, -1.36361867e-01,  8.80834250e-06,
+           8.88264403e-02, -9.57389420e-05, -9.50625315e-02,
+           2.03881428e-01, -1.61554329e-02, -1.62480952e-04,
+          -2.17100427e-01,  6.52862415e-02, -2.11271066e-02,
+          -8.55357293e-03,  1.26932263e-01, -1.71124235e-01,
+          -5.88358827e-02, -5.16286343e-02, -1.39274625e-05,
+           5.35593834e-04,  9.61367711e-02,  1.18201040e-01,
+          -4.81214654e-03,  9.21703850e-06, -6.21714629e-02,
+          -8.35517049e-02,  1.48129642e-01,  9.29927846e-05,
+           1.15547804e-02, -1.89512312e-01,  4.78157401e-02,
+           1.76594645e-01,  1.74783200e-01,  5.14295287e-02,
+           8.22573304e-02,  9.21452641e-02,  4.19164710e-02,
+          -2.96897590e-01, -3.95684547e-05, -1.62488356e-01,
+          -5.28006442e-03, -2.46928513e-01,  1.66877523e-01,
+          -7.30078593e-02, -5.51951900e-02, -2.95307606e-01,
+           5.55741927e-03, -1.36754781e-01,  3.92581522e-02,
+          -6.33591320e-04,  2.59832561e-01, -1.40803531e-01,
+           2.81424731e-01,  2.48177692e-01, -2.55979836e-01,
+          -2.00387673e-03,  9.41594772e-06,  4.10088524e-02,
+          -2.16915846e-01,  2.05238029e-01,  5.90725578e-02,
+          -1.07257450e-02,  4.88407686e-02,  1.20324254e-01,
+          -3.98441069e-02, -8.82441998e-02, -6.40106574e-02,
+           9.10342392e-03,  3.94968502e-03,  6.52407557e-02,
+          -4.41694545e-04,  2.32200782e-05],
+         [-9.56135169e-02, -4.26747017e-02,  2.31635168e-01,
+          -4.34760768e-05, -1.41721021e-03, -1.05505474e-01,
+          -1.71429455e-01,  2.83397526e-01, -2.90613860e-01,
+           1.34984814e-02, -2.04954833e-01, -1.09364532e-01,
+           2.36716960e-02,  1.02085277e-01, -7.57721486e-04,
+           3.01513523e-01, -7.43361935e-02,  6.67992011e-02,
+          -2.26764724e-01,  1.24011317e-03, -6.82956874e-02,
+          -2.27028634e-02, -3.38605016e-01, -7.59451223e-06,
+           2.47587293e-01, -1.05594315e-01,  6.80167899e-02,
+          -3.21082734e-02,  2.73950666e-01,  2.28774473e-02,
+           1.39960796e-01,  1.27722230e-02, -1.43947393e-01,
+           3.11916452e-02, -1.90591291e-01, -8.27737749e-02,
+          -1.02607206e-01,  1.33461252e-01, -1.05700260e-02,
+          -1.02083698e-01,  5.75763918e-02,  1.34090975e-01,
+           2.15719789e-01,  2.12458178e-01, -4.04632092e-03,
+          -3.49481136e-01,  2.00065210e-01,  2.42629960e-01,
+           1.93042323e-01,  2.50296980e-01,  8.94507915e-02,
+          -9.58382115e-02, -2.28494462e-02,  2.36369818e-01,
+          -1.27528459e-01, -3.69563773e-02, -4.67114002e-02,
+           2.74982722e-03, -9.03799571e-03, -4.51136657e-05,
+           2.58287728e-01,  3.40779708e-03,  9.73177031e-02,
+          -6.85589537e-02,  6.38271775e-03,  1.67258189e-03,
+           1.97855867e-02, -9.07262564e-02, -2.09668845e-01,
+          -4.53785360e-02,  1.67807788e-01, -8.33287239e-02,
+           3.52400422e-01,  1.22029133e-01,  8.00654367e-02,
+           9.65318363e-03,  1.72288101e-02, -1.01203807e-02,
+           1.56366780e-01, -1.68244774e-03, -2.37100329e-02,
+          -1.73389837e-01,  1.95295420e-02, -1.99440308e-03,
+           8.00025314e-02, -5.56620248e-02,  1.02638401e-01,
+          -1.10902466e-01,  3.06838099e-02, -4.44191992e-02,
+          -8.43552127e-02, -1.01193162e-02,  2.33832449e-02,
+          -6.29129075e-03,  4.06327425e-03, -8.32595825e-02,
+          -3.15990485e-02, -1.56893134e-02,  2.82309711e-01,
+           2.82361269e-01, -5.72224781e-02,  1.26476690e-01,
+          -2.54863471e-01,  2.34438434e-01,  2.19621658e-01,
+          -3.14361751e-01,  1.25776291e-01,  3.03557932e-01,
+           5.59490025e-02,  1.51903592e-02, -2.60025859e-02,
+          -5.54666389e-03, -1.84743130e-05, -6.40727952e-02,
+          -2.44256482e-01, -4.81589586e-02, -2.26609573e-01,
+           1.23653643e-01,  1.95894942e-01, -6.13540150e-02,
+           1.45041913e-01, -2.85595238e-01, -4.65233065e-02,
+           5.48471771e-02,  1.05303042e-01,  2.79892176e-01,
+           5.61308339e-02, -1.89330840e-05],
+         [ 1.41446022e-02, -2.01077163e-01, -1.00045651e-01,
+          -8.03999066e-01, -8.95831764e-01,  4.21975218e-02,
+          -1.63626343e-01, -2.76833862e-01, -9.76875201e-02,
+           5.06179988e-01,  4.87757809e-02,  1.41420245e-01,
+          -2.07441241e-01,  4.01056767e-01, -8.05710256e-01,
+           6.44692872e-03,  2.21009120e-01, -1.69436529e-01,
+          -6.67921826e-02, -1.05775523e+00,  8.38957876e-02,
+          -2.98910160e-02, -1.46367446e-01, -6.53301001e-01,
+          -1.04626469e-01, -1.58328131e-01,  2.53040403e-01,
+           6.34190068e-02,  4.76733029e-01, -5.84724784e-01,
+           3.33633602e-01, -1.21292204e-01, -2.23500072e-03,
+           2.00990856e-01, -1.68379713e-02,  1.11320294e-01,
+          -1.31700095e-02, -1.03982717e-01, -4.40700680e-01,
+           2.74899751e-01,  2.59439200e-01,  2.15766475e-01,
+           3.26091349e-01, -6.15844578e-02, -6.39787376e-01,
+           1.57167748e-01, -1.39899984e-01,  8.18154663e-02,
+          -2.17399538e-01, -6.46281019e-02,  1.34346440e-01,
+           2.12652043e-01, -9.76891369e-02,  3.79553400e-02,
+           1.54967695e-01, -4.33932215e-01, -1.18579738e-01,
+          -1.39027762e+00,  2.06093520e-01, -7.32906520e-01,
+          -2.59851754e-01, -9.46300507e-01,  5.03597856e-02,
+          -7.38284066e-02, -3.75461280e-01, -8.37107539e-01,
+          -2.82007039e-01, -1.31407663e-01,  1.10969849e-01,
+           2.02970564e-01, -7.02738762e-02,  3.28801498e-02,
+           1.80798143e-01, -3.50165248e-01,  4.46210891e-01,
+          -6.59628510e-01, -2.87261099e-01,  2.80246645e-01,
+           2.50837177e-01, -1.16137397e+00, -1.68976769e-01,
+          -8.80870670e-02, -4.61860485e-02, -9.82364774e-01,
+           3.16690683e-01,  1.90806836e-01,  5.66026270e-02,
+          -1.44116074e-01, -2.78943963e-03,  2.78720170e-01,
+          -8.42702761e-02, -4.45272118e-01,  2.31863722e-01,
+           3.17606293e-02, -1.17060268e+00,  8.20184126e-02,
+          -5.30681014e-01,  1.83141917e-01, -4.02189136e-01,
+          -2.00566091e-03,  8.20839126e-03,  2.02945963e-01,
+           1.09732404e-01,  2.25487888e-01,  4.87290174e-02,
+          -1.38762947e-02,  1.79363459e-01,  1.78430855e-01,
+          -2.75342762e-02, -1.79975152e-01, -2.09120149e-03,
+          -6.71783090e-01, -6.95732594e-01,  2.93099910e-01,
+          -2.42147833e-01, -2.94341862e-01,  5.07360250e-02,
+           3.43546301e-01,  6.06366359e-02,  9.93927941e-02,
+           1.48736641e-01,  2.39289686e-01,  1.30173057e-01,
+           3.49565655e-01,  1.92776322e-01, -5.48308827e-02,
+          -4.40925032e-01, -8.10449481e-01]], dtype=float32),
+  array([ 0.04993482, -0.01212634,  0.0791207 ,  0.00492666,  0.01319074,
+         -0.10325487, -0.1346548 ,  0.10120684, -0.0575023 , -0.02011754,
+          0.06913678,  0.04907846,  0.04280977,  0.00189588,  0.00704372,
+          0.05355757,  0.06565716,  0.08904282,  0.03973582,  0.00688254,
+          0.06209717, -0.08303745, -0.03966172,  0.00399084,  0.06877296,
+          0.12979364,  0.06964204,  0.31554383,  0.13802093,  0.02556979,
+          0.4289254 , -0.0503752 , -0.07069702,  0.03091657, -0.06025747,
+          0.0746284 , -0.08132786,  0.04863249,  0.06814621,  0.0508422 ,
+          0.08750687,  0.06362367,  0.05117381,  0.07356688,  0.02762729,
+          0.09656563,  0.07198024, -0.26193607, -0.0602057 ,  0.08606211,
+          0.07281027, -0.06211648,  0.07160514,  0.06034514,  0.30626503,
+          0.0429852 ,  0.14285904,  0.03020917,  0.13712466,  0.00450039,
+          0.09005794,  0.0123495 ,  0.36532483,  0.08149678,  0.18150629,
+          0.00565592, -0.11370263,  0.09517168,  0.21982178,  0.08685449,
+          0.08191731, -0.07257076,  0.2534638 ,  0.3897213 , -0.00143844,
+          0.01895614,  0.10273186,  0.11818916,  0.00264214,  0.0128728 ,
+         -0.08194415, -0.0661905 ,  0.07294855,  0.00806362, -0.00107712,
+         -0.00505454,  0.06896237,  0.0813387 ,  0.06515121, -0.07235986,
+          0.07138455,  0.10467188,  0.16391854, -0.0606044 ,  0.010386  ,
+          0.19612047,  0.10880241, -0.08573751,  0.07287953,  0.3737235 ,
+         -0.02502817, -0.07157979, -0.01277431,  0.14055003,  0.05926196,
+          0.29733676,  0.05263878, -0.1505707 ,  0.05544473,  0.07868218,
+         -0.07834595,  0.05206577,  0.00429451,  0.05404095, -0.09889918,
+         -0.0151882 ,  0.09757402,  0.19194539,  0.07196058,  0.03609553,
+         -0.3547578 ,  0.04935162,  0.14975967,  0.01198729,  0.01796428,
+          0.02070589,  0.04502893,  0.00497391], dtype=float32)),
+ (),
+ (array([[-0.03422838, -0.02585936,  0.07256419, ...,  0.10604588,
+           0.07892369,  0.1075211 ],
+         [-0.02576409, -0.04324246, -0.14388034, ..., -0.14141543,
+          -0.14632596, -0.13177887],
+         [-0.03215259,  0.08260014,  0.04717227, ...,  0.12862837,
+          -0.10882525,  0.09364428],
+         ...,
+         [-0.08749322, -0.0168451 , -0.05433867, ..., -0.03359725,
+          -0.00382601,  0.15514964],
+         [-0.10678113,  0.2651945 , -0.29697   , ..., -0.05284815,
+          -0.02245768,  0.07594308],
+         [-0.8964345 ,  0.4518805 , -0.8790541 , ...,  0.1999891 ,
+          -0.5511756 ,  0.20147882]], dtype=float32),
+  array([ 0.04318503,  0.06401413,  0.10552775,  0.1473793 ,  0.03431362,
+         -0.04497027,  0.04367442,  0.07699274,  0.04165394,  0.07037516,
+          0.08304454,  0.0683172 ,  0.00262007,  0.05374337,  0.03608707,
+          0.16427258,  0.04042302, -0.00634741, -0.02428112,  0.06873304,
+          0.0518212 ,  0.04075989,  0.06424611,  0.05797005,  0.0316513 ,
+          0.2345811 , -0.02713604,  0.04995387, -0.04329855,  0.1378327 ,
+          0.05642162,  0.06783304,  0.0543987 ,  0.05031141, -0.02864387,
+          0.1944591 ,  0.20191945, -0.23888457, -0.00107816,  0.05796514,
+          0.06788929,  0.06220463,  0.04600336,  0.04127879,  0.23460324,
+          0.02737976, -0.02148593,  0.12680675,  0.07559889,  0.09663132,
+          0.09608997,  0.02774669,  0.05582898,  0.01978187,  0.0213549 ,
+          0.15664043,  0.05999393, -0.03036105,  0.07454889,  0.12296706,
+          0.00878114,  0.04319701,  0.03167537,  0.05068729, -0.01067725,
+          0.06127113,  0.14654745, -0.01772743,  0.04000608,  0.07163013,
+          0.05569566,  0.06486893, -0.03135101,  0.04571848,  0.07377528,
+          0.06323048,  0.05599957, -0.00325564,  0.05290375,  0.18670882,
+          0.04943348,  0.05839921, -0.01254695,  0.00374835,  0.04091755,
+          0.06934862,  0.05295921,  0.12965381,  0.26518968,  0.02922123,
+          0.0759641 ,  0.06503931, -0.02622866,  0.08374478, -0.05003466,
+          0.04679668,  0.00959557, -0.00260884, -0.01219916,  0.0059711 ,
+          0.05894898,  0.04760699,  0.04448665,  0.14146328,  0.04171022,
+          0.00039654,  0.14147858,  0.05612815,  0.03840605,  0.04201587,
+          0.0598927 ,  0.0404181 , -0.0121826 ,  0.002291  ,  0.02991664,
+          0.06338561,  0.05918598,  0.10408899, -0.05643817,  0.04786403,
+          0.17926623,  0.04988811,  0.05208017,  0.05186151,  0.0571902 ,
+          0.05716937, -0.02336271,  0.04936297], dtype=float32)),
+ (),
+ (array([[-4.78656381e-01, -4.84813273e-01, -5.50405860e-01],
+         [ 3.35031658e-01,  1.76466942e-01,  1.48843542e-01],
+         [-3.45053434e-01, -6.55529320e-01, -2.37278402e-01],
+         [-9.41956460e-01, -9.29954112e-01, -8.69155824e-01],
+         [ 2.55623072e-01, -3.67746176e-03,  1.26485467e-01],
+         [-5.47391735e-02, -1.23208657e-01, -1.38787791e-01],
+         [ 2.61397302e-01,  2.81228703e-02,  6.48772046e-02],
+         [ 2.01461002e-01,  1.97006389e-01,  1.24496259e-01],
+         [ 1.88138280e-02,  2.08875373e-01,  2.70739555e-01],
+         [ 2.38008395e-01,  2.37070963e-01,  4.67405587e-01],
+         [ 1.37017727e-01,  3.44284713e-01,  1.73349738e-01],
+         [ 2.18866974e-01,  2.30267376e-01, -6.88656420e-02],
+         [-6.76326990e-01, -6.99695110e-01, -1.38253331e-01],
+         [ 7.44611695e-02,  3.46906662e-01,  1.94446564e-01],
+         [ 1.27352834e-01,  3.37143987e-02,  7.34688267e-02],
+         [-1.10179520e+00, -9.15884078e-01, -9.38202620e-01],
+         [ 2.16434851e-01,  1.61506251e-01,  4.67592180e-02],
+         [-8.43614116e-02, -1.60350174e-01, -4.02493781e-04],
+         [-2.11055398e-01, -8.97642747e-02,  5.72317876e-02],
+         [ 2.15646937e-01,  2.57510275e-01,  1.78803712e-01],
+         [ 2.71565050e-01, -5.99395931e-02,  1.79622740e-01],
+         [ 7.15189651e-02,  2.59319156e-01,  2.61098385e-01],
+         [ 1.86891183e-01,  2.48789236e-01,  2.18168437e-01],
+         [ 1.84291024e-02,  2.42671505e-01,  2.19747853e-02],
+         [ 2.03428015e-01,  3.54187727e-01,  2.82053471e-01],
+         [ 7.03351319e-01,  8.09539080e-01,  7.72811830e-01],
+         [ 9.11437124e-02, -1.44656196e-01,  2.22388536e-01],
+         [ 2.26557896e-01, -1.10934088e-02,  2.13816017e-01],
+         [-1.12496905e-01, -1.87045932e-01, -5.97019009e-02],
+         [-7.61769235e-01, -7.72123635e-01, -9.75890219e-01],
+         [ 3.05190325e-01,  1.32497445e-01,  2.17855945e-01],
+         [ 1.31501675e-01,  1.12660259e-01,  1.65270157e-02],
+         [-5.56640387e-01, -4.99232233e-01, -2.92703152e-01],
+         [ 2.19774038e-01,  3.95686179e-02,  2.31017187e-01],
+         [-1.77604914e-01, -6.38101920e-02, -4.09325399e-02],
+         [-1.03784680e+00, -9.10168588e-01, -1.07743847e+00],
+         [-1.00170982e+00, -1.04068625e+00, -8.59334171e-01],
+         [ 8.45464468e-01,  2.08024696e-01, -4.88651544e-02],
+         [-4.31112051e-01, -1.91040486e-01, -3.56914222e-01],
+         [ 2.79779643e-01,  2.50112742e-01,  2.09560946e-01],
+         [ 5.63736148e-02,  2.27240503e-01,  2.81559199e-01],
+         [-7.16340959e-01, -4.02274430e-01, -5.70875406e-01],
+         [ 2.46527553e-01, -8.15471187e-02,  2.10321933e-01],
+         [ 1.37722507e-01, -1.67197183e-01,  3.23957533e-01],
+         [-8.45782340e-01, -1.05558038e+00, -1.12943280e+00],
+         [-3.96439135e-01, -2.55469799e-01, -4.35159922e-01],
+         [-2.39666134e-01,  1.18508175e-01, -3.05553824e-01],
+         [-6.16362095e-01, -5.21952748e-01, -6.37968063e-01],
+         [ 1.39270779e-02,  2.06092358e-01,  2.47910649e-01],
+         [-6.25008523e-01, -6.01777017e-01, -5.92815816e-01],
+         [ 1.96474746e-01,  1.98963687e-01, -1.47557515e-03],
+         [ 1.63086876e-01,  1.93513006e-01,  2.37006247e-01],
+         [ 1.29517719e-01,  1.98047608e-01,  2.71610498e-01],
+         [-1.42343462e-01,  7.90357590e-02, -8.58355612e-02],
+         [-5.27097523e-01, -3.60084742e-01, -4.36733454e-01],
+         [-8.70184779e-01, -2.06790432e-01, -1.00296281e-01],
+         [ 1.94708794e-01,  6.13125302e-02,  4.15276922e-02],
+         [ 1.23108901e-01, -2.63996720e-01, -2.07525179e-01],
+         [ 8.23504180e-02,  2.37032309e-01,  1.45315722e-01],
+         [-3.39615971e-01, -5.39651752e-01, -5.03607452e-01],
+         [-1.77049398e-01, -7.85850435e-02, -1.31696507e-01],
+         [ 4.49967720e-02,  3.20405841e-01,  1.52601779e-01],
+         [ 2.26537839e-01,  2.06401661e-01, -1.26141608e-01],
+         [-9.73755196e-02,  3.00717533e-01,  2.03305751e-01],
+         [-1.77933872e-02, -1.02676630e-01, -3.10888700e-02],
+         [ 2.64976263e-01,  2.50689447e-01,  1.67717174e-01],
+         [-2.89391667e-01, -5.38424611e-01, -5.13043404e-01],
+         [-1.12035535e-01, -2.91938297e-02,  5.71100600e-02],
+         [-6.81093931e-01, -7.79274285e-01, -8.95485103e-01],
+         [ 7.11113261e-03,  2.08368346e-01,  1.09029703e-01],
+         [ 2.67163366e-01,  9.01261866e-02,  2.32021391e-01],
+         [ 7.61629567e-02,  1.28208548e-01,  1.77933559e-01],
+         [-2.42862012e-02, -1.42082199e-01,  9.67771187e-02],
+         [ 1.93336159e-01,  8.01900402e-02,  1.84268087e-01],
+         [ 3.80656809e-01,  1.73509553e-01,  3.48442614e-01],
+         [-4.12368387e-01, -5.81474602e-01, -3.72003049e-01],
+         [ 2.31199354e-01,  9.51954871e-02,  9.01686102e-02],
+         [-2.30810836e-01,  3.19271423e-02, -2.17658013e-01],
+         [ 1.37645110e-01,  1.10636175e-01,  1.41822726e-01],
+         [-8.80627453e-01, -1.19069552e+00, -1.06030595e+00],
+         [ 1.34634405e-01,  2.07669675e-01,  3.21988791e-01],
+         [ 1.95426956e-01,  2.12161362e-01,  1.53630190e-02],
+         [-1.22733235e-01,  2.31809001e-02, -2.72758193e-02],
+         [ 3.04959603e-02, -6.61364049e-02, -2.81280249e-01],
+         [ 1.67098984e-01,  5.76136671e-02,  2.03342289e-01],
+         [ 2.42621675e-01,  4.24271375e-01,  3.72970521e-01],
+         [ 3.52295369e-01,  1.11584626e-01, -6.89266324e-02],
+         [-4.39384192e-01, -4.31890994e-01, -6.38583899e-01],
+         [ 5.71117282e-01,  4.89224911e-01,  3.75584066e-01],
+         [-3.42314690e-01, -6.00230023e-02,  3.19120228e-01],
+         [-5.33911943e-01, -4.10487771e-01, -4.53867435e-01],
+         [ 6.27191663e-02,  1.59758374e-01,  2.63538938e-02],
+         [ 1.95248798e-01,  3.79788578e-02,  2.10875288e-01],
+         [-5.45423508e-01, -3.39853108e-01, -3.81522626e-01],
+         [-2.18804523e-01, -5.64338192e-02, -2.85992641e-02],
+         [-5.62148280e-02,  2.20772356e-01,  8.28550979e-02],
+         [-4.09969002e-01, -3.73499215e-01, -1.92373544e-01],
+         [-5.19106209e-01, -1.23261869e-01, -1.96268767e-01],
+         [-1.57062620e-01, -1.10868244e-02,  6.20706715e-02],
+         [-1.57321051e-01, -3.06500614e-01, -2.30024591e-01],
+         [ 3.59437205e-02,  3.52994859e-01,  2.38882601e-01],
+         [ 1.36312008e-01,  1.38561815e-01,  2.23111033e-01],
+         [ 1.66426688e-01,  1.44103363e-01,  1.08864978e-01],
+         [-4.31933135e-01, -4.29439902e-01, -5.28308690e-01],
+         [-4.10688035e-02,  2.73244053e-01,  1.24709614e-01],
+         [-1.84629008e-01, -1.24577269e-01,  5.33142388e-02],
+         [-1.08149683e+00, -8.98993015e-01, -1.14275980e+00],
+         [ 2.08761305e-01,  1.56309798e-01, -1.25824418e-02],
+         [-4.95516181e-01, -3.53564203e-01, -1.31432191e-01],
+         [ 3.55273299e-02,  1.20648474e-01,  2.36399055e-01],
+         [ 8.50410089e-02, -1.47752538e-02,  2.15277553e-01],
+         [ 2.11633042e-01,  1.01077348e-01,  3.30886878e-02],
+         [-1.06111094e-01,  1.07693918e-01, -9.53614414e-02],
+         [-1.75395906e-01, -3.53530228e-01, -1.19211458e-01],
+         [ 2.68203467e-01,  2.82129109e-01, -1.54477522e-01],
+         [ 1.70596585e-01,  1.52597874e-01,  6.76318184e-02],
+         [ 5.46143129e-02,  1.23157211e-01,  8.29520896e-02],
+         [-5.31307220e-01, -1.78458467e-01, -5.32431602e-01],
+         [-1.97006300e-01, -1.22562185e-01, -7.49048591e-02],
+         [ 2.81229258e-01, -6.29485771e-02,  2.03068763e-01],
+         [-4.78337079e-01, -7.24266708e-01, -7.22120702e-01],
+         [ 3.39150280e-01,  6.52333498e-02,  1.42264619e-01],
+         [ 1.33290380e-01,  3.07468604e-02,  2.74779916e-01],
+         [-7.64167402e-04,  4.02096054e-03,  2.88234293e-01],
+         [ 2.67466605e-01,  2.52607644e-01,  2.24442825e-01],
+         [ 1.75580591e-01,  1.17959879e-01,  2.54109591e-01],
+         [-1.54530272e-01, -1.21206172e-01,  6.84056804e-02],
+         [ 3.03603262e-01,  1.25999466e-01,  8.91618878e-02]], dtype=float32),
+  array([0.02325003, 0.04449695, 0.04215444], dtype=float32))]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Peter Hurley.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

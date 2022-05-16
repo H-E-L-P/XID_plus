@@ -23,8 +23,6 @@ It is being actively developed in a public repository on `GitHub <https://github
    hpc
    priors
    api
-   Stan
-
 
 
 
