@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XID+ Example Run Script &mdash; XID+ 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> XID+
+          </a>
+              <div class="version">
+                3.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">A Generative Probabilistic Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#docker">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hpc.html">Large Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../priors.html">Beyond Positional Priors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">XID+</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>XID+ Example Run Script</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/notebooks/examples/SED_emulator/XID+example_run_script-Prior_predictive_checks.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="XID+-Example-Run-Script">
+<h1>XID+ Example Run Script<a class="headerlink" href="#XID+-Example-Run-Script" title="Permalink to this headline">¶</a></h1>
+<p>(This is based on a Jupyter notebook, available in the <a class="reference external" href="https://github.com/H-E-L-P/XID_plus/tree/master/docs/notebooks/examples/">XID+ package</a> and can be interactively run and edited)</p>
+<p>XID+ is a probababilistic deblender for confusion dominated maps. It is designed to:</p>
+<ol class="arabic simple">
+<li><p>Use a MCMC based approach to get FULL posterior probability distribution on flux</p></li>
+<li><p>Provide a natural framework to introduce additional prior information</p></li>
+<li><p>Allows more representative estimation of source flux density uncertainties</p></li>
+<li><p>Provides a platform for doing science with the maps (e.g XID+ Hierarchical stacking, Luminosity function from the map etc)</p></li>
+</ol>
+<p>Cross-identification tends to be done with catalogues, then science with the matched catalogues.</p>
+<p>XID+ takes a different philosophy. Catalogues are a form of data compression. OK in some cases, not so much in others, i.e. confused images: catalogue compression loses correlation information. Ideally, science should be done without compression.</p>
+<p>XID+ provides a framework to cross identify galaxies we know about in different maps, with the idea that it can be extended to do science with the maps!!</p>
+<p>Philosophy:</p>
+<ul class="simple">
+<li><p>build a probabilistic generative model for the SPIRE maps</p></li>
+<li><p>Infer model on SPIRE maps</p></li>
+</ul>
+<p>Bayes Theorem</p>
+<p><span class="math notranslate nohighlight">\(p(\mathbf{f}|\mathbf{d}) \propto p(\mathbf{d}|\mathbf{f}) \times p(\mathbf{f})\)</span></p>
+<p>In order to carry out Bayesian inference, we need a model to carry out inference on.</p>
+<p>For the SPIRE maps, our model is quite simple, with likelihood defined as: <span class="math notranslate nohighlight">\(L = p(\mathbf{d}|\mathbf{f}) \propto |\mathbf{N_d}|^{-1/2} \exp\big\{ -\frac{1}{2}(\mathbf{d}-\mathbf{Af})^T\mathbf{N_d}^{-1}(\mathbf{d}-\mathbf{Af})\big\}\)</span></p>
+<p>where: <span class="math notranslate nohighlight">\(\mathbf{N_{d,ii}} =\sigma_{inst.,ii}^2+\sigma_{conf.}^2\)</span></p>
+<p>Simplest model for XID+ assumes following:</p>
+<ul>
+<li><p>All sources are known and have positive flux (fi)</p></li>
+<li><p>A global background (B) contributes to all pixels</p></li>
+<li><p>PRF is fixed and known</p></li>
+<li><p class="rubric" id="confusion-noise-is-constant-and-not-correlated-across-pixels">Confusion noise is constant and not correlated across pixels</p>
+<p>Because we are getting the joint probability distribution, our model is generative i.e. given parameters, we generate data and vica-versa</p>
+</li>
+</ul>
+<p>Compared to discriminative model (i.e. neural network), which only obtains conditional probability distribution i.e. Neural network, give inputs, get output. Can’t go other way’</p>
+<p>Generative model is full probabilistic model. Allows more complex relationships between observed and target variables</p>
+<section id="XID+-SPIRE">
+<h2>XID+ SPIRE<a class="headerlink" href="#XID+-SPIRE" title="Permalink to this headline">¶</a></h2>
+<p>XID+ applied to GALFORM simulation of COSMOS field</p>
+<ul class="simple">
+<li><p>SAM simulation (with dust) ran through SMAP pipeline_ similar depth and size as COSMOS</p></li>
+<li><p>Use galaxies with an observed 100 micron flux of gt. <span class="math notranslate nohighlight">\(50\mathbf{\mu Jy}\)</span>. Gives 64823 sources</p></li>
+<li><p>Uninformative prior: uniform <span class="math notranslate nohighlight">\(0 - 10{^3} \mathbf{mJy}\)</span></p></li>
+</ul>
+<p>Import required modules</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">ascii</span><span class="p">,</span> <span class="n">fits</span>
+<span class="kn">import</span> <span class="nn">pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">wcs</span>
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xidplus</span>
+<span class="kn">from</span> <span class="nn">xidplus</span> <span class="kn">import</span> <span class="n">moc_routines</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">aplpy</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/dask/config.py:168: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  data = yaml.load(f.read()) or {}
+WARNING: AstropyDeprecationWarning: block_reduce was moved to the astropy.nddata.blocks module.  Please update your import statement. [astropy.nddata.utils]
+</pre></div></div>
+</div>
+<p>Set image and catalogue filenames</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xidplus</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;/Users/pdh21/Google_Drive/WORK/XID_plus/xidplus&#39;
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Folder containing maps</span>
+<span class="n">imfolder</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;/../test_files/&#39;</span>
+
+<span class="n">pswfits</span><span class="o">=</span><span class="n">imfolder</span><span class="o">+</span><span class="s1">&#39;cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PSW_hipe.fits.gz&#39;</span><span class="c1">#SPIRE 250 map</span>
+<span class="n">pmwfits</span><span class="o">=</span><span class="n">imfolder</span><span class="o">+</span><span class="s1">&#39;cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PMW_hipe.fits.gz&#39;</span><span class="c1">#SPIRE 350 map</span>
+<span class="n">plwfits</span><span class="o">=</span><span class="n">imfolder</span><span class="o">+</span><span class="s1">&#39;cosmos_itermap_lacey_07012015_simulated_observation_w_noise_PLW_hipe.fits.gz&#39;</span><span class="c1">#SPIRE 500 map</span>
+
+
+<span class="c1">#Folder containing prior input catalogue</span>
+<span class="n">catfolder</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;/../test_files/&#39;</span>
+<span class="c1">#prior catalogue</span>
+<span class="n">prior_cat</span><span class="o">=</span><span class="s1">&#39;lacey_07012015_MillGas.ALLVOLS_cat_PSW_COSMOS_test.fits&#39;</span>
+
+
+<span class="c1">#output folder</span>
+<span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./&#39;</span>
+</pre></div>
+</div>
+</div>
+<p>Load in images, noise maps, header info and WCS information</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#-----250-------------</span>
+<span class="n">hdulist</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">pswfits</span><span class="p">)</span>
+<span class="n">im250phdu</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+<span class="n">im250hdu</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+
+<span class="n">im250</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">*</span><span class="mf">1.0E3</span> <span class="c1">#convert to mJy</span>
+<span class="n">nim250</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">*</span><span class="mf">1.0E3</span> <span class="c1">#convert to mJy</span>
+<span class="n">w_250</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">WCS</span><span class="p">(</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+<span class="n">pixsize250</span><span class="o">=</span><span class="mf">3600.0</span><span class="o">*</span><span class="n">w_250</span><span class="o">.</span><span class="n">wcs</span><span class="o">.</span><span class="n">cd</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="c1">#pixel size (in arcseconds)</span>
+<span class="n">hdulist</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="c1">#-----350-------------</span>
+<span class="n">hdulist</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">pmwfits</span><span class="p">)</span>
+<span class="n">im350phdu</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+<span class="n">im350hdu</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+
+<span class="n">im350</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">*</span><span class="mf">1.0E3</span> <span class="c1">#convert to mJy</span>
+<span class="n">nim350</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">*</span><span class="mf">1.0E3</span> <span class="c1">#convert to mJy</span>
+<span class="n">w_350</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">WCS</span><span class="p">(</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+<span class="n">pixsize350</span><span class="o">=</span><span class="mf">3600.0</span><span class="o">*</span><span class="n">w_350</span><span class="o">.</span><span class="n">wcs</span><span class="o">.</span><span class="n">cd</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="c1">#pixel size (in arcseconds)</span>
+<span class="n">hdulist</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="c1">#-----500-------------</span>
+<span class="n">hdulist</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">plwfits</span><span class="p">)</span>
+<span class="n">im500phdu</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+<span class="n">im500hdu</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+<span class="n">im500</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">*</span><span class="mf">1.0E3</span> <span class="c1">#convert to mJy</span>
+<span class="n">nim500</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">*</span><span class="mf">1.0E3</span> <span class="c1">#convert to mJy</span>
+<span class="n">w_500</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">WCS</span><span class="p">(</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+<span class="n">pixsize500</span><span class="o">=</span><span class="mf">3600.0</span><span class="o">*</span><span class="n">w_500</span><span class="o">.</span><span class="n">wcs</span><span class="o">.</span><span class="n">cd</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="c1">#pixel size (in arcseconds)</span>
+<span class="n">hdulist</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>Load in catalogue you want to fit (and make any cuts)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hdulist</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">catfolder</span><span class="o">+</span><span class="n">prior_cat</span><span class="p">)</span>
+<span class="n">fcat</span><span class="o">=</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+<span class="n">hdulist</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">inra</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;RA&#39;</span><span class="p">]</span>
+<span class="n">indec</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;DEC&#39;</span><span class="p">]</span>
+<span class="c1"># select only sources with 100micron flux greater than 50 microJy</span>
+<span class="n">sgood</span><span class="o">=</span><span class="n">fcat</span><span class="p">[</span><span class="s1">&#39;S100&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mf">0.050</span>
+<span class="n">inra</span><span class="o">=</span><span class="n">inra</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span>
+<span class="n">indec</span><span class="o">=</span><span class="n">indec</span><span class="p">[</span><span class="n">sgood</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p>XID+ uses Multi Order Coverage (MOC) maps for cutting down maps and catalogues so they cover the same area. It can also take in MOCs as selection functions to carry out additional cuts. Lets use the python module <a class="reference external" href="http://pymoc.readthedocs.io/en/latest/">pymoc</a> to create a MOC, centered on a specific position we are interested in. We will use a HEALPix order of 15 (the resolution: higher order means higher resolution), have a radius of 100 arcseconds centered around an R.A. of 150.74 degrees
+and Declination of 2.03 degrees.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
+<span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="n">ra</span><span class="o">=</span><span class="p">[</span><span class="mf">150.74</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="p">[</span><span class="mf">2.03</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pymoc</span>
+<span class="n">moc</span><span class="o">=</span><span class="n">pymoc</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">catalog_to_moc</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>XID+ is built around two python classes. A prior and posterior class. There should be a prior class for each map being fitted. It is initiated with a map, noise map, primary header and map header and can be set with a MOC. It also requires an input prior catalogue and point spread function.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#---prior250--------</span>
+<span class="n">prior250</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">prior</span><span class="p">(</span><span class="n">im250</span><span class="p">,</span><span class="n">nim250</span><span class="p">,</span><span class="n">im250phdu</span><span class="p">,</span><span class="n">im250hdu</span><span class="p">,</span> <span class="n">moc</span><span class="o">=</span><span class="n">moc</span><span class="p">)</span><span class="c1">#Initialise with map, uncertianty map, wcs info and primary header</span>
+<span class="n">prior250</span><span class="o">.</span><span class="n">prior_cat</span><span class="p">(</span><span class="n">inra</span><span class="p">,</span><span class="n">indec</span><span class="p">,</span><span class="n">prior_cat</span><span class="p">)</span><span class="c1">#Set input catalogue</span>
+<span class="n">prior250</span><span class="o">.</span><span class="n">prior_bkg</span><span class="p">(</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="c1">#Set prior on background (assumes Gaussian pdf with mu and sigma)</span>
+<span class="c1">#---prior350--------</span>
+<span class="n">prior350</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">prior</span><span class="p">(</span><span class="n">im350</span><span class="p">,</span><span class="n">nim350</span><span class="p">,</span><span class="n">im350phdu</span><span class="p">,</span><span class="n">im350hdu</span><span class="p">,</span> <span class="n">moc</span><span class="o">=</span><span class="n">moc</span><span class="p">)</span>
+<span class="n">prior350</span><span class="o">.</span><span class="n">prior_cat</span><span class="p">(</span><span class="n">inra</span><span class="p">,</span><span class="n">indec</span><span class="p">,</span><span class="n">prior_cat</span><span class="p">)</span>
+<span class="n">prior350</span><span class="o">.</span><span class="n">prior_bkg</span><span class="p">(</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1">#---prior500--------</span>
+<span class="n">prior500</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">prior</span><span class="p">(</span><span class="n">im500</span><span class="p">,</span><span class="n">nim500</span><span class="p">,</span><span class="n">im500phdu</span><span class="p">,</span><span class="n">im500hdu</span><span class="p">,</span> <span class="n">moc</span><span class="o">=</span><span class="n">moc</span><span class="p">)</span>
+<span class="n">prior500</span><span class="o">.</span><span class="n">prior_cat</span><span class="p">(</span><span class="n">inra</span><span class="p">,</span><span class="n">indec</span><span class="p">,</span><span class="n">prior_cat</span><span class="p">)</span>
+<span class="n">prior500</span><span class="o">.</span><span class="n">prior_bkg</span><span class="p">(</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Set PRF. For SPIRE, the PRF can be assumed to be Gaussian with a FWHM of 18.15, 25.15, 36.3 ’’ for 250, 350 and 500 <span class="math notranslate nohighlight">\(\mathrm{\mu m}\)</span> respectively. Lets use the astropy module to construct a Gaussian PRF and assign it to the three XID+ prior classes.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#pixsize array (size of pixels in arcseconds)</span>
+<span class="n">pixsize</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">pixsize250</span><span class="p">,</span><span class="n">pixsize350</span><span class="p">,</span><span class="n">pixsize500</span><span class="p">])</span>
+<span class="c1">#point response function for the three bands</span>
+<span class="n">prfsize</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">18.15</span><span class="p">,</span><span class="mf">25.15</span><span class="p">,</span><span class="mf">36.3</span><span class="p">])</span>
+<span class="c1">#use Gaussian2DKernel to create prf (requires stddev rather than fwhm hence pfwhm/2.355)</span>
+<span class="kn">from</span> <span class="nn">astropy.convolution</span> <span class="kn">import</span> <span class="n">Gaussian2DKernel</span>
+
+<span class="c1">##---------fit using Gaussian beam-----------------------</span>
+<span class="n">prf250</span><span class="o">=</span><span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">prfsize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mf">2.355</span><span class="p">,</span><span class="n">x_size</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span><span class="n">y_size</span><span class="o">=</span><span class="mi">101</span><span class="p">)</span>
+<span class="n">prf250</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;peak&#39;</span><span class="p">)</span>
+<span class="n">prf350</span><span class="o">=</span><span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">prfsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mf">2.355</span><span class="p">,</span><span class="n">x_size</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span><span class="n">y_size</span><span class="o">=</span><span class="mi">101</span><span class="p">)</span>
+<span class="n">prf350</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;peak&#39;</span><span class="p">)</span>
+<span class="n">prf500</span><span class="o">=</span><span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">prfsize</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mf">2.355</span><span class="p">,</span><span class="n">x_size</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span><span class="n">y_size</span><span class="o">=</span><span class="mi">101</span><span class="p">)</span>
+<span class="n">prf500</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;peak&#39;</span><span class="p">)</span>
+
+<span class="n">pind250</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">1.0</span><span class="o">/</span><span class="n">pixsize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">#get 250 scale in terms of pixel scale of map</span>
+<span class="n">pind350</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">1.0</span><span class="o">/</span><span class="n">pixsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1">#get 350 scale in terms of pixel scale of map</span>
+<span class="n">pind500</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">1.0</span><span class="o">/</span><span class="n">pixsize</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c1">#get 500 scale in terms of pixel scale of map</span>
+
+<span class="n">prior250</span><span class="o">.</span><span class="n">set_prf</span><span class="p">(</span><span class="n">prf250</span><span class="o">.</span><span class="n">array</span><span class="p">,</span><span class="n">pind250</span><span class="p">,</span><span class="n">pind250</span><span class="p">)</span><span class="c1">#requires PRF as 2d grid, and x and y bins for grid (in pixel scale)</span>
+<span class="n">prior350</span><span class="o">.</span><span class="n">set_prf</span><span class="p">(</span><span class="n">prf350</span><span class="o">.</span><span class="n">array</span><span class="p">,</span><span class="n">pind350</span><span class="p">,</span><span class="n">pind350</span><span class="p">)</span>
+<span class="n">prior500</span><span class="o">.</span><span class="n">set_prf</span><span class="p">(</span><span class="n">prf500</span><span class="o">.</span><span class="n">array</span><span class="p">,</span><span class="n">pind500</span><span class="p">,</span><span class="n">pind500</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;fitting &#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">prior250</span><span class="o">.</span><span class="n">nsrc</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; sources </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;using &#39;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="n">prior250</span><span class="o">.</span><span class="n">snpix</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;, &#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">prior250</span><span class="o">.</span><span class="n">snpix</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; and &#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">prior500</span><span class="o">.</span><span class="n">snpix</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; pixels&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+fitting 51 sources
+
+using 870, 870 and 219 pixels
+</pre></div></div>
+</div>
+<p>Before fitting, the prior classes need to take the PRF and calculate how much each source contributes to each pixel. This process provides what we call a pointing matrix. Lets calculate the pointing matrix for each prior class</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prior250</span><span class="o">.</span><span class="n">get_pointing_matrix</span><span class="p">()</span>
+<span class="n">prior350</span><span class="o">.</span><span class="n">get_pointing_matrix</span><span class="p">()</span>
+<span class="n">prior500</span><span class="o">.</span><span class="n">get_pointing_matrix</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<p>Default prior on flux is a uniform distribution, with a minimum and maximum of 0.00 and 1000.0 <span class="math notranslate nohighlight">\(\mathrm{mJy}\)</span> respectively for each source. running the function upper_lim _map resets the upper limit to the maximum flux value (plus a 5 sigma Background value) found in the map in which the source makes a contribution to.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prior250</span><span class="o">.</span><span class="n">upper_lim_map</span><span class="p">()</span>
+<span class="n">prior350</span><span class="o">.</span><span class="n">upper_lim_map</span><span class="p">()</span>
+<span class="n">prior500</span><span class="o">.</span><span class="n">upper_lim_map</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>You can fit with the <a class="reference external" href="https://github.com/pyro-ppl/numpyro">numpyro</a> backend.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="kn">from</span> <span class="nn">xidplus.numpyro_fit</span> <span class="kn">import</span> <span class="n">SED_prior</span>
+<span class="n">fit_numpyro</span><span class="o">=</span><span class="n">SED_prior</span><span class="o">.</span><span class="n">all_bands</span><span class="p">([</span><span class="n">prior250</span><span class="p">,</span><span class="n">prior350</span><span class="p">,</span><span class="n">prior500</span><span class="p">],</span><span class="s1">&#39;../../../../tests/GB_emulator_20210106.pkl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CPU times: user 15min 34s, sys: 44.7 s, total: 16min 19s
+Wall time: 7min 19s
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">posterior_numpyro</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">posterior_numpyro_sed</span><span class="p">(</span><span class="n">fit_numpyro</span><span class="p">,[</span><span class="n">prior250</span><span class="p">,</span><span class="n">prior350</span><span class="p">,</span><span class="n">prior500</span><span class="p">],</span><span class="s1">&#39;../../../../tests/GB_emulator_20210106.pkl&#39;</span><span class="p">)</span>
+<span class="n">xidplus</span><span class="o">.</span><span class="n">save</span><span class="p">([</span><span class="n">prior250</span><span class="p">,</span><span class="n">prior350</span><span class="p">,</span><span class="n">prior500</span><span class="p">],</span><span class="n">posterior_numpyro</span><span class="p">,</span><span class="s1">&#39;test_numpyro_sed&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Number of divergences: 59
+</pre></div></div>
+</div>
+</section>
+<section id="Where-are-the-divergences">
+<h2>Where are the divergences<a class="headerlink" href="#Where-are-the-divergences" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">][:,</span><span class="mi">2</span><span class="p">,:]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;src_f&#39;</span><span class="p">][</span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">divergences</span><span class="p">,</span><span class="mi">2</span><span class="p">,:]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Flux&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 0, &#39;Flux&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_31_1.png" src="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_31_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;sigma_conf&#39;</span><span class="p">][:,</span><span class="n">i</span><span class="p">],</span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;bkg&#39;</span><span class="p">][:,</span><span class="n">i</span><span class="p">],</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;sigma_conf&#39;</span><span class="p">][</span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">divergences</span><span class="p">,</span><span class="n">i</span><span class="p">],</span>
+             <span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;bkg&#39;</span><span class="p">][</span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">divergences</span><span class="p">,</span><span class="n">i</span><span class="p">],</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_32_0.png" src="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_32_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">inverse_transform_parameters</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
+    <span class="n">LIR_sd</span><span class="o">=</span><span class="p">(</span><span class="mf">15.0</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">12.0</span><span class="p">)</span>
+    <span class="n">LIR_mean</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mi">15</span><span class="o">+</span><span class="mf">8.0</span><span class="p">)</span>
+
+    <span class="n">red_sd</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="o">-</span><span class="mf">0.01</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">12.0</span><span class="p">)</span>
+    <span class="n">red_mean</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mf">0.01</span><span class="o">+</span><span class="mi">6</span><span class="p">)</span>
+
+    <span class="n">temp_sd</span><span class="o">=</span><span class="p">(</span><span class="mi">70</span><span class="o">-</span><span class="mf">10.0</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">12.0</span><span class="p">)</span>
+    <span class="n">temp_mean</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mi">70</span><span class="o">+</span><span class="mf">10.0</span><span class="p">)</span>
+
+    <span class="n">LIR</span><span class="o">=</span><span class="n">param</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">LIR_sd</span><span class="o">+</span><span class="n">LIR_mean</span>
+    <span class="n">red</span><span class="o">=</span><span class="n">param</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">red_sd</span><span class="o">+</span><span class="n">red_mean</span>
+    <span class="n">temp</span><span class="o">=</span><span class="n">param</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">temp_sd</span><span class="o">+</span><span class="n">temp_mean</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">LIR</span><span class="p">,</span><span class="n">red</span><span class="p">,</span><span class="n">temp</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">params</span><span class="o">=</span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">][::</span><span class="mi">100</span><span class="p">,:,:]</span>
+
+<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])),</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LIR&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">,</span><span class="s1">&#39;T&#39;</span><span class="p">])</span>
+<span class="n">g</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">PairGrid</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_diag</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">)</span>
+<span class="c1">#g.map_lower(sns.kdeplot, cmap=&quot;Reds&quot;,alpha=0.8,n_levels=10,normed=True, shade=True,shade_lowest=False)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_lower</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">params</span><span class="o">=</span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">][</span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">divergences</span><span class="p">,:,:]</span>
+
+<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])),</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LIR&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">,</span><span class="s1">&#39;T&#39;</span><span class="p">])</span>
+<span class="n">g</span><span class="o">.</span><span class="n">data</span><span class="o">=</span><span class="n">df</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_diag</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">)</span>
+<span class="c1">#g.map_lower(sns.kdeplot,cmap=&quot;Blues&quot;,alpha=0.5,n_levels=10,normed=True, shade=True,shade_lowest=False)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_lower</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;seaborn.axisgrid.PairGrid at 0x7fa596177198&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_34_1.png" src="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_34_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[110]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inverse_transform_parameters</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[110]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(1020, 3)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[113]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="c1">#params=inverse_transform_parameters(posterior_numpyro.samples[&#39;params&#39;][:,:,:].T).reshape(2000,51,3)[::100,:,:]</span>
+<span class="n">params</span><span class="o">=</span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">][::</span><span class="mi">100</span><span class="p">,:,:]</span>
+
+
+<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">inverse_transform_parameters</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">),</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LIR&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">,</span><span class="s1">&#39;T&#39;</span><span class="p">])</span>
+<span class="n">g</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">PairGrid</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_diag</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">)</span>
+<span class="c1">#g.map_lower(sns.kdeplot, cmap=&quot;Reds&quot;,alpha=0.8,n_levels=10,normed=True, shade=True,shade_lowest=False)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_lower</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">params</span><span class="o">=</span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">][</span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">divergences</span><span class="p">,:,:]</span>
+
+<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">inverse_transform_parameters</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">),</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LIR&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">,</span><span class="s1">&#39;T&#39;</span><span class="p">])</span>
+<span class="n">g</span><span class="o">.</span><span class="n">data</span><span class="o">=</span><span class="n">df</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_diag</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">)</span>
+<span class="c1">#g.map_lower(sns.kdeplot,cmap=&quot;Blues&quot;,alpha=0.5,n_levels=10,normed=True, shade=True,shade_lowest=False)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_lower</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[113]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;seaborn.axisgrid.PairGrid at 0x7fa59ae58c88&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_36_1.png" src="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_36_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[99]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inverse_transform_parameters</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[99]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(3, 153)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(2000, 51, 3)
+</pre></div></div>
+</div>
+<section id="Generate-Prior-Predictive-distribution">
+<h3>Generate Prior Predictive distribution<a class="headerlink" href="#Generate-Prior-Predictive-distribution" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">priors</span><span class="o">=</span><span class="p">[</span><span class="n">prior250</span><span class="p">,</span><span class="n">prior350</span><span class="p">,</span><span class="n">prior500</span><span class="p">]</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="n">priors_prior_pred</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">priors</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">priors_prior_pred</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">sim</span><span class="o">=</span><span class="kc">None</span>
+<span class="n">fit_numpyro_prior</span><span class="o">=</span><span class="n">SED_prior</span><span class="o">.</span><span class="n">all_bands</span><span class="p">(</span><span class="n">priors_prior_pred</span><span class="p">,</span><span class="s1">&#39;../../../../tests/GB_emulator_20210106.pkl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">posterior_numpyro_prior</span><span class="o">=</span><span class="n">xidplus</span><span class="o">.</span><span class="n">posterior_numpyro_sed</span><span class="p">(</span><span class="n">fit_numpyro</span><span class="p">,[</span><span class="n">prior250</span><span class="p">,</span><span class="n">prior350</span><span class="p">,</span><span class="n">prior500</span><span class="p">],</span><span class="s1">&#39;../../../../tests/GB_emulator_20210106.pkl&#39;</span><span class="p">)</span>
+<span class="n">xidplus</span><span class="o">.</span><span class="n">save</span><span class="p">([</span><span class="n">prior250</span><span class="p">,</span><span class="n">prior350</span><span class="p">,</span><span class="n">prior500</span><span class="p">],</span><span class="n">posterior_numpyro</span><span class="p">,</span><span class="s1">&#39;test_numpyro_sed_prior_pred&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Number of divergences: 59
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpyro.infer</span> <span class="kn">import</span> <span class="n">Predictive</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">vmap</span>
+
+<span class="n">rng_key</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">rng_key</span><span class="p">,</span> <span class="n">rng_key_</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">rng_key</span><span class="p">)</span>
+
+<span class="n">post_predictive</span><span class="o">=</span><span class="n">Predictive</span><span class="p">(</span><span class="n">SED_prior</span><span class="o">.</span><span class="n">spire_model</span><span class="p">,</span><span class="n">fit_numpyro</span><span class="o">.</span><span class="n">get_samples</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_pred</span><span class="o">=</span><span class="n">post_predictive</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">priors</span><span class="p">,</span><span class="n">SED_prior</span><span class="o">.</span><span class="n">load_emulator</span><span class="p">(</span><span class="s1">&#39;../../../../tests/GB_emulator_20210106.pkl&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prior_predictive</span><span class="o">=</span><span class="n">Predictive</span><span class="p">(</span><span class="n">SED_prior</span><span class="o">.</span><span class="n">spire_model</span><span class="p">,</span><span class="n">posterior_samples</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">num_samples</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prior_pred</span><span class="o">=</span><span class="n">prior_predictive</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">priors_prior_pred</span><span class="p">,</span><span class="n">SED_prior</span><span class="o">.</span><span class="n">load_emulator</span><span class="p">(</span><span class="s1">&#39;../../../../tests/GB_emulator_20210106.pkl&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">prior_pred</span><span class="p">[</span><span class="s1">&#39;obs_psw&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">post_pred</span><span class="p">[</span><span class="s1">&#39;obs_psw&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_46_0.png" src="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_46_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prior_pred</span><span class="p">[</span><span class="s1">&#39;obs_psw&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,:]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+DeviceArray([-1.55429149e+00,  1.01941738e+01,  7.24654198e+00,
+              7.24232292e+00,  4.09906654e+01,  1.07395767e+02,
+              2.24221466e+02,  2.40857101e+02,  1.46174927e+02,
+              5.08366919e+00,  6.30082750e+00, -1.29528475e+00,
+              6.55832863e+00,  1.27105942e+01,  1.18185492e+01,
+              2.80131321e+01,  8.19069977e+01,  1.63992188e+02,
+              1.80281906e+02,  1.04801506e+02,  4.11986351e+01,
+              3.34721231e+00,  1.94344628e+00,  9.17932415e+00,
+              6.36153841e+00,  2.90771985e+00,  4.00064421e+00,
+              1.49422896e+00,  2.72450590e+00,  7.88634157e+00,
+              2.69091934e-01,  4.58551598e+00,  9.13047600e+00,
+              3.55603676e+01,  6.61549454e+01,  7.15175323e+01,
+              5.16619492e+01,  2.27893333e+01,  9.29617500e+00,
+              6.38799477e+00,  1.05275459e+01,  3.37967324e+00,
+              1.15441103e+01,  6.06316090e+00,  6.63202465e-01,
+              4.77773142e+00,  5.06633806e+00,  2.18089032e+00,
+              7.42853117e+00,  7.58331537e+00,  8.36079979e+00,
+              6.89836884e+00,  1.06140966e+01,  2.22650738e+01,
+              1.75049152e+01,  1.06959419e+01,  3.95758343e+00,
+              5.26892138e+00,  3.84473205e+00,  4.79630232e+00,
+              8.88775349e+00,  1.59862137e+00,  9.20230961e+00,
+              5.75020933e+00,  1.71214688e+00,  4.91974068e+00,
+              2.50075030e+00, -2.06566882e+00,  6.08076859e+00,
+              2.29409599e+00,  3.64834905e+00,  7.53234100e+00,
+              4.89181709e+00,  9.04939848e+10,  1.83530062e+11,
+              2.03037786e+11,  1.22526114e+11,  4.03331891e+10,
+             -1.10450280e+00, -2.82256067e-01,  7.33658504e+00,
+              3.10047603e+00,  1.60842228e+00,  8.30511665e+00,
+             -4.15872860e+00,  9.94918823e+00,  9.95579600e-01,
+              1.01083746e+01,  3.67675328e+00,  2.84586453e+00,
+              7.69245481e+00,  7.79770422e+00,  1.69829214e+00,
+              3.73842788e+00,  7.93865824e+00,  2.97888420e+10,
+              2.03037786e+11,  7.54887557e+11,  1.53098099e+12,
+              1.69371160e+12,  1.02209487e+12,  3.36453534e+11,
+              6.04144927e+10,  1.54518390e+00, -1.47394490e+00,
+              3.07390118e+00, -3.43868351e+00,  6.40278435e+00,
+              4.51653194e+00,  6.82691383e+00,  1.16583347e+01,
+              2.04815507e+00,  6.15107965e+00,  7.68684006e+00,
+              5.31983614e+00,  3.80145168e+00,  4.53717232e+00,
+              4.04993534e+00,  8.40322781e+00,  6.06846333e+00,
+              1.35549624e+11,  9.23892711e+11,  3.43500154e+12,
+              6.96649725e+12,  7.70697803e+12,  4.65088807e+12,
+              1.53098099e+12,  2.74907005e+11,  2.69267538e+10,
+              5.00374651e+00,  2.74295902e+00,  2.57198811e+00,
+              7.53053045e+00,  4.02831364e+00,  7.61688757e+00,
+              1.12295747e+00,  4.40407715e+01,  2.22569962e+01,
+              7.46291876e+00,  7.69613552e+00,  1.05891027e+01,
+              5.79690886e+00,  6.62436724e+00,  3.67578745e+00,
+              1.76661468e+00,  1.12231960e+01,  2.69267538e+10,
+              3.36453534e+11,  2.29323414e+12,  8.52616544e+12,
+              1.72918435e+13,  1.91298221e+13,  1.15441706e+13,
+              3.80011361e+12,  6.82358538e+11,  6.68360499e+10,
+              1.55565822e+00,  6.23010874e+00,  2.51172709e+00,
+              7.43090820e+00,  7.49131536e+00,  5.32024336e+00,
+              4.47902727e+00,  8.08128643e+00,  8.09924622e+01,
+              5.99100952e+01,  3.55707550e+01,  2.59342613e+01,
+              1.11615791e+01,  7.12002039e+00,  7.69248152e+00,
+              9.42532635e+00,  7.19396210e+00,  1.71156235e+01,
+              6.97148132e+00,  3.64580045e+10,  4.55547912e+11,
+              3.10496933e+12,  1.15441706e+13,  2.34126322e+13,
+              2.59011987e+13,  1.56304555e+13,  5.14523870e+12,
+              9.23892711e+11,  9.04939848e+10,  2.61477780e+00,
+              2.71927691e+00,  5.25102854e+00, -5.66350746e+00,
+              6.51886940e+00,  1.70366561e+00,  1.74765599e+00,
+              2.72511601e+00,  6.06077995e+01,  5.96089516e+01,
+              5.50155296e+01,  6.74688492e+01,  6.27429161e+01,
+              3.05168667e+01,  1.08182840e+01,  8.73775387e+00,
+              1.12543278e+01,  1.58691158e+01,  1.43819637e+01,
+              2.69267538e+10,  3.36453534e+11,  2.29323414e+12,
+              8.52616544e+12,  1.72918435e+13,  1.91298221e+13,
+              1.15441706e+13,  3.80011361e+12,  6.82358538e+11,
+              6.68360499e+10, -1.44247401e+00,  3.23246789e+00,
+              3.71168900e+00,  3.53195691e+00,  2.36444378e+00,
+              8.41990376e+00,  3.48975468e+00,  2.15420318e+00,
+             -1.84450543e+00,  1.67034149e+01,  3.44831429e+01,
+              4.59403687e+01,  1.03060394e+02,  1.61754257e+02,
+              1.42795868e+02,  7.31333008e+01,  2.39436893e+01,
+              6.51731157e+00,  1.02044544e+01,  1.40613651e+01,
+              2.00391617e+01,  1.82384434e+01,  1.35549624e+11,
+              9.23892711e+11,  3.43500154e+12,  6.96649725e+12,
+              7.70697803e+12,  4.65088807e+12,  1.53098099e+12,
+              2.74907005e+11,  2.69267538e+10,  3.19878340e+00,
+              4.74031591e+00,  2.75908160e+00,  5.61092091e+00,
+              2.88938254e-01,  4.20074320e+00,  1.06820908e+01,
+              7.31997442e+00,  1.09321594e+00,  4.90739727e+00,
+              1.32073135e+01,  5.32155533e+01,  1.34206726e+02,
+              2.17787750e+02,  1.93759567e+02,  1.00379868e+02,
+              3.08570881e+01,  1.15245409e+01,  1.44754372e+01,
+              2.72241573e+01,  5.03148155e+01,  1.37606656e+09,
+              3.25796311e+10,  2.06125220e+11,  7.56750680e+11,
+              1.53159428e+12,  1.69371160e+12,  1.02209487e+12,
+              3.36453534e+11,  6.04144927e+10,  1.12122993e+01,
+              3.93765783e+00,  1.88702023e+00,  5.66647196e+00,
+              1.96024561e+00,  3.18534040e+00,  2.57431173e+00,
+              2.71211553e+00,  8.58286190e+00,  5.20206308e+00,
+              7.12554216e+00,  4.51438808e+00,  1.07703161e+01,
+              1.11299381e+01,  3.76906013e+01,  9.95033875e+01,
+              1.63009964e+02,  1.40255417e+02,  7.44497528e+01,
+              2.70779648e+01,  1.72330742e+01,  2.55377998e+01,
+              4.52974144e+08,  3.08742656e+09,  1.14789458e+10,
+              2.32803512e+10,  2.57548595e+10,  1.06036126e+11,
+              1.88646228e+11,  2.03956453e+11,  1.22526114e+11,
+              4.03331891e+10,  4.16379547e+00,  4.57292223e+00,
+              3.26152182e+00, -1.09458482e+00,  8.28524494e+00,
+              3.65416813e+00,  8.36966896e+00,  7.98477232e-01,
+              6.52460957e+00,  1.39714327e+01,  1.45014973e+01,
+              1.15434017e+01,  3.92040682e+00,  8.68886280e+00,
+              1.71924648e+01,  4.28717651e+01,  6.96629562e+01,
+              5.50502853e+01,  3.26291695e+01,  1.14197979e+01,
+              1.04781923e+01,  5.43128700e+01,  2.06119014e+09,
+              1.40488663e+10,  5.22332037e+10,  1.05933718e+11,
+              1.17193589e+11,  7.07221832e+10,  2.32803512e+10,
+              4.18028186e+09,  4.09452672e+08,  7.49814177e+00,
+              6.46797323e+00,  4.98300314e+00,  5.69922829e+00,
+              2.89266133e+00,  1.97196889e+00,  3.93709779e+00,
+              9.59918690e+00,  7.07997227e+00,  2.42192688e+01,
+              2.99938145e+01,  2.42521820e+01,  1.46498814e+01,
+              2.45800543e+00,  6.20428991e+00,  5.27631092e+00,
+              3.21192718e+00,  8.83725929e+00,  3.03142700e+01,
+              2.05371056e+01,  1.32868671e+01,  1.23903112e+01,
+              1.37623024e+01,  4.09452736e+08,  5.11616870e+09,
+              3.48713001e+10,  1.29650287e+11,  2.62942638e+11,
+              2.90891235e+11,  1.75542567e+11,  5.77851597e+10,
+              1.03760568e+10,  1.01632006e+09,  3.11836934e+00,
+              9.10092545e+00, -2.22544029e-01,  2.01222491e+00,
+              5.95283890e+00,  3.93736601e+00,  8.52240372e+00,
+              4.27720070e+00,  1.67934113e+01,  4.45810051e+01,
+              6.75167313e+01,  6.71822128e+01,  3.55641441e+01,
+              3.40358734e+00,  5.73641014e+00,  9.70416641e+00,
+              7.65923405e+00,  6.25369644e+00,  4.48954058e+00,
+              4.52512169e+00,  1.17633400e+01, -2.63557911e-01,
+              9.29725838e+00,  5.54386560e+08,  6.92713677e+09,
+              4.72146821e+10,  1.75542567e+11,  3.56016357e+11,
+              3.93857925e+11,  2.37679297e+11,  7.82393590e+10,
+              1.40488663e+10,  1.37606656e+09,  1.58680463e+00,
+              4.11624813e+00,  4.31409836e+00,  6.35778666e+00,
+              1.02098265e+01,  2.34291863e+00,  5.45528984e+00,
+              8.84112453e+00,  2.50829487e+01,  6.18444710e+01,
+              1.03119179e+02,  9.06706619e+01,  4.42524948e+01,
+              1.00655782e+00,  5.50368690e+00,  1.53526554e+01,
+              4.55942297e+00,  1.23447771e+01,  7.36668539e+00,
+              1.24060278e+01,  8.22501183e+00,  1.26763363e+01,
+              4.09452704e+08,  5.11616870e+09,  3.48713001e+10,
+              1.29650287e+11,  2.62942638e+11,  2.90891235e+11,
+              1.75542567e+11,  5.77851597e+10,  1.03760568e+10,
+              1.01632006e+09,  5.04853010e+00,  6.08057261e+00,
+             -3.22417688e+00,  3.69750905e+00,  3.20646691e+00,
+              2.24709749e+00,  1.71690977e+00,  2.85600591e+00,
+              1.74092140e+01,  4.56986732e+01,  7.05260849e+01,
+              7.21664886e+01,  3.91680946e+01,  1.24959249e+01,
+              1.52234497e+01,  3.40526128e+00,  3.28479695e+00,
+              4.64643860e+00,  7.50054359e+00,  1.26358786e+01,
+              8.47770119e+00,  2.51733093e+01,  4.43967896e+01,
+              4.45411720e+01,  3.81525993e+01,  2.06119002e+09,
+              1.40488663e+10,  5.22332037e+10,  1.05933718e+11,
+              1.17193589e+11,  7.07221832e+10,  2.32803512e+10,
+              4.18028186e+09,  4.09452672e+08,  5.37824249e+00,
+              5.38324070e+00,  9.13086414e+00,  2.11029220e+00,
+              1.13826666e+01,  7.20733547e+00,  7.20287132e+00,
+              1.04673648e+00,  1.10974169e+01,  2.18481731e+01,
+              3.02427139e+01,  3.27711105e+01,  1.42064352e+01,
+             -2.17774081e+00,  1.03043146e+01,  1.03253698e+01,
+              1.30562315e+01,  1.38916340e+01,  1.26938343e+01,
+              2.79248333e+01,  8.41799774e+01,  1.56250351e+02,
+              1.71871445e+02,  1.03964317e+02,  4.52974112e+08,
+              3.08742630e+09,  1.14789458e+10,  2.32803512e+10,
+              2.57548595e+10,  1.55421440e+10,  5.11616870e+09,
+              9.18672832e+08,  7.77088690e+00,  5.60757589e+00,
+              4.43036509e+00,  5.56734800e+00,  6.94844818e+00,
+              4.45697212e+00, -5.58691800e-01,  3.00070000e+00,
+              1.19759417e+01,  1.79757833e+00,  5.83901596e+00,
+              4.80046844e+00,  1.12440805e+01,  1.81896842e+00,
+              8.82763672e+00,  4.54201746e+00,  1.20396547e+01,
+              2.50006695e+01,  6.32499924e+01,  1.06343758e+02,
+              1.64004425e+02,  2.66987366e+02,  4.02390961e+02,
+              4.11316284e+02,  2.50530655e+02,  7.81294479e+01,
+              1.99292564e+01,  1.37606656e+09,  2.79078861e+09,
+              3.08742630e+09,  1.86315251e+09,  6.13313152e+08,
+              1.17190895e+01,  4.75040960e+00,  2.04442143e+00,
+              4.77674246e+00,  8.50543499e+00,  7.87524796e+00,
+              1.90985286e+00,  5.59307575e+00,  3.61756396e+00,
+              3.63804483e+00,  4.41299915e+00,  4.80895609e-01,
+              1.11186819e+01,  2.68219280e+00,  6.31973600e+00,
+              1.82104702e+01,  2.66067734e+01,  9.38358917e+01,
+              2.86337067e+02,  6.65827393e+02,  9.37607544e+02,
+              8.80517700e+02,  8.00954773e+02,  6.87243713e+02,
+              4.24887604e+02,  1.67892532e+02,  2.57206345e+01,
+              7.86629581e+00,  8.35686016e+00,  1.17031968e+00,
+              6.33743286e+00,  6.02440596e+00,  3.66996789e+00,
+              4.61711311e+00,  4.98599720e+00,  1.07279406e+01,
+              8.50217056e+00,  8.75803661e+00,  8.92768574e+00,
+              5.28646994e+00,  5.09130239e+00,  7.61958504e+00,
+              4.87564802e+00,  1.12138195e+01,  2.65088224e+00,
+              4.46588564e+00,  3.28527212e+00,  3.59876671e+01,
+              8.35340500e+01,  3.16078064e+02,  1.20163733e+03,
+              2.91880493e+03,  3.97146802e+03,  3.19377368e+03,
+              1.95376733e+03,  1.52851575e+03,  1.23779492e+03,
+              6.60890869e+02,  2.11020966e+02,  3.68238220e+01,
+              9.07393360e+00,  3.73201042e-01, -2.12636873e-01,
+              3.92346525e+00,  8.79263115e+00,  4.96979952e+00,
+              5.70912600e+00,  8.38533020e+00,  1.09417229e+01,
+              1.56588583e+01,  1.06152020e+01,  4.49742174e+00,
+              3.47394156e+00,  8.59404945e+00,  3.89690590e+00,
+              3.09609246e+00,  7.28442621e+00,  8.78528023e+00,
+              9.33534050e+00,  4.43594284e+01,  1.38850113e+02,
+              6.98550720e+02,  2.94406055e+03,  7.22472803e+03,
+              9.87866211e+03,  7.92436670e+03,  5.43538623e+03,
+              5.63478516e+03,  5.51712500e+03,  3.26072827e+03,
+              1.06860828e+03,  2.00238129e+02,  3.12300420e+00,
+              6.92528439e+00,  4.33753729e+00,  5.78478813e+00,
+              2.89098120e+00,  5.45854807e+00,  5.56400156e+00,
+              9.33278465e+00,  1.68071003e+01,  1.21976862e+01,
+              1.32475719e+01,  2.95719624e+00,  7.17093801e+00,
+              1.82602921e+01,  2.67781773e+01,  1.98091602e+01,
+              1.08161545e+01,  8.36751461e+00,  5.59315681e+00,
+              1.57735428e+02,  9.09808655e+02,  3.98977539e+03,
+              9.85749902e+03,  1.36245430e+04,  1.18198975e+04,
+              1.12505098e+04,  1.55849297e+04,  1.63605488e+04,
+              9.80469531e+03,  3.22939282e+03,  5.88195312e+02,
+              6.20204582e+01,  1.10694492e+00,  2.60093713e+00,
+             -2.36907244e+00,  8.50262761e-01, -2.90198326e+00,
+              2.65358090e+00,  7.34371376e+00,  1.19090843e+01,
+              1.58113966e+01,  1.49526844e+01,  1.15133858e+01,
+              2.49237061e+01,  4.98961449e+01,  8.23926163e+01,
+              7.88482208e+01,  3.87845955e+01,  1.69331303e+01,
+              1.08049500e+02,  6.75255310e+02,  2.99221021e+03,
+              7.43748535e+03,  1.04984072e+04,  1.06481924e+04,
+              1.50014971e+04,  2.49998555e+04,  2.69828066e+04,
+              1.62324072e+04,  5.34495068e+03,  9.59875183e+02,
+              9.61880569e+01,  8.25571060e+00,  8.86744404e+00,
+              7.87474453e-01,  4.87210751e+00,  1.81564498e+00,
+              2.88875914e+00,  9.14165592e+00,  1.16364403e+01,
+              1.49765215e+01,  1.04615256e-01,  1.57751236e+01,
+              5.44811745e+01,  1.57541748e+02,  2.45378754e+02,
+              2.18804932e+02,  1.15703056e+02,  3.60765915e+01,
+              2.79443695e+02,  1.24408789e+03,  3.10374316e+03,
+              4.59927197e+03,  6.01352783e+03,  1.21149443e+04,
+              2.22839043e+04,  2.43546016e+04,  1.46756934e+04,
+              4.83344385e+03,  8.66190674e+02,  9.22345657e+01,
+              4.43171835e+00,  1.14624584e+00,  5.02806520e+00,
+              8.42730618e+00,  8.82487583e+00, -7.88149834e-02,
+              1.00386262e+00,  7.23278332e+00,  6.83285332e+00,
+              6.01603699e+00,  2.03297825e+01,  9.24295883e+01,
+              2.46424072e+02,  4.06000763e+02,  3.65015289e+02,
+              1.82819550e+02,  2.84577332e+02,  7.15865845e+02,
+              1.18662256e+03,  2.17807886e+03,  5.67426562e+03,
+              1.09326475e+04,  1.20002393e+04,  7.24214746e+03,
+              2.38591333e+03,  4.30690094e+02,  4.63994408e+01,
+             -2.42163467e+00,  4.22427940e+00,  4.40293598e+00,
+              8.49773598e+00,  3.29026604e+00,  2.93780231e+00,
+              1.10222673e+01,  9.56314945e+00,  2.04454279e+00,
+              5.19812059e+00,  2.07888699e+01,  8.11137619e+01,
+              2.27567841e+02,  3.63873718e+02,  3.29951569e+02,
+              4.25646172e+01,  9.50665359e+01,  1.88595352e+02,
+              4.94446960e+02,  1.48923376e+03,  2.93352393e+03,
+              3.23016479e+03,  1.95680164e+03,  6.45249451e+02,
+              1.22677429e+02,  4.60344267e+00,  5.82117605e+00,
+              1.74181366e+01,  7.76269293e+00,  1.32119310e+00,
+              5.50599718e+00,  5.38758373e+00,  3.66813397e+00,
+              1.30575168e+00,  7.36533785e+00,  2.30817509e+00,
+              6.98521519e+00,  4.42998238e+01,  1.12616844e+02,
+              1.81143417e+02,  7.66119528e+00,  5.57077646e+00,
+              6.95836411e+01,  2.31680740e+02,  4.35578308e+02,
+              4.80081451e+02,  2.97639130e+02,  1.08114136e+02,
+              1.65109501e+01,  1.51638813e+01,  1.71246052e+01,
+              1.18453226e+01,  1.84336262e+01,  4.83554316e+00,
+              2.51417375e+00,  5.63024139e+00,  5.68005180e+00,
+              6.08866167e+00,  6.63309717e+00, -1.16355062e+00,
+              1.02969801e+00,  1.11416855e+01,  3.63583145e+01,
+              6.73873806e+00,  2.90796018e+00,  8.95886707e+00,
+              3.74314194e+01,  4.59386635e+01,  6.45435810e+00,
+              2.65231361e+01,  5.00683861e+01,  4.35713882e+01,
+              3.51666718e+01,  2.38619194e+01,  1.51472664e+01,
+              5.18066692e+00,  4.92871284e+00,  9.53327835e-01,
+              6.98210382e+00,  6.41311169e+00,  3.95790100e+00,
+              6.26095390e+00,  3.38619757e+00, -1.59624100e+00,
+              4.14631939e+00,  4.67983484e+00,  5.59793186e+00,
+              6.81375265e+00,  2.40849380e+01,  6.43164673e+01,
+              1.05527481e+02,  1.00714966e+02,  5.77118645e+01,
+              2.49036999e+01,  1.50995865e+01,  9.03667450e+00,
+              1.20187432e-01,  1.78605735e+00,  1.06827533e+00,
+              3.28434038e+00,  4.08401918e+00, -1.19801871e-01,
+              1.27764273e+01,  2.57152596e+01,  9.01879196e+01,
+              1.44936844e+02,  1.25131859e+02,  6.32413979e+01,
+              2.47272987e+01,  2.36596480e-01,  1.03743591e+01,
+              3.21930218e+00,  2.19777393e+00,  4.20410109e+00,
+              8.97559547e+00,  6.96146774e+00,  2.34798870e+01,
+              6.09302673e+01,  1.00203087e+02,  9.76722107e+01,
+              5.30477448e+01,  2.32003021e+01,  5.85894537e+00,
+              1.11079254e+01,  2.81060910e+00,  6.10507011e-01],            dtype=float32)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">prior_pred</span><span class="p">[</span><span class="s1">&#39;bkg&#39;</span><span class="p">][:,</span><span class="mi">0</span><span class="p">],</span><span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">posterior_numpyro</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;bkg&#39;</span><span class="p">][:,</span><span class="mi">0</span><span class="p">],</span><span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_48_0.png" src="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_48_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">prior_pred</span><span class="p">[</span><span class="s1">&#39;obs_psw&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,:]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(array([ 80., 477., 102.,  45.,   0.,   0.,  11.,  36.,  60.,  34.]),
+ array([-0.980405  ,  0.45896748,  1.89834   ,  3.3377123 ,  4.777085  ,
+         6.2164574 ,  7.65583   ,  9.095202  , 10.5345745 , 11.973948  ,
+        13.41332   ], dtype=float32),
+ &lt;a list of 10 Patch objects&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_49_1.png" src="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_49_1.png" />
+</div>
+</div>
+</section>
+<section id="Make-replicated-map">
+<h3>Make replicated map<a class="headerlink" href="#Make-replicated-map" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hdulists</span><span class="o">=</span><span class="p">[</span><span class="n">xidplus</span><span class="o">.</span><span class="n">posterior_maps</span><span class="o">.</span><span class="n">make_fits_image</span><span class="p">(</span><span class="n">prior250</span><span class="p">,</span><span class="n">prior_pred</span><span class="p">[</span><span class="s1">&#39;obs_psw&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">,:]),</span>
+         <span class="n">xidplus</span><span class="o">.</span><span class="n">posterior_maps</span><span class="o">.</span><span class="n">make_fits_image</span><span class="p">(</span><span class="n">prior350</span><span class="p">,</span><span class="n">prior_pred</span><span class="p">[</span><span class="s1">&#39;obs_pmw&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">,:]),</span>
+         <span class="n">xidplus</span><span class="o">.</span><span class="n">posterior_maps</span><span class="o">.</span><span class="n">make_fits_image</span><span class="p">(</span><span class="n">prior500</span><span class="p">,</span><span class="n">prior_pred</span><span class="p">[</span><span class="s1">&#39;obs_plw&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">,:])]</span>
+<span class="n">cmap</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">cubehelix_palette</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span> <span class="n">rot</span><span class="o">=-</span><span class="mf">.75</span><span class="p">,</span><span class="n">as_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">priors</span><span class="p">),</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">figs</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">priors</span><span class="p">)):</span>
+    <span class="n">figs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aplpy</span><span class="o">.</span><span class="n">FITSFigure</span><span class="p">(</span><span class="n">hdulists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span><span class="n">subplot</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">priors</span><span class="p">),</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">priors</span><span class="p">)):</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">priors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">sim</span><span class="p">)</span>
+    <span class="n">vmax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">priors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">sim</span><span class="p">)</span>
+    <span class="n">figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">show_colorscale</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span><span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
+    <span class="n">figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">show_markers</span><span class="p">(</span><span class="n">priors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">sra</span><span class="p">,</span> <span class="n">priors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">sdec</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tick_labels</span><span class="o">.</span><span class="n">set_xformat</span><span class="p">(</span><span class="s1">&#39;dd.dd&#39;</span><span class="p">)</span>
+    <span class="n">figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tick_labels</span><span class="o">.</span><span class="n">set_yformat</span><span class="p">(</span><span class="s1">&#39;dd.dd&#39;</span><span class="p">)</span>
+    <span class="n">figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add_colorbar</span><span class="p">()</span>
+    <span class="n">figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">colorbar</span><span class="o">.</span><span class="n">set_location</span><span class="p">(</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_51_0.png" src="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_51_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hdulists</span><span class="o">=</span><span class="p">[</span><span class="n">xidplus</span><span class="o">.</span><span class="n">posterior_maps</span><span class="o">.</span><span class="n">make_fits_image</span><span class="p">(</span><span class="n">prior250</span><span class="p">,</span><span class="n">post_pred</span><span class="p">[</span><span class="s1">&#39;obs_psw&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,:]),</span>
+         <span class="n">xidplus</span><span class="o">.</span><span class="n">posterior_maps</span><span class="o">.</span><span class="n">make_fits_image</span><span class="p">(</span><span class="n">prior350</span><span class="p">,</span><span class="n">post_pred</span><span class="p">[</span><span class="s1">&#39;obs_pmw&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,:]),</span>
+         <span class="n">xidplus</span><span class="o">.</span><span class="n">posterior_maps</span><span class="o">.</span><span class="n">make_fits_image</span><span class="p">(</span><span class="n">prior500</span><span class="p">,</span><span class="n">post_pred</span><span class="p">[</span><span class="s1">&#39;obs_plw&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,:])]</span>
+<span class="n">cmap</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">cubehelix_palette</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span> <span class="n">rot</span><span class="o">=-</span><span class="mf">.75</span><span class="p">,</span><span class="n">as_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">priors</span><span class="p">),</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">figs</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">priors</span><span class="p">)):</span>
+    <span class="n">figs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aplpy</span><span class="o">.</span><span class="n">FITSFigure</span><span class="p">(</span><span class="n">hdulists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span><span class="n">subplot</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">priors</span><span class="p">),</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">priors</span><span class="p">)):</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">priors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">sim</span><span class="p">)</span>
+    <span class="n">vmax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">priors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">sim</span><span class="p">)</span>
+    <span class="n">figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">show_colorscale</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span><span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
+    <span class="n">figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">show_markers</span><span class="p">(</span><span class="n">priors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">sra</span><span class="p">,</span> <span class="n">priors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">sdec</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tick_labels</span><span class="o">.</span><span class="n">set_xformat</span><span class="p">(</span><span class="s1">&#39;dd.dd&#39;</span><span class="p">)</span>
+    <span class="n">figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tick_labels</span><span class="o">.</span><span class="n">set_yformat</span><span class="p">(</span><span class="s1">&#39;dd.dd&#39;</span><span class="p">)</span>
+    <span class="n">figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add_colorbar</span><span class="p">()</span>
+    <span class="n">figs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">colorbar</span><span class="o">.</span><span class="n">set_location</span><span class="p">(</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_52_0.png" src="../../../_images/notebooks_examples_SED_emulator_XID+example_run_script-Prior_predictive_checks_52_0.png" />
+</div>
+</div>
+<p>Things to do: * check ranges in emulator match prior in model * add redshift prior input * Crate notebook where I generate simulated observations and fit * Think about the degeneracy problem with greybody (remember paper about it) this could be cause of degeneracies</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[115]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[115]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;params&#39;: array([[1361.00182794, 2397.20735275, 1646.98847601],
+        [ 710.85553088, 1449.81687081, 1675.33029686],
+        [ 626.74676938,  791.85066648,  815.10167579],
+        [1287.94896618, 2299.98107553, 1771.33202006],
+        [1505.30603395, 2728.26765529, 2367.70900672],
+        [ 742.31252294,  972.83081762,  989.22757676],
+        [ 401.65033206,  553.3856772 ,  695.04562862],
+        [ 700.70079433, 2159.62160033, 1994.11758238],
+        [1704.36001076, 2384.64560962, 1965.33705182],
+        [1591.10317398, 2467.46055359, 2342.76593858],
+        [1483.74469111, 2874.29004156, 2475.16069251],
+        [ 788.2105856 , 1153.40404909, 1067.36539175],
+        [1392.2927515 , 2096.46018416, 1640.79610725],
+        [ 762.86386556, 2133.05301066, 1740.0194007 ],
+        [1581.08618125, 2147.5984065 , 2174.36369595],
+        [1419.69383601, 2614.83635707, 1992.6867516 ],
+        [1454.06250754, 2574.16525604, 2775.50950385],
+        [ 649.44140564,  678.71988834,  690.78255229],
+        [1980.23850059, 2055.89007375, 2033.75169311],
+        [ 296.20548635, 1139.62250072, 1056.49339089],
+        [ 996.31367401, 2074.36482563, 2185.55122808],
+        [1452.08795506, 1862.67726909, 2372.42463115],
+        [ 809.27585598, 1357.11887303, 1617.7342091 ],
+        [1272.85091792, 2579.30009613, 2477.97384874],
+        [ 789.26916675, 1067.90577987, 1163.35567388],
+        [ 642.06680553, 2076.75458627, 2031.861044  ],
+        [1728.01804853, 2081.87647117, 2092.68041398],
+        [ 276.24345301, 1630.699537  , 1668.14084007],
+        [ 786.71683196, 1393.74035833, 1824.40114452],
+        [1581.71098229, 2486.68575327, 2361.35127541],
+        [1150.30332061, 2219.59396176, 2793.10456544],
+        [1548.631515  , 2450.30661203, 1544.73288132],
+        [ 679.93400256,  923.09550473,  956.46231844],
+        [ 613.24927902,  825.56842942, 1435.58215908],
+        [1389.43301868, 2276.4120389 , 2225.69423659],
+        [ 614.3040332 , 1592.1674644 , 1672.93565367],
+        [ 352.54134586,  829.26127123,  934.28478581],
+        [1479.43280287, 1820.96680132, 2559.27250629],
+        [ 853.96805201, 2653.91233927, 2540.44487452],
+        [ 312.50458497, 1002.71608594, 1040.25611302],
+        [1369.33981262, 2245.69482835, 2814.97309296],
+        [1172.92071412, 1836.89483249, 2038.32323234],
+        [1224.13494001, 1861.26622529, 2147.07298098],
+        [1546.01349264, 2710.551808  , 2339.3086655 ],
+        [ 148.56559488,  594.15791862,  753.89795795],
+        [1312.19348737, 2200.70733914, 2035.54763672],
+        [1118.54083693, 2297.42201667, 2389.74333975],
+        [1499.71892213, 2801.68798478, 1663.94664772],
+        [ 479.55292835,  693.34862861, 1168.27066897],
+        [1477.60469142, 2347.17124317, 1935.26716161],
+        [ 652.61813835,  894.23931233,  847.35275431]]),
+ &#39;sigma_conf&#39;: array([1673.28253434, 1038.75665907,  233.02893357]),
+ &#39;bkg&#39;: array([2043.4955387 , 1656.03472565, 2335.13083427])}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Peter Hurley.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; XID+ 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> XID+
+          </a>
+              <div class="version">
+                3.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">A Generative Probabilistic Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#docker">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hpc.html">Large Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../priors.html">Beyond Positional Priors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">XID+</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/notebooks/examples/SED_emulator/Compare_colorsofCIAGLEandEmulator.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">astropy.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span> <span class="nn">pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">xidplus.numpyro_fit.misc</span> <span class="kn">import</span> <span class="n">load_emulator</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/dask/config.py:168: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  data = yaml.load(f.read()) or {}
+WARNING: AstropyDeprecationWarning: block_reduce was moved to the astropy.nddata.blocks module.  Please update your import statement. [astropy.nddata.utils]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">=</span><span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;./kasia_gen_SEDS_zall.fits&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<i>Table length=44457984</i>
+<table id="table140433982973488" class="table-striped table-bordered table-condensed">
+<thead><tr><th>id</th><th>spire_250</th><th>spire_350</th><th>spire_500</th><th>dust.luminosity</th><th>sfh.sfr</th><th>stellar.m_star</th><th>agn.fracAGN</th><th>attenuation.Av_BC</th><th>dust.alpha</th><th>sfh.age_main</th><th>sfh.tau_main</th><th>universe.redshift</th><th>log10_sfh.sfr</th></tr></thead>
+<thead><tr><th></th><th>mJy</th><th>mJy</th><th>mJy</th><th>W</th><th>solMass / yr</th><th>solMass</th><th></th><th>mag</th><th></th><th>Myr</th><th>Myr</th><th></th><th>solMass / yr</th></tr></thead>
+<thead><tr><th>int64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th></tr></thead>
+<tr><td>0</td><td>4.411296753774093</td><td>1.7070287328618072</td><td>0.6059010576347069</td><td>25031118.564180978</td><td>0.01</td><td>8688687.765422262</td><td>0.0</td><td>0.1</td><td>0.0625</td><td>1000.0</td><td>500.0</td><td>0.0031622776602</td><td>-2.0</td></tr>
+<tr><td>1</td><td>4.414154490037779</td><td>1.7080047409492833</td><td>0.6062552784851811</td><td>25031118.564180978</td><td>0.01</td><td>8688687.765422262</td><td>0.1</td><td>0.1</td><td>0.0625</td><td>1000.0</td><td>500.0</td><td>0.0031622776602</td><td>-2.0</td></tr>
+<tr><td>2</td><td>4.417726660367385</td><td>1.709224751058628</td><td>0.6066980545482739</td><td>25031118.564180978</td><td>0.01</td><td>8688687.765422262</td><td>0.2</td><td>0.1</td><td>0.0625</td><td>1000.0</td><td>500.0</td><td>0.0031622776602</td><td>-2.0</td></tr>
+<tr><td>3</td><td>4.422319450791165</td><td>1.710793335484929</td><td>0.6072673380579644</td><td>25031118.564180978</td><td>0.01</td><td>8688687.765422262</td><td>0.3</td><td>0.1</td><td>0.0625</td><td>1000.0</td><td>500.0</td><td>0.0031622776602</td><td>-2.0</td></tr>
+<tr><td>4</td><td>4.525250208003563</td><td>1.7491750936247186</td><td>0.6195228189229224</td><td>25031118.564180978</td><td>0.01</td><td>8688687.765422262</td><td>0.0</td><td>0.1</td><td>0.1875</td><td>1000.0</td><td>500.0</td><td>0.0031622776602</td><td>-2.0</td></tr>
+<tr><td>5</td><td>4.528107944267248</td><td>1.7501511017121951</td><td>0.6198770397733966</td><td>25031118.564180978</td><td>0.01</td><td>8688687.765422262</td><td>0.1</td><td>0.1</td><td>0.1875</td><td>1000.0</td><td>500.0</td><td>0.0031622776602</td><td>-2.0</td></tr>
+<tr><td>6</td><td>4.531680114596854</td><td>1.7513711118215398</td><td>0.6203198158364893</td><td>25031118.564180978</td><td>0.01</td><td>8688687.765422262</td><td>0.2</td><td>0.1</td><td>0.1875</td><td>1000.0</td><td>500.0</td><td>0.0031622776602</td><td>-2.0</td></tr>
+<tr><td>7</td><td>4.536272905020635</td><td>1.7529396962478412</td><td>0.6208890993461801</td><td>25031118.564180978</td><td>0.01</td><td>8688687.765422262</td><td>0.3</td><td>0.1</td><td>0.1875</td><td>1000.0</td><td>500.0</td><td>0.0031622776602</td><td>-2.0</td></tr>
+<tr><td>8</td><td>4.6649869297883875</td><td>1.801065084350765</td><td>0.6364464462227206</td><td>25031118.564180978</td><td>0.01</td><td>8688687.765422262</td><td>0.0</td><td>0.1</td><td>0.3125</td><td>1000.0</td><td>500.0</td><td>0.0031622776602</td><td>-2.0</td></tr>
+<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+<tr><td>61430</td><td>17943993.268422667</td><td>8672083.461371437</td><td>3093044.767655919</td><td>336223476043342.6</td><td>31622.776601683792</td><td>181137367562170.28</td><td>0.2</td><td>3.6</td><td>3.6875</td><td>9000.0</td><td>6000.0</td><td>0.0251188643151</td><td>4.5</td></tr>
+<tr><td>61431</td><td>17945029.724159658</td><td>8672435.82359508</td><td>3093171.755873231</td><td>336223476043342.6</td><td>31622.776601683792</td><td>181137367562170.28</td><td>0.3</td><td>3.6</td><td>3.6875</td><td>9000.0</td><td>6000.0</td><td>0.0251188643151</td><td>4.5</td></tr>
+<tr><td>61432</td><td>18131427.830722403</td><td>8786621.887239601</td><td>3138184.618522174</td><td>336223476043342.6</td><td>31622.776601683792</td><td>181137367562170.28</td><td>0.0</td><td>3.6</td><td>3.8125</td><td>9000.0</td><td>6000.0</td><td>0.0251188643151</td><td>4.5</td></tr>
+<tr><td>61433</td><td>18132072.736514308</td><td>8786841.134845423</td><td>3138263.633412946</td><td>336223476043342.6</td><td>31622.776601683792</td><td>181137367562170.28</td><td>0.1</td><td>3.6</td><td>3.8125</td><td>9000.0</td><td>6000.0</td><td>0.0251188643151</td><td>4.5</td></tr>
+<tr><td>61434</td><td>18132878.868754193</td><td>8787115.194352701</td><td>3138362.4020264107</td><td>336223476043342.6</td><td>31622.776601683792</td><td>181137367562170.28</td><td>0.2</td><td>3.6</td><td>3.8125</td><td>9000.0</td><td>6000.0</td><td>0.0251188643151</td><td>4.5</td></tr>
+<tr><td>61435</td><td>18133915.324491184</td><td>8787467.556576345</td><td>3138489.390243723</td><td>336223476043342.6</td><td>31622.776601683792</td><td>181137367562170.28</td><td>0.3</td><td>3.6</td><td>3.8125</td><td>9000.0</td><td>6000.0</td><td>0.0251188643151</td><td>4.5</td></tr>
+<tr><td>61436</td><td>18296756.59170101</td><td>8890284.23330905</td><td>3178109.88975285</td><td>336223476043342.6</td><td>31622.776601683792</td><td>181137367562170.28</td><td>0.0</td><td>3.6</td><td>3.9375</td><td>9000.0</td><td>6000.0</td><td>0.0251188643151</td><td>4.5</td></tr>
+<tr><td>61437</td><td>18297401.49749291</td><td>8890503.48091487</td><td>3178188.9046436213</td><td>336223476043342.6</td><td>31622.776601683792</td><td>181137367562170.28</td><td>0.1</td><td>3.6</td><td>3.9375</td><td>9000.0</td><td>6000.0</td><td>0.0251188643151</td><td>4.5</td></tr>
+<tr><td>61438</td><td>18298207.629732795</td><td>8890777.540422147</td><td>3178287.6732570874</td><td>336223476043342.6</td><td>31622.776601683792</td><td>181137367562170.28</td><td>0.2</td><td>3.6</td><td>3.9375</td><td>9000.0</td><td>6000.0</td><td>0.0251188643151</td><td>4.5</td></tr>
+<tr><td>61439</td><td>18299244.085469786</td><td>8891129.902645791</td><td>3178414.6614743993</td><td>336223476043342.6</td><td>31622.776601683792</td><td>181137367562170.28</td><td>0.3</td><td>3.6</td><td>3.9375</td><td>9000.0</td><td>6000.0</td><td>0.0251188643151</td><td>4.5</td></tr>
+</table></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ind</span><span class="o">=</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sfh.sfr&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">100</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;universe.redshift&#39;</span><span class="p">]</span><span class="o">==</span><span class="mf">0.0251188643151</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;dust.alpha&#39;</span><span class="p">]</span><span class="o">==</span><span class="mf">3.6875</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;attenuation.Av_BC&#39;</span><span class="p">]</span><span class="o">==</span><span class="mf">1.1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">ind</span><span class="p">][</span><span class="s1">&#39;sfh.tau_main&#39;</span><span class="p">],</span><span class="n">data</span><span class="p">[</span><span class="n">ind</span><span class="p">][</span><span class="s1">&#39;spire_250&#39;</span><span class="p">],</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Compare_colorsofCIAGLEandEmulator_4_0.png" src="../../../_images/notebooks_examples_SED_emulator_Compare_colorsofCIAGLEandEmulator_4_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;spire_250&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;spire_350&#39;</span><span class="p">],</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;spire_350&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;spire_500&#39;</span><span class="p">],</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(0.0, 4.0)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Compare_colorsofCIAGLEandEmulator_5_1.png" src="../../../_images/notebooks_examples_SED_emulator_Compare_colorsofCIAGLEandEmulator_5_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">emulator</span><span class="o">=</span><span class="n">load_emulator</span><span class="p">(</span><span class="s1">&#39;./CIGALE_emulator_20210420_log10sfr_uniformAGN_z.npz&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1000</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1000</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">1000</span><span class="p">)))</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">src_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">emulator</span><span class="p">[</span><span class="s1">&#39;net_apply&#39;</span><span class="p">](</span><span class="n">emulator</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">],</span> <span class="n">params</span><span class="p">))))</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+W0118 13:33:03.271687 4569578944 xla_bridge.py:135] No GPU/TPU found, falling back to CPU. (Set TF_CPP_MIN_LOG_LEVEL=0 and rerun for more info.)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#plt.plot(data[&#39;spire_250&#39;]/data[&#39;spire_350&#39;],data[&#39;spire_350&#39;]/data[&#39;spire_500&#39;],&#39;o&#39;,alpha=0.5)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">src_f</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">src_f</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">src_f</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">src_f</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span><span class="s1">&#39;ro&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(0.0, 4.0)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Compare_colorsofCIAGLEandEmulator_11_1.png" src="../../../_images/notebooks_examples_SED_emulator_Compare_colorsofCIAGLEandEmulator_11_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<i>Table length=5</i>
+<table id="table140210847070080" class="table-striped table-bordered table-condensed">
+<thead><tr><th>id</th><th>spire_250</th><th>spire_350</th><th>spire_500</th><th>dust.luminosity</th><th>sfh.sfr</th><th>stellar.m_star</th><th>agn.fracAGN</th><th>attenuation.Av_BC</th><th>dust.alpha</th><th>sfh.tau_main</th><th>universe.redshift</th></tr></thead>
+<thead><tr><th></th><th>mJy</th><th>mJy</th><th>mJy</th><th>W</th><th>solMass / yr</th><th>solMass</th><th></th><th>mag</th><th></th><th>Myr</th><th></th></tr></thead>
+<thead><tr><th>int64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th></tr></thead>
+<tr><td>0</td><td>0.041621887445926216</td><td>0.0002080181415828583</td><td>2.926302473957815</td><td>163086241946.35803</td><td>2285.3842238885068</td><td>5170197363.6743555</td><td>0.2287869561655</td><td>2.8773710997301</td><td>0.875</td><td>4136.0</td><td>3.2312133884323</td></tr>
+<tr><td>0</td><td>0.019655286851182056</td><td>0.0002964214284852536</td><td>0.00014968833934695205</td><td>1301117562.9224253</td><td>0.02952183098477212</td><td>10254106544048.4</td><td>0.0659241997702</td><td>1.6244705608249</td><td>0.1875</td><td>4370.0</td><td>4.5875034068096</td></tr>
+<tr><td>0</td><td>1.1506986992346848</td><td>225.90909807934815</td><td>6.915402736253743e-05</td><td>44953686280197.1</td><td>7516.589672174983</td><td>17390745137.038807</td><td>0.836677627888</td><td>1.3014726358861</td><td>1.125</td><td>5642.0</td><td>5.9429822537025</td></tr>
+<tr><td>0</td><td>2907.64342324597</td><td>32.994055897694075</td><td>14.988485108568183</td><td>335179046751.79706</td><td>8.089860829410162</td><td>498222333.5690045</td><td>0.1043819947759</td><td>1.9722444509443</td><td>2.5625</td><td>3264.0</td><td>0.6359529324044</td></tr>
+<tr><td>0</td><td>68.19325323190652</td><td>0.009632378759604269</td><td>0.0024900351480657973</td><td>699820530.3835655</td><td>130.0101872005839</td><td>831849678.8735007</td><td>0.0613394728339</td><td>3.1364487246045</td><td>2.25</td><td>5381.0</td><td>3.5932659978029</td></tr>
+</table></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;spire_250&#39;</span><span class="p">]),</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;attenuation.Av_BC&#39;</span><span class="p">],</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x7f856273f8d0&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Compare_colorsofCIAGLEandEmulator_13_1.png" src="../../../_images/notebooks_examples_SED_emulator_Compare_colorsofCIAGLEandEmulator_13_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;universe.redshift&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+&lt;Column name=&apos;universe.redshift&apos; dtype=&apos;float64&apos; length=28337&gt;
+<table>
+<tr><td>3.2312133884323</td></tr>
+<tr><td>4.5875034068096</td></tr>
+<tr><td>5.9429822537025</td></tr>
+<tr><td>0.6359529324044</td></tr>
+<tr><td>3.5932659978029</td></tr>
+<tr><td>1.8713190278726</td></tr>
+<tr><td>4.1702110360301</td></tr>
+<tr><td>0.4216650338058</td></tr>
+<tr><td>3.7643498643524</td></tr>
+<tr><td>3.1600160576012</td></tr>
+<tr><td>3.4125055680069</td></tr>
+<tr><td>2.2513125193855</td></tr>
+<tr><td>...</td></tr>
+<tr><td>1.1730489680186</td></tr>
+<tr><td>3.7536826640913</td></tr>
+<tr><td>2.1124610071923</td></tr>
+<tr><td>4.3133210135527</td></tr>
+<tr><td>1.4813117362325</td></tr>
+<tr><td>4.9181695151816</td></tr>
+<tr><td>1.9225882311663</td></tr>
+<tr><td>2.0364684158154</td></tr>
+<tr><td>2.2188886438772</td></tr>
+<tr><td>5.7178895774012</td></tr>
+<tr><td>2.2632639703966</td></tr>
+<tr><td>4.0078688142308</td></tr>
+</table></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Peter Hurley.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

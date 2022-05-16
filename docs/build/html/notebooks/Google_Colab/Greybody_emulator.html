@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; XID+ 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> XID+
+          </a>
+              <div class="version">
+                3.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">A Generative Probabilistic Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#docker">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hpc.html">Large Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../priors.html">Beyond Positional Priors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">XID+</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/notebooks/Google_Colab/Greybody_emulator.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Mounted at /content/drive
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">drive</span><span class="o">/</span><span class="n">MyDrive</span><span class="o">/</span><span class="n">WORK</span><span class="o">/</span><span class="n">XID_plus</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/content/drive/MyDrive/WORK/XID_plus
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install -r req.txt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Requirement already satisfied: astropy in /usr/local/lib/python3.6/dist-packages (from -r req.txt (line 1)) (4.1)
+Requirement already satisfied: pystan in /usr/local/lib/python3.6/dist-packages (from -r req.txt (line 2)) (2.19.1.1)
+Requirement already satisfied: dill in /usr/local/lib/python3.6/dist-packages (from -r req.txt (line 3)) (0.3.3)
+Requirement already satisfied: numpy in /usr/local/lib/python3.6/dist-packages (from -r req.txt (line 4)) (1.19.4)
+Requirement already satisfied: scipy in /usr/local/lib/python3.6/dist-packages (from -r req.txt (line 5)) (1.4.1)
+Requirement already satisfied: seaborn in /usr/local/lib/python3.6/dist-packages (from -r req.txt (line 6)) (0.11.0)
+Requirement already satisfied: jupyter in /usr/local/lib/python3.6/dist-packages (from -r req.txt (line 7)) (1.0.0)
+Collecting healpy
+  Downloading https://files.pythonhosted.org/packages/dd/30/56144086dc132b5bf5b271c62d045460db6c6a5a2bb68d3f7bde678a6727/healpy-1.14.0-cp36-cp36m-manylinux1_x86_64.whl (15.8MB)
+     |████████████████████████████████| 15.8MB 269kB/s
+Collecting pymoc
+  Downloading https://files.pythonhosted.org/packages/02/9c/ab39405895c7caafb1f257f4d514bb5e354e9648f8ab1316e519c011fe86/pymoc-0.5.0.tar.gz
+Collecting aplpy
+  Downloading https://files.pythonhosted.org/packages/92/5b/cb15d46774105bc536165f2ffa9e114509915f5983c51666512752635b8c/APLpy-2.0.3-py2.py3-none-any.whl (89kB)
+     |████████████████████████████████| 92kB 9.3MB/s
+Requirement already satisfied: Cython!=0.25.1,&gt;=0.22 in /usr/local/lib/python3.6/dist-packages (from pystan-&gt;-r req.txt (line 2)) (0.29.21)
+Requirement already satisfied: matplotlib&gt;=2.2 in /usr/local/lib/python3.6/dist-packages (from seaborn-&gt;-r req.txt (line 6)) (3.2.2)
+Requirement already satisfied: pandas&gt;=0.23 in /usr/local/lib/python3.6/dist-packages (from seaborn-&gt;-r req.txt (line 6)) (1.1.5)
+Requirement already satisfied: ipywidgets in /usr/local/lib/python3.6/dist-packages (from jupyter-&gt;-r req.txt (line 7)) (7.5.1)
+Requirement already satisfied: jupyter-console in /usr/local/lib/python3.6/dist-packages (from jupyter-&gt;-r req.txt (line 7)) (5.2.0)
+Requirement already satisfied: ipykernel in /usr/local/lib/python3.6/dist-packages (from jupyter-&gt;-r req.txt (line 7)) (4.10.1)
+Requirement already satisfied: nbconvert in /usr/local/lib/python3.6/dist-packages (from jupyter-&gt;-r req.txt (line 7)) (5.6.1)
+Requirement already satisfied: notebook in /usr/local/lib/python3.6/dist-packages (from jupyter-&gt;-r req.txt (line 7)) (5.3.1)
+Requirement already satisfied: qtconsole in /usr/local/lib/python3.6/dist-packages (from jupyter-&gt;-r req.txt (line 7)) (5.0.1)
+Requirement already satisfied: six in /usr/local/lib/python3.6/dist-packages (from healpy-&gt;-r req.txt (line 8)) (1.15.0)
+Requirement already satisfied: pillow&gt;=4.0 in /usr/local/lib/python3.6/dist-packages (from aplpy-&gt;-r req.txt (line 10)) (7.0.0)
+Requirement already satisfied: scikit-image&gt;=0.14 in /usr/local/lib/python3.6/dist-packages (from aplpy-&gt;-r req.txt (line 10)) (0.16.2)
+Requirement already satisfied: shapely&gt;=1.6 in /usr/local/lib/python3.6/dist-packages (from aplpy-&gt;-r req.txt (line 10)) (1.7.1)
+Collecting reproject&gt;=0.4
+  Downloading https://files.pythonhosted.org/packages/83/31/1c9664b719d970ddf4219499b5fd1814923da3a43e4b343ceccfb9588d7b/reproject-0.7.1-cp36-cp36m-manylinux2010_x86_64.whl (1.3MB)
+     |████████████████████████████████| 1.3MB 45.6MB/s
+Collecting pyavm&gt;=0.9.4
+  Downloading https://files.pythonhosted.org/packages/dc/d6/af61e7fcdd39b7d2303e6cafaee3b043bd59938d0ef69a4b7cb7bdbdb892/PyAVM-0.9.5-py2.py3-none-any.whl (378kB)
+     |████████████████████████████████| 378kB 47.7MB/s
+Collecting pyregion&gt;=2.0
+  Downloading https://files.pythonhosted.org/packages/9d/e9/739397a25a6197f9af396e8ab249ea04d3cc2eb32e96870e2aafcfccf7f4/pyregion-2.0.tar.gz (1.1MB)
+     |████████████████████████████████| 1.1MB 33.7MB/s
+Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib&gt;=2.2-&gt;seaborn-&gt;-r req.txt (line 6)) (2.8.1)
+Requirement already satisfied: kiwisolver&gt;=1.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib&gt;=2.2-&gt;seaborn-&gt;-r req.txt (line 6)) (1.3.1)
+Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib&gt;=2.2-&gt;seaborn-&gt;-r req.txt (line 6)) (0.10.0)
+Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib&gt;=2.2-&gt;seaborn-&gt;-r req.txt (line 6)) (2.4.7)
+Requirement already satisfied: pytz&gt;=2017.2 in /usr/local/lib/python3.6/dist-packages (from pandas&gt;=0.23-&gt;seaborn-&gt;-r req.txt (line 6)) (2018.9)
+Requirement already satisfied: ipython&gt;=4.0.0; python_version &gt;= &#34;3.3&#34; in /usr/local/lib/python3.6/dist-packages (from ipywidgets-&gt;jupyter-&gt;-r req.txt (line 7)) (5.5.0)
+Requirement already satisfied: widgetsnbextension~=3.5.0 in /usr/local/lib/python3.6/dist-packages (from ipywidgets-&gt;jupyter-&gt;-r req.txt (line 7)) (3.5.1)
+Requirement already satisfied: traitlets&gt;=4.3.1 in /usr/local/lib/python3.6/dist-packages (from ipywidgets-&gt;jupyter-&gt;-r req.txt (line 7)) (4.3.3)
+Requirement already satisfied: nbformat&gt;=4.2.0 in /usr/local/lib/python3.6/dist-packages (from ipywidgets-&gt;jupyter-&gt;-r req.txt (line 7)) (5.0.8)
+Requirement already satisfied: prompt-toolkit&lt;2.0.0,&gt;=1.0.0 in /usr/local/lib/python3.6/dist-packages (from jupyter-console-&gt;jupyter-&gt;-r req.txt (line 7)) (1.0.18)
+Requirement already satisfied: jupyter-client in /usr/local/lib/python3.6/dist-packages (from jupyter-console-&gt;jupyter-&gt;-r req.txt (line 7)) (5.3.5)
+Requirement already satisfied: pygments in /usr/local/lib/python3.6/dist-packages (from jupyter-console-&gt;jupyter-&gt;-r req.txt (line 7)) (2.6.1)
+Requirement already satisfied: tornado&gt;=4.0 in /usr/local/lib/python3.6/dist-packages (from ipykernel-&gt;jupyter-&gt;-r req.txt (line 7)) (5.1.1)
+Requirement already satisfied: bleach in /usr/local/lib/python3.6/dist-packages (from nbconvert-&gt;jupyter-&gt;-r req.txt (line 7)) (3.2.1)
+Requirement already satisfied: defusedxml in /usr/local/lib/python3.6/dist-packages (from nbconvert-&gt;jupyter-&gt;-r req.txt (line 7)) (0.6.0)
+Requirement already satisfied: testpath in /usr/local/lib/python3.6/dist-packages (from nbconvert-&gt;jupyter-&gt;-r req.txt (line 7)) (0.4.4)
+Requirement already satisfied: jupyter-core in /usr/local/lib/python3.6/dist-packages (from nbconvert-&gt;jupyter-&gt;-r req.txt (line 7)) (4.7.0)
+Requirement already satisfied: pandocfilters&gt;=1.4.1 in /usr/local/lib/python3.6/dist-packages (from nbconvert-&gt;jupyter-&gt;-r req.txt (line 7)) (1.4.3)
+Requirement already satisfied: mistune&lt;2,&gt;=0.8.1 in /usr/local/lib/python3.6/dist-packages (from nbconvert-&gt;jupyter-&gt;-r req.txt (line 7)) (0.8.4)
+Requirement already satisfied: entrypoints&gt;=0.2.2 in /usr/local/lib/python3.6/dist-packages (from nbconvert-&gt;jupyter-&gt;-r req.txt (line 7)) (0.3)
+Requirement already satisfied: jinja2&gt;=2.4 in /usr/local/lib/python3.6/dist-packages (from nbconvert-&gt;jupyter-&gt;-r req.txt (line 7)) (2.11.2)
+Requirement already satisfied: Send2Trash in /usr/local/lib/python3.6/dist-packages (from notebook-&gt;jupyter-&gt;-r req.txt (line 7)) (1.5.0)
+Requirement already satisfied: ipython-genutils in /usr/local/lib/python3.6/dist-packages (from notebook-&gt;jupyter-&gt;-r req.txt (line 7)) (0.2.0)
+Requirement already satisfied: terminado&gt;=0.8.1 in /usr/local/lib/python3.6/dist-packages (from notebook-&gt;jupyter-&gt;-r req.txt (line 7)) (0.9.1)
+Requirement already satisfied: pyzmq&gt;=17.1 in /usr/local/lib/python3.6/dist-packages (from qtconsole-&gt;jupyter-&gt;-r req.txt (line 7)) (20.0.0)
+Requirement already satisfied: qtpy in /usr/local/lib/python3.6/dist-packages (from qtconsole-&gt;jupyter-&gt;-r req.txt (line 7)) (1.9.0)
+Requirement already satisfied: networkx&gt;=2.0 in /usr/local/lib/python3.6/dist-packages (from scikit-image&gt;=0.14-&gt;aplpy-&gt;-r req.txt (line 10)) (2.5)
+Requirement already satisfied: PyWavelets&gt;=0.4.0 in /usr/local/lib/python3.6/dist-packages (from scikit-image&gt;=0.14-&gt;aplpy-&gt;-r req.txt (line 10)) (1.1.1)
+Requirement already satisfied: imageio&gt;=2.3.0 in /usr/local/lib/python3.6/dist-packages (from scikit-image&gt;=0.14-&gt;aplpy-&gt;-r req.txt (line 10)) (2.4.1)
+Collecting astropy-healpix&gt;=0.2
+  Downloading https://files.pythonhosted.org/packages/e2/7d/71350a23da8f7d8f107d70a28871021f7e8a554f9ab175313a2685c8c9ab/astropy_healpix-0.5-cp36-cp36m-manylinux2010_x86_64.whl (204kB)
+     |████████████████████████████████| 204kB 35.6MB/s
+Requirement already satisfied: pexpect; sys_platform != &#34;win32&#34; in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0; python_version &gt;= &#34;3.3&#34;-&gt;ipywidgets-&gt;jupyter-&gt;-r req.txt (line 7)) (4.8.0)
+Requirement already satisfied: decorator in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0; python_version &gt;= &#34;3.3&#34;-&gt;ipywidgets-&gt;jupyter-&gt;-r req.txt (line 7)) (4.4.2)
+Requirement already satisfied: pickleshare in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0; python_version &gt;= &#34;3.3&#34;-&gt;ipywidgets-&gt;jupyter-&gt;-r req.txt (line 7)) (0.7.5)
+Requirement already satisfied: simplegeneric&gt;0.8 in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0; python_version &gt;= &#34;3.3&#34;-&gt;ipywidgets-&gt;jupyter-&gt;-r req.txt (line 7)) (0.8.1)
+Requirement already satisfied: setuptools&gt;=18.5 in /usr/local/lib/python3.6/dist-packages (from ipython&gt;=4.0.0; python_version &gt;= &#34;3.3&#34;-&gt;ipywidgets-&gt;jupyter-&gt;-r req.txt (line 7)) (51.0.0)
+Requirement already satisfied: jsonschema!=2.5.0,&gt;=2.4 in /usr/local/lib/python3.6/dist-packages (from nbformat&gt;=4.2.0-&gt;ipywidgets-&gt;jupyter-&gt;-r req.txt (line 7)) (2.6.0)
+Requirement already satisfied: wcwidth in /usr/local/lib/python3.6/dist-packages (from prompt-toolkit&lt;2.0.0,&gt;=1.0.0-&gt;jupyter-console-&gt;jupyter-&gt;-r req.txt (line 7)) (0.2.5)
+Requirement already satisfied: webencodings in /usr/local/lib/python3.6/dist-packages (from bleach-&gt;nbconvert-&gt;jupyter-&gt;-r req.txt (line 7)) (0.5.1)
+Requirement already satisfied: packaging in /usr/local/lib/python3.6/dist-packages (from bleach-&gt;nbconvert-&gt;jupyter-&gt;-r req.txt (line 7)) (20.8)
+Requirement already satisfied: MarkupSafe&gt;=0.23 in /usr/local/lib/python3.6/dist-packages (from jinja2&gt;=2.4-&gt;nbconvert-&gt;jupyter-&gt;-r req.txt (line 7)) (1.1.1)
+Requirement already satisfied: ptyprocess; os_name != &#34;nt&#34; in /usr/local/lib/python3.6/dist-packages (from terminado&gt;=0.8.1-&gt;notebook-&gt;jupyter-&gt;-r req.txt (line 7)) (0.6.0)
+Building wheels for collected packages: pymoc, pyregion
+  Building wheel for pymoc (setup.py) ... done
+  Created wheel for pymoc: filename=pymoc-0.5.0-cp36-none-any.whl size=36176 sha256=a4fe030c75ff38a20356e40e04f4d48a4ed6dbf4973704e01341c888d370e087
+  Stored in directory: /root/.cache/pip/wheels/2d/12/9c/a342bc39dd07bd6653f03f3468990c9aa72bc9d90c27e4d57f
+  Building wheel for pyregion (setup.py) ... done
+  Created wheel for pyregion: filename=pyregion-2.0-cp36-cp36m-linux_x86_64.whl size=308443 sha256=ea5ae8cf5fde8a1374eb68aade59c51ebb23a79c54995c85313c154fa09d87c7
+  Stored in directory: /root/.cache/pip/wheels/ca/2c/2b/c95350df7d42ba9044b7528c5ba549bead550433b189008a7f
+Successfully built pymoc pyregion
+Installing collected packages: healpy, pymoc, astropy-healpix, reproject, pyavm, pyregion, aplpy
+Successfully installed aplpy-2.0.3 astropy-healpix-0.5 healpy-1.14.0 pyavm-0.9.5 pymoc-0.5.0 pyregion-2.0 reproject-0.7.1
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/content/drive/Work/XID_plus&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">xidplus</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+WARNING: AstropyDeprecationWarning: block_reduce was moved to the astropy.nddata.blocks module.  Please update your import statement. [astropy.nddata.utils]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">xla_bridge</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span><span class="o">.</span><span class="n">platform</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+WARNING:absl:No GPU/TPU found, falling back to CPU. (Set TF_CPP_MIN_LOG_LEVEL=0 and rerun for more info.)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+cpu
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Peter Hurley.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

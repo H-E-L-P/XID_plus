@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The JAX emulator: Greybody prototype &mdash; XID+ 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> XID+
+          </a>
+              <div class="version">
+                3.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">A Generative Probabilistic Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#docker">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hpc.html">Large Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../priors.html">Beyond Positional Priors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">XID+</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>The JAX emulator: Greybody prototype</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/notebooks/examples/SED_emulator/JAX_greybody_emulator.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="The-JAX-emulator:-Greybody-prototype">
+<h1>The JAX emulator: Greybody prototype<a class="headerlink" href="#The-JAX-emulator:-Greybody-prototype" title="Permalink to this headline">¶</a></h1>
+<p>In this notebook, I will prototype my idea for emulating radiative transfer codes with a Deepnet in order for it to be used inside xidplus. As <code class="docutils literal notranslate"><span class="pre">numpyro</span></code> uses JAX, the Deepnet wil ideally be trained with a JAX network. As a proof of concept, I will use a greybody rather than a radiative transfer code.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>import fitIR
+import fitIR.models as models
+import fitIR.analyse as analyse
+from astropy.cosmology import WMAP9 as cosmo
+import jax
+import numpy as onp
+import pylab as plt
+import astropy.units as u
+import scipy.integrate as integrate
+%matplotlib inline
+
+import jax.numpy as np
+from jax import grad, jit, vmap, value_and_grad
+from jax import random
+from jax import vmap # for auto-vectorizing functions
+from functools import partial # for use with vmap
+from jax import jit # for compiling functions for speedup
+from jax.experimental import stax # neural network library
+from jax.experimental.stax import Conv, Dense, MaxPool, Relu, Flatten, LogSoftmax, LeakyRelu # neural network layers
+
+from jax.experimental import optimizers
+from jax.tree_util import tree_multimap  # Element-wise manipulation of collections of numpy arrays
+import matplotlib.pyplot as plt # visualization
+# Generate key which is used to generate random numbers
+key = random.PRNGKey(1)
+</pre></div>
+</div>
+</div>
+<p>The first step is to create a training and validation dataset. To do this I will randomly sample from parameter space (rather than a grid). I will create a function to do the sampling. I will also define function to do the transform and inverse_transform from standardised values to physical values.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>def standarise_uniform(lims):
+    param_sd=(lims[1]-lims[0])/np.sqrt(12.0)
+    param_mean=0.5*(lims[1]+lims[0])
+    return param_sd,param_mean
+
+def generate_samples(size=100,lims=np.array([[6,16],[0,7],[20,80]])):
+    &quot;&quot;&quot;Sample from uniform space&quot;&quot;&quot;
+    #get parameter values from uniform distribution
+    LIR=onp.random.uniform(low=lims[0,0],high=lims[0,1],size=size)
+    #sample in log10 space for redshift
+    redshift=onp.random.uniform(low=lims[1,0],high=lims[1,1],size=size)
+    #sample in log10 space
+    temperature=onp.random.uniform(low=lims[2,0],high=lims[2,1],size=size)
+    #get standard deviation and mean for uniform dist
+    LIR_sd,LIR_mean=standarise_uniform(lims[0,:])
+
+    red_sd, red_mean=standarise_uniform(lims[1,:])
+
+    temp_sd,temp_mean=standarise_uniform(lims[2,:])
+
+    return onp.vstack((LIR,redshift,temperature)).T,onp.vstack(((LIR-LIR_mean)/LIR_sd,(redshift-red_mean)/red_sd,(temperature-temp_mean)/temp_sd)).T
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>def transform_parameters(param,lims=np.array([[6,16],[0,7],[20,80]])):
+    &quot;&quot;&quot;transform from physical values to standardised values&quot;&quot;&quot;
+    LIR_sd,LIR_mean=standarise_uniform(lims[0,:])
+
+    red_sd, red_mean=standarise_uniform(lims[1,:])
+
+    temp_sd,temp_mean=standarise_uniform(lims[2,:])
+
+    LIR_norm=(param[0]-LIR_mean)/LIR_sd
+    red_norm=(param[1]-red_mean)/red_sd
+    temp_norm=(param[2]-temp_mean)/temp_sd
+    return np.vstack((LIR_norm,red_norm,temp_norm)).T
+
+def inverse_transform_parameters(param,lims=np.array([[6,16],[0,7],[20,80]])):
+    &quot;&quot;&quot; Transform from standardised parameters to physical values
+    function works with posterior samples&quot;&quot;&quot;
+    LIR_sd,LIR_mean=standarise_uniform(lims[0,:])
+
+    red_sd, red_mean=standarise_uniform(lims[1,:])
+
+    temp_sd,temp_mean=standarise_uniform(lims[2,:])
+
+    LIR=param[...,0]*LIR_sd+LIR_mean
+    red=param[...,1]*red_sd+red_mean
+    temp=param[...,2]*temp_sd+temp_mean
+    return np.stack((LIR.T,red.T,temp.T)).T
+</pre></div>
+</div>
+</div>
+<p>I need to convolve the grebody with the relevant filters. I will use the code I already wrote in xidplus for the original SED work</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>import xidplus
+from xidplus import filters
+filter_=filters.FilterFile(file=xidplus.__path__[0]+&#39;/../test_files/filters.res&#39;)
+SPIRE_250=filter_.filters[215]
+SPIRE_350=filter_.filters[216]
+SPIRE_500=filter_.filters[217]
+MIPS_24=filter_.filters[201]
+PACS_100=filter_.filters[250]
+PACS_160=filter_.filters[251]
+
+bands=[SPIRE_250,SPIRE_350,SPIRE_500]#,PACS_100,PACS_160]
+eff_lam=[250.0,350.0,500.0]#, 100.0,160.0]
+
+from scipy.interpolate import interp1d
+
+def get_fluxes(samples):
+    measured=onp.empty((samples.shape[0],len(bands)))
+    val = onp.linspace(onp.log10(3E8/8E-6),onp.log10(3E8/1E-3),1000)
+    val = 10**val
+    for i,s in enumerate(samples):
+        z=s[1]
+        prior = {}
+        prior[&#39;z&#39;] = s[1]
+        prior[&#39;log10LIR&#39;] = s[0]
+        prior[&#39;T&#39;] = s[2]
+        prior[&#39;emissivity&#39;] = 1.5
+
+
+
+        source = models.greybody(prior)
+
+        nu,lnu = source.generate_greybody(val,z)
+        wave = 3E8/nu*1E6
+        sed=interp1d(wave,lnu)
+        dist = cosmo.luminosity_distance(z).to(u.cm).value
+
+        for b in range(0,len(bands)):
+            measured[i,b]=(1.0+z)*filters.fnu_filt(sed(bands[b].wavelength/1E4),
+                                     3E8/(bands[b].wavelength/1E10),
+                                     bands[b].transmission,
+                                     3E8/(eff_lam[b]*1E-6),
+                                     sed(eff_lam[b]))/(4*onp.pi*dist**2)
+    return measured/10**(-26)
+</pre></div>
+</div>
+</div>
+<section id="DeepNet-building">
+<h2>DeepNet building<a class="headerlink" href="#DeepNet-building" title="Permalink to this headline">¶</a></h2>
+<p>I will build a multi input, multi output deepnet model as my emulator, with parameters as input and the observed flux as outputs. I will train on log10 flux to make the model easier to train, and have already standarised the input parameters. I wilkl be using <code class="docutils literal notranslate"><span class="pre">stax</span></code> which can be thought of as the <code class="docutils literal notranslate"><span class="pre">Keras</span></code> equivalent for <code class="docutils literal notranslate"><span class="pre">JAX</span></code>. This <a class="reference external" href="https://blog.evjang.com/2019/02/maml-jax.html">blog</a> was useful starting point.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>import torch
+from torch.utils.data import Dataset, DataLoader
+## class for sed using the torch dataset class
+class sed_data(Dataset):
+
+    def __init__(self,params,fluxes):
+        self.X=params
+        self.y=fluxes
+    def __len__(self):
+        return len(self.X)
+    def __getitem__(self,idx):
+        return self.X[idx],self.y[idx]
+</pre></div>
+</div>
+</div>
+<p>I will use batches to help train the network</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>batch_size=10
+## generate random SED samples
+samp_train,samp_stand_train=generate_samples(2000)
+## Use Steve&#39;s code and xidplus filters to get fluxes
+measured_train=get_fluxes(samp_train)
+## use data in SED dataclass
+ds = sed_data(samp_stand_train,measured_train)
+## use torch DataLoader
+train_loader = DataLoader(ds, batch_size=batch_size,)
+## do same but for test set
+samp_test,samp_stand_test=generate_samples(500)
+measured_test=get_fluxes(samp_test)
+
+ds = sed_data(samp_stand_test,measured_test)
+test_loader = DataLoader(ds, batch_size=batch_size)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span># Use stax to set up network initialization and evaluation functions
+net_init, net_apply = stax.serial(
+    Dense(128), LeakyRelu,
+    Dense(128), LeakyRelu,
+    Dense(len(bands))
+)
+in_shape = (-1, 3,)
+out_shape, net_params = net_init(key,in_shape)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>def loss(params, inputs, targets):
+    # Computes average loss for the batch
+    predictions = net_apply(params, inputs)
+    return np.mean((targets - predictions)**2)
+
+def batch_loss(p,x_b,y_b):
+    loss_b=vmap(partial(loss,p))(x_b,y_b)
+    return np.mean(loss_b)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>def sample_batch(outer_batch_size,inner_batch_size):
+    def get_batch():
+        xs, ys = [], []
+        for i in range(0,outer_batch_size):
+            samp_train,samp_stand_train=generate_samples(inner_batch_size)
+            ## Use Steve&#39;s code and xidplus filters to get fluxes
+            measured_train=get_fluxes(samp_train)
+            xs.append(samp_stand_train)
+            ys.append(np.log(measured_train))
+        return np.stack(xs), np.stack(ys)
+    x1, y1 = get_batch()
+    return x1, y1
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>opt_init, opt_update, get_params= optimizers.adam(step_size=1e-3)
+out_shape, net_params = net_init(key,in_shape)
+opt_state = opt_init(net_params)
+
+@jit
+def step(i, opt_state, x1, y1):
+    p = get_params(opt_state)
+    g = grad(batch_loss)(p, x1, y1)
+    loss_tmp=batch_loss(p,x1,y1)
+    return opt_update(i, g, opt_state),loss_tmp
+
+np_batched_loss_1 = []
+valid_loss=[]
+K=40
+for i in range(4000):
+    # sample random batchs for training
+    x1_b, y1_b = sample_batch(10, K)
+    # sample random batches for validation
+    x2_b,y2_b = sample_batch(1,K)
+    opt_state, l = step(i, opt_state, x1_b, y1_b)
+    p = get_params(opt_state)
+    valid_loss.append(batch_loss(p,x2_b,y2_b))
+    np_batched_loss_1.append(l)
+    if i % 100 == 0:
+        print(i)
+net_params = get_params(opt_state)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+1200
+1300
+1400
+1500
+1600
+1700
+1800
+1900
+2000
+2100
+2200
+2300
+2400
+2500
+2600
+2700
+2800
+2900
+3000
+3100
+3200
+3300
+3400
+3500
+3600
+3700
+3800
+3900
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>opt_init, opt_update, get_params= optimizers.adam(step_size=1e-4)
+
+for i in range(5000):
+    # sample random batchs for training
+    x1_b, y1_b = sample_batch(10, K)
+    # sample random batches for validation
+    x2_b,y2_b = sample_batch(1,K)
+    opt_state, l = step(i, opt_state, x1_b, y1_b)
+    p = get_params(opt_state)
+    valid_loss.append(batch_loss(p,x2_b,y2_b))
+    np_batched_loss_1.append(l)
+    if i % 100 == 0:
+        print(i)
+net_params = get_params(opt_state)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+1200
+1300
+1400
+1500
+1600
+1700
+1800
+1900
+2000
+2100
+2200
+2300
+2400
+2500
+2600
+2700
+2800
+2900
+3000
+3100
+3200
+3300
+3400
+3500
+3600
+3700
+3800
+3900
+4000
+4100
+4200
+4300
+4400
+4500
+4600
+4700
+4800
+4900
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>plt.figure(figsize=(10,5))
+plt.semilogy(np_batched_loss_1,label=&#39;Training loss&#39;)
+plt.semilogy(valid_loss,label=&#39;Validation loss&#39;)
+plt.xlabel(&#39;Iteration&#39;)
+plt.ylabel(&#39;Loss (MSE)&#39;)
+plt.legend()
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.legend.Legend at 0x7f8ba5788b70&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_JAX_greybody_emulator_16_1.png" src="../../../_images/notebooks_examples_SED_emulator_JAX_greybody_emulator_16_1.png" />
+</div>
+</div>
+</section>
+<section id="Investigate-performance-of-each-band-of-emulator">
+<h2>Investigate performance of each band of emulator<a class="headerlink" href="#Investigate-performance-of-each-band-of-emulator" title="Permalink to this headline">¶</a></h2>
+<p>To visulise performance of the trainied emulator, I will show the difference between real and emulated for each band.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>x,y=sample_batch(100,100)
+predictions = net_apply(net_params,x)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>res=(predictions-y)/(y)
+fig,axes=plt.subplots(1,3,figsize=(50,10))
+for i in range(0,3):
+    axes[i].hist(res[:,:,i].flatten()*100.0,np.arange(-20,20,0.5))
+    axes[i].set_title(bands[i].name)
+    axes[i].set_xlabel(r&#39;$\frac{f_{pred} - f_{True}}{f_{True}} \ \%$ error&#39;)
+plt.subplots_adjust(wspace=0.5)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_JAX_greybody_emulator_19_0.png" src="../../../_images/notebooks_examples_SED_emulator_JAX_greybody_emulator_19_0.png" />
+</div>
+</div>
+</section>
+<section id="Save-network">
+<h2>Save network<a class="headerlink" href="#Save-network" title="Permalink to this headline">¶</a></h2>
+<p>Having trained and validated network, I need to save the network and relevant functions</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>import cloudpickle
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>with open(&#39;GB_emulator_20210324_notlog10z_T.pkl&#39;, &#39;wb&#39;) as f:
+    cloudpickle.dump({&#39;net_init&#39;:net_init,&#39;net_apply&#39;: net_apply,&#39;params&#39;:net_params,&#39;transform_parameters&#39;:transform_parameters,&#39;inverse_transform_parameters&#39;:inverse_transform_parameters}, f)
+
+net_init, net_apply
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;function jax.experimental.stax.serial.&lt;locals&gt;.init_fun(rng, input_shape)&gt;,
+ &lt;function jax.experimental.stax.serial.&lt;locals&gt;.apply_fun(params, inputs, **kwargs)&gt;)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>transform_parameters
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;function __main__.transform_parameters(param, lims=DeviceArray([[ 6.  , 16.  ],
+             [-2.  ,  1.  ],
+             [ 1.  ,  1.85]], dtype=float32))&gt;
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>from xidplus.numpyro_fit.misc import load_emulator
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>obj=load_emulator(&#39;GB_emulator_20210323.pkl&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Peter Hurley.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

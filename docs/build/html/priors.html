@@ -1,69 +1,38 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Beyond Positional Priors &mdash; XID+ 2.0.0 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beyond Positional Priors &mdash; XID+ 3.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-  
-
-  
-
-  
-  
-    
-
-  
-
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API documentation" href="api.html" />
+    <link rel="next" title="XID+SED Example Run Script" href="notebooks/examples/XID%2BSED_example.html" />
     <link rel="prev" title="Large Fields" href="hpc.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
-
-          
+        <div class="wy-side-nav-search" >
             <a href="index.html" class="icon icon-home"> XID+
-          
-
-          
           </a>
-
-          
-            
-            
               <div class="version">
-                2.0.0
+                3.0.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -71,18 +40,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">User Guide:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="philosophy.html">A Generative Probabilistic Framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Installation</a></li>
@@ -91,87 +50,52 @@
 <li class="toctree-l1"><a class="reference internal" href="hpc.html">Large Fields</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Beyond Positional Priors</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#xid-cigale">XID+CIGALE</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#xid-spire-prior-model">XID+SPIRE Prior Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xid-sed">XID+SED</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/examples/XID%2BSED_example.html">XID+SED Example Run Script</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#xid-extended-sources">XID+Extended Sources</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API documentation</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">XID+</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Beyond Positional Priors</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/priors.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -184,82 +108,70 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="beyond-positional-priors">
+<section id="beyond-positional-priors">
 <h1>Beyond Positional Priors<a class="headerlink" href="#beyond-positional-priors" title="Permalink to this headline">¶</a></h1>
 <p>XID+ has been designed such that additional prior information can be added (hence the +).
 This additional prior information could be on observables such as flux, or additional prior information on the model such as expected SEDs, redshifts etc.</p>
-<div class="section" id="xid-cigale">
+<section id="xid-cigale">
 <h2>XID+CIGALE<a class="headerlink" href="#xid-cigale" title="Permalink to this headline">¶</a></h2>
 <p>In collaboration with Will Pearson, (<a class="reference external" href="http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1704.02192">Pearson et al 2017</a>) we have looked into introducing independent (i.e. no covariance between bands) flux priors for the SPIRE bands, by fitting ancillary optical and near-IR data with the SED fitting code, CIGALE.</p>
+</section>
+<section id="xid-sed">
+<h2>XID+SED<a class="headerlink" href="#xid-sed" title="Permalink to this headline">¶</a></h2>
+<dl>
+<dt>There is also an SED extension to XID+, which uses an emulated version of CIGALE to fit physical parameters such as starformation rate, redshift and AGN fraction directly on the map</dt><dd><div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/examples/XID%2BSED_example.html">XID+SED Example Run Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/examples/XID%2BSED_example.html#First-pass">First pass</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/examples/XID%2BSED_example.html#Check-diagnostics">Check diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/examples/XID%2BSED_example.html#Posterior-Probability-distributions">Posterior Probability distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/examples/XID%2BSED_example.html#Hierarchical-parameters">Hierarchical parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/examples/XID%2BSED_example.html#Source-parameters">Source parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/examples/XID%2BSED_example.html#Posterior-Predicitive-Checks">Posterior Predicitive Checks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/examples/XID%2BSED_example.html#Posterior-Predictive-checking-and-Bayesian-P-value-maps">Posterior Predictive checking and Bayesian P-value maps</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/examples/XID%2BSED_example.html#Save-the-samples-using-arviz">Save the samples using arviz</a></li>
+</ul>
+</li>
+</ul>
 </div>
-<div class="section" id="xid-spire-prior-model">
-<h2>XID+SPIRE Prior Model<a class="headerlink" href="#xid-spire-prior-model" title="Permalink to this headline">¶</a></h2>
-<p>There is also an SED based model extension to XID+, which takes in SEDs and a prior in redshift. This model has the added benefit of
-providing a physical correlation between bands and appropriate physical limits based on redshift and infrared luminosity.
-As an additional output it also provides a posterior probability density function for redshift and infrared luminosity.</p>
-<p>If you interested in using XID+ with additional priors, please contact <a class="reference external" href="http://www.sussex.ac.uk/profiles/188689">Peter Hurley</a></p>
-</div>
-<div class="section" id="xid-extended-sources">
+</dd>
+</dl>
+</section>
+<section id="xid-extended-sources">
 <h2>XID+Extended Sources<a class="headerlink" href="#xid-extended-sources" title="Permalink to this headline">¶</a></h2>
 <p>An extension that can handle extended sources is actively being developed by <a class="reference external" href="http://www.sussex.ac.uk/profiles/405997">Raphael Shirley</a></p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="api.html" class="btn btn-neutral float-right" title="API documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="hpc.html" class="btn btn-neutral" title="Large Fields" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="hpc.html" class="btn btn-neutral float-left" title="Large Fields" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="notebooks/examples/XID%2BSED_example.html" class="btn btn-neutral float-right" title="XID+SED Example Run Script" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2017, Peter Hurley
-
-    </p>
+    <p>&#169; Copyright 2022, Peter Hurley.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

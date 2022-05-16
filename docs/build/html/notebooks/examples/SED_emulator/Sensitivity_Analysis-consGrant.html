@@ -1,0 +1,3017 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Methods: &mdash; XID+ 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> XID+
+          </a>
+              <div class="version">
+                3.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">A Generative Probabilistic Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#docker">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hpc.html">Large Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../priors.html">Beyond Positional Priors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">XID+</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Methods:</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/notebooks/examples/SED_emulator/Sensitivity_Analysis-consGrant.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">SALib.sample</span> <span class="kn">import</span> <span class="n">saltelli</span>
+<span class="kn">from</span> <span class="nn">SALib.analyze</span> <span class="kn">import</span> <span class="n">sobol</span><span class="p">,</span> <span class="n">hdmr</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">dgsm</span><span class="p">,</span> <span class="n">pawn</span>
+<span class="kn">from</span> <span class="nn">SALib.test_functions</span> <span class="kn">import</span> <span class="n">Ishigami</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">astropy.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span> <span class="nn">herschelhelp</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+<p>In this notebook, we will use <a class="reference external" href="https://salib.readthedocs.io/en/latest/index.html">SALib</a> Sensitivity Analysis Library in Python. Sensitivity Analysis calculate the effects of model inputs or exogenous factors on outputs of interest.</p>
+<p>The WIkipedia definition of Sensitivity Analysis is as follows: &gt; the study of how the uncertainty in the output of a mathematical model or system (numerical or otherwise) can be apportioned to different sources of uncertainty in its inputs.”</p>
+<p>Good modeling practice requires that the modeler provide an evaluation of the confidence in the model. This requires, first, a quantification of the uncertainty in any model results (uncertainty analysis); and second, an evaluation of how much each input is contributing to the output uncertainty. In models involving many input variables, sensitivity analysis is an essential ingredient of model building and quality assurance.</p>
+<p>The choice of method of sensitivity analysis is typically dictated by a number of problem constraints or settings. Some of the most common are: * Computational expense: requires large number of samples * Correlated Inputs: Most common sensitivity analysis methods assume independence between model inputs * Nonlinearity: Some approaches, such as those based on linear regression can inaccurately measure sensitivity if model response is non linear. In such cases, variance based methods are best
+* Model interactions: Interactions occur when the perturbation of two or more inputs simultaneously causes variation in the output greater than that of varying each of the inputs alone. The effect of interactions can be measured by the total-order sensitivity index. * Multiple outputs: Virtually all sensitivity analysis methods consider a single univariate model output, yet many models output a large number of possibly spatially or time-dependent data.Note that this does not preclude the
+possibility of performing different sensitivity analyses for each output of interest. However, for models in which the outputs are correlated, the sensitivity measures can be hard to interpret. * GIven data: While in many cases the practitioner has access to the model, in some instances a sensitivity analysis must be performed with “given data”, i.e. where the sample points (the values of the model inputs for each run) cannot be chosen by the analyst. This may occur when a sensitivity analysis
+has to be performed retrospectively, perhaps using data from an optimisation or uncertainty analysis, or when data comes from a discrete source</p>
+<section id="Methods:">
+<h1>Methods:<a class="headerlink" href="#Methods:" title="Permalink to this headline">¶</a></h1>
+<p>There are a large number of approaches to performing a sensitivity analysis, many of which have been developed to address one or more of the constraints</p>
+<section id="One-at-a-time-(OAT)">
+<h2>One-at-a-time (OAT)<a class="headerlink" href="#One-at-a-time-(OAT)" title="Permalink to this headline">¶</a></h2>
+<p>One of the simplest and most common approaches is that of changing one-factor-at-a-time (OAT), to see what effect this produces on the output. OAT customarily involves</p>
+<ol class="arabic simple">
+<li><p>moving one input variable, keeping others at their baseline (nominal) values, then,</p></li>
+<li><p>returning the variable to its nominal value, then repeating for each of the other inputs in the same way.</p></li>
+</ol>
+<p>Sensitivity may then be measured by monitoring changes in the output, e.g. by partial derivatives or linear regression. This appears a logical approach as any change observed in the output will unambiguously be due to the single variable changed</p>
+</section>
+<section id="Derivative-based-local-methods">
+<h2>Derivative-based local methods<a class="headerlink" href="#Derivative-based-local-methods" title="Permalink to this headline">¶</a></h2>
+<p>Local derivative-based methods involve taking the partial derivative of the output Y with respect to an input factor Xi Adjoint modelling and Automated Differentiation are methods in this class. Similar to OAT, local methods do not attempt to fully explore the input space, since they examine small perturbations, typically one variable at a time.</p>
+</section>
+<section id="Regression-analysis">
+<h2>Regression analysis<a class="headerlink" href="#Regression-analysis" title="Permalink to this headline">¶</a></h2>
+<p>Regression analysis, in the context of sensitivity analysis, involves fitting a linear regression to the model response and using standardized regression coefficients as direct measures of sensitivity. The regression is required to be linear with respect to the data (i.e. a hyperplane, hence with no quadratic terms, etc., as regressors) because otherwise it is difficult to interpret the standardised coefficients. This method is therefore most suitable when the model response is in fact linear;
+linearity can be confirmed, for instance, if the coefficient of determination is large. The advantages of regression analysis are that it is simple and has a low computational cost.</p>
+</section>
+<section id="Variance-based-methods">
+<h2>Variance-based methods<a class="headerlink" href="#Variance-based-methods" title="Permalink to this headline">¶</a></h2>
+<p>Variance-based methods are a class of probabilistic approaches which quantify the input and output uncertainties as probability distributions, and decompose the output variance into parts attributable to input variables and combinations of variables. The sensitivity of the output to an input variable is therefore measured by the amount of variance in the output caused by that input.These can be expressed as conditional expectations, i.e., considering a model <span class="math notranslate nohighlight">\(Y = f(X)\)</span> for
+<span class="math notranslate nohighlight">\(X = {X1, X2, ... Xk}\)</span>, a measure of sensitivity of the ith variable <span class="math notranslate nohighlight">\(Xi\)</span> is given as,</p>
+<div class="math notranslate nohighlight">
+\[\operatorname {Var} \left(E_{{\textbf {X}}_{\sim i}}\left(Y\mid X_{i}\right)\right)\]</div>
+<p>This expression essentially measures the contribution <span class="math notranslate nohighlight">\(Xi\)</span> alone to the uncertainty (variance) in <span class="math notranslate nohighlight">\(Y\)</span> (averaged over variations in other variables), and is known as the first-order sensitivity index or main effect index. Importantly, it does not measure the uncertainty caused by interactions with other variables. A further measure, known as the total effect index, gives the total variance in <span class="math notranslate nohighlight">\(Y\)</span> caused by <span class="math notranslate nohighlight">\(Xi\)</span> and its interactions with any of the other input variables.
+Both quantities are typically standardised by dividing by <span class="math notranslate nohighlight">\(Var(Y)\)</span>.</p>
+<p>Variance-based methods allow full exploration of the input space, accounting for interactions, and nonlinear responses. For these reasons they are widely used when it is feasible to calculate them. Typically this calculation involves the use of Monte Carlo methods, but since this can involve many thousands of model runs, other methods (such as emulators) can be used to reduce computational expense when necessary. Note that full variance decompositions are only meaningful when the input factors
+are independent from one another</p>
+</section>
+<section id="Variogram-analysis-of-response-surfaces-(VARS)">
+<h2>Variogram analysis of response surfaces (VARS)<a class="headerlink" href="#Variogram-analysis-of-response-surfaces-(VARS)" title="Permalink to this headline">¶</a></h2>
+<p>One of the major shortcomings of the previous sensitivity analysis methods is that none of them considers the spatially ordered structure of the response surface/output of the model Y=f(X) in the parameter space. By utilizing the concepts of directional variograms and covariograms, variogram analysis of response surfaces (VARS) addresses this weakness through recognizing a spatially continuous correlation structure to the values of Y, and hence also to the values of
+{<span class="math">\displaystyle {\frac {\partial Y}{\partial x_{i}}}</span>} The sensitivity of each input is often represented by a numeric value, called the sensitivity index. Sensitivity indices come in several forms: <span class="math notranslate nohighlight">\({\frac {\partial Y}{\partial x_{i}}}\)</span></p>
+<p>Basically, the higher the variability the more heterogeneous is the response surface along a particular direction/parameter, at a specific perturbation scale. Accordingly, in the VARS framework, the values of directional variograms for a given perturbation scale can be considered as a comprehensive illustration of sensitivity information, through linking variogram analysis to both direction and perturbation scale concepts. As a result, the VARS framework accounts for the fact that sensitivity is
+a scale-dependent concept, and thus overcomes the scale issue of traditional sensitivity analysis methods. More importantly, VARS is able to provide relatively stable and statistically robust estimates of parameter sensitivity with much lower computational cost than other strategies (about two orders of magnitude more efficient). Noteworthy, it has been shown that there is a theoretical link between the VARS framework and the variance-based and derivative-based approaches.</p>
+<ul class="simple">
+<li><p>First-order indices: measures the contribution to the output variance by a single model input alone.</p></li>
+<li><p>Second-order indices: measures the contribution to the output variance caused by the interaction of two model inputs.</p></li>
+<li><p>Total-order index: measures the contribution to the output variance caused by a model input, including both its first-order effects (the input varying alone) and all higher-order interactions.</p></li>
+</ul>
+<p>The SALib example uses the Ishigami function.</p>
+<div class="math notranslate nohighlight">
+\[f(x) = sin(x_1) + a sin^2(x_2) + b x_3^4 sin(x_1)\]</div>
+<p>I will run through same example to demonstrate how it works</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the model inputs</span>
+<span class="n">problem</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;num_vars&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s1">&#39;names&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;bounds&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="o">-</span><span class="mf">3.14159265359</span><span class="p">,</span> <span class="mf">3.14159265359</span><span class="p">],</span>
+               <span class="p">[</span><span class="o">-</span><span class="mf">3.14159265359</span><span class="p">,</span> <span class="mf">3.14159265359</span><span class="p">],</span>
+               <span class="p">[</span><span class="o">-</span><span class="mf">3.14159265359</span><span class="p">,</span> <span class="mf">3.14159265359</span><span class="p">]]</span>
+<span class="p">}</span>
+
+<span class="c1"># Generate samples</span>
+<span class="n">param_values</span> <span class="o">=</span> <span class="n">saltelli</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param_values</span> <span class="o">=</span> <span class="n">saltelli</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="c1"># Run model (example)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">Ishigami</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">param_values</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">param_values</span><span class="p">[:,</span><span class="n">i</span><span class="p">],</span><span class="n">Y</span><span class="p">,</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Sensitivity_Analysis-consGrant_5_0.png" src="../../../_images/notebooks_examples_SED_emulator_Sensitivity_Analysis-consGrant_5_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Perform analysis</span>
+<span class="n">Si</span> <span class="o">=</span> <span class="n">sobol</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">print_to_console</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+          ST   ST_conf
+x1  0.555860  0.090653
+x2  0.441898  0.039149
+x3  0.244675  0.028217
+          S1   S1_conf
+x1  0.316832  0.058248
+x2  0.443763  0.052187
+x3  0.012203  0.053453
+                S2   S2_conf
+(x1, x2)  0.009254  0.073656
+(x1, x3)  0.238172  0.099236
+(x2, x3) -0.004888  0.071647
+</pre></div></div>
+</div>
+<p>Si is a Python dict with the keys <code class="docutils literal notranslate"><span class="pre">&quot;S1&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;S2&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;ST&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;S1_conf&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;S2_conf&quot;</span></code>, and <code class="docutils literal notranslate"><span class="pre">&quot;ST_conf&quot;</span></code>. The <code class="docutils literal notranslate"><span class="pre">_conf</span></code> keys store the corresponding confidence intervals, typically with a confidence level of 95%. Use the keyword argument <code class="docutils literal notranslate"><span class="pre">print_to_console=True</span></code> to print all indices.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Si</span><span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.31683154, 0.44376306, 0.01220312])
+</pre></div></div>
+</div>
+<p>Here, we see that x1 and x2 exhibit first-order sensitivities but x3 appears to have no first-order effects.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">Si</span><span class="p">[</span><span class="s1">&#39;ST&#39;</span><span class="p">])</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[0.55586009 0.44189807 0.24467539]
+</pre></div></div>
+</div>
+<p>If the total-order indices are substantially larger than the first-order indices, then there is likely higher-order interactions occurring. We can look at the second-order indices to see these higher-order interactions:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x1-x2:&quot;</span><span class="p">,</span> <span class="n">Si</span><span class="p">[</span><span class="s1">&#39;S2&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x1-x3:&quot;</span><span class="p">,</span> <span class="n">Si</span><span class="p">[</span><span class="s1">&#39;S2&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x2-x3:&quot;</span><span class="p">,</span> <span class="n">Si</span><span class="p">[</span><span class="s1">&#39;S2&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+x1-x2: 0.00925429303490799
+x1-x3: 0.2381721095685646
+x2-x3: -0.004887704633467329
+</pre></div></div>
+</div>
+<p>We can see there are strong interactions between x1 and x3. Some computing error will appear in the sensitivity indices. For example, we observe a negative value for the x2-x3 index. Typically, these computing errors shrink as the number of samples increases.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_all</span><span class="o">=</span><span class="p">[]</span>
+<span class="n">nsamp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">nsamp</span><span class="p">:</span>
+    <span class="n">param_values</span> <span class="o">=</span> <span class="n">saltelli</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">Ishigami</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">param_values</span><span class="p">)</span>
+    <span class="n">Si</span> <span class="o">=</span> <span class="n">sobol</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span><span class="n">Y</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="o">=</span><span class="n">Si</span><span class="o">.</span><span class="n">to_df</span><span class="p">()</span>
+    <span class="n">t</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">t</span><span class="p">[</span><span class="s1">&#39;nsamp&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">s</span>
+    <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;nsamp&#39;</span><span class="p">,</span><span class="n">append</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="n">df_final</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_all</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (100) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (127) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (162) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (206) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (263) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (335) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (428) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (545) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (695) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (885) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (1128) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (1438) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (1832) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (2335) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (2976) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (3792) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (4832) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (6158) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (7847) is equal to `2^n`.
+
+  warnings.warn(msg)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (10000) is equal to `2^n`.
+
+  warnings.warn(msg)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_final</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>x1</th>
+      <th>x2</th>
+      <th>x3</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>nsamp</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ST</th>
+      <th>100</th>
+      <td>0.584457</td>
+      <td>0.418423</td>
+      <td>0.265428</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>100</th>
+      <td>0.265235</td>
+      <td>0.159223</td>
+      <td>0.088912</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>127</th>
+      <td>0.538997</td>
+      <td>0.461945</td>
+      <td>0.264523</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>127</th>
+      <td>0.257032</td>
+      <td>0.133527</td>
+      <td>0.084610</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>162</th>
+      <td>0.528082</td>
+      <td>0.425446</td>
+      <td>0.239412</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>162</th>
+      <td>0.169638</td>
+      <td>0.101126</td>
+      <td>0.071339</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>206</th>
+      <td>0.531026</td>
+      <td>0.440026</td>
+      <td>0.255356</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>206</th>
+      <td>0.174373</td>
+      <td>0.076275</td>
+      <td>0.062849</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>263</th>
+      <td>0.550149</td>
+      <td>0.420906</td>
+      <td>0.230940</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>263</th>
+      <td>0.145333</td>
+      <td>0.072775</td>
+      <td>0.051373</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>335</th>
+      <td>0.542080</td>
+      <td>0.441607</td>
+      <td>0.238351</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>335</th>
+      <td>0.138482</td>
+      <td>0.074397</td>
+      <td>0.045892</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>428</th>
+      <td>0.572954</td>
+      <td>0.456971</td>
+      <td>0.237510</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>428</th>
+      <td>0.119222</td>
+      <td>0.062729</td>
+      <td>0.040869</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>545</th>
+      <td>0.540657</td>
+      <td>0.429578</td>
+      <td>0.237815</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>545</th>
+      <td>0.113040</td>
+      <td>0.049832</td>
+      <td>0.032457</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>695</th>
+      <td>0.552358</td>
+      <td>0.449972</td>
+      <td>0.244213</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>695</th>
+      <td>0.107201</td>
+      <td>0.049277</td>
+      <td>0.029430</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>885</th>
+      <td>0.553620</td>
+      <td>0.438621</td>
+      <td>0.244159</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>885</th>
+      <td>0.093188</td>
+      <td>0.044418</td>
+      <td>0.028101</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>1128</th>
+      <td>0.557665</td>
+      <td>0.443385</td>
+      <td>0.242568</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>1128</th>
+      <td>0.082251</td>
+      <td>0.038233</td>
+      <td>0.025860</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>1438</th>
+      <td>0.558484</td>
+      <td>0.446127</td>
+      <td>0.246356</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>1438</th>
+      <td>0.071872</td>
+      <td>0.033213</td>
+      <td>0.022261</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>1832</th>
+      <td>0.557224</td>
+      <td>0.442651</td>
+      <td>0.242850</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>1832</th>
+      <td>0.056846</td>
+      <td>0.031799</td>
+      <td>0.023115</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>2335</th>
+      <td>0.564907</td>
+      <td>0.445242</td>
+      <td>0.246009</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>2335</th>
+      <td>0.066901</td>
+      <td>0.027498</td>
+      <td>0.017464</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>2976</th>
+      <td>0.558213</td>
+      <td>0.441371</td>
+      <td>0.242130</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>2976</th>
+      <td>0.056741</td>
+      <td>0.025188</td>
+      <td>0.017474</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>3792</th>
+      <td>0.559042</td>
+      <td>0.443537</td>
+      <td>0.245041</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>3792</th>
+      <td>0.043860</td>
+      <td>0.020629</td>
+      <td>0.013047</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>4832</th>
+      <td>0.556713</td>
+      <td>0.441269</td>
+      <td>0.242811</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>4832</th>
+      <td>0.038710</td>
+      <td>0.020888</td>
+      <td>0.012674</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>6158</th>
+      <td>0.557693</td>
+      <td>0.443070</td>
+      <td>0.244310</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>6158</th>
+      <td>0.035770</td>
+      <td>0.015957</td>
+      <td>0.010078</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>7847</th>
+      <td>0.557822</td>
+      <td>0.443409</td>
+      <td>0.243584</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>7847</th>
+      <td>0.027246</td>
+      <td>0.013730</td>
+      <td>0.009147</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>10000</th>
+      <td>0.558123</td>
+      <td>0.442796</td>
+      <td>0.243441</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>10000</th>
+      <td>0.030740</td>
+      <td>0.013697</td>
+      <td>0.009174</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_final</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;ST&#39;</span><span class="p">,:]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="n">logy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;AxesSubplot:xlabel=&#39;nsamp&#39;&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Sensitivity_Analysis-consGrant_16_1.png" src="../../../_images/notebooks_examples_SED_emulator_Sensitivity_Analysis-consGrant_16_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">saltelli</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">Ishigami</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">Si</span> <span class="o">=</span> <span class="n">hdmr</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+
+Term                  Sa            Sb             S             ST         #select
+------------------------------------------------------------------------------------
+x1                0.31 (±0.02)  0.00 (±0.01)  0.31 (±0.02)  0.55 (±0.02)    1
+x2                0.34 (±0.02) -0.00 (±0.02)  0.34 (±0.02)  0.35 (±0.02)    1
+x3                0.00 (±0.00)  0.00 (±0.00)  0.00 (±0.00)  0.24 (±0.01)    1
+x1/x2             0.00 (±0.00)  0.00 (±0.00)  0.00 (±0.00)                  1
+x1/x3             0.24 (±0.01)  0.00 (±0.01)  0.24 (±0.01)                  1
+x2/x3             0.00 (±0.00)  0.00 (±0.00)  0.01 (±0.00)                  1
+------------------------------------------------------------------------------------
+Sum               0.90 (±0.00)  0.01 (±0.00)  0.90 (±0.00)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Si</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">print_to_console</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+       delta  delta_conf        S1   S1_conf
+x1  0.206853    0.010204  0.313943  0.020171
+x2  0.332801    0.010243  0.414569  0.025764
+x3  0.164518    0.009185  0.003820  0.005645
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Si</span> <span class="o">=</span> <span class="n">dgsm</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span> <span class="n">print_to_console</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+            vi      vi_std       dgsm  dgsm_conf
+x1  116.188906  659.469575  33.506998    39.6704
+x2         inf         NaN        inf        NaN
+x3         inf         NaN        inf        NaN
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/analyze/dgsm.py:104: RuntimeWarning: divide by zero encountered in true_divide
+  dfdx = ((perturbed - base) / x_delta)**2
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/numpy/core/_methods.py:202: RuntimeWarning: invalid value encountered in subtract
+  x = asanyarray(arr - arrmean)
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/analyze/dgsm.py:113: RuntimeWarning: divide by zero encountered in true_divide
+  dfdx = ((perturbed - base) / x_delta)**2
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Si</span> <span class="o">=</span> <span class="n">pawn</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">print_to_console</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+     minimum      mean    median   maximum        CV
+x1  0.165039  0.298021  0.283472  0.539893  0.281524
+x2  0.201514  0.421225  0.431519  0.694385  0.263413
+x3  0.090967  0.199882  0.175293  0.454688  0.387639
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<section id="Sensitivity-Analysis-of-CIGALE-and-SPIRE">
+<h3>Sensitivity Analysis of CIGALE and SPIRE<a class="headerlink" href="#Sensitivity-Analysis-of-CIGALE-and-SPIRE" title="Permalink to this headline">¶</a></h3>
+<p>Parameters of the emulator are as follows: <code class="docutils literal notranslate"><span class="pre">'log10_sfh.sfr'</span></code>,<code class="docutils literal notranslate"><span class="pre">'agn.fracAGN'</span></code>,<code class="docutils literal notranslate"><span class="pre">'universe.redshift'</span></code>,<code class="docutils literal notranslate"><span class="pre">'attenuation.Av_BC'</span></code>,<code class="docutils literal notranslate"><span class="pre">'dust.alpha'</span></code>,<code class="docutils literal notranslate"><span class="pre">'log10_sfh.tau_main'</span></code>,<code class="docutils literal notranslate"><span class="pre">'log10_sfh.age_main'</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alpha</span><span class="o">=</span><span class="n">onp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0625</span><span class="p">,</span> <span class="mf">0.1250</span><span class="p">,</span> <span class="mf">0.1875</span><span class="p">,</span> <span class="mf">0.2500</span><span class="p">,</span><span class="mf">0.3125</span><span class="p">,</span> <span class="mf">0.3750</span><span class="p">,</span> <span class="mf">0.4375</span><span class="p">,</span> <span class="mf">0.5000</span><span class="p">,</span> <span class="mf">0.5625</span><span class="p">,</span> <span class="mf">0.6250</span><span class="p">,</span> <span class="mf">0.6875</span><span class="p">,</span> <span class="mf">0.7500</span><span class="p">,</span><span class="mf">0.8125</span><span class="p">,</span> <span class="mf">0.8750</span><span class="p">,</span> <span class="mf">0.9375</span><span class="p">,</span> <span class="mf">1.0000</span><span class="p">,</span> <span class="mf">1.0625</span><span class="p">,</span> <span class="mf">1.1250</span><span class="p">,</span> <span class="mf">1.1875</span><span class="p">,</span> <span class="mf">1.2500</span><span class="p">,</span><span class="mf">1.3125</span><span class="p">,</span> <span class="mf">1.3750</span><span class="p">,</span> <span class="mf">1.4375</span><span class="p">,</span> <span class="mf">1.5000</span><span class="p">,</span> <span class="mf">1.5625</span><span class="p">,</span> <span class="mf">1.6250</span><span class="p">,</span> <span class="mf">1.6875</span><span class="p">,</span> <span class="mf">1.7500</span><span class="p">,</span> <span class="mf">1.8125</span><span class="p">,</span> <span class="mf">1.8750</span><span class="p">,</span> <span class="mf">1.9375</span><span class="p">,</span> <span class="mf">2.0000</span><span class="p">,</span> <span class="mf">2.0625</span><span class="p">,</span> <span class="mf">2.1250</span><span class="p">,</span> <span class="mf">2.1875</span><span class="p">,</span> <span class="mf">2.2500</span><span class="p">,</span><span class="mf">2.3125</span><span class="p">,</span> <span class="mf">2.3750</span><span class="p">,</span> <span class="mf">2.4375</span><span class="p">,</span> <span class="mf">2.5000</span><span class="p">,</span> <span class="mf">2.5625</span><span class="p">,</span> <span class="mf">2.6250</span><span class="p">,</span> <span class="mf">2.6875</span><span class="p">,</span> <span class="mf">2.7500</span><span class="p">,</span><span class="mf">2.8125</span><span class="p">,</span> <span class="mf">2.8750</span><span class="p">,</span> <span class="mf">2.9375</span><span class="p">,</span> <span class="mf">3.0000</span><span class="p">,</span> <span class="mf">3.0625</span><span class="p">,</span> <span class="mf">3.1250</span><span class="p">,</span> <span class="mf">3.1875</span><span class="p">,</span> <span class="mf">3.2500</span><span class="p">,</span> <span class="mf">3.3125</span><span class="p">,</span> <span class="mf">3.3750</span><span class="p">,</span> <span class="mf">3.4375</span><span class="p">,</span> <span class="mf">3.5000</span><span class="p">,</span> <span class="mf">3.5625</span><span class="p">,</span> <span class="mf">3.6250</span><span class="p">,</span> <span class="mf">3.6875</span><span class="p">,</span> <span class="mf">3.7500</span><span class="p">,</span> <span class="mf">3.8125</span><span class="p">,</span> <span class="mf">3.8750</span><span class="p">,</span> <span class="mf">3.9375</span><span class="p">,</span> <span class="mf">4.0000</span><span class="p">])</span>
+<span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">[::</span><span class="mi">4</span><span class="p">]</span>
+<span class="c1">#av_bc=onp.arange(0.1,4.0,0.2)</span>
+<span class="n">av_bc</span><span class="o">=</span><span class="n">onp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">4.0</span><span class="p">,</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="c1">#tau=onp.arange(500,6500,200)</span>
+<span class="n">tau</span><span class="o">=</span><span class="n">onp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="mi">6500</span><span class="p">,</span><span class="mi">400</span><span class="p">)</span>
+<span class="n">z</span><span class="o">=</span><span class="n">onp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mf">0.4</span><span class="p">)</span><span class="c1">#10.0**onp.arange(-2.5,0.77,0.1)</span>
+<span class="c1">#sfr=10.0**onp.arange(-2,4.75,0.25)</span>
+<span class="n">sfr</span><span class="o">=</span><span class="mf">10.0</span><span class="o">**</span><span class="n">onp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mf">4.75</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">agn_frac</span><span class="o">=</span><span class="n">onp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.075</span><span class="p">)</span>
+<span class="c1">#agn_frac=onp.arange(0,1,0.1)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-22-a6722a56015c&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>alpha<span class="ansi-blue-fg">=</span>onp<span class="ansi-blue-fg">.</span>array<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0.0625</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0.1250</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0.1875</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0.2500</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">0.3125</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0.3750</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0.4375</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0.5000</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0.5625</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0.6250</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0.6875</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0.7500</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">0.8125</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0.8750</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0.9375</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.0000</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.0625</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.1250</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.1875</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.2500</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">1.3125</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.3750</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.4375</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.5000</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.5625</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.6250</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.6875</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.7500</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.8125</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.8750</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1.9375</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2.0000</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2.0625</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2.1250</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2.1875</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2.2500</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">2.3125</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2.3750</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2.4375</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2.5000</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2.5625</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2.6250</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2.6875</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2.7500</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">2.8125</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2.8750</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2.9375</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.0000</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.0625</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.1250</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.1875</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.2500</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.3125</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.3750</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.4375</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.5000</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.5625</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.6250</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.6875</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.7500</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.8125</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.8750</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">3.9375</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">4.0000</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> alpha<span class="ansi-blue-fg">=</span>alpha<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">:</span><span class="ansi-cyan-fg">4</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-red-fg">#av_bc=onp.arange(0.1,4.0,0.2)</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> av_bc<span class="ansi-blue-fg">=</span>onp<span class="ansi-blue-fg">.</span>arange<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">0.1</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">4.0</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">0.25</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-red-fg">#tau=onp.arange(500,6500,200)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;onp&#39; is not defined
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">problem</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;num_vars&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="s1">&#39;names&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;log10_sfh.sfr&#39;</span><span class="p">,</span><span class="s1">&#39;agn.fracAGN&#39;</span><span class="p">,</span><span class="s1">&#39;universe.redshift&#39;</span><span class="p">,</span> <span class="s1">&#39;attenuation.Av_BC&#39;</span><span class="p">,</span><span class="s1">&#39;dust.alpha&#39;</span><span class="p">,</span><span class="s1">&#39;log10_sfh.tau_main&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;bounds&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mf">4.75</span><span class="p">],</span>
+               <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+               <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span><span class="mi">6</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">4.0</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">0.0625</span><span class="p">,</span><span class="mf">4.0</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">3.81</span><span class="p">]]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate samples</span>
+<span class="n">param_values</span> <span class="o">=</span> <span class="n">saltelli</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="mi">9000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (9000) is equal to `2^n`.
+
+  warnings.warn(msg)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param_values</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(126000, 6)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">jit</span> <span class="c1"># for compiling functions for speedup</span>
+<span class="kn">from</span> <span class="nn">jax.experimental</span> <span class="kn">import</span> <span class="n">stax</span> <span class="c1"># neural network library</span>
+<span class="kn">from</span> <span class="nn">jax.experimental.stax</span> <span class="kn">import</span> <span class="n">Conv</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">MaxPool</span><span class="p">,</span> <span class="n">Relu</span><span class="p">,</span> <span class="n">Flatten</span><span class="p">,</span> <span class="n">LogSoftmax</span><span class="p">,</span> <span class="n">LeakyRelu</span> <span class="c1"># neural network layers</span>
+
+<span class="k">def</span> <span class="nf">CIGALE_emulator</span><span class="p">():</span>
+    <span class="n">output_cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ALMA_band10&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ALMA_band3&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ALMA_band4&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ALMA_band5&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ALMA_band6&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ALMA_band7&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ALMA_band8&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ALMA_band9&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1000W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1130W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1280W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1500W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1800W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F2100W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F2550W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F560W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F770W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;SCUBA450&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;SCUBA850&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;spire_250&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;spire_350&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;spire_500&#39;</span><span class="p">]</span>
+    <span class="n">net_init</span><span class="p">,</span> <span class="n">net_apply</span> <span class="o">=</span> <span class="n">stax</span><span class="o">.</span><span class="n">serial</span><span class="p">(</span>
+        <span class="n">Dense</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span> <span class="n">LeakyRelu</span><span class="p">,</span>
+        <span class="n">Dense</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span> <span class="n">LeakyRelu</span><span class="p">,</span>
+        <span class="n">Dense</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span> <span class="n">LeakyRelu</span><span class="p">,</span>
+        <span class="n">Dense</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span> <span class="n">LeakyRelu</span><span class="p">,</span>
+        <span class="n">Dense</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">output_cols</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">output_cols</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">net_init</span><span class="p">,</span><span class="n">net_apply</span>
+
+<span class="k">def</span> <span class="nf">load_emulatorII</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="c1">#read in net params</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">net_init</span><span class="p">,</span><span class="n">net_apply</span><span class="o">=</span><span class="n">CIGALE_emulator</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;net_init&#39;</span><span class="p">:</span><span class="n">net_init</span><span class="p">,</span><span class="s1">&#39;net_apply&#39;</span><span class="p">:</span><span class="n">net_apply</span><span class="p">,</span><span class="s1">&#39;params&#39;</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;arr_0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">emulator</span><span class="o">=</span><span class="n">load_emulatorII</span><span class="p">(</span><span class="s1">&#39;./CIGALE_emulator_kasia_consGrant_20220211.npz&#39;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+22
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param_values</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(126000, 6)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">src_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">emulator</span><span class="p">[</span><span class="s1">&#39;net_apply&#39;</span><span class="p">](</span><span class="n">emulator</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">],</span> <span class="n">param_values</span><span class="p">)))</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">src_f</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(126000, 22)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[123]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ALMA_band3&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ALMA_band4&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ALMA_band5&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ALMA_band6&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ALMA_band7&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ALMA_band8&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ALMA_band9&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;ALMA_band10&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F560W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F770W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1000W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1130W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1280W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1500W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1800W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F2100W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F2550W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;SCUBA450&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;SCUBA850&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;spire_250&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;spire_350&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;spire_500&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Perform analysis</span>
+<span class="n">Si</span> <span class="o">=</span> <span class="n">sobol</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">src_f</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="o">=</span><span class="n">Si</span><span class="o">.</span><span class="n">to_df</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ST</th>
+      <th>ST_conf</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>log10_sfh.sfr</th>
+      <td>1.063390</td>
+      <td>1.351769</td>
+    </tr>
+    <tr>
+      <th>agn.fracAGN</th>
+      <td>0.003515</td>
+      <td>0.005886</td>
+    </tr>
+    <tr>
+      <th>universe.redshift</th>
+      <td>0.960738</td>
+      <td>0.677798</td>
+    </tr>
+    <tr>
+      <th>attenuation.Av_BC</th>
+      <td>0.004735</td>
+      <td>0.017142</td>
+    </tr>
+    <tr>
+      <th>dust.alpha</th>
+      <td>0.479226</td>
+      <td>5.562243</td>
+    </tr>
+    <tr>
+      <th>log10_sfh.tau_main</th>
+      <td>0.963282</td>
+      <td>0.731929</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_final_tmp</span><span class="o">=</span><span class="p">[]</span>
+<span class="n">nsamp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mf">5.5</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">nsamp</span><span class="p">:</span>
+    <span class="n">param_values</span> <span class="o">=</span> <span class="n">saltelli</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">src_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">emulator</span><span class="p">[</span><span class="s1">&#39;net_apply&#39;</span><span class="p">](</span><span class="n">emulator</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">],</span> <span class="n">param_values</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">output_cols</span><span class="p">):</span>
+        <span class="n">Si</span> <span class="o">=</span> <span class="n">sobol</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">src_f</span><span class="p">[:,</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">df</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="o">=</span><span class="n">Si</span><span class="o">.</span><span class="n">to_df</span><span class="p">()</span>
+        <span class="n">t</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">t</span><span class="p">[</span><span class="s1">&#39;band&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">b</span>
+        <span class="n">t</span><span class="p">[</span><span class="s1">&#39;nsamp&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">s</span>
+        <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;band&#39;</span><span class="p">,</span><span class="n">append</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;nsamp&#39;</span><span class="p">,</span><span class="n">append</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">df_final_tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (1000) is equal to `2^n`.
+
+  warnings.warn(msg)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1000
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (1895) is equal to `2^n`.
+
+  warnings.warn(msg)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1895
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (3593) is equal to `2^n`.
+
+  warnings.warn(msg)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+3593
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (6812) is equal to `2^n`.
+
+  warnings.warn(msg)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+6812
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (12915) is equal to `2^n`.
+
+  warnings.warn(msg)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+12915
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (24484) is equal to `2^n`.
+
+  warnings.warn(msg)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+24484
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (46415) is equal to `2^n`.
+
+  warnings.warn(msg)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+46415
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (87992) is equal to `2^n`.
+
+  warnings.warn(msg)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+87992
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (166810) is equal to `2^n`.
+
+  warnings.warn(msg)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+166810
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/SALib/sample/saltelli.py:94: UserWarning:
+        Convergence properties of the Sobol&#39; sequence is only valid if
+        `N` (316227) is equal to `2^n`.
+
+  warnings.warn(msg)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+316227
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_final_tmp</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_final_tmp</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_final</span><span class="o">=</span><span class="n">df_final_tmp</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">output_cols</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">output_cols</span><span class="p">):</span>
+    <span class="n">df_final</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;ST&#39;</span><span class="p">,</span><span class="n">b</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">logy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">logx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+/Users/pdh21/anaconda3/envs/xidplus/lib/python3.6/site-packages/ipykernel_launcher.py:3: PerformanceWarning: indexing past lexsort depth may impact performance.
+  This is separate from the ipykernel package so we can avoid doing imports until
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Sensitivity_Analysis-consGrant_39_1.png" src="../../../_images/notebooks_examples_SED_emulator_Sensitivity_Analysis-consGrant_39_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_final</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>log10_sfh.sfr</th>
+      <th>agn.fracAGN</th>
+      <th>universe.redshift</th>
+      <th>attenuation.Av_BC</th>
+      <th>dust.alpha</th>
+      <th>log10_sfh.tau_main</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>band</th>
+      <th>nsamp</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ST</th>
+      <th>ALMA_band10</th>
+      <th>1000</th>
+      <td>7.938501</td>
+      <td>0.000516</td>
+      <td>0.988379</td>
+      <td>0.337677</td>
+      <td>0.462411</td>
+      <td>1.387170</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>ALMA_band10</th>
+      <th>1000</th>
+      <td>82.119614</td>
+      <td>0.002728</td>
+      <td>0.753129</td>
+      <td>0.270941</td>
+      <td>0.331053</td>
+      <td>4.924372</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>ALMA_band3</th>
+      <th>1000</th>
+      <td>8.220538</td>
+      <td>0.012215</td>
+      <td>0.938767</td>
+      <td>0.296380</td>
+      <td>0.259038</td>
+      <td>1.834391</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>ALMA_band3</th>
+      <th>1000</th>
+      <td>45.602922</td>
+      <td>0.010177</td>
+      <td>0.422064</td>
+      <td>0.248154</td>
+      <td>0.084095</td>
+      <td>6.603590</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>ALMA_band4</th>
+      <th>1000</th>
+      <td>10.555516</td>
+      <td>0.003895</td>
+      <td>0.959438</td>
+      <td>0.268662</td>
+      <td>0.279294</td>
+      <td>1.986202</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>spire_250</th>
+      <th>316227</th>
+      <td>0.491421</td>
+      <td>0.017301</td>
+      <td>1.197063</td>
+      <td>0.344715</td>
+      <td>0.226236</td>
+      <td>0.392209</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>spire_350</th>
+      <th>316227</th>
+      <td>1.051090</td>
+      <td>0.016213</td>
+      <td>1.767483</td>
+      <td>0.317792</td>
+      <td>0.458862</td>
+      <td>0.970100</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>spire_350</th>
+      <th>316227</th>
+      <td>0.525967</td>
+      <td>0.011372</td>
+      <td>1.305019</td>
+      <td>0.395100</td>
+      <td>0.276639</td>
+      <td>0.422861</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>spire_500</th>
+      <th>316227</th>
+      <td>1.044562</td>
+      <td>0.007028</td>
+      <td>1.779122</td>
+      <td>0.280962</td>
+      <td>0.467612</td>
+      <td>0.935695</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>spire_500</th>
+      <th>316227</th>
+      <td>0.600618</td>
+      <td>0.003851</td>
+      <td>1.228612</td>
+      <td>0.301659</td>
+      <td>0.274533</td>
+      <td>0.385606</td>
+    </tr>
+  </tbody>
+</table>
+<p>440 rows × 6 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[93]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_cols</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">17</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-93-dcd6db46d39e&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">1</span>
+<span class="ansi-red-fg">    output_cols[8:17</span>
+                    ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> unexpected EOF while parsing
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[95]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="kn">import</span> <span class="nn">plotly.offline</span> <span class="k">as</span> <span class="nn">pyo</span>
+
+<span class="n">nsamp</span><span class="o">=</span><span class="mi">316227</span>
+<span class="n">categories</span> <span class="o">=</span> <span class="n">problem</span><span class="p">[</span><span class="s1">&#39;names&#39;</span><span class="p">]</span>
+<span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">categories</span><span class="p">,</span> <span class="n">categories</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">data</span><span class="o">=</span><span class="p">[]</span>
+<span class="n">cmap_jwst</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;light:b&quot;</span><span class="p">,</span> <span class="n">as_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">output_cols</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">17</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(((</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mf">9.0</span><span class="p">))</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatterpolar</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="n">df_final</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;ST&#39;</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">nsamp</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">df_final</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;ST&#39;</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">nsamp</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">theta</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">b</span> <span class="p">,</span><span class="n">line_color</span> <span class="o">=</span> <span class="s1">&#39;rgb&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">cmap_jwst</span><span class="p">(((</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mf">9.0</span><span class="p">))[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+<span class="n">cmap_scuba</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;light:g&quot;</span><span class="p">,</span> <span class="n">as_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">output_cols</span><span class="p">[</span><span class="mi">17</span><span class="p">:</span><span class="mi">19</span><span class="p">]):</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatterpolar</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="n">df_final</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;ST&#39;</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">nsamp</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">df_final</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;ST&#39;</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">nsamp</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">theta</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">b</span> <span class="p">,</span><span class="n">line_color</span> <span class="o">=</span> <span class="s1">&#39;rgb&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">cmap_scuba</span><span class="p">(((</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span><span class="p">))[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+<span class="n">cmap_spire</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;light:orange&quot;</span><span class="p">,</span> <span class="n">as_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">output_cols</span><span class="p">[</span><span class="mi">19</span><span class="p">:</span><span class="mi">22</span><span class="p">]):</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatterpolar</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="n">df_final</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;ST&#39;</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">nsamp</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">df_final</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;ST&#39;</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">nsamp</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">theta</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">b</span> <span class="p">,</span><span class="n">line_color</span> <span class="o">=</span> <span class="s1">&#39;rgb&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">cmap_spire</span><span class="p">(((</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mf">3.0</span><span class="p">))[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+<span class="n">cmap_alma</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;light:r&quot;</span><span class="p">,</span> <span class="n">as_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">output_cols</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">]):</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatterpolar</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="n">df_final</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;ST&#39;</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">nsamp</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">df_final</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;ST&#39;</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">nsamp</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">theta</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">b</span> <span class="p">,</span><span class="n">line_color</span> <span class="o">=</span> <span class="s1">&#39;rgb&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">cmap_alma</span><span class="p">(((</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mf">8.0</span><span class="p">))[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+    <span class="n">layout</span><span class="o">=</span><span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">go</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">Title</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s1">&#39;Photometric band Sensitivity&#39;</span><span class="p">),</span>
+        <span class="n">polar</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;radialaxis&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;visible&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}},</span>
+        <span class="n">showlegend</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">pyo</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.1111111111111111
+0.2222222222222222
+0.3333333333333333
+0.4444444444444444
+0.5555555555555556
+0.6666666666666666
+0.7777777777777778
+0.8888888888888888
+1.0
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[95]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;temp-plot.html&#39;
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">band_wave</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ALMA_band10&#39;</span><span class="p">:</span><span class="mi">350</span><span class="p">,</span><span class="s1">&#39;ALMA_band9&#39;</span><span class="p">:</span><span class="mi">450</span><span class="p">,</span><span class="s1">&#39;ALMA_band8&#39;</span><span class="p">:</span><span class="mi">650</span><span class="p">,</span><span class="s1">&#39;ALMA_band7&#39;</span><span class="p">:</span><span class="mi">950</span><span class="p">,</span><span class="s1">&#39;ALMA_band6&#39;</span><span class="p">:</span><span class="mi">1250</span><span class="p">,</span><span class="s1">&#39;ALMA_band5&#39;</span><span class="p">:</span><span class="mi">1600</span><span class="p">,</span><span class="s1">&#39;ALMA_band4&#39;</span><span class="p">:</span><span class="mi">2100</span><span class="p">,</span><span class="s1">&#39;ALMA_band3&#39;</span><span class="p">:</span><span class="mi">3100</span><span class="p">,</span><span class="s1">&#39;F1000W&#39;</span><span class="p">:</span><span class="mf">9.99</span><span class="p">,</span><span class="s1">&#39;F1130W&#39;</span><span class="p">:</span><span class="mf">11.32</span><span class="p">,</span><span class="s1">&#39;F1280W&#39;</span><span class="p">:</span><span class="mf">12.87</span><span class="p">,</span><span class="s1">&#39;F1500W&#39;</span><span class="p">:</span><span class="mf">15.1</span><span class="p">,</span><span class="s1">&#39;F1800W&#39;</span><span class="p">:</span><span class="mf">18.05</span><span class="p">,</span><span class="s1">&#39;F2100W&#39;</span><span class="p">:</span><span class="mf">20.97</span><span class="p">,</span><span class="s1">&#39;F2550W&#39;</span><span class="p">:</span><span class="mf">25.50</span><span class="p">,</span><span class="s1">&#39;F560W&#39;</span><span class="p">:</span><span class="mf">5.67</span><span class="p">,</span><span class="s1">&#39;F770W&#39;</span><span class="p">:</span><span class="mf">7.71</span><span class="p">,</span><span class="s1">&#39;SCUBA450&#39;</span><span class="p">:</span><span class="mi">450</span><span class="p">,</span><span class="s1">&#39;SCUBA850&#39;</span><span class="p">:</span><span class="mi">850</span><span class="p">,</span><span class="s1">&#39;spire_250&#39;</span><span class="p">:</span><span class="mi">250</span><span class="p">,</span><span class="s1">&#39;spire_350&#39;</span><span class="p">:</span><span class="mi">350</span><span class="p">,</span><span class="s1">&#39;spire_500&#39;</span><span class="p">:</span><span class="mi">500</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[103]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_final</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;ST&#39;</span><span class="p">,:,</span><span class="n">nsamp</span><span class="p">][</span><span class="n">problem</span><span class="p">[</span><span class="s1">&#39;names&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[103]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+band
+ALMA_band10    0.990264
+ALMA_band3     0.951669
+ALMA_band4     0.997099
+ALMA_band5     0.997397
+ALMA_band6     1.027149
+ALMA_band7     1.076115
+ALMA_band8     1.021085
+ALMA_band9     0.996335
+F1000W         1.494290
+F1130W         1.516314
+F1280W         1.388913
+F1500W         1.326316
+F1800W         1.405527
+F2100W         1.281161
+F2550W         1.084455
+F560W          1.426567
+F770W          1.297346
+SCUBA450       1.001175
+SCUBA850       1.024286
+spire_250      1.036620
+spire_350      1.051090
+spire_500      1.044562
+Name: log10_sfh.sfr, dtype: float64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[117]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_final</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;ST&#39;</span><span class="p">,:,</span><span class="n">nsamp</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[117]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>log10_sfh.sfr</th>
+      <th>agn.fracAGN</th>
+      <th>universe.redshift</th>
+      <th>attenuation.Av_BC</th>
+      <th>dust.alpha</th>
+      <th>log10_sfh.tau_main</th>
+    </tr>
+    <tr>
+      <th>band</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ALMA_band10</th>
+      <td>0.990264</td>
+      <td>0.012926</td>
+      <td>1.889669</td>
+      <td>0.347800</td>
+      <td>0.435563</td>
+      <td>0.946005</td>
+    </tr>
+    <tr>
+      <th>ALMA_band3</th>
+      <td>0.951669</td>
+      <td>0.013403</td>
+      <td>1.678653</td>
+      <td>0.303683</td>
+      <td>0.364324</td>
+      <td>0.928050</td>
+    </tr>
+    <tr>
+      <th>ALMA_band4</th>
+      <td>0.997099</td>
+      <td>0.006081</td>
+      <td>1.679973</td>
+      <td>0.297098</td>
+      <td>0.390075</td>
+      <td>0.917114</td>
+    </tr>
+    <tr>
+      <th>ALMA_band5</th>
+      <td>0.997397</td>
+      <td>0.006170</td>
+      <td>1.718250</td>
+      <td>0.314171</td>
+      <td>0.424559</td>
+      <td>0.926002</td>
+    </tr>
+    <tr>
+      <th>ALMA_band6</th>
+      <td>1.027149</td>
+      <td>0.009773</td>
+      <td>1.758802</td>
+      <td>0.313877</td>
+      <td>0.442933</td>
+      <td>0.933358</td>
+    </tr>
+    <tr>
+      <th>ALMA_band7</th>
+      <td>1.076115</td>
+      <td>0.009525</td>
+      <td>1.713982</td>
+      <td>0.297781</td>
+      <td>0.471654</td>
+      <td>0.969095</td>
+    </tr>
+    <tr>
+      <th>ALMA_band8</th>
+      <td>1.021085</td>
+      <td>0.015233</td>
+      <td>1.793398</td>
+      <td>0.315972</td>
+      <td>0.473417</td>
+      <td>0.942661</td>
+    </tr>
+    <tr>
+      <th>ALMA_band9</th>
+      <td>0.996335</td>
+      <td>0.017335</td>
+      <td>1.851962</td>
+      <td>0.362688</td>
+      <td>0.455982</td>
+      <td>0.943323</td>
+    </tr>
+    <tr>
+      <th>F1000W</th>
+      <td>1.494290</td>
+      <td>0.476790</td>
+      <td>1.694613</td>
+      <td>0.075021</td>
+      <td>0.015257</td>
+      <td>0.356688</td>
+    </tr>
+    <tr>
+      <th>F1130W</th>
+      <td>1.516314</td>
+      <td>0.476686</td>
+      <td>1.775651</td>
+      <td>0.072717</td>
+      <td>0.012209</td>
+      <td>0.328602</td>
+    </tr>
+    <tr>
+      <th>F1280W</th>
+      <td>1.388913</td>
+      <td>0.515661</td>
+      <td>1.539272</td>
+      <td>0.081008</td>
+      <td>0.008533</td>
+      <td>0.289242</td>
+    </tr>
+    <tr>
+      <th>F1500W</th>
+      <td>1.326316</td>
+      <td>0.573281</td>
+      <td>1.379184</td>
+      <td>0.089543</td>
+      <td>0.010254</td>
+      <td>0.316918</td>
+    </tr>
+    <tr>
+      <th>F1800W</th>
+      <td>1.405527</td>
+      <td>0.563786</td>
+      <td>1.328998</td>
+      <td>0.083691</td>
+      <td>0.010203</td>
+      <td>0.318856</td>
+    </tr>
+    <tr>
+      <th>F2100W</th>
+      <td>1.281161</td>
+      <td>0.449059</td>
+      <td>1.537076</td>
+      <td>0.065944</td>
+      <td>0.008958</td>
+      <td>0.316537</td>
+    </tr>
+    <tr>
+      <th>F2550W</th>
+      <td>1.084455</td>
+      <td>0.390314</td>
+      <td>1.177367</td>
+      <td>0.057258</td>
+      <td>0.006996</td>
+      <td>0.270628</td>
+    </tr>
+    <tr>
+      <th>F560W</th>
+      <td>1.426567</td>
+      <td>0.496710</td>
+      <td>1.442617</td>
+      <td>0.066338</td>
+      <td>0.011200</td>
+      <td>0.329997</td>
+    </tr>
+    <tr>
+      <th>F770W</th>
+      <td>1.297346</td>
+      <td>0.479282</td>
+      <td>1.450301</td>
+      <td>0.069500</td>
+      <td>0.010899</td>
+      <td>0.316976</td>
+    </tr>
+    <tr>
+      <th>SCUBA450</th>
+      <td>1.001175</td>
+      <td>0.013307</td>
+      <td>1.766898</td>
+      <td>0.308072</td>
+      <td>0.463404</td>
+      <td>0.937920</td>
+    </tr>
+    <tr>
+      <th>SCUBA850</th>
+      <td>1.024286</td>
+      <td>0.008402</td>
+      <td>1.737380</td>
+      <td>0.313083</td>
+      <td>0.445600</td>
+      <td>0.937699</td>
+    </tr>
+    <tr>
+      <th>spire_250</th>
+      <td>1.036620</td>
+      <td>0.020033</td>
+      <td>1.805760</td>
+      <td>0.321350</td>
+      <td>0.409395</td>
+      <td>0.976878</td>
+    </tr>
+    <tr>
+      <th>spire_350</th>
+      <td>1.051090</td>
+      <td>0.016213</td>
+      <td>1.767483</td>
+      <td>0.317792</td>
+      <td>0.458862</td>
+      <td>0.970100</td>
+    </tr>
+    <tr>
+      <th>spire_500</th>
+      <td>1.044562</td>
+      <td>0.007028</td>
+      <td>1.779122</td>
+      <td>0.280962</td>
+      <td>0.467612</td>
+      <td>0.935695</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[168]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_cols_plot</span><span class="o">=</span><span class="p">[</span>
+ <span class="s1">&#39;F1000W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1130W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1280W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1500W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1800W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F2100W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F2550W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;spire_250&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;spire_350&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;spire_500&#39;</span><span class="p">]</span>
+<span class="n">output_cols_plot_label</span><span class="o">=</span><span class="p">[</span>
+ <span class="s1">&#39;F1000W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1130W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1280W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1500W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F1800W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F2100W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;F2550W&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;SPIRE 250&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;SPIRE 350&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;SPIRE 500&#39;</span><span class="p">]</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[138]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_final</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;ST&#39;</span><span class="p">,:,</span><span class="n">nsamp</span><span class="p">][</span><span class="n">b</span><span class="p">][</span><span class="n">output_cols_plot</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[138]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.32999696623321206
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[139]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">band_wave</span><span class="p">[</span><span class="n">wave</span><span class="p">]</span> <span class="k">for</span> <span class="n">wave</span> <span class="ow">in</span> <span class="n">output_cols_plot</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[139]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[5.67, 7.71, 9.99, 11.32, 12.87, 15.1, 18.05, 20.97, 25.5, 250, 350, 500]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[173]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
+
+<span class="c1"># Smallest context:</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span><span class="n">font_scale</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;grid.linewidth&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">})</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">problem</span><span class="p">[</span><span class="s1">&#39;names&#39;</span><span class="p">]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">output_cols_plot_label</span><span class="p">,[</span><span class="n">df_final</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;ST&#39;</span><span class="p">,:,</span><span class="n">nsamp</span><span class="p">][</span><span class="n">b</span><span class="p">][</span><span class="n">wave</span><span class="p">]</span> <span class="k">for</span> <span class="n">wave</span> <span class="ow">in</span> <span class="n">output_cols_plot</span><span class="p">],</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">b</span><span class="p">,)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Total Sensitivity&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Bands&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;cyan&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mf">1.9</span><span class="p">,</span><span class="s1">&#39;JWST MIRI&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mf">1.9</span><span class="p">,</span><span class="s1">&#39;Herschel SPIRE&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[173]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(0.0, 9.0)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../_images/notebooks_examples_SED_emulator_Sensitivity_Analysis-consGrant_49_1.png" src="../../../_images/notebooks_examples_SED_emulator_Sensitivity_Analysis-consGrant_49_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[130]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">df_final</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;band&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;gdpPercap&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s2">&quot;bottom right&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-130-981bc3067251&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-green-fg">import</span> plotly<span class="ansi-blue-fg">.</span>express <span class="ansi-green-fg">as</span> px
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span>fig <span class="ansi-blue-fg">=</span> px<span class="ansi-blue-fg">.</span>line<span class="ansi-blue-fg">(</span>df_final<span class="ansi-blue-fg">,</span> x<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;band&#34;</span><span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;gdpPercap&#34;</span><span class="ansi-blue-fg">,</span> color<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;country&#34;</span><span class="ansi-blue-fg">,</span> text<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;year&#34;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> fig<span class="ansi-blue-fg">.</span>update_traces<span class="ansi-blue-fg">(</span>textposition<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;bottom right&#34;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> fig<span class="ansi-blue-fg">.</span>show<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/plotly/express/_chart_types.py</span> in <span class="ansi-cyan-fg">line</span><span class="ansi-blue-fg">(data_frame, x, y, line_group, color, line_dash, symbol, hover_name, hover_data, custom_data, text, facet_row, facet_col, facet_col_wrap, facet_row_spacing, facet_col_spacing, error_x, error_x_minus, error_y, error_y_minus, animation_frame, animation_group, category_orders, labels, orientation, color_discrete_sequence, color_discrete_map, line_dash_sequence, line_dash_map, symbol_sequence, symbol_map, markers, log_x, log_y, range_x, range_y, line_shape, render_mode, title, template, width, height)</span>
+<span class="ansi-green-intense-fg ansi-bold">    260</span>     a polyline mark <span class="ansi-green-fg">in</span> <span class="ansi-cyan-fg">2</span>D space<span class="ansi-blue-fg">.</span>
+<span class="ansi-green-intense-fg ansi-bold">    261</span>     &#34;&#34;&#34;
+<span class="ansi-green-fg">--&gt; 262</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> make_figure<span class="ansi-blue-fg">(</span>args<span class="ansi-blue-fg">=</span>locals<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> constructor<span class="ansi-blue-fg">=</span>go<span class="ansi-blue-fg">.</span>Scatter<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    263</span>
+<span class="ansi-green-intense-fg ansi-bold">    264</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/plotly/express/_core.py</span> in <span class="ansi-cyan-fg">make_figure</span><span class="ansi-blue-fg">(args, constructor, trace_patch, layout_patch)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1943</span>     apply_default_cascade<span class="ansi-blue-fg">(</span>args<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1944</span>
+<span class="ansi-green-fg">-&gt; 1945</span><span class="ansi-red-fg">     </span>args <span class="ansi-blue-fg">=</span> build_dataframe<span class="ansi-blue-fg">(</span>args<span class="ansi-blue-fg">,</span> constructor<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1946</span>     <span class="ansi-green-fg">if</span> constructor <span class="ansi-green-fg">in</span> <span class="ansi-blue-fg">[</span>go<span class="ansi-blue-fg">.</span>Treemap<span class="ansi-blue-fg">,</span> go<span class="ansi-blue-fg">.</span>Sunburst<span class="ansi-blue-fg">,</span> go<span class="ansi-blue-fg">.</span>Icicle<span class="ansi-blue-fg">]</span> <span class="ansi-green-fg">and</span> args<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#34;path&#34;</span><span class="ansi-blue-fg">]</span> <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1947</span>         args <span class="ansi-blue-fg">=</span> process_dataframe_hierarchy<span class="ansi-blue-fg">(</span>args<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/plotly/express/_core.py</span> in <span class="ansi-cyan-fg">build_dataframe</span><span class="ansi-blue-fg">(args, constructor)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1404</span>
+<span class="ansi-green-intense-fg ansi-bold">   1405</span>     df_output, wide_id_vars = process_args_into_dataframe(
+<span class="ansi-green-fg">-&gt; 1406</span><span class="ansi-red-fg">         </span>args<span class="ansi-blue-fg">,</span> wide_mode<span class="ansi-blue-fg">,</span> var_name<span class="ansi-blue-fg">,</span> value_name
+<span class="ansi-green-intense-fg ansi-bold">   1407</span>     )
+<span class="ansi-green-intense-fg ansi-bold">   1408</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/xidplus/lib/python3.6/site-packages/plotly/express/_core.py</span> in <span class="ansi-cyan-fg">process_args_into_dataframe</span><span class="ansi-blue-fg">(args, wide_mode, var_name, value_name)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1205</span>                         <span class="ansi-green-fg">if</span> argument <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;index&#34;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1206</span>                             err_msg <span class="ansi-blue-fg">+=</span> <span class="ansi-blue-fg">&#34;\n To use the index, pass it in directly as `df.index`.&#34;</span>
+<span class="ansi-green-fg">-&gt; 1207</span><span class="ansi-red-fg">                         </span><span class="ansi-green-fg">raise</span> ValueError<span class="ansi-blue-fg">(</span>err_msg<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1208</span>                 <span class="ansi-green-fg">elif</span> length <span class="ansi-green-fg">and</span> len<span class="ansi-blue-fg">(</span>df_input<span class="ansi-blue-fg">[</span>argument<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">!=</span> length<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1209</span>                     raise ValueError(
+
+<span class="ansi-red-fg">ValueError</span>: Value of &#39;x&#39; is not the name of a column in &#39;data_frame&#39;. Expected one of [&#39;log10_sfh.sfr&#39;, &#39;agn.fracAGN&#39;, &#39;universe.redshift&#39;, &#39;attenuation.Av_BC&#39;, &#39;dust.alpha&#39;, &#39;log10_sfh.tau_main&#39;] but received: band
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[135]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_final</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[135]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>log10_sfh.sfr</th>
+      <th>agn.fracAGN</th>
+      <th>universe.redshift</th>
+      <th>attenuation.Av_BC</th>
+      <th>dust.alpha</th>
+      <th>log10_sfh.tau_main</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>band</th>
+      <th>nsamp</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ST</th>
+      <th>ALMA_band10</th>
+      <th>1000</th>
+      <td>7.938501</td>
+      <td>0.000516</td>
+      <td>0.988379</td>
+      <td>0.337677</td>
+      <td>0.462411</td>
+      <td>1.387170</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>ALMA_band10</th>
+      <th>1000</th>
+      <td>82.119614</td>
+      <td>0.002728</td>
+      <td>0.753129</td>
+      <td>0.270941</td>
+      <td>0.331053</td>
+      <td>4.924372</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>ALMA_band3</th>
+      <th>1000</th>
+      <td>8.220538</td>
+      <td>0.012215</td>
+      <td>0.938767</td>
+      <td>0.296380</td>
+      <td>0.259038</td>
+      <td>1.834391</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>ALMA_band3</th>
+      <th>1000</th>
+      <td>45.602922</td>
+      <td>0.010177</td>
+      <td>0.422064</td>
+      <td>0.248154</td>
+      <td>0.084095</td>
+      <td>6.603590</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>ALMA_band4</th>
+      <th>1000</th>
+      <td>10.555516</td>
+      <td>0.003895</td>
+      <td>0.959438</td>
+      <td>0.268662</td>
+      <td>0.279294</td>
+      <td>1.986202</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>spire_250</th>
+      <th>316227</th>
+      <td>0.491421</td>
+      <td>0.017301</td>
+      <td>1.197063</td>
+      <td>0.344715</td>
+      <td>0.226236</td>
+      <td>0.392209</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>spire_350</th>
+      <th>316227</th>
+      <td>1.051090</td>
+      <td>0.016213</td>
+      <td>1.767483</td>
+      <td>0.317792</td>
+      <td>0.458862</td>
+      <td>0.970100</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>spire_350</th>
+      <th>316227</th>
+      <td>0.525967</td>
+      <td>0.011372</td>
+      <td>1.305019</td>
+      <td>0.395100</td>
+      <td>0.276639</td>
+      <td>0.422861</td>
+    </tr>
+    <tr>
+      <th>ST</th>
+      <th>spire_500</th>
+      <th>316227</th>
+      <td>1.044562</td>
+      <td>0.007028</td>
+      <td>1.779122</td>
+      <td>0.280962</td>
+      <td>0.467612</td>
+      <td>0.935695</td>
+    </tr>
+    <tr>
+      <th>ST_conf</th>
+      <th>spire_500</th>
+      <th>316227</th>
+      <td>0.600618</td>
+      <td>0.003851</td>
+      <td>1.228612</td>
+      <td>0.301659</td>
+      <td>0.274533</td>
+      <td>0.385606</td>
+    </tr>
+  </tbody>
+</table>
+<p>440 rows × 6 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[131]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">px</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">gapminder</span><span class="p">()</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;country in [&#39;Canada&#39;, &#39;Botswana&#39;]&quot;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[131]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+      <th>continent</th>
+      <th>year</th>
+      <th>lifeExp</th>
+      <th>pop</th>
+      <th>gdpPercap</th>
+      <th>iso_alpha</th>
+      <th>iso_num</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>156</th>
+      <td>Botswana</td>
+      <td>Africa</td>
+      <td>1952</td>
+      <td>47.622</td>
+      <td>442308</td>
+      <td>851.241141</td>
+      <td>BWA</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>157</th>
+      <td>Botswana</td>
+      <td>Africa</td>
+      <td>1957</td>
+      <td>49.618</td>
+      <td>474639</td>
+      <td>918.232535</td>
+      <td>BWA</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>158</th>
+      <td>Botswana</td>
+      <td>Africa</td>
+      <td>1962</td>
+      <td>51.520</td>
+      <td>512764</td>
+      <td>983.653976</td>
+      <td>BWA</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>159</th>
+      <td>Botswana</td>
+      <td>Africa</td>
+      <td>1967</td>
+      <td>53.298</td>
+      <td>553541</td>
+      <td>1214.709294</td>
+      <td>BWA</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>160</th>
+      <td>Botswana</td>
+      <td>Africa</td>
+      <td>1972</td>
+      <td>56.024</td>
+      <td>619351</td>
+      <td>2263.611114</td>
+      <td>BWA</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>161</th>
+      <td>Botswana</td>
+      <td>Africa</td>
+      <td>1977</td>
+      <td>59.319</td>
+      <td>781472</td>
+      <td>3214.857818</td>
+      <td>BWA</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>162</th>
+      <td>Botswana</td>
+      <td>Africa</td>
+      <td>1982</td>
+      <td>61.484</td>
+      <td>970347</td>
+      <td>4551.142150</td>
+      <td>BWA</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>163</th>
+      <td>Botswana</td>
+      <td>Africa</td>
+      <td>1987</td>
+      <td>63.622</td>
+      <td>1151184</td>
+      <td>6205.883850</td>
+      <td>BWA</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>164</th>
+      <td>Botswana</td>
+      <td>Africa</td>
+      <td>1992</td>
+      <td>62.745</td>
+      <td>1342614</td>
+      <td>7954.111645</td>
+      <td>BWA</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>165</th>
+      <td>Botswana</td>
+      <td>Africa</td>
+      <td>1997</td>
+      <td>52.556</td>
+      <td>1536536</td>
+      <td>8647.142313</td>
+      <td>BWA</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>166</th>
+      <td>Botswana</td>
+      <td>Africa</td>
+      <td>2002</td>
+      <td>46.634</td>
+      <td>1630347</td>
+      <td>11003.605080</td>
+      <td>BWA</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>167</th>
+      <td>Botswana</td>
+      <td>Africa</td>
+      <td>2007</td>
+      <td>50.728</td>
+      <td>1639131</td>
+      <td>12569.851770</td>
+      <td>BWA</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>240</th>
+      <td>Canada</td>
+      <td>Americas</td>
+      <td>1952</td>
+      <td>68.750</td>
+      <td>14785584</td>
+      <td>11367.161120</td>
+      <td>CAN</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>241</th>
+      <td>Canada</td>
+      <td>Americas</td>
+      <td>1957</td>
+      <td>69.960</td>
+      <td>17010154</td>
+      <td>12489.950060</td>
+      <td>CAN</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>242</th>
+      <td>Canada</td>
+      <td>Americas</td>
+      <td>1962</td>
+      <td>71.300</td>
+      <td>18985849</td>
+      <td>13462.485550</td>
+      <td>CAN</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>243</th>
+      <td>Canada</td>
+      <td>Americas</td>
+      <td>1967</td>
+      <td>72.130</td>
+      <td>20819767</td>
+      <td>16076.588030</td>
+      <td>CAN</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>244</th>
+      <td>Canada</td>
+      <td>Americas</td>
+      <td>1972</td>
+      <td>72.880</td>
+      <td>22284500</td>
+      <td>18970.570860</td>
+      <td>CAN</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>245</th>
+      <td>Canada</td>
+      <td>Americas</td>
+      <td>1977</td>
+      <td>74.210</td>
+      <td>23796400</td>
+      <td>22090.883060</td>
+      <td>CAN</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>246</th>
+      <td>Canada</td>
+      <td>Americas</td>
+      <td>1982</td>
+      <td>75.760</td>
+      <td>25201900</td>
+      <td>22898.792140</td>
+      <td>CAN</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>247</th>
+      <td>Canada</td>
+      <td>Americas</td>
+      <td>1987</td>
+      <td>76.860</td>
+      <td>26549700</td>
+      <td>26626.515030</td>
+      <td>CAN</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>248</th>
+      <td>Canada</td>
+      <td>Americas</td>
+      <td>1992</td>
+      <td>77.950</td>
+      <td>28523502</td>
+      <td>26342.884260</td>
+      <td>CAN</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>249</th>
+      <td>Canada</td>
+      <td>Americas</td>
+      <td>1997</td>
+      <td>78.610</td>
+      <td>30305843</td>
+      <td>28954.925890</td>
+      <td>CAN</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>250</th>
+      <td>Canada</td>
+      <td>Americas</td>
+      <td>2002</td>
+      <td>79.770</td>
+      <td>31902268</td>
+      <td>33328.965070</td>
+      <td>CAN</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>251</th>
+      <td>Canada</td>
+      <td>Americas</td>
+      <td>2007</td>
+      <td>80.653</td>
+      <td>33390141</td>
+      <td>36319.235010</td>
+      <td>CAN</td>
+      <td>124</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Peter Hurley.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
