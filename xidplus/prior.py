@@ -5,6 +5,9 @@ from xidplus import moc_routines
 
 
 class prior(object):
+    def set_moc(self, moc):
+        self.moc = moc
+        
     def cut_down_map(self):
         """Cuts down prior class variables associated with the map data to the MOC assigned to the prior class: self.moc
         """

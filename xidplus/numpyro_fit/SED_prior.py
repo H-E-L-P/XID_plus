@@ -829,3 +829,86 @@ def GEP_CIGALE_bands(emulator,params_mu,params_sig,flux,flux_error):
                        obs=flux[3,:])
         numpyro.sample("obs_gep23", dist.Normal(src_f[:, 22], flux_error[4,:]),
                        obs=flux[4,:])
+        
+        
+def GEP_CIGALE_schect_fixAGN(priors, sed_prior, params):
+    """
+    numpyro model for SPIRE maps using cigale emulator
+    :param priors: list of xid+ SPIRE prior objects
+    :type priors: list
+    :param sed_prior: xid+ SED prior class
+    :type sed_prior:
+    :return:
+    :rtype:
+    """
+
+    # get pointing matices in useable format
+    pointing_matrices = [([p.amat_row, p.amat_col], p.amat_data) for p in priors]
+
+    # get background priors for maps
+    bkg_mu = np.asarray([p.bkg[0] for p in priors]).T
+    bkg_sig = np.asarray([p.bkg[1] for p in priors]).T
+
+    # background priors
+    with numpyro.plate('bands', len(priors)):
+        bkg = numpyro.sample('bkg', dist.Normal(bkg_mu, bkg_sig))
+
+        # redshift-sfr relation parameters
+    z_star = numpyro.sample('m', dist.TruncatedNormal(loc=params['z_star_mu'], scale=params['z_star_sig'], low=0.01))
+    sfr_star = numpyro.sample('c',
+                              dist.TruncatedNormal(loc=params['sfr_star_mu'], scale=params['sfr_star_sig'], low=0.01))
+    alpha = params['alpha']
+
+    # sfr dispersion parameter
+    sfr_sig = numpyro.sample('sfr_sig', dist.HalfNormal(params['sfr_disp']))
+    
+    # AGN priors
+    atten = sed_prior.params_mu[:, 2]
+    dust_alpha = sed_prior.params_mu[:, 3]
+    tau_main= sed_prior.params_mu[:, 4]
+    agn = sed_prior.params_mu[:, 5]
+
+    # sample parameters for each source (treat as conditionaly independent hence plate)
+    with numpyro.plate('nsrc', priors[0].nsrc):
+        # use truncated normal for redshift, with mean and sigma from prior
+        redshift = numpyro.sample('redshift',
+                                  dist.TruncatedNormal(loc=sed_prior.params_mu[:, 1], scale=sed_prior.params_sig[:, 1],
+                                                       low=0.01))
+
+
+        sfr = numpyro.sample('sfr', dist.Normal(
+            (sfr_star * jnp.exp(-1.0 * redshift / z_star) * (redshift / z_star) ** alpha) - 2.0,
+            jnp.full(priors[0].nsrc, sfr_sig)))
+
+    # stack params and make vector ready to be used by emualator
+    params = jnp.vstack((sfr[None, :], agn[None, :], redshift[None, :], atten[None,:],dust_alpha[None,:],tau_main[None,:])).T
+
+    # Use emulator to get fluxes. As emulator provides log flux, convert.
+    src_f = jnp.exp(sed_prior.emulator['net_apply'](sed_prior.emulator['params'], params))
+
+    # create model map by multiplying fluxes by pointing matrix and adding background
+    db_hat_19 = sp_matmul(pointing_matrices[0], src_f[:, 18][:, None], priors[0].snpix).reshape(-1) + bkg[0]
+    db_hat_20 = sp_matmul(pointing_matrices[1], src_f[:, 19][:, None], priors[1].snpix).reshape(-1) + bkg[1]
+    db_hat_21 = sp_matmul(pointing_matrices[2], src_f[:, 20][:, None], priors[2].snpix).reshape(-1) + bkg[2]
+    db_hat_22 = sp_matmul(pointing_matrices[3], src_f[:, 21][:, None], priors[3].snpix).reshape(-1) + bkg[3]
+    db_hat_23 = sp_matmul(pointing_matrices[4], src_f[:, 22][:, None], priors[4].snpix).reshape(-1) + bkg[4]
+    
+
+    # for each band, condition on data
+    with numpyro.plate('gep19_pixels', priors[0].snim.size):  # as ind_psw:
+        numpyro.sample("obs_gep19", dist.Normal(db_hat_19, priors[0].snim),
+                       obs=priors[0].sim)
+    with numpyro.plate('gep20_pixels', priors[1].snim.size):  # as ind_pmw:
+        numpyro.sample("obs_gep20", dist.Normal(db_hat_20, priors[1].snim),
+                       obs=priors[1].sim)
+    with numpyro.plate('gep21_pixels', priors[2].snim.size):  # as ind_plw:
+        numpyro.sample("obs_gep21", dist.Normal(db_hat_21, priors[2].snim),
+                       obs=priors[2].sim)
+    with numpyro.plate('gep22_pixels', priors[3].snim.size):  # as ind_plw:
+        numpyro.sample("obs_gep22", dist.Normal(db_hat_22, priors[3].snim),
+                       obs=priors[3].sim)
+    with numpyro.plate('gep23_pixels', priors[4].snim.size):  # as ind_plw:
+        numpyro.sample("obs_gep23", dist.Normal(db_hat_23, priors[4].snim),
+                       obs=priors[4].sim)
+        
+        
