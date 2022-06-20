@@ -1,0 +1,309 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "colab": {
+     "base_uri": "https://localhost:8080/"
+    },
+    "executionInfo": {
+     "elapsed": 29941,
+     "status": "ok",
+     "timestamp": 1609856099616,
+     "user": {
+      "displayName": "Peter Hurley",
+      "photoUrl": "https://lh3.googleusercontent.com/a-/AOh14GjQ3mLLvFk6D5alsGcCrGha938567QZ6FhyBE_yig=s64",
+      "userId": "02285807596786439560"
+     },
+     "user_tz": 0
+    },
+    "id": "IobpaomE5ah5",
+    "outputId": "ef1db335-ad3e-4af1-9407-b3d1d4009293"
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Mounted at /content/drive\n"
+     ]
+    }
+   ],
+   "source": [
+    "from google.colab import drive\n",
+    "drive.mount('/content/drive')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "colab": {
+     "base_uri": "https://localhost:8080/"
+    },
+    "executionInfo": {
+     "elapsed": 813,
+     "status": "ok",
+     "timestamp": 1609856966353,
+     "user": {
+      "displayName": "Peter Hurley",
+      "photoUrl": "https://lh3.googleusercontent.com/a-/AOh14GjQ3mLLvFk6D5alsGcCrGha938567QZ6FhyBE_yig=s64",
+      "userId": "02285807596786439560"
+     },
+     "user_tz": 0
+    },
+    "id": "lnQCznGC888i",
+    "outputId": "00de50b6-35f5-4f5c-c5fc-e9547745c6d9"
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/content/drive/MyDrive/WORK/XID_plus\n"
+     ]
+    }
+   ],
+   "source": [
+    "cd /content/drive/MyDrive/WORK/XID_plus"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "colab": {
+     "base_uri": "https://localhost:8080/"
+    },
+    "executionInfo": {
+     "elapsed": 16863,
+     "status": "ok",
+     "timestamp": 1609856997199,
+     "user": {
+      "displayName": "Peter Hurley",
+      "photoUrl": "https://lh3.googleusercontent.com/a-/AOh14GjQ3mLLvFk6D5alsGcCrGha938567QZ6FhyBE_yig=s64",
+      "userId": "02285807596786439560"
+     },
+     "user_tz": 0
+    },
+    "id": "CVWs1wEQ9A1j",
+    "outputId": "7569199e-961e-46a6-a8de-b8bc0b2bfa63"
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: astropy in /usr/local/lib/python3.6/dist-packages (from -r req.txt (line 1)) (4.1)\n",
+      "Requirement already satisfied: pystan in /usr/local/lib/python3.6/dist-packages (from -r req.txt (line 2)) (2.19.1.1)\n",
+      "Requirement already satisfied: dill in /usr/local/lib/python3.6/dist-packages (from -r req.txt (line 3)) (0.3.3)\n",
+      "Requirement already satisfied: numpy in /usr/local/lib/python3.6/dist-packages (from -r req.txt (line 4)) (1.19.4)\n",
+      "Requirement already satisfied: scipy in /usr/local/lib/python3.6/dist-packages (from -r req.txt (line 5)) (1.4.1)\n",
+      "Requirement already satisfied: seaborn in /usr/local/lib/python3.6/dist-packages (from -r req.txt (line 6)) (0.11.0)\n",
+      "Requirement already satisfied: jupyter in /usr/local/lib/python3.6/dist-packages (from -r req.txt (line 7)) (1.0.0)\n",
+      "Collecting healpy\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/dd/30/56144086dc132b5bf5b271c62d045460db6c6a5a2bb68d3f7bde678a6727/healpy-1.14.0-cp36-cp36m-manylinux1_x86_64.whl (15.8MB)\n",
+      "\u001b[K     |████████████████████████████████| 15.8MB 269kB/s \n",
+      "\u001b[?25hCollecting pymoc\n",
+      "  Downloading https://files.pythonhosted.org/packages/02/9c/ab39405895c7caafb1f257f4d514bb5e354e9648f8ab1316e519c011fe86/pymoc-0.5.0.tar.gz\n",
+      "Collecting aplpy\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/92/5b/cb15d46774105bc536165f2ffa9e114509915f5983c51666512752635b8c/APLpy-2.0.3-py2.py3-none-any.whl (89kB)\n",
+      "\u001b[K     |████████████████████████████████| 92kB 9.3MB/s \n",
+      "\u001b[?25hRequirement already satisfied: Cython!=0.25.1,>=0.22 in /usr/local/lib/python3.6/dist-packages (from pystan->-r req.txt (line 2)) (0.29.21)\n",
+      "Requirement already satisfied: matplotlib>=2.2 in /usr/local/lib/python3.6/dist-packages (from seaborn->-r req.txt (line 6)) (3.2.2)\n",
+      "Requirement already satisfied: pandas>=0.23 in /usr/local/lib/python3.6/dist-packages (from seaborn->-r req.txt (line 6)) (1.1.5)\n",
+      "Requirement already satisfied: ipywidgets in /usr/local/lib/python3.6/dist-packages (from jupyter->-r req.txt (line 7)) (7.5.1)\n",
+      "Requirement already satisfied: jupyter-console in /usr/local/lib/python3.6/dist-packages (from jupyter->-r req.txt (line 7)) (5.2.0)\n",
+      "Requirement already satisfied: ipykernel in /usr/local/lib/python3.6/dist-packages (from jupyter->-r req.txt (line 7)) (4.10.1)\n",
+      "Requirement already satisfied: nbconvert in /usr/local/lib/python3.6/dist-packages (from jupyter->-r req.txt (line 7)) (5.6.1)\n",
+      "Requirement already satisfied: notebook in /usr/local/lib/python3.6/dist-packages (from jupyter->-r req.txt (line 7)) (5.3.1)\n",
+      "Requirement already satisfied: qtconsole in /usr/local/lib/python3.6/dist-packages (from jupyter->-r req.txt (line 7)) (5.0.1)\n",
+      "Requirement already satisfied: six in /usr/local/lib/python3.6/dist-packages (from healpy->-r req.txt (line 8)) (1.15.0)\n",
+      "Requirement already satisfied: pillow>=4.0 in /usr/local/lib/python3.6/dist-packages (from aplpy->-r req.txt (line 10)) (7.0.0)\n",
+      "Requirement already satisfied: scikit-image>=0.14 in /usr/local/lib/python3.6/dist-packages (from aplpy->-r req.txt (line 10)) (0.16.2)\n",
+      "Requirement already satisfied: shapely>=1.6 in /usr/local/lib/python3.6/dist-packages (from aplpy->-r req.txt (line 10)) (1.7.1)\n",
+      "Collecting reproject>=0.4\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/83/31/1c9664b719d970ddf4219499b5fd1814923da3a43e4b343ceccfb9588d7b/reproject-0.7.1-cp36-cp36m-manylinux2010_x86_64.whl (1.3MB)\n",
+      "\u001b[K     |████████████████████████████████| 1.3MB 45.6MB/s \n",
+      "\u001b[?25hCollecting pyavm>=0.9.4\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/dc/d6/af61e7fcdd39b7d2303e6cafaee3b043bd59938d0ef69a4b7cb7bdbdb892/PyAVM-0.9.5-py2.py3-none-any.whl (378kB)\n",
+      "\u001b[K     |████████████████████████████████| 378kB 47.7MB/s \n",
+      "\u001b[?25hCollecting pyregion>=2.0\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/9d/e9/739397a25a6197f9af396e8ab249ea04d3cc2eb32e96870e2aafcfccf7f4/pyregion-2.0.tar.gz (1.1MB)\n",
+      "\u001b[K     |████████████████████████████████| 1.1MB 33.7MB/s \n",
+      "\u001b[?25hRequirement already satisfied: python-dateutil>=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib>=2.2->seaborn->-r req.txt (line 6)) (2.8.1)\n",
+      "Requirement already satisfied: kiwisolver>=1.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib>=2.2->seaborn->-r req.txt (line 6)) (1.3.1)\n",
+      "Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib>=2.2->seaborn->-r req.txt (line 6)) (0.10.0)\n",
+      "Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,>=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib>=2.2->seaborn->-r req.txt (line 6)) (2.4.7)\n",
+      "Requirement already satisfied: pytz>=2017.2 in /usr/local/lib/python3.6/dist-packages (from pandas>=0.23->seaborn->-r req.txt (line 6)) (2018.9)\n",
+      "Requirement already satisfied: ipython>=4.0.0; python_version >= \"3.3\" in /usr/local/lib/python3.6/dist-packages (from ipywidgets->jupyter->-r req.txt (line 7)) (5.5.0)\n",
+      "Requirement already satisfied: widgetsnbextension~=3.5.0 in /usr/local/lib/python3.6/dist-packages (from ipywidgets->jupyter->-r req.txt (line 7)) (3.5.1)\n",
+      "Requirement already satisfied: traitlets>=4.3.1 in /usr/local/lib/python3.6/dist-packages (from ipywidgets->jupyter->-r req.txt (line 7)) (4.3.3)\n",
+      "Requirement already satisfied: nbformat>=4.2.0 in /usr/local/lib/python3.6/dist-packages (from ipywidgets->jupyter->-r req.txt (line 7)) (5.0.8)\n",
+      "Requirement already satisfied: prompt-toolkit<2.0.0,>=1.0.0 in /usr/local/lib/python3.6/dist-packages (from jupyter-console->jupyter->-r req.txt (line 7)) (1.0.18)\n",
+      "Requirement already satisfied: jupyter-client in /usr/local/lib/python3.6/dist-packages (from jupyter-console->jupyter->-r req.txt (line 7)) (5.3.5)\n",
+      "Requirement already satisfied: pygments in /usr/local/lib/python3.6/dist-packages (from jupyter-console->jupyter->-r req.txt (line 7)) (2.6.1)\n",
+      "Requirement already satisfied: tornado>=4.0 in /usr/local/lib/python3.6/dist-packages (from ipykernel->jupyter->-r req.txt (line 7)) (5.1.1)\n",
+      "Requirement already satisfied: bleach in /usr/local/lib/python3.6/dist-packages (from nbconvert->jupyter->-r req.txt (line 7)) (3.2.1)\n",
+      "Requirement already satisfied: defusedxml in /usr/local/lib/python3.6/dist-packages (from nbconvert->jupyter->-r req.txt (line 7)) (0.6.0)\n",
+      "Requirement already satisfied: testpath in /usr/local/lib/python3.6/dist-packages (from nbconvert->jupyter->-r req.txt (line 7)) (0.4.4)\n",
+      "Requirement already satisfied: jupyter-core in /usr/local/lib/python3.6/dist-packages (from nbconvert->jupyter->-r req.txt (line 7)) (4.7.0)\n",
+      "Requirement already satisfied: pandocfilters>=1.4.1 in /usr/local/lib/python3.6/dist-packages (from nbconvert->jupyter->-r req.txt (line 7)) (1.4.3)\n",
+      "Requirement already satisfied: mistune<2,>=0.8.1 in /usr/local/lib/python3.6/dist-packages (from nbconvert->jupyter->-r req.txt (line 7)) (0.8.4)\n",
+      "Requirement already satisfied: entrypoints>=0.2.2 in /usr/local/lib/python3.6/dist-packages (from nbconvert->jupyter->-r req.txt (line 7)) (0.3)\n",
+      "Requirement already satisfied: jinja2>=2.4 in /usr/local/lib/python3.6/dist-packages (from nbconvert->jupyter->-r req.txt (line 7)) (2.11.2)\n",
+      "Requirement already satisfied: Send2Trash in /usr/local/lib/python3.6/dist-packages (from notebook->jupyter->-r req.txt (line 7)) (1.5.0)\n",
+      "Requirement already satisfied: ipython-genutils in /usr/local/lib/python3.6/dist-packages (from notebook->jupyter->-r req.txt (line 7)) (0.2.0)\n",
+      "Requirement already satisfied: terminado>=0.8.1 in /usr/local/lib/python3.6/dist-packages (from notebook->jupyter->-r req.txt (line 7)) (0.9.1)\n",
+      "Requirement already satisfied: pyzmq>=17.1 in /usr/local/lib/python3.6/dist-packages (from qtconsole->jupyter->-r req.txt (line 7)) (20.0.0)\n",
+      "Requirement already satisfied: qtpy in /usr/local/lib/python3.6/dist-packages (from qtconsole->jupyter->-r req.txt (line 7)) (1.9.0)\n",
+      "Requirement already satisfied: networkx>=2.0 in /usr/local/lib/python3.6/dist-packages (from scikit-image>=0.14->aplpy->-r req.txt (line 10)) (2.5)\n",
+      "Requirement already satisfied: PyWavelets>=0.4.0 in /usr/local/lib/python3.6/dist-packages (from scikit-image>=0.14->aplpy->-r req.txt (line 10)) (1.1.1)\n",
+      "Requirement already satisfied: imageio>=2.3.0 in /usr/local/lib/python3.6/dist-packages (from scikit-image>=0.14->aplpy->-r req.txt (line 10)) (2.4.1)\n",
+      "Collecting astropy-healpix>=0.2\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/e2/7d/71350a23da8f7d8f107d70a28871021f7e8a554f9ab175313a2685c8c9ab/astropy_healpix-0.5-cp36-cp36m-manylinux2010_x86_64.whl (204kB)\n",
+      "\u001b[K     |████████████████████████████████| 204kB 35.6MB/s \n",
+      "\u001b[?25hRequirement already satisfied: pexpect; sys_platform != \"win32\" in /usr/local/lib/python3.6/dist-packages (from ipython>=4.0.0; python_version >= \"3.3\"->ipywidgets->jupyter->-r req.txt (line 7)) (4.8.0)\n",
+      "Requirement already satisfied: decorator in /usr/local/lib/python3.6/dist-packages (from ipython>=4.0.0; python_version >= \"3.3\"->ipywidgets->jupyter->-r req.txt (line 7)) (4.4.2)\n",
+      "Requirement already satisfied: pickleshare in /usr/local/lib/python3.6/dist-packages (from ipython>=4.0.0; python_version >= \"3.3\"->ipywidgets->jupyter->-r req.txt (line 7)) (0.7.5)\n",
+      "Requirement already satisfied: simplegeneric>0.8 in /usr/local/lib/python3.6/dist-packages (from ipython>=4.0.0; python_version >= \"3.3\"->ipywidgets->jupyter->-r req.txt (line 7)) (0.8.1)\n",
+      "Requirement already satisfied: setuptools>=18.5 in /usr/local/lib/python3.6/dist-packages (from ipython>=4.0.0; python_version >= \"3.3\"->ipywidgets->jupyter->-r req.txt (line 7)) (51.0.0)\n",
+      "Requirement already satisfied: jsonschema!=2.5.0,>=2.4 in /usr/local/lib/python3.6/dist-packages (from nbformat>=4.2.0->ipywidgets->jupyter->-r req.txt (line 7)) (2.6.0)\n",
+      "Requirement already satisfied: wcwidth in /usr/local/lib/python3.6/dist-packages (from prompt-toolkit<2.0.0,>=1.0.0->jupyter-console->jupyter->-r req.txt (line 7)) (0.2.5)\n",
+      "Requirement already satisfied: webencodings in /usr/local/lib/python3.6/dist-packages (from bleach->nbconvert->jupyter->-r req.txt (line 7)) (0.5.1)\n",
+      "Requirement already satisfied: packaging in /usr/local/lib/python3.6/dist-packages (from bleach->nbconvert->jupyter->-r req.txt (line 7)) (20.8)\n",
+      "Requirement already satisfied: MarkupSafe>=0.23 in /usr/local/lib/python3.6/dist-packages (from jinja2>=2.4->nbconvert->jupyter->-r req.txt (line 7)) (1.1.1)\n",
+      "Requirement already satisfied: ptyprocess; os_name != \"nt\" in /usr/local/lib/python3.6/dist-packages (from terminado>=0.8.1->notebook->jupyter->-r req.txt (line 7)) (0.6.0)\n",
+      "Building wheels for collected packages: pymoc, pyregion\n",
+      "  Building wheel for pymoc (setup.py) ... \u001b[?25l\u001b[?25hdone\n",
+      "  Created wheel for pymoc: filename=pymoc-0.5.0-cp36-none-any.whl size=36176 sha256=a4fe030c75ff38a20356e40e04f4d48a4ed6dbf4973704e01341c888d370e087\n",
+      "  Stored in directory: /root/.cache/pip/wheels/2d/12/9c/a342bc39dd07bd6653f03f3468990c9aa72bc9d90c27e4d57f\n",
+      "  Building wheel for pyregion (setup.py) ... \u001b[?25l\u001b[?25hdone\n",
+      "  Created wheel for pyregion: filename=pyregion-2.0-cp36-cp36m-linux_x86_64.whl size=308443 sha256=ea5ae8cf5fde8a1374eb68aade59c51ebb23a79c54995c85313c154fa09d87c7\n",
+      "  Stored in directory: /root/.cache/pip/wheels/ca/2c/2b/c95350df7d42ba9044b7528c5ba549bead550433b189008a7f\n",
+      "Successfully built pymoc pyregion\n",
+      "Installing collected packages: healpy, pymoc, astropy-healpix, reproject, pyavm, pyregion, aplpy\n",
+      "Successfully installed aplpy-2.0.3 astropy-healpix-0.5 healpy-1.14.0 pyavm-0.9.5 pymoc-0.5.0 pyregion-2.0 reproject-0.7.1\n"
+     ]
+    }
+   ],
+   "source": [
+    "!pip install -r req.txt"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "colab": {
+     "base_uri": "https://localhost:8080/"
+    },
+    "executionInfo": {
+     "elapsed": 6195,
+     "status": "ok",
+     "timestamp": 1609857030053,
+     "user": {
+      "displayName": "Peter Hurley",
+      "photoUrl": "https://lh3.googleusercontent.com/a-/AOh14GjQ3mLLvFk6D5alsGcCrGha938567QZ6FhyBE_yig=s64",
+      "userId": "02285807596786439560"
+     },
+     "user_tz": 0
+    },
+    "id": "A0ZzdD7E9BVB",
+    "outputId": "f79cdbda-5c14-4726-b674-5bc21d636365"
+   },
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "WARNING: AstropyDeprecationWarning: block_reduce was moved to the astropy.nddata.blocks module.  Please update your import statement. [astropy.nddata.utils]\n"
+     ]
+    }
+   ],
+   "source": [
+    "import sys\n",
+    "sys.path.append('/content/drive/Work/XID_plus')\n",
+    "import xidplus"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "colab": {
+     "base_uri": "https://localhost:8080/"
+    },
+    "executionInfo": {
+     "elapsed": 2423,
+     "status": "ok",
+     "timestamp": 1609857042864,
+     "user": {
+      "displayName": "Peter Hurley",
+      "photoUrl": "https://lh3.googleusercontent.com/a-/AOh14GjQ3mLLvFk6D5alsGcCrGha938567QZ6FhyBE_yig=s64",
+      "userId": "02285807596786439560"
+     },
+     "user_tz": 0
+    },
+    "id": "qMW-ZmWc9PPG",
+    "outputId": "f57e4e42-0c8f-44a9-daca-1d5e8faf28e3"
+   },
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "WARNING:absl:No GPU/TPU found, falling back to CPU. (Set TF_CPP_MIN_LOG_LEVEL=0 and rerun for more info.)\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "cpu\n"
+     ]
+    }
+   ],
+   "source": [
+    "import jax\n",
+    "print(jax.lib.xla_bridge.get_backend().platform)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "I4UK0US99r6v"
+   },
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "colab": {
+   "authorship_tag": "ABX9TyPyiUA6pZDom8X0weWOjE1q",
+   "name": "Greybody_emulator.ipynb",
+   "provenance": []
+  },
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.13"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 1
+}

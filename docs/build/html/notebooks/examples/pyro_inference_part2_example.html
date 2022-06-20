@@ -1,67 +1,38 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Part II - Pyro Inference &mdash; XID+ 2.0.0 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Part II - Pyro Inference &mdash; XID+ 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-  
-
-  
-
-  
-  
-    
-
-  
-
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
-
-  
-  <script src="../../_static/js/modernizr.min.js"></script>
-
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
-
-          
+        <div class="wy-side-nav-search" >
             <a href="../../index.html" class="icon icon-home"> XID+
-          
-
-          
           </a>
-
-          
-            
-            
               <div class="version">
-                2.0.0
+                3.0.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -69,18 +40,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">User Guide:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">A Generative Probabilistic Framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html">Installation</a></li>
@@ -91,98 +52,74 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API documentation</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">XID+</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
-        
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Part II - Pyro Inference</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../../_sources/notebooks/examples/pyro_inference_part2_example.ipynb.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput div.prompt,
-div.nbinput div.input_area,
-div.nbinput div[class*=highlight],
-div.nbinput div[class*=highlight] pre,
-div.nboutput,
-div.nbinput div.prompt,
-div.nbinput div.output_area,
-div.nboutput div[class*=highlight],
-div.nboutput div[class*=highlight] pre {
-    background: none;
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
     border: none;
-    padding: 0 0;
+    padding: 0;
     margin: 0;
     box-shadow: none;
 }
 
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
 /* avoid gaps between output lines */
-div.nboutput div[class*=highlight] pre {
+div.nboutput.container div[class*=highlight] pre {
     line-height: normal;
 }
 
 /* input/output containers */
-div.nbinput,
-div.nboutput {
+div.nbinput.container,
+div.nboutput.container {
     display: -webkit-flex;
     display: flex;
     align-items: flex-start;
@@ -190,92 +127,104 @@ div.nboutput {
     width: 100%;
 }
 @media (max-width: 540px) {
-    div.nbinput,
-    div.nboutput {
+    div.nbinput.container,
+    div.nboutput.container {
         flex-direction: column;
     }
 }
 
 /* input container */
-div.nbinput {
+div.nbinput.container {
     padding-top: 5px;
 }
 
 /* last container */
-div.nblast {
+div.nblast.container {
     padding-bottom: 5px;
 }
 
 /* input prompt */
-div.nbinput div.prompt pre {
+div.nbinput.container div.prompt pre {
     color: #307FC1;
 }
 
 /* output prompt */
-div.nboutput div.prompt pre {
+div.nboutput.container div.prompt pre {
     color: #BF5B3D;
 }
 
 /* all prompts */
-div.nbinput div.prompt,
-div.nboutput div.prompt {
-    min-width: 5ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
 }
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
 @media (max-width: 540px) {
-    div.nbinput div.prompt,
-    div.nboutput div.prompt {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
         text-align: left;
         padding: 0.4em;
     }
-    div.nboutput div.prompt.empty {
+    div.nboutput.container div.prompt.empty {
         padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
     }
 }
 
 /* disable scrollbars on prompts */
-div.nbinput div.prompt pre,
-div.nboutput div.prompt pre {
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
     overflow: hidden;
 }
 
 /* input/output area */
-div.nbinput div.input_area,
-div.nboutput div.output_area {
-    padding: 0.4em;
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
     -webkit-flex: 1;
     flex: 1;
     overflow: auto;
 }
 @media (max-width: 540px) {
-    div.nbinput div.input_area,
-    div.nboutput div.output_area {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
         width: 100%;
     }
 }
 
 /* input area */
-div.nbinput div.input_area {
+div.nbinput.container div.input_area {
     border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
 }
 
 /* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
+div.nboutput.container div[class*=MathJax] {
     text-align: left !important;
 }
 
 /* override sphinx.ext.imgmath center alignment in output cells */
-div.nboutput div.math p {
+div.nboutput.container div.math p {
     text-align: left;
 }
 
 /* standard error */
-div.nboutput div.output_area.stderr {
+div.nboutput.container div.output_area.stderr {
     background: #fdd;
 }
 
@@ -319,6 +268,28 @@ div.nboutput div.output_area.stderr {
 .ansi-bold { font-weight: bold; }
 .ansi-underline { text-decoration: underline; }
 
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
 /* Some additional styling taken form the Jupyter notebook CSS */
 div.rendered_html table {
   border: none;
@@ -356,13 +327,13 @@ div.rendered_html tbody tr:hover {
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -375,24 +346,23 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Part-II---Pyro-Inference">
+<section id="Part-II---Pyro-Inference">
 <h1>Part II - Pyro Inference<a class="headerlink" href="#Part-II---Pyro-Inference" title="Permalink to this headline">¶</a></h1>
 <p>This is Part II of the time series tutorial <a class="reference external" href="https://pyro.ai/time">https://pyro.ai/time</a>. See also <a class="reference external" href="https://pyro.ai/time/part_i_models">Part I</a> and <a class="reference external" href="https://pyro.ai/time/part_iii_custom">Part III</a>.</p>
 <p>We have already covered:</p>
 <ul class="simple">
-<li>Pyro primitives - <code class="docutils literal notranslate"><span class="pre">pyro.param</span></code>, <code class="docutils literal notranslate"><span class="pre">pyro.sample</span></code>.</li>
-<li>Effect handlers - <code class="docutils literal notranslate"><span class="pre">poutine.replay</span></code>, <code class="docutils literal notranslate"><span class="pre">poutine.trace</span></code>.</li>
-<li>Pyro models and guides.</li>
+<li><p>Pyro primitives - <code class="docutils literal notranslate"><span class="pre">pyro.param</span></code>, <code class="docutils literal notranslate"><span class="pre">pyro.sample</span></code>.</p></li>
+<li><p>Effect handlers - <code class="docutils literal notranslate"><span class="pre">poutine.replay</span></code>, <code class="docutils literal notranslate"><span class="pre">poutine.trace</span></code>.</p></li>
+<li><p>Pyro models and guides.</p></li>
 </ul>
 <p>In this section, we will learn about <em>automatic inference</em> in Pyro, and how to use Pyro primitives and the effect handling library (<code class="docutils literal notranslate"><span class="pre">pyro.poutine</span></code>) to build custom tools for analysis.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%</span><span class="k">reset</span> -sf
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">reset</span> -sf
 
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -400,12 +370,12 @@ div.rendered_html tbody tr:hover {
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">pyro</span>
 <span class="kn">import</span> <span class="nn">pyro.distributions</span> <span class="k">as</span> <span class="nn">dist</span>
-<span class="kn">from</span> <span class="nn">pyro.infer</span> <span class="k">import</span> <span class="n">SVI</span><span class="p">,</span> <span class="n">Trace_ELBO</span>
+<span class="kn">from</span> <span class="nn">pyro.infer</span> <span class="kn">import</span> <span class="n">SVI</span><span class="p">,</span> <span class="n">Trace_ELBO</span>
 <span class="kn">import</span> <span class="nn">pyro.optim</span> <span class="k">as</span> <span class="nn">optim</span>
 <span class="kn">import</span> <span class="nn">pyro.poutine</span> <span class="k">as</span> <span class="nn">poutine</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">torch.distributions</span> <span class="k">import</span> <span class="n">constraints</span>
+<span class="kn">from</span> <span class="nn">torch.distributions</span> <span class="kn">import</span> <span class="n">constraints</span>
 
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;svg&#39;
@@ -426,15 +396,14 @@ pyro ver: 1.3.1
 pytorch ver: 1.5.1
 </pre></div></div>
 </div>
-<div class="section" id="Problem-Domain">
+<section id="Problem-Domain">
 <h2>Problem Domain<a class="headerlink" href="#Problem-Domain" title="Permalink to this headline">¶</a></h2>
 <p>We are provided with a time series dataset of the number of initial unemployment insurance claims for all of U.S. from the <a class="reference external" href="https://oui.doleta.gov/unemploy/claims.asp">Department of Labor</a>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">unemployment</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./unemployment_claims.csv&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unemployment</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./unemployment_claims.csv&#39;</span><span class="p">)</span>
 <span class="n">unemployment</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">unemployment</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
 <span class="n">unemployment</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
@@ -501,8 +470,7 @@ pytorch ver: 1.5.1
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">unemployment</span><span class="p">[</span><span class="s1">&#39;initial claim&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">unemployment</span><span class="p">[</span><span class="s1">&#39;initial claim&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;initial claim&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">unemployment</span><span class="p">)</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Unemployment Insurance Claims&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -517,8 +485,7 @@ pytorch ver: 1.5.1
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">init_date</span> <span class="o">=</span> <span class="s1">&#39;2010-01-02&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">init_date</span> <span class="o">=</span> <span class="s1">&#39;2010-01-02&#39;</span>
 <span class="n">time_range</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">init_date</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;7D&#39;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
 <span class="n">y_log</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">log</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -533,25 +500,27 @@ pytorch ver: 1.5.1
 <div class="output_area docutils container">
 <img alt="../../_images/notebooks_examples_pyro_inference_part2_example_5_0.svg" src="../../_images/notebooks_examples_pyro_inference_part2_example_5_0.svg" /></div>
 </div>
-</div>
-<div class="section" id="Outline">
+</section>
+<section id="Outline">
 <h2>Outline<a class="headerlink" href="#Outline" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Build a <em>regression model</em> to model the global trend and seasonality - estimate parameters using ML.</li>
-<li>Build a <em>bayesian model</em> for time series forecasting and infer latent parameters using:<ul>
-<li>SVI (Autoguides)<ul>
-<li>Delta Autoguide - MAP inference.</li>
-<li>Diagonal Normal Autoguide.</li>
+<li><p>Build a <em>regression model</em> to model the global trend and seasonality - estimate parameters using ML.</p></li>
+<li><p>Build a <em>bayesian model</em> for time series forecasting and infer latent parameters using:</p>
+<ul>
+<li><p>SVI (Autoguides)</p>
+<ul>
+<li><p>Delta Autoguide - MAP inference.</p></li>
+<li><p>Diagonal Normal Autoguide.</p></li>
 </ul>
 </li>
-<li>MCMC with a No-U-Turn Sampler (NUTS).</li>
+<li><p>MCMC with a No-U-Turn Sampler (NUTS).</p></li>
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="Fitting-a-Regression-Model">
+</section>
+<section id="Fitting-a-Regression-Model">
 <h2>Fitting a Regression Model<a class="headerlink" href="#Fitting-a-Regression-Model" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="A-Global-Trend-Model">
+<section id="A-Global-Trend-Model">
 <h3>A Global Trend Model<a class="headerlink" href="#A-Global-Trend-Model" title="Permalink to this headline">¶</a></h3>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{align*}
@@ -563,8 +532,7 @@ ln(y_i) &amp;\sim \mathcal{N}(\mu_i, \sigma)\\
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">model_global_trend</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model_global_trend</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
     <span class="n">slope</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;slope&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.</span><span class="p">))</span>
     <span class="n">intercept</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;intercept&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">13.</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)):</span>
@@ -574,21 +542,20 @@ ln(y_i) &amp;\sim \mathcal{N}(\mu_i, \sigma)\\
 </div>
 </div>
 <ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">pyro.param</span></code> designate model parameters that we would like to optimize.</li>
-<li>Observations are denoted by the <code class="docutils literal notranslate"><span class="pre">obs=</span></code> keyword argument to <code class="docutils literal notranslate"><span class="pre">pyro.sample</span></code>. This specifies the likelihood function.</li>
-<li>Instead of log transforming the data, we use a <em>LogNormal</em> distribution.</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyro.param</span></code> designate model parameters that we would like to optimize.</p></li>
+<li><p>Observations are denoted by the <code class="docutils literal notranslate"><span class="pre">obs=</span></code> keyword argument to <code class="docutils literal notranslate"><span class="pre">pyro.sample</span></code>. This specifies the likelihood function.</p></li>
+<li><p>Instead of log transforming the data, we use a <em>LogNormal</em> distribution.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="Vectorized-Model-Using-pyro.plate">
+</section>
+</section>
+<section id="Vectorized-Model-Using-pyro.plate">
 <h2>Vectorized Model Using <code class="docutils literal notranslate"><span class="pre">pyro.plate</span></code><a class="headerlink" href="#Vectorized-Model-Using-pyro.plate" title="Permalink to this headline">¶</a></h2>
 <p>Tensor libraries like PyTorch have highly optimized linear algebra routines that can exploit data parallelism. Let us vectorize the <em>likelihood</em> computation to operate over all data in parallel.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">model_global_trend</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model_global_trend</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
     <span class="n">slope</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;slope&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.</span><span class="p">))</span>
     <span class="n">intercept</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;intercept&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">13.</span><span class="p">))</span>
     <span class="k">with</span> <span class="n">pyro</span><span class="o">.</span><span class="n">plate</span><span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
@@ -601,21 +568,19 @@ ln(y_i) &amp;\sim \mathcal{N}(\mu_i, \sigma)\\
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">?</span>pyro.plate
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">?</span>pyro.plate
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Maximum-Likelihood-Estimate-of-the-Parameters">
+</section>
+<section id="Maximum-Likelihood-Estimate-of-the-Parameters">
 <h2>Maximum Likelihood Estimate of the Parameters<a class="headerlink" href="#Maximum-Likelihood-Estimate-of-the-Parameters" title="Permalink to this headline">¶</a></h2>
 <p><strong>Test-Train Split</strong>: Reserve the last 100 data-points for testing.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 <span class="n">N_test</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">N_train</span> <span class="o">=</span> <span class="n">N</span> <span class="o">-</span> <span class="n">N_test</span>
 <span class="n">y_train</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="n">N_train</span><span class="p">]</span>
@@ -626,8 +591,7 @@ ln(y_i) &amp;\sim \mathcal{N}(\mu_i, \sigma)\\
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%%time</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 
 <span class="n">opt</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">({</span><span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">0.08</span><span class="p">})</span>
 <span class="n">pyro</span><span class="o">.</span><span class="n">clear_param_store</span><span class="p">()</span>
@@ -670,18 +634,17 @@ Wall time: 2.97 s
 </pre></div></div>
 </div>
 <ul class="simple">
-<li>Important arguments to <code class="docutils literal notranslate"><span class="pre">SVI</span></code> - <em>model</em>, <em>guide</em>, <em>loss</em>.</li>
-<li>We pass an empty guide <code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">x:</span> <span class="pre">None</span></code> since the model does not have any latent parameters.</li>
-<li>The loss function is given by <code class="docutils literal notranslate"><span class="pre">Trace_ELBO</span></code>. With an empty guide and only <code class="docutils literal notranslate"><span class="pre">pyro.param</span></code> statements in the model, this simply computes the NLL <code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">log(p(y|x))</span></code>. We minimize this using the Adam optimizer.</li>
+<li><p>Important arguments to <code class="docutils literal notranslate"><span class="pre">SVI</span></code> - <em>model</em>, <em>guide</em>, <em>loss</em>.</p></li>
+<li><p>We pass an empty guide <code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">x:</span> <span class="pre">None</span></code> since the model does not have any latent parameters.</p></li>
+<li><p>The loss function is given by <code class="docutils literal notranslate"><span class="pre">Trace_ELBO</span></code>. With an empty guide and only <code class="docutils literal notranslate"><span class="pre">pyro.param</span></code> statements in the model, this simply computes the NLL <code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">log(p(y|x))</span></code>. We minimize this using the Adam optimizer.</p></li>
 </ul>
-<div class="section" id="Plotting-the-Regression-Fit">
+<section id="Plotting-the-Regression-Fit">
 <h3>Plotting the Regression Fit<a class="headerlink" href="#Plotting-the-Regression-Fit" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">slope</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;slope&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">slope</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;slope&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
 <span class="n">intercept</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;intercept&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
 
 <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span>
@@ -692,17 +655,16 @@ Wall time: 2.97 s
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>(tensor(-0.0018), tensor(13.0523))
-</pre></div>
-</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(tensor(-0.0018), tensor(13.0523))
+</pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">model_fit</span> <span class="o">=</span> <span class="p">(</span><span class="n">slope</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">+</span> <span class="n">intercept</span><span class="p">)</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_fit</span> <span class="o">=</span> <span class="p">(</span><span class="n">slope</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">+</span> <span class="n">intercept</span><span class="p">)</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_range</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Actual data&#39;</span><span class="p">)</span>
@@ -719,16 +681,15 @@ Wall time: 2.97 s
 <div class="output_area docutils container">
 <img alt="../../_images/notebooks_examples_pyro_inference_part2_example_20_0.svg" src="../../_images/notebooks_examples_pyro_inference_part2_example_20_0.svg" /></div>
 </div>
-</div>
-</div>
-<div class="section" id="Modeling-Seasonality">
+</section>
+</section>
+<section id="Modeling-Seasonality">
 <h2>Modeling Seasonality<a class="headerlink" href="#Modeling-Seasonality" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">52</span><span class="p">),</span> <span class="n">y</span><span class="p">[:</span><span class="mi">52</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2010&#39;</span><span class="p">);</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">52</span><span class="p">),</span> <span class="n">y</span><span class="p">[</span><span class="mi">52</span><span class="p">:</span><span class="mi">104</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2011&#39;</span><span class="p">);</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
@@ -742,15 +703,14 @@ Wall time: 2.97 s
 <div class="output_area docutils container">
 <img alt="../../_images/notebooks_examples_pyro_inference_part2_example_22_0.svg" src="../../_images/notebooks_examples_pyro_inference_part2_example_22_0.svg" /></div>
 </div>
-</div>
-<div class="section" id="A-Sesonal-Global-Trend-(SGT)-Model">
+</section>
+<section id="A-Sesonal-Global-Trend-(SGT)-Model">
 <h2>A Sesonal Global Trend (SGT) Model<a class="headerlink" href="#A-Sesonal-Global-Trend-(SGT)-Model" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">model_sgt</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model_sgt</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
     <span class="n">slope</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;slope&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.</span><span class="p">))</span>
     <span class="n">intercept</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;intercept&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">13.</span><span class="p">))</span>
     <span class="n">seasonality</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;seasonality&#39;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">52</span><span class="p">))</span>
@@ -764,15 +724,14 @@ Wall time: 2.97 s
 </div>
 </div>
 <ul class="simple">
-<li>In addition to the <em>global trend</em>, this includes a cyclic seasonality term. Note that this is a <em>multiplier</em> term.</li>
-<li>We will use <code class="docutils literal notranslate"><span class="pre">SVI</span></code> to fit this model in a similar fashion.</li>
+<li><p>In addition to the <em>global trend</em>, this includes a cyclic seasonality term. Note that this is a <em>multiplier</em> term.</p></li>
+<li><p>We will use <code class="docutils literal notranslate"><span class="pre">SVI</span></code> to fit this model in a similar fashion.</p></li>
 </ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%%time</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 
 <span class="n">opt</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">({</span><span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">0.08</span><span class="p">})</span>
 <span class="n">pyro</span><span class="o">.</span><span class="n">clear_param_store</span><span class="p">()</span>
@@ -808,8 +767,7 @@ Wall time: 4.44 s
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">len</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -817,19 +775,18 @@ Wall time: 4.44 s
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>398
-</pre></div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+398
+</pre></div></div>
 </div>
-</div>
-<div class="section" id="Plotting-the-Regression-Fit">
-<h3>Plotting the Regression Fit<a class="headerlink" href="#Plotting-the-Regression-Fit" title="Permalink to this headline">¶</a></h3>
+<section id="id1">
+<h3>Plotting the Regression Fit<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">slope</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;slope&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">slope</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;slope&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
 <span class="n">intercept</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;intercept&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
 
 <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span>
@@ -840,17 +797,16 @@ Wall time: 4.44 s
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>(tensor(-0.0018), tensor(13.0455))
-</pre></div>
-</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(tensor(-0.0018), tensor(13.0455))
+</pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">slope</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;slope&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">slope</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;slope&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
 <span class="n">intercept</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;intercept&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
 <span class="n">seasonality</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;seasonality&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
 <span class="n">seasonality</span> <span class="o">=</span> <span class="p">(</span><span class="n">seasonality</span> <span class="o">-</span> <span class="n">seasonality</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
@@ -878,17 +834,16 @@ Wall time: 4.44 s
 <div class="output_area docutils container">
 <img alt="../../_images/notebooks_examples_pyro_inference_part2_example_30_0.svg" src="../../_images/notebooks_examples_pyro_inference_part2_example_30_0.svg" /></div>
 </div>
-</div>
-</div>
-<div class="section" id="A-Bayesian-Model-for-Forecasting">
+</section>
+</section>
+<section id="A-Bayesian-Model-for-Forecasting">
 <h2>A Bayesian Model for Forecasting<a class="headerlink" href="#A-Bayesian-Model-for-Forecasting" title="Permalink to this headline">¶</a></h2>
 <p>We build on our previous <code class="docutils literal notranslate"><span class="pre">SGT</span></code> model.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">seasonality_mean</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;seasonality&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seasonality_mean</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;seasonality&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">N : Number of forecast steps from the current step.</span>
@@ -910,13 +865,13 @@ Wall time: 4.44 s
 </div>
 </div>
 <ul class="simple">
-<li>No <code class="docutils literal notranslate"><span class="pre">intercept</span></code> parameter, we instead take the current known value for <code class="docutils literal notranslate"><span class="pre">y</span></code> and forecast <code class="docutils literal notranslate"><span class="pre">N</span></code> steps ahead.</li>
-<li>We need to account for which week we are in starting from the first week of Jan 2010 to apply the seasonality factor.</li>
-<li>Priors for <code class="docutils literal notranslate"><span class="pre">slope</span></code>, <code class="docutils literal notranslate"><span class="pre">seasonality</span></code> and the observation noise <code class="docutils literal notranslate"><span class="pre">obs_sd</span></code>.</li>
-<li>There is no <code class="docutils literal notranslate"><span class="pre">obs</span></code> argument. How are we going to train the model?</li>
+<li><p>No <code class="docutils literal notranslate"><span class="pre">intercept</span></code> parameter, we instead take the current known value for <code class="docutils literal notranslate"><span class="pre">y</span></code> and forecast <code class="docutils literal notranslate"><span class="pre">N</span></code> steps ahead.</p></li>
+<li><p>We need to account for which week we are in starting from the first week of Jan 2010 to apply the seasonality factor.</p></li>
+<li><p>Priors for <code class="docutils literal notranslate"><span class="pre">slope</span></code>, <code class="docutils literal notranslate"><span class="pre">seasonality</span></code> and the observation noise <code class="docutils literal notranslate"><span class="pre">obs_sd</span></code>.</p></li>
+<li><p>There is no <code class="docutils literal notranslate"><span class="pre">obs</span></code> argument. How are we going to train the model?</p></li>
 </ul>
-</div>
-<div class="section" id="Are-the-Priors-Reasonable?">
+</section>
+<section id="Are-the-Priors-Reasonable?">
 <h2>Are the Priors Reasonable?<a class="headerlink" href="#Are-the-Priors-Reasonable?" title="Permalink to this headline">¶</a></h2>
 <p>One way to check would be to generate samples from the model and check the overlap between distribution from the training set and the prior predictive distribution.</p>
 <p>To generate samples from the prior, we will simply call the model multiple times and stack the predictions from the prior.</p>
@@ -924,8 +879,7 @@ Wall time: 4.44 s
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">pyro</span><span class="o">.</span><span class="n">clear_param_store</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pyro</span><span class="o">.</span><span class="n">clear_param_store</span><span class="p">()</span>
 
 <span class="n">preds</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
@@ -951,28 +905,27 @@ Wall time: 4.44 s
 <div class="output_area docutils container">
 <img alt="../../_images/notebooks_examples_pyro_inference_part2_example_36_0.svg" src="../../_images/notebooks_examples_pyro_inference_part2_example_36_0.svg" /></div>
 </div>
-</div>
-<div class="section" id="Inference-Using-Stochastic-Variational-Inference">
+</section>
+<section id="Inference-Using-Stochastic-Variational-Inference">
 <h2>Inference Using Stochastic Variational Inference<a class="headerlink" href="#Inference-Using-Stochastic-Variational-Inference" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Provides a way to formulate the inference problem as an optimization problem.</li>
-<li>Pyro provides state of the art support for VI.</li>
-<li>Optimize the parameters of a <em>guide</em> program to generate samples from the approx posterior.</li>
+<li><p>Provides a way to formulate the inference problem as an optimization problem.</p></li>
+<li><p>Pyro provides state of the art support for VI.</p></li>
+<li><p>Optimize the parameters of a <em>guide</em> program to generate samples from the approx posterior.</p></li>
 </ul>
-</div>
-<div class="section" id="Autoguides">
+</section>
+<section id="Autoguides">
 <h2>Autoguides<a class="headerlink" href="#Autoguides" title="Permalink to this headline">¶</a></h2>
 <p>We will use autoguides from the <a class="reference external" href="http://docs.pyro.ai/en/stable/infer.autoguide.html">pyro.infer.autoguide</a> module.</p>
-<div class="section" id="MAP-Inference-Using-a-Delta-Autoguide">
+<section id="MAP-Inference-Using-a-Delta-Autoguide">
 <h3>MAP Inference Using a Delta Autoguide<a class="headerlink" href="#MAP-Inference-Using-a-Delta-Autoguide" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%%time</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 
-<span class="kn">from</span> <span class="nn">pyro.contrib.autoguide</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyro.contrib.autoguide</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">opt</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">({</span><span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">})</span>
 <span class="n">pyro</span><span class="o">.</span><span class="n">clear_param_store</span><span class="p">()</span>
@@ -1012,15 +965,14 @@ Wall time: 17.7 s
 </pre></div></div>
 </div>
 <p>Note the use of the <code class="docutils literal notranslate"><span class="pre">poutine.condition</span></code> handler to constrain the site <code class="docutils literal notranslate"><span class="pre">y</span></code> to our training set. The advantage of using <code class="docutils literal notranslate"><span class="pre">poutine.condition</span></code> is that we can use the same model for both training and forecasting!</p>
-</div>
-<div class="section" id="Examining-the-MAP-Parameters">
+</section>
+<section id="Examining-the-MAP-Parameters">
 <h3>Examining the MAP Parameters<a class="headerlink" href="#Examining-the-MAP-Parameters" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">pyro</span><span class="o">.</span><span class="n">get_param_store</span><span class="p">()</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pyro</span><span class="o">.</span><span class="n">get_param_store</span><span class="p">()</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1028,8 +980,9 @@ Wall time: 17.7 s
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>{&#39;params&#39;: {&#39;AutoDelta.slope&#39;: Parameter containing:
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;params&#39;: {&#39;AutoDelta.slope&#39;: Parameter containing:
   tensor(-0.1784, requires_grad=True),
   &#39;AutoDelta.obs_sd&#39;: Parameter containing:
   tensor(-0.4818, requires_grad=True),
@@ -1044,21 +997,20 @@ Wall time: 17.7 s
  &#39;constraints&#39;: {&#39;AutoDelta.slope&#39;: Real(),
   &#39;AutoDelta.obs_sd&#39;: GreaterThan(lower_bound=0.0),
   &#39;AutoDelta.seasonality&#39;: Real()}}
-</pre></div>
+</pre></div></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="Generating-Forecasts">
+</section>
+</section>
+<section id="Generating-Forecasts">
 <h2>Generating Forecasts<a class="headerlink" href="#Generating-Forecasts" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="Replaying-from-a-Trained-Guide">
+<section id="Replaying-from-a-Trained-Guide">
 <h3>Replaying from a Trained Guide<a class="headerlink" href="#Replaying-from-a-Trained-Guide" title="Permalink to this headline">¶</a></h3>
-<center></center><div class="nbinput nblast docutils container">
+<center><p><img alt="dc62cffc11b94cd2a37ce55af626795c" class="no-scaled-link" src="notebooks/examples/static/guide_program.png" style="width: 400px;" /></p>
+</center><div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">get_predictive_samples</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span>
                            <span class="n">guide</span><span class="p">,</span>
                            <span class="n">num_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
@@ -1077,15 +1029,14 @@ Wall time: 17.7 s
 </div>
 </div>
 <ul class="simple">
-<li>Model remains the same for both inference and prediction.</li>
-<li>To generate forecasts we can simply run the guide to sample latent values from the approximate posterior distribution, and replay these values in the model.</li>
+<li><p>Model remains the same for both inference and prediction.</p></li>
+<li><p>To generate forecasts we can simply run the guide to sample latent values from the approximate posterior distribution, and replay these values in the model.</p></li>
 </ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">forecast_delta</span> <span class="o">=</span> <span class="n">get_predictive_samples</span><span class="p">(</span><span class="n">prob_sgt</span><span class="p">,</span> <span class="n">N_test</span><span class="p">,</span> <span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">forecast_delta</span> <span class="o">=</span> <span class="n">get_predictive_samples</span><span class="p">(</span><span class="n">prob_sgt</span><span class="p">,</span> <span class="n">N_test</span><span class="p">,</span> <span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                                         <span class="n">guide</span><span class="o">=</span><span class="n">guide_delta</span><span class="p">)</span>
 <span class="n">p10</span><span class="p">,</span> <span class="n">p50</span><span class="p">,</span> <span class="n">p90</span> <span class="o">=</span> <span class="p">[</span><span class="n">forecast_delta</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">kthvalue</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">q</span> <span class="o">*</span> <span class="p">(</span><span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">quantiles</span><span class="p">]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_range</span><span class="p">[</span><span class="o">-</span><span class="mi">200</span><span class="p">:],</span> <span class="n">y</span><span class="p">[</span><span class="o">-</span><span class="mi">200</span><span class="p">:],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Actual data&#39;</span><span class="p">)</span>
@@ -1104,19 +1055,18 @@ Wall time: 17.7 s
 <div class="output_area docutils container">
 <img alt="../../_images/notebooks_examples_pyro_inference_part2_example_48_0.svg" src="../../_images/notebooks_examples_pyro_inference_part2_example_48_0.svg" /></div>
 </div>
-</div>
-<div class="section" id="Variational-Inference-Using-a-Normal-Autoguide">
+</section>
+<section id="Variational-Inference-Using-a-Normal-Autoguide">
 <h3>Variational Inference Using a Normal Autoguide<a class="headerlink" href="#Variational-Inference-Using-a-Normal-Autoguide" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>The model and training procedure remains the same as earlier.</li>
-<li>The Diagonal Normal Autoguide samples from a Normal distribution with diagonal covariance to generate samples from the approximate posterior distribution.</li>
+<li><p>The model and training procedure remains the same as earlier.</p></li>
+<li><p>The Diagonal Normal Autoguide samples from a Normal distribution with diagonal covariance to generate samples from the approximate posterior distribution.</p></li>
 </ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%%time</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 
 <span class="n">opt</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">ClippedAdam</span><span class="p">({</span><span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="mf">1e-3</span><span class="p">})</span>
 <span class="n">pyro</span><span class="o">.</span><span class="n">clear_param_store</span><span class="p">()</span>
@@ -1167,15 +1117,14 @@ CPU times: user 41 s, sys: 550 ms, total: 41.6 s
 Wall time: 43.2 s
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Plotting-the-Model’s-Forecast">
+</section>
+<section id="Plotting-the-Model’s-Forecast">
 <h3>Plotting the Model’s Forecast<a class="headerlink" href="#Plotting-the-Model’s-Forecast" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">guide_diagnormal</span><span class="o">.</span><span class="n">quantiles</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">guide_diagnormal</span><span class="o">.</span><span class="n">quantiles</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1183,8 +1132,9 @@ Wall time: 43.2 s
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>{&#39;slope&#39;: [tensor(-0.1802, grad_fn=&lt;ViewBackward&gt;),
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;slope&#39;: [tensor(-0.1802, grad_fn=&lt;ViewBackward&gt;),
   tensor(-0.1783, grad_fn=&lt;ViewBackward&gt;),
   tensor(-0.1764, grad_fn=&lt;ViewBackward&gt;)],
  &#39;obs_sd&#39;: [tensor(0.6376, grad_fn=&lt;AddBackward0&gt;),
@@ -1211,15 +1161,13 @@ Wall time: 43.2 s
           -0.0611, -0.0944, -0.0933, -0.0983, -0.1543, -0.1230, -0.1336, -0.1488,
           -0.0041,  0.0251, -0.0028,  0.0118,  0.0573,  0.1211,  0.0933,  0.1427,
            0.2110,  0.3262,  0.2272,  0.2982], grad_fn=&lt;ViewBackward&gt;)]}
-</pre></div>
-</div>
+</pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">forecast_diagnormal</span> <span class="o">=</span> <span class="n">get_predictive_samples</span><span class="p">(</span><span class="n">prob_sgt</span><span class="p">,</span> <span class="n">N_test</span><span class="p">,</span> <span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">forecast_diagnormal</span> <span class="o">=</span> <span class="n">get_predictive_samples</span><span class="p">(</span><span class="n">prob_sgt</span><span class="p">,</span> <span class="n">N_test</span><span class="p">,</span> <span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                                              <span class="n">guide</span><span class="o">=</span><span class="n">guide_diagnormal</span><span class="p">)</span>
 <span class="n">p10</span><span class="p">,</span> <span class="n">p50</span><span class="p">,</span> <span class="n">p90</span> <span class="o">=</span> <span class="p">[</span><span class="n">forecast_diagnormal</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">kthvalue</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">q</span> <span class="o">*</span> <span class="p">(</span><span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                  <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">quantiles</span><span class="p">]</span>
@@ -1239,25 +1187,24 @@ Wall time: 43.2 s
 <div class="output_area docutils container">
 <img alt="../../_images/notebooks_examples_pyro_inference_part2_example_53_0.svg" src="../../_images/notebooks_examples_pyro_inference_part2_example_53_0.svg" /></div>
 </div>
-</div>
-</div>
-<div class="section" id="Inference-Using-MCMC">
+</section>
+</section>
+<section id="Inference-Using-MCMC">
 <h2>Inference Using MCMC<a class="headerlink" href="#Inference-Using-MCMC" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Pyro provides support for Hamiltonian Monte Carlo which is well suited to sample from high-dimensional continuous spaces.</li>
-<li>In particular, we use the No-U-Turn algorithm for running HMC which adaptively sets many critical parameters for HMC.</li>
+<li><p>Pyro provides support for Hamiltonian Monte Carlo which is well suited to sample from high-dimensional continuous spaces.</p></li>
+<li><p>In particular, we use the No-U-Turn algorithm for running HMC which adaptively sets many critical parameters for HMC.</p></li>
 </ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyro.infer.mcmc</span> <span class="k">import</span> <span class="n">NUTS</span>
-<span class="kn">from</span> <span class="nn">pyro.infer.mcmc.api</span> <span class="k">import</span> <span class="n">MCMC</span>
-<span class="kn">from</span> <span class="nn">pyro.infer.mcmc.util</span> <span class="k">import</span> <span class="n">predictive</span>
-<span class="kn">from</span> <span class="nn">pyro.ops.stats</span> <span class="k">import</span> <span class="n">hpdi</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyro.infer.mcmc</span> <span class="kn">import</span> <span class="n">NUTS</span>
+<span class="kn">from</span> <span class="nn">pyro.infer.mcmc.api</span> <span class="kn">import</span> <span class="n">MCMC</span>
+<span class="kn">from</span> <span class="nn">pyro.infer.mcmc.util</span> <span class="kn">import</span> <span class="n">predictive</span>
+<span class="kn">from</span> <span class="nn">pyro.ops.stats</span> <span class="kn">import</span> <span class="n">hpdi</span>
 
-<span class="kn">from</span> <span class="nn">torch.distributions.transforms</span> <span class="k">import</span> <span class="n">AffineTransform</span>
+<span class="kn">from</span> <span class="nn">torch.distributions.transforms</span> <span class="kn">import</span> <span class="n">AffineTransform</span>
 </pre></div>
 </div>
 </div>
@@ -1265,8 +1212,7 @@ Wall time: 43.2 s
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">poutine</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">prob_sgt</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">y_train</span><span class="p">[</span><span class="mi">1</span><span class="p">:]})</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">poutine</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">prob_sgt</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">y_train</span><span class="p">[</span><span class="mi">1</span><span class="p">:]})</span>
 <span class="n">nuts_kernel</span> <span class="o">=</span> <span class="n">NUTS</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">jit_compile</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ignore_jit_warnings</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">mcmc</span> <span class="o">=</span> <span class="n">MCMC</span><span class="p">(</span><span class="n">nuts_kernel</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_chains</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">mcmc</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y_train</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -1297,14 +1243,13 @@ Wall time: 43.2 s
 <div class="output_area docutils container">
 <script type="application/vnd.jupyter.widget-view+json">{"model_id": "808311672e9143b6acda479caafbf7ce", "version_major": 2, "version_minor": 0}</script></div>
 </div>
-<div class="section" id="Model-Summary">
+<section id="Model-Summary">
 <h3>Model Summary<a class="headerlink" href="#Model-Summary" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">mcmc</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcmc</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1374,15 +1319,14 @@ seasonality[51]      0.26      0.03      0.26      0.22      0.31    382.86     
 
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Plotting-Model-Forecast">
+</section>
+<section id="Plotting-Model-Forecast">
 <h3>Plotting Model Forecast<a class="headerlink" href="#Plotting-Model-Forecast" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyro.util</span> <span class="k">import</span> <span class="n">ignore_experimental_warning</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyro.util</span> <span class="kn">import</span> <span class="n">ignore_experimental_warning</span>
 
 <span class="k">with</span> <span class="n">ignore_experimental_warning</span><span class="p">():</span>
     <span class="n">forecast_mcmc</span> <span class="o">=</span> <span class="n">predictive</span><span class="p">(</span><span class="n">prob_sgt</span><span class="p">,</span> <span class="n">mcmc</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(),</span> <span class="n">N_test</span><span class="p">,</span> <span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
@@ -1405,15 +1349,14 @@ seasonality[51]      0.26      0.03      0.26      0.22      0.31    382.86     
 <div class="output_area docutils container">
 <img alt="../../_images/notebooks_examples_pyro_inference_part2_example_60_0.svg" src="../../_images/notebooks_examples_pyro_inference_part2_example_60_0.svg" /></div>
 </div>
-</div>
-<div class="section" id="Posterior-Distribution-of-Slope-for-MCMC-and-SVI">
+</section>
+<section id="Posterior-Distribution-of-Slope-for-MCMC-and-SVI">
 <h3>Posterior Distribution of Slope for MCMC and SVI<a class="headerlink" href="#Posterior-Distribution-of-Slope-for-MCMC-and-SVI" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">mcmc</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">mcmc</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;slope&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span>
             <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;NUTS&#39;</span><span class="p">)</span>
@@ -1431,15 +1374,14 @@ seasonality[51]      0.26      0.03      0.26      0.22      0.31    382.86     
 <div class="output_area docutils container">
 <img alt="../../_images/notebooks_examples_pyro_inference_part2_example_62_0.svg" src="../../_images/notebooks_examples_pyro_inference_part2_example_62_0.svg" /></div>
 </div>
-</div>
-<div class="section" id="Variational-Inference-Using-a-Multivariate-Normal-Autoguide">
+</section>
+<section id="Variational-Inference-Using-a-Multivariate-Normal-Autoguide">
 <h3>Variational Inference Using a Multivariate Normal Autoguide<a class="headerlink" href="#Variational-Inference-Using-a-Multivariate-Normal-Autoguide" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%%time</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 
 <span class="n">opt</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">ClippedAdam</span><span class="p">({</span><span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="mf">1e-3</span><span class="p">})</span>
 <span class="n">pyro</span><span class="o">.</span><span class="n">clear_param_store</span><span class="p">()</span>
@@ -1489,8 +1431,7 @@ Wall time: 45.5 s
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">forecast_mvn</span> <span class="o">=</span> <span class="n">get_predictive_samples</span><span class="p">(</span><span class="n">prob_sgt</span><span class="p">,</span> <span class="n">N_test</span><span class="p">,</span> <span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">forecast_mvn</span> <span class="o">=</span> <span class="n">get_predictive_samples</span><span class="p">(</span><span class="n">prob_sgt</span><span class="p">,</span> <span class="n">N_test</span><span class="p">,</span> <span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                                       <span class="n">guide</span><span class="o">=</span><span class="n">guide_mvn</span><span class="p">)</span>
 <span class="n">p10</span><span class="p">,</span> <span class="n">p50</span><span class="p">,</span> <span class="n">p90</span> <span class="o">=</span> <span class="p">[</span><span class="n">forecast_mvn</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">kthvalue</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">q</span> <span class="o">*</span> <span class="p">(</span><span class="n">N_train</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                  <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">quantiles</span><span class="p">]</span>
@@ -1514,8 +1455,7 @@ Wall time: 45.5 s
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">mcmc</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">mcmc</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;slope&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span>
             <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;NUTS&#39;</span><span class="p">)</span>
@@ -1533,61 +1473,37 @@ Wall time: 45.5 s
 <div class="output_area docutils container">
 <img alt="../../_images/notebooks_examples_pyro_inference_part2_example_66_0.svg" src="../../_images/notebooks_examples_pyro_inference_part2_example_66_0.svg" /></div>
 </div>
-</div>
-</div>
-<div class="section" id="Next-Steps">
+</section>
+</section>
+<section id="Next-Steps">
 <h2>Next Steps<a class="headerlink" href="#Next-Steps" title="Permalink to this headline">¶</a></h2>
 <p>In <a class="reference external" href="https://pyro.ai/time/part_iii_custom">Part III</a> we will look into <strong>custom guides for scalable and flexible inference.</strong></p>
 <p>To recap: - Modeling in Pyro is for the most part distinct from <em>inference</em>. - Pyro an array of black-box inference algorithms to use out of the box: - ML estimation using null guides. - SVI with autoguides - AutoDelta, AutoDiagNormal, AutoMultivariateNormal, flow-based guides, etc. - MCMC using NUTS sampler.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2017, Peter Hurley
-
-    </p>
+    <p>&#169; Copyright 2022, Peter Hurley.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-
-  
-
-  <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });

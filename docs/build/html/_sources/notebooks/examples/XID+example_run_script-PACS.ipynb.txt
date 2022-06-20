@@ -1,0 +1,454 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "subslide"
+    }
+   },
+   "source": [
+    "# XID+ Example Run Script\n",
+    "\n",
+    "(This is based on a Jupyter notebook, available in the [XID+ package](https://github.com/H-E-L-P/XID_plus/tree/master/docs/notebooks/examples/) and can be interactively run and edited)\n",
+    "\n",
+    "XID+ is a probababilistic deblender for confusion dominated maps. It is designed to:\n",
+    "\n",
+    "1. Use a MCMC based approach to get FULL posterior probability distribution on flux\n",
+    "2. Provide a natural framework to introduce additional prior information\n",
+    "3. Allows more representative estimation of source flux density uncertainties\n",
+    "4. Provides a platform for doing science with the maps (e.g XID+ Hierarchical stacking, Luminosity function from the map etc)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "source": [
+    "Cross-identification tends to be done with catalogues, then science with the matched catalogues.\n",
+    "\n",
+    "XID+ takes a different philosophy. Catalogues are a form of data compression. OK in some cases, not so much in others, i.e. confused images: catalogue compression loses correlation information. Ideally, science should be done without compression.\n",
+    "\n",
+    "XID+ provides a framework to cross identify galaxies we know about in different maps, with the idea that it can be extended to do science with the maps!!\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "fragment"
+    }
+   },
+   "source": [
+    "Philosophy: \n",
+    "\n",
+    "- build a probabilistic generative model for the SPIRE maps\n",
+    "- Infer model on SPIRE maps\n",
+    "\n",
+    "Bayes Theorem\n",
+    "\n",
+    "$p(\\mathbf{f}|\\mathbf{d}) \\propto p(\\mathbf{d}|\\mathbf{f}) \\times p(\\mathbf{f})$\n",
+    "\n",
+    "In order to carry out Bayesian inference, we need a model to carry out inference on.\n",
+    "\n",
+    "For the SPIRE maps, our model is quite simple, with likelihood defined as:\n",
+    "    $L = p(\\mathbf{d}|\\mathbf{f}) \\propto |\\mathbf{N_d}|^{-1/2} \\exp\\big\\{ -\\frac{1}{2}(\\mathbf{d}-\\mathbf{Af})^T\\mathbf{N_d}^{-1}(\\mathbf{d}-\\mathbf{Af})\\big\\}$\n",
+    "\n",
+    "where:\n",
+    "    $\\mathbf{N_{d,ii}} =\\sigma_{inst.,ii}^2+\\sigma_{conf.}^2$"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "source": [
+    "Simplest model for XID+ assumes following:\n",
+    "\n",
+    "* All sources are known and have positive flux (fi)\n",
+    "* A global background (B) contributes to all pixels \n",
+    "* PRF is fixed and known\n",
+    "* Confusion noise is constant and not correlated across pixels\n",
+    "----\n",
+    "Because we are getting the joint probability distribution, our model is generative i.e. given parameters, we generate data and vica-versa\n",
+    "    \n",
+    "Compared to discriminative model (i.e. neural network), which only obtains conditional probability distribution i.e. Neural network, give inputs, get output. Can't go other way'\n",
+    "\n",
+    "Generative model is full probabilistic model. Allows more complex relationships between observed and target variables\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "skip"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "import numpy as np\n",
+    "from astropy.io import fits\n",
+    "from astropy import wcs\n",
+    "import pickle\n",
+    "import dill\n",
+    "import sys\n",
+    "import os\n",
+    "import xidplus\n",
+    "import copy\n",
+    "from xidplus import moc_routines, catalogue\n",
+    "from xidplus import posterior_maps as postmaps\n",
+    "from builtins import input\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Work out what small tiles are in the test large tile file for PACS"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from healpy import pixelfunc\n",
+    "\n",
+    "\n",
+    "order_large=6\n",
+    "order_small=10\n",
+    "tile_large=21875\n",
+    "output_folder='../../../test_files/'\n",
+    "outfile=output_folder+'Tile_'+str(tile_large)+'_'+str(order_large)+'.pkl'\n",
+    "with open(outfile, 'rb') as f:\n",
+    "    obj=pickle.load(f)\n",
+    "priors=obj['priors']\n",
+    "\n",
+    "theta, phi =pixelfunc.pix2ang(2**order_large, tile_large, nest=True)\n",
+    "tile_small = pixelfunc.ang2pix(2**order_small, theta, phi, nest=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "OSError",
+     "evalue": "File '../../../test_files/Tile_21875_6_moc_.fits' already exists.",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mOSError\u001b[0m                                   Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-39-05cdf7b4fd86>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mpriors\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m0\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mmoc\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mwrite\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0moutput_folder\u001b[0m\u001b[0;34m+\u001b[0m\u001b[0;34m'Tile_'\u001b[0m\u001b[0;34m+\u001b[0m\u001b[0mstr\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtile_large\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m+\u001b[0m\u001b[0;34m'_'\u001b[0m\u001b[0;34m+\u001b[0m\u001b[0mstr\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0morder_large\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m+\u001b[0m\u001b[0;34m'_moc_.fits'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;32m~/anaconda3/envs/xidplus/lib/python3.6/site-packages/pymoc/moc.py\u001b[0m in \u001b[0;36mwrite\u001b[0;34m(self, filename, filetype, **kwargs)\u001b[0m\n\u001b[1;32m    749\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0mfiletype\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;34m'fits'\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    750\u001b[0m             \u001b[0;32mfrom\u001b[0m \u001b[0;34m.\u001b[0m\u001b[0mio\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfits\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mwrite_moc_fits\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 751\u001b[0;31m             \u001b[0mwrite_moc_fits\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mfilename\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    752\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    753\u001b[0m         \u001b[0;32melif\u001b[0m \u001b[0mfiletype\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;34m'json'\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/envs/xidplus/lib/python3.6/site-packages/pymoc/io/fits.py\u001b[0m in \u001b[0;36mwrite_moc_fits\u001b[0;34m(moc, filename, **kwargs)\u001b[0m\n\u001b[1;32m    111\u001b[0m     \u001b[0mprihdu\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mfits\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mPrimaryHDU\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mheader\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mprihdr\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    112\u001b[0m     \u001b[0mhdulist\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mfits\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mHDUList\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mprihdu\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mtbhdu\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 113\u001b[0;31m     \u001b[0mhdulist\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mwriteto\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfilename\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    114\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    115\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/envs/xidplus/lib/python3.6/site-packages/astropy/utils/decorators.py\u001b[0m in \u001b[0;36mwrapper\u001b[0;34m(*args, **kwargs)\u001b[0m\n\u001b[1;32m    533\u001b[0m                     \u001b[0mwarnings\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mwarn\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mmessage\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mwarning_type\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mstacklevel\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m2\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    534\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 535\u001b[0;31m             \u001b[0;32mreturn\u001b[0m \u001b[0mfunction\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m*\u001b[0m\u001b[0margs\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    536\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    537\u001b[0m         \u001b[0;32mreturn\u001b[0m \u001b[0mwrapper\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/envs/xidplus/lib/python3.6/site-packages/astropy/io/fits/hdu/hdulist.py\u001b[0m in \u001b[0;36mwriteto\u001b[0;34m(self, fileobj, output_verify, overwrite, checksum)\u001b[0m\n\u001b[1;32m    930\u001b[0m         \u001b[0;31m# This can accept an open file object that's open to write only, or in\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    931\u001b[0m         \u001b[0;31m# append/update modes but only if the file doesn't exist.\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 932\u001b[0;31m         \u001b[0mfileobj\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0m_File\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfileobj\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mmode\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mmode\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0moverwrite\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0moverwrite\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    933\u001b[0m         \u001b[0mhdulist\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfromfile\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfileobj\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    934\u001b[0m         \u001b[0;32mtry\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/envs/xidplus/lib/python3.6/site-packages/astropy/utils/decorators.py\u001b[0m in \u001b[0;36mwrapper\u001b[0;34m(*args, **kwargs)\u001b[0m\n\u001b[1;32m    533\u001b[0m                     \u001b[0mwarnings\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mwarn\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mmessage\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mwarning_type\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mstacklevel\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m2\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    534\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 535\u001b[0;31m             \u001b[0;32mreturn\u001b[0m \u001b[0mfunction\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m*\u001b[0m\u001b[0margs\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    536\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    537\u001b[0m         \u001b[0;32mreturn\u001b[0m \u001b[0mwrapper\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/envs/xidplus/lib/python3.6/site-packages/astropy/io/fits/file.py\u001b[0m in \u001b[0;36m__init__\u001b[0;34m(self, fileobj, mode, memmap, overwrite, cache)\u001b[0m\n\u001b[1;32m    173\u001b[0m             \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_open_fileobj\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfileobj\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mmode\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0moverwrite\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    174\u001b[0m         \u001b[0;32melif\u001b[0m \u001b[0misinstance\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfileobj\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m(\u001b[0m\u001b[0mstr\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mbytes\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 175\u001b[0;31m             \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_open_filename\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfileobj\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mmode\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0moverwrite\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    176\u001b[0m         \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    177\u001b[0m             \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_open_filelike\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfileobj\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mmode\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0moverwrite\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/envs/xidplus/lib/python3.6/site-packages/astropy/io/fits/file.py\u001b[0m in \u001b[0;36m_open_filename\u001b[0;34m(self, filename, mode, overwrite)\u001b[0m\n\u001b[1;32m    551\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    552\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0mmode\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;34m'ostream'\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 553\u001b[0;31m             \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_overwrite_existing\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0moverwrite\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;32mTrue\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    554\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    555\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0mos\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mpath\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mexists\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mname\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/envs/xidplus/lib/python3.6/site-packages/astropy/io/fits/file.py\u001b[0m in \u001b[0;36m_overwrite_existing\u001b[0;34m(self, overwrite, fileobj, closed)\u001b[0m\n\u001b[1;32m    441\u001b[0m                     \u001b[0mos\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mremove\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mname\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    442\u001b[0m             \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 443\u001b[0;31m                 \u001b[0;32mraise\u001b[0m \u001b[0mOSError\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34mf\"File {self.name!r} already exists.\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    444\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    445\u001b[0m     \u001b[0;32mdef\u001b[0m \u001b[0m_try_read_compressed\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mobj_or_name\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mmagic\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mmode\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mext\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m''\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mOSError\u001b[0m: File '../../../test_files/Tile_21875_6_moc_.fits' already exists."
+     ]
+    }
+   ],
+   "source": [
+    "priors[0].moc.write(output_folder+'Tile_'+str(tile_large)+'_'+str(order_large)+'_moc_.fits')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from astropy.table import Table, join, vstack,hstack\n",
+    "Table([priors[0].sra,priors[0].sdec]).write(output_folder+'Tile_'+str(tile_large)+'_'+str(order_large)+'_table.fits')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "moc=moc_routines.get_fitting_region(order_small,tile_small)\n",
+    "for p in priors:\n",
+    "    p.moc=moc\n",
+    "    p.cut_down_prior()\n",
+    "    p.prior_bkg(0.0,1)\n",
+    "    p.get_pointing_matrix()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "moc.write(output_folder+'Tile_'+str(tile_small)+'_'+str(order_small)+'_moc_.fits')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "fitting 216 sources \n",
+      "\n",
+      "there are 10314 pixels\n"
+     ]
+    }
+   ],
+   "source": [
+    "print('fitting '+ str(priors[0].nsrc)+' sources \\n')\n",
+    "print('there are '+ str(priors[0].snpix)+' pixels')\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "INFO:pystan:COMPILING THE C++ CODE FOR MODEL anon_model_36b659b8dec7ac05627af3c419328786 NOW.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/XID+PACS not found or wrong version. Compiling\n"
+     ]
+    },
+    {
+     "ename": "NameError",
+     "evalue": "name 'tiles' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<timed exec>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n",
+      "\u001b[0;31mNameError\u001b[0m: name 'tiles' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "%%time\n",
+    "from xidplus.stan_fit import PACS\n",
+    "\n",
+    "#priors[0].upper_lim_map()\n",
+    "\n",
+    "#priors[0].prior_flux_upper=(priors[0].prior_flux_upper-10.0+0.02)/np.max(priors[0].prf)\n",
+    "\n",
+    "fit=PACS.all_bands(priors[0],priors[1],iter=1000)\n",
+    "\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "Took  13205.7 seconds (3.6 hours)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "outfile=output_folder+'Tile_'+str(tile_small)+'_'+str(order_small)\n",
+    "\n",
+    "posterior=xidplus.posterior_stan(fit,priors)\n",
+    "xidplus.save(priors,posterior,outfile)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "post_rep_map = postmaps.replicated_maps(priors, posterior, nrep=2000)\n",
+    "band = ['PACS_100', 'PACS_160']\n",
+    "for i, p in enumerate(priors):\n",
+    "    Bayesian_Pval = postmaps.make_Bayesian_pval_maps(priors[i], post_rep_map[i])\n",
+    "    wcs_temp = wcs.WCS(priors[i].imhdu)\n",
+    "    ra, dec = wcs_temp.wcs_pix2world(priors[i].sx_pix, priors[i].sy_pix, 0)\n",
+    "    kept_pixels = np.array(moc_routines.sources_in_tile([tile_small], order_small, ra, dec))\n",
+    "    Bayesian_Pval[np.invert(kept_pixels)] = np.nan\n",
+    "    Bayes_map = postmaps.make_fits_image(priors[i], Bayesian_Pval)\n",
+    "    Bayes_map.writeto(outfile + '_' + band[i] + '_Bayes_Pval.fits', overwrite=True)\n",
+    "\n",
+    "cat = catalogue.create_PACS_cat(posterior, priors[0], priors[1])\n",
+    "kept_sources = moc_routines.sources_in_tile([tile_small], order_small, priors[0].sra, priors[0].sdec)\n",
+    "kept_sources = np.array(kept_sources)\n",
+    "cat[1].data = cat[1].data[kept_sources]\n",
+    "\n",
+    "cat.writeto(outfile + '_PACS_cat.fits', overwrite=True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "You can fit with the [numpyro](https://github.com/pyro-ppl/numpyro) backend."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 49,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "CPU times: user 2h 15min 49s, sys: 38.5 s, total: 2h 16min 27s\n",
+      "Wall time: 40min 12s\n"
+     ]
+    }
+   ],
+   "source": [
+    "%%time\n",
+    "from xidplus.numpyro_fit import PACS\n",
+    "fit_numpyro=PACS.all_bands(priors)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Number of divergences: 0\n"
+     ]
+    }
+   ],
+   "source": [
+    "outfile=output_folder+'Tile_'+str(tile_small)+'_'+str(order_small)+'_numpyro'\n",
+    "\n",
+    "\n",
+    "posterior_numpyro=xidplus.posterior_numpyro(fit_numpyro,priors)\n",
+    "xidplus.save(priors,posterior_numpyro,outfile)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 52,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "post_rep_map = postmaps.replicated_maps(priors, posterior_numpyro, nrep=2000)\n",
+    "band = ['PACS_100', 'PACS_160']\n",
+    "for i, p in enumerate(priors):\n",
+    "    Bayesian_Pval = postmaps.make_Bayesian_pval_maps(priors[i], post_rep_map[i])\n",
+    "    wcs_temp = wcs.WCS(priors[i].imhdu)\n",
+    "    ra, dec = wcs_temp.wcs_pix2world(priors[i].sx_pix, priors[i].sy_pix, 0)\n",
+    "    kept_pixels = np.array(moc_routines.sources_in_tile([tile_small], order_small, ra, dec))\n",
+    "    Bayesian_Pval[np.invert(kept_pixels)] = np.nan\n",
+    "    Bayes_map = postmaps.make_fits_image(priors[i], Bayesian_Pval)\n",
+    "    Bayes_map.writeto(outfile + '_' + band[i] + '_Bayes_Pval_numpyro.fits', overwrite=True)\n",
+    "\n",
+    "cat = catalogue.create_PACS_cat(posterior_numpyro, priors[0], priors[1])\n",
+    "kept_sources = moc_routines.sources_in_tile([tile_small], order_small, priors[0].sra, priors[0].sdec)\n",
+    "kept_sources = np.array(kept_sources)\n",
+    "cat[1].data = cat[1].data[kept_sources]\n",
+    "\n",
+    "cat.writeto(outfile + '_PACS_cat_numpyro.fits', overwrite=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 54,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0.007376604303613771"
+      ]
+     },
+     "execution_count": 54,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "moc.area_sq_deg"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 59,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0.06572315135190694"
+      ]
+     },
+     "execution_count": 59,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "100.0*(20.0*np.pi*(1.0/3600.0)**2)/moc.area_sq_deg"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "celltoolbar": "Slideshow",
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.6"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 1
+}

@@ -1,69 +1,38 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Large Fields &mdash; XID+ 2.0.0 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Large Fields &mdash; XID+ 3.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-  
-
-  
-
-  
-  
-    
-
-  
-
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Beyond Positional Priors" href="priors.html" />
-    <link rel="prev" title="XID+ Example Output Analysis" href="notebooks/examples/XID+posterior_analysis_validation.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+    <link rel="prev" title="XID+ Example Output Analysis" href="notebooks/examples/XID%2Bposterior_analysis_validation.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
-
-          
+        <div class="wy-side-nav-search" >
             <a href="index.html" class="icon icon-home"> XID+
-          
-
-          
           </a>
-
-          
-            
-            
               <div class="version">
-                2.0.0
+                3.0.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -71,18 +40,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">User Guide:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="philosophy.html">A Generative Probabilistic Framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Installation</a></li>
@@ -95,80 +54,42 @@
 <li class="toctree-l1"><a class="reference internal" href="api.html">API documentation</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">XID+</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Large Fields</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/hpc.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -181,25 +102,25 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="large-fields">
+<section id="large-fields">
 <h1>Large Fields<a class="headerlink" href="#large-fields" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">This section describes how XID+ has been implemented to produce the HELP data products. It is not advised to use this scheme unless running on an HPC running SunGrid Engine.</p>
+<p class="admonition-title">Note</p>
+<p>This section describes how XID+ has been implemented to produce the HELP data products. It is not advised to use this scheme unless running on an HPC running SunGrid Engine.</p>
 </div>
 <p>Running XID+ over large areas or fields is computationally challenging. One way to overcome this
 issue is to split the field into tiles and run them independently. For HELP, we use a tiling scheme based on the <a class="reference external" href="http://healpix.jpl.nasa.gov/">HEALPix</a> scheme and overlap so there are no issues with sources at the edge of the tiles. For more details see the <a class="reference external" href="http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1606.05770">Hurley et al. 2017</a>.</p>
 <p>We carry out this tiling scheme as follows:</p>
 <ol class="arabic simple">
-<li>Create a prior class containing all raw data (e.g. map, catalogue and PRF) and construct 2 lists of tiles. <a class="reference external" href="https://github.com/H-E-L-P/dmu_products/blob/master/dmu26/dmu26_XID%2BSPIRE_ELAIS-N1/XID%2BSPIRE_prior_SWIRE.ipynb">Here is an example script used for ELAIS-N1</a>:</li>
+<li><p>Create a prior class containing all raw data (e.g. map, catalogue and PRF) and construct 2 lists of tiles. <a class="reference external" href="https://github.com/H-E-L-P/dmu_products/blob/master/dmu26/dmu26_XID%2BSPIRE_ELAIS-N1/XID%2BSPIRE_prior_SWIRE.ipynb">Here is an example script used for ELAIS-N1</a>:</p></li>
 </ol>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The tiling scheme produces hierarchical larger tiles that are used to split up the main prior class into slightly smaller regions. The smaller tiles on which the fitting is actually done, uses the larger
+<p class="admonition-title">Note</p>
+<p>The tiling scheme produces hierarchical larger tiles that are used to split up the main prior class into slightly smaller regions. The smaller tiles on which the fitting is actually done, uses the larger
 tiles as an input. This reduces the amount of memory required compared to having to read in the original prior class each time.</p>
 </div>
 <ol class="arabic" start="2">
-<li><p class="first">We create the larger tiles by running for each hierarchical tile:</p>
+<li><p>We create the larger tiles by running for each hierarchical tile:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;from xidplus import HPC; HPC.hierarchical_tile(&quot;Master_prior.pkl&quot;,&quot;Tiles.pkl&quot;)&#39;</span>
 </pre></div>
 </div>
@@ -208,74 +129,44 @@ tiles as an input. This reduces the amount of memory required compared to having
 <p>By default, this assumes the command is being run as an array job on an HPC environment running SunGrid (as we do at Sussex), with the length of the array equal to the number of large tiles required.
 If it cannot find the <code class="docutils literal notranslate"><span class="pre">$SGE_TASK_ID</span></code>, then it will ask for task id number. It reads in the master prior, cuts it down to the tile being referenced by the task id number and saves the cut down prior.</p>
 <ol class="arabic simple" start="3">
-<li>Having created the hierarchical tiles, we actually run XID+ on each small tile. For HELP, we use an HPC to fit multiple tiles at the same time.</li>
+<li><p>Having created the hierarchical tiles, we actually run XID+ on each small tile. For HELP, we use an HPC to fit multiple tiles at the same time.</p></li>
 </ol>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Ideally, each tile being fitted should use four cores (so that each MCMC chain can be run independently).</p>
+<p class="admonition-title">Note</p>
+<p>Ideally, each tile being fitted should use four cores (so that each MCMC chain can be run independently).</p>
 </div>
 <p>4. Having carried out the fit to all the tiles, we can combine the Bayesian maps into one. <a class="reference external" href="https://github.com/H-E-L-P/dmu_products/blob/master/dmu26/dmu26_XID%2BSPIRE_ELAIS-N1/make_combined_map.py">Here is an example script.</a>:
 This will also pick up any failed tiles and list them in a failed_tiles.pkl
 file, which you can then go back and fit.</p>
 <div class="toctree-wrapper compound">
 </div>
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="priors.html" class="btn btn-neutral float-right" title="Beyond Positional Priors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="notebooks/examples/XID+posterior_analysis_validation.html" class="btn btn-neutral" title="XID+ Example Output Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="notebooks/examples/XID%2Bposterior_analysis_validation.html" class="btn btn-neutral float-left" title="XID+ Example Output Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="priors.html" class="btn btn-neutral float-right" title="Beyond Positional Priors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2017, Peter Hurley
-
-    </p>
+    <p>&#169; Copyright 2022, Peter Hurley.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
