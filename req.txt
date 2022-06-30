@@ -1,10 +1,11 @@
-astropy
-pystan
+astropy==4.3.1
 dill
 numpy
 scipy
 seaborn
 jupyter
 healpy
-pymoc
 aplpy
+numpyro
+jax
+arviz
