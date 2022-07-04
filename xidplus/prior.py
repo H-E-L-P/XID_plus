@@ -298,25 +298,16 @@ class prior(object):
 
 
 class hier_prior(object):
-    def __init__(self, ID, params_mu, params_sig, params_names, emulator,emulator_file):
+    def __init__(self,phys_prior_table, emulator,emulator_file,hier_params):
         """Initiate SED prior class
 
-        :param params_mu array with mean values of parameters
-        :param params_sig array with sigma values of parameters
-        :param params_names list of names of params
+        :param phys_prior_table and astropy table with prior parameters
         :param emulator emulator neural net structure
-        :param emulator_path path to saved emulator file"""
+        :param emulator_path path to saved emulator file
+        :param dictionary of hierarchical parameter"""
 
-        from astropy.table import Table, join
-        from jax import random, vmap
 
-        mu_table = Table(params_mu, names=[i + '_mu' for i in params_names])
-        sig_table = Table(params_sig, names=[i + '_sig' for i in params_names])
-
-        mu_table.add_column(ID, name='ID')
-        sig_table.add_column(ID, name='ID')
-        import jax.numpy as jnp
-        self.prior_table = join(mu_table, sig_table, keys='ID')
+        from jax import random
         # load parameters saved in numpy file
         x = np.load(emulator_file, allow_pickle=True)
         # initiate passed emulator
@@ -334,7 +325,7 @@ class hier_prior(object):
                         raise ValueError('neural net emulator structure does not match parameter file')
 
         self.emulator = {'net_init':net_init,'net_apply':net_apply,'params':x['arr_0'].tolist()}
-        self.params_mu = jnp.asarray(params_mu)
-        self.params_sig = jnp.asarray(params_sig)
+        self.phys_prior_table=phys_prior_table
+        self.hier_params=hier_params
 
 

@@ -214,7 +214,7 @@ def spire_model_CIGALE_schect(priors, sed_prior, params):
                        obs=priors[2].sim)
 
 
-def spire_model_CIGALE_kasia_schect(priors, sed_prior, params):
+def spire_model_CIGALE_kasia_schect(priors, sed_prior):
     """
     numpyro model for SPIRE maps using cigale emulator
     :param priors: list of xid+ SPIRE prior objects
@@ -237,28 +237,28 @@ def spire_model_CIGALE_kasia_schect(priors, sed_prior, params):
         bkg = numpyro.sample('bkg', dist.Normal(bkg_mu, bkg_sig))
 
     # redshift-sfr relation parameters
-    z_star = numpyro.sample('m', dist.TruncatedNormal(loc=params['z_star_mu'], scale=params['z_star_sig'],low=0.01,))
-    sfr_star = numpyro.sample('c', dist.TruncatedNormal(loc=params['sfr_star_mu'], scale=params['sfr_star_sig'],low=0.01,))
-    alpha= params['alpha']
+    z_star = numpyro.sample('z_star', dist.TruncatedNormal(loc=sed_prior.hier_params['z_star_mu'], scale=sed_prior.hier_params['z_star_sig'],low=0.01,))
+    sfr_star = numpyro.sample('sfr_star', dist.TruncatedNormal(loc=sed_prior.hier_params['sfr_star_mu'], scale=sed_prior.hier_params['sfr_star_sig'],low=0.01,))
+    alpha= sed_prior.hier_params['alpha']
 
     # sfr dispersion parameter
-    sfr_sig = numpyro.sample('sfr_sig', dist.HalfNormal(params['sfr_disp']))
+    sfr_sig = numpyro.sample('sfr_sig', dist.HalfNormal(sed_prior.hier_params['sfr_disp']))
 
     # sample parameters for each source (treat as conditionaly independent hence plate)
     with numpyro.plate('nsrc', priors[0].nsrc):
         # use truncated normal for redshift, with mean and sigma from prior
         redshift = numpyro.sample('redshift',
-                                  dist.TruncatedNormal(loc=sed_prior.params_mu[:, 1],scale= sed_prior.params_sig[:, 1],low=0.01))
+                                  dist.TruncatedNormal(loc=sed_prior.phys_prior_table['z_mu'].data,scale= sed_prior.phys_prior_table['z_sig'],low=0.01))
         # use beta distribution for AGN as a fraction
-        agn = numpyro.sample('agn', dist.Beta(1.0, 3.0))
+        agn = numpyro.sample('agn', dist.Beta(sed_prior.phys_prior_table['fracAGN_alpha'], sed_prior.phys_prior_table['fracAGN_beta']))
 
         sfr = numpyro.sample('sfr', dist.Normal((sfr_star*jnp.exp(-1.0*redshift/z_star)*(redshift/z_star)**alpha)-2.0, jnp.full(priors[0].nsrc, sfr_sig)))
 
-        atten=numpyro.sample('atten',dist.TruncatedNormal(loc=sed_prior.params_mu[:, 2],scale=sed_prior.params_sig[:, 2],low=0.01))
+        atten=numpyro.sample('atten',dist.TruncatedNormal(loc=sed_prior.phys_prior_table['atten_mu'],scale=sed_prior.phys_prior_table['atten_sig'],low=0.01))
 
-        dust_alpha=numpyro.sample('dust_alpha',dist.TruncatedNormal(loc=sed_prior.params_mu[:, 3], scale=sed_prior.params_sig[:, 3],low=0.01))
+        dust_alpha=numpyro.sample('dust_alpha',dist.TruncatedNormal(loc=sed_prior.phys_prior_table['dust_alpha_mu'], scale=sed_prior.phys_prior_table['dust_alpha_sig'],low=0.01))
 
-        tau_main=numpyro.sample('tau_main',dist.Normal(sed_prior.params_mu[:, 4], sed_prior.params_sig[:, 4]))
+        tau_main=numpyro.sample('tau_main',dist.Normal(sed_prior.phys_prior_table['tau_main_mu'], sed_prior.phys_prior_table['tau_main_sig']))
 
     # stack params and make vector ready to be used by emualator
     params = jnp.vstack((sfr[None, :], agn[None, :], redshift[None, :], atten[None,:],dust_alpha[None,:],tau_main[None,:])).T
@@ -342,7 +342,7 @@ def spire_model_CIGALE_kasia_schect_bands(priors, sed_prior, params,flux,flux_er
 
 
 
-def spire_model_CIGALE_kasia_schect_irac(priors, sed_prior, params,irac_cut,irac_flux,irac_sigma):
+def spire_model_CIGALE_kasia_schect_irac(priors, sed_prior,irac_cut,irac_flux,irac_sigma):
     """
     numpyro model for SPIRE maps using cigale emulator
     :param priors: list of xid+ SPIRE prior objects
@@ -360,36 +360,51 @@ def spire_model_CIGALE_kasia_schect_irac(priors, sed_prior, params,irac_cut,irac
     bkg_mu = np.asarray([p.bkg[0] for p in priors]).T
     bkg_sig = np.asarray([p.bkg[1] for p in priors]).T
 
+    plate_sources = numpyro.plate('nsrc', priors[0].nsrc)
     # background priors
     with numpyro.plate('bands', len(priors)):
         bkg = numpyro.sample('bkg', dist.Normal(bkg_mu, bkg_sig))
 
     # redshift-sfr relation parameters
-    z_star = numpyro.sample('m', dist.TruncatedNormal(0.01,params['z_star_mu'], params['z_star_sig']))
-    sfr_star = numpyro.sample('c', dist.TruncatedNormal(0.01,params['sfr_star_mu'], params['sfr_star_sig']))
-    alpha= params['alpha']
+    z_star = numpyro.sample('z_star', dist.TruncatedNormal(loc=sed_prior.hier_params['z_star_mu'],
+                                                           scale=sed_prior.hier_params['z_star_sig'], low=0.01, ))
+    sfr_star = numpyro.sample('sfr_star', dist.TruncatedNormal(loc=sed_prior.hier_params['sfr_star_mu'],
+                                                               scale=sed_prior.hier_params['sfr_star_sig'], low=0.01, ))
+    alpha = sed_prior.hier_params['alpha']
 
     # sfr dispersion parameter
-    sfr_sig = numpyro.sample('sfr_sig', dist.HalfNormal(params['sfr_disp']))
+    sfr_sig = numpyro.sample('sfr_sig', dist.HalfNormal(sed_prior.hier_params['sfr_disp']))
+
+    #aan additional parameter to add dispersion to the irac band in SED fitting
+    irac_global_sigma=numpyro.sample('irac_global_sigma',dist.HalfNormal(0.1))
 
     # sample parameters for each source (treat as conditionaly independent hence plate)
-    with numpyro.plate('nsrc', priors[0].nsrc):
+    with plate_sources:
         # use truncated normal for redshift, with mean and sigma from prior
         redshift = numpyro.sample('redshift',
-                                  dist.TruncatedNormal(0.01, sed_prior.params_mu[:, 1], sed_prior.params_sig[:, 1]))
+                                  dist.TruncatedNormal(loc=sed_prior.phys_prior_table['z_mu'].data,
+                                                       scale=sed_prior.phys_prior_table['z_sig'], low=0.01))
         # use beta distribution for AGN as a fraction
-        agn = numpyro.sample('agn', dist.Beta(1.0, 3.0))
+        agn = numpyro.sample('agn', dist.Beta(sed_prior.phys_prior_table['fracAGN_alpha'],
+                                              sed_prior.phys_prior_table['fracAGN_beta']))
 
-        sfr = numpyro.sample('sfr', dist.Normal((sfr_star*jnp.exp(-1.0*redshift/z_star)*(redshift/z_star)**alpha)-2.0, jnp.full(priors[0].nsrc, sfr_sig)))
+        sfr = numpyro.sample('sfr', dist.Normal(
+            (sfr_star * jnp.exp(-1.0 * redshift / z_star) * (redshift / z_star) ** alpha) - 2.0,
+            jnp.full(priors[0].nsrc, sfr_sig)))
 
-        atten=numpyro.sample('atten',dist.TruncatedNormal(0.0, sed_prior.params_mu[:, 2], sed_prior.params_sig[:, 2]))
+        atten = numpyro.sample('atten', dist.TruncatedNormal(loc=sed_prior.phys_prior_table['atten_mu'],
+                                                             scale=sed_prior.phys_prior_table['atten_sig'], low=0.01))
 
-        dust_alpha=numpyro.sample('dust_alpha',dist.TruncatedNormal(0.0, sed_prior.params_mu[:, 3], sed_prior.params_sig[:, 3]))
+        dust_alpha = numpyro.sample('dust_alpha', dist.TruncatedNormal(loc=sed_prior.phys_prior_table['dust_alpha_mu'],
+                                                                       scale=sed_prior.phys_prior_table[
+                                                                           'dust_alpha_sig'], low=0.01))
 
-        tau_main=numpyro.sample('tau_main',dist.Normal(sed_prior.params_mu[:, 4], sed_prior.params_sig[:, 4]))
+        tau_main = numpyro.sample('tau_main', dist.Normal(sed_prior.phys_prior_table['tau_main_mu'],
+                                                          sed_prior.phys_prior_table['tau_main_sig']))
 
     # stack params and make vector ready to be used by emualator
-    params = jnp.vstack((sfr[None, :], agn[None, :], redshift[None, :], atten[None,:],dust_alpha[None,:],tau_main[None,:])).T
+    params = jnp.vstack(
+            (sfr[None, :], agn[None, :], redshift[None, :], atten[None, :], dust_alpha[None, :], tau_main[None, :])).T
     # Use emulator to get fluxes. As emulator provides log flux, convert.
     src_f = jnp.exp(sed_prior.emulator['net_apply'](sed_prior.emulator['params'], params))
 
@@ -398,8 +413,8 @@ def spire_model_CIGALE_kasia_schect_irac(priors, sed_prior, params,irac_cut,irac
     db_hat_pmw = sp_matmul(pointing_matrices[1], src_f[:, -2][:, None], priors[1].snpix).reshape(-1) + bkg[1]
     db_hat_plw = sp_matmul(pointing_matrices[2], src_f[:, -1][:, None], priors[2].snpix).reshape(-1) + bkg[2]
 
-    with numpyro.plate('nsrc', priors[0].nsrc):
-        numpyro.sample('obs_irac',dist.TruncatedNormal(irac_cut,src_f[:,0],irac_sigma),obs=irac_flux)
+    with plate_sources:
+        numpyro.sample('obs_irac',dist.TruncatedNormal(low=irac_cut,loc=src_f[:,-4],scale=irac_sigma+irac_global_sigma),obs=irac_flux)
     # for each band, condition on data
     with numpyro.plate('psw_pixels', priors[0].snim.size):  # as ind_psw:
         numpyro.sample("obs_psw", dist.Normal(db_hat_psw, priors[0].snim),
@@ -486,7 +501,7 @@ def spire_model_CIGALE_kasia_SFRD(priors, sed_prior, params):
                        obs=priors[2].sim)
 
 
-def spire_model_CIGALE_mainseq(priors, sed_prior, params):
+def spire_model_CIGALE_mainseq(priors, sed_prior,z_cut,z_flux,z_sigma,i_cut,i_flux,i_sigma):
     """
     numpyro model for SPIRE maps using cigale emulator
     :param priors: list of xid+ SPIRE prior objects
@@ -504,37 +519,53 @@ def spire_model_CIGALE_mainseq(priors, sed_prior, params):
     bkg_mu = np.asarray([p.bkg[0] for p in priors]).T
     bkg_sig = np.asarray([p.bkg[1] for p in priors]).T
 
+    plate_sources = numpyro.plate('nsrc', priors[0].nsrc)
     # background priors
     with numpyro.plate('bands', len(priors)):
         bkg = numpyro.sample('bkg', dist.Normal(bkg_mu, bkg_sig))
 
     # main sequence relation parameters
-    alpha = numpyro.sample('alpha',dist.Normal(params['alpha_mu'],params['alpha_sig']))
-    beta = numpyro.sample('beta', dist.Normal(params['beta_mu'], params['beta_sig']))
+    alpha = numpyro.sample('alpha', dist.Normal(sed_prior.hier_params['alpha_mu'], sed_prior.hier_params['alpha_sig']))
+    beta = numpyro.sample('beta', dist.Normal(sed_prior.hier_params['beta_mu'], sed_prior.hier_params['beta_sig']))
 
     # sfr dispersion parameter
-    sfr_sig = numpyro.sample('sfr_sig', dist.HalfNormal(params['sfr_disp']))
+    sfr_sig = numpyro.sample('sfr_sig', dist.HalfNormal(sed_prior.hier_params['sfr_disp']))
+
+    #aan additional parameter to add dispersion to the irac band in SED fitting
+    z_global_sigma=numpyro.sample('z_global_sigma',dist.HalfNormal(0.1))
+    i_global_sigma=numpyro.sample('i_global_sigma',dist.HalfNormal(0.1))
+
+
 
     # sample parameters for each source (treat as conditionaly independent hence plate)
-    with numpyro.plate('nsrc', priors[0].nsrc):
+    with plate_sources:
         # use truncated normal for redshift, with mean and sigma from prior
         redshift = numpyro.sample('redshift',
-                                  dist.TruncatedNormal(0.01, sed_prior.params_mu[:, 1], sed_prior.params_sig[:, 1]))
+                                  dist.TruncatedNormal(loc=sed_prior.phys_prior_table['z_mu'].data,
+                                                       scale=sed_prior.phys_prior_table['z_sig'], low=0.01))
         # use beta distribution for AGN as a fraction
-        agn = numpyro.sample('agn', dist.Beta(1.0, 3.0))
+        agn = numpyro.sample('agn', dist.Beta(sed_prior.phys_prior_table['fracAGN_alpha'],
+                                              sed_prior.phys_prior_table['fracAGN_beta']))
 
-        m_star=numpyro.sample('mstar',dist.Normal(sed_prior.params_mu[:, 5],sed_prior.params_sig[:, 2]))
+        m_star=numpyro.sample('mstar',dist.Normal(sed_prior.phys_prior_table['stellar_mass_mu'],sed_prior.phys_prior_table['stellar_mas_sig']))
+
 
         sfr = numpyro.sample('sfr', dist.Normal(alpha*m_star+beta, jnp.full(priors[0].nsrc, sfr_sig)))
 
-        atten=numpyro.sample('atten',dist.TruncatedNormal(0.0, sed_prior.params_mu[:, 2], sed_prior.params_sig[:, 2]))
 
-        dust_alpha=numpyro.sample('dust_alpha',dist.TruncatedNormal(0.0, sed_prior.params_mu[:, 3], sed_prior.params_sig[:, 3]))
+        atten = numpyro.sample('atten', dist.TruncatedNormal(loc=sed_prior.phys_prior_table['atten_mu'],
+                                                             scale=sed_prior.phys_prior_table['atten_sig'], low=0.01))
 
-        tau_main=numpyro.sample('tau_main',dist.Normal(sed_prior.params_mu[:, 4], sed_prior.params_sig[:, 4]))
+        dust_alpha = numpyro.sample('dust_alpha', dist.TruncatedNormal(loc=sed_prior.phys_prior_table['dust_alpha_mu'],
+                                                                       scale=sed_prior.phys_prior_table[
+                                                                           'dust_alpha_sig'], low=0.01))
+
+        tau_main = numpyro.sample('tau_main', dist.Normal(sed_prior.phys_prior_table['tau_main_mu'],
+                                                          sed_prior.phys_prior_table['tau_main_sig']))
 
     # stack params and make vector ready to be used by emualator
-    params = jnp.vstack((sfr[None, :], agn[None, :], redshift[None, :], atten[None,:],dust_alpha[None,:],tau_main[None,:],m_star[None,:])).T
+    params = jnp.vstack((sfr[None, :], agn[None, :], redshift[None, :], atten[None, :], dust_alpha[None, :],
+                         tau_main[None, :], m_star[None, :])).T
     # Use emulator to get fluxes. As emulator provides log flux, convert.
     src_f = jnp.exp(sed_prior.emulator['net_apply'](sed_prior.emulator['params'], params))
 
@@ -542,6 +573,10 @@ def spire_model_CIGALE_mainseq(priors, sed_prior, params):
     db_hat_psw = sp_matmul(pointing_matrices[0], src_f[:, -3][:, None], priors[0].snpix).reshape(-1) + bkg[0]
     db_hat_pmw = sp_matmul(pointing_matrices[1], src_f[:, -2][:, None], priors[1].snpix).reshape(-1) + bkg[1]
     db_hat_plw = sp_matmul(pointing_matrices[2], src_f[:, -1][:, None], priors[2].snpix).reshape(-1) + bkg[2]
+
+    with plate_sources:
+        numpyro.sample('obs_z',dist.TruncatedNormal(low=z_cut,loc=src_f[:,-4],scale=z_sigma+z_global_sigma),obs=z_flux)
+        numpyro.sample('obs_i',dist.TruncatedNormal(low=i_cut,loc=src_f[:,2],scale=i_sigma+i_global_sigma),obs=i_flux)
 
     # for each band, condition on data
     with numpyro.plate('psw_pixels', priors[0].snim.size):  # as ind_psw:
@@ -553,6 +588,7 @@ def spire_model_CIGALE_mainseq(priors, sed_prior, params):
     with numpyro.plate('plw_pixels', priors[2].snim.size):  # as ind_plw:
         numpyro.sample("obs_plw", dist.Normal(db_hat_plw, priors[2].snim),
                        obs=priors[2].sim)
+
 
 def GEP_CIGALE_schect(priors, sed_prior, params):
     """
