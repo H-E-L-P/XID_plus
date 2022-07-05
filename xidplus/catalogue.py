@@ -116,7 +116,7 @@ def create_PACS_cat(posterior, prior100, prior160):
     tbhdu.header.set('TDESC19','160 Bayes Pval residual statistic',after='TUCD19')
     # ----Primary header-----------------------------------
     prihdr = fits.Header()
-    prihdr['Prior_Cat'] = prior100.prior_cat
+    prihdr['Prior_Cat'] = prior100.prior_cat_file
     prihdr['TITLE'] = 'PACS XID+ catalogue'
     # prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change
     prihdr['CREATOR'] = 'WP5'
@@ -198,7 +198,7 @@ def create_MIPS_cat(posterior, prior24, Bayes_P24):
 
     #----Primary header-----------------------------------
     prihdr = fits.Header()
-    prihdr['Prior_Cat'] = prior24.prior_cat
+    prihdr['Prior_Cat'] = prior24.prior_cat_file
     prihdr['TITLE']   = 'XID+MIPS catalogue'
     #prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change
     prihdr['CREATOR'] = 'WP5'
@@ -366,7 +366,7 @@ def create_SPIRE_cat(posterior,prior250,prior350,prior500):
 
     #----Primary header-----------------------------------
     prihdr = fits.Header()
-    prihdr['Prior_Cat'] = prior250.prior_cat
+    prihdr['Prior_Cat'] = prior250.prior_cat_file
     prihdr['TITLE']   = 'SPIRE XID+ catalogue'
     #prihdr['OBJECT']  = prior250.imphdu['OBJECT'] #I need to think if this needs to change                              
     prihdr['CREATOR'] = 'WP5'                                 
