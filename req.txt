@@ -1,11 +1,13 @@
-astropy==4.3.1
+
+# Updated for 2025 compatibility
+numpy>=1.26
+astropy>=6.0
+scipy>=1.13
+jax>=0.4.28
+numpyro>=0.14.0
 dill
-numpy
-scipy
 seaborn
 jupyter
 healpy
 aplpy
-numpyro
-jax
 arviz

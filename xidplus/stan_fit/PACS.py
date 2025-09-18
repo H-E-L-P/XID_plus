@@ -1,7 +1,6 @@
 __author__ = 'pdh21'
 import os
 import numpy as np
-from numpy import long
 
 output_dir=os.getcwd()
 
@@ -30,8 +29,8 @@ def all_bands(PACS_100,PACS_160,chains=4,iter=1000):
           'bkg_prior_psw':PACS_100.bkg[0],
           'bkg_prior_sig_psw':PACS_100.bkg[1],
           'Val_psw':PACS_100.amat_data,
-          'Row_psw': PACS_100.amat_row.astype(np.long),
-          'Col_psw': PACS_100.amat_col.astype(np.long),
+          'Row_psw': PACS_100.amat_row.astype(int),
+          'Col_psw': PACS_100.amat_col.astype(int),
           'f_low_lim_psw': PACS_100.prior_flux_lower,
           'f_up_lim_psw': PACS_100.prior_flux_upper,
           'npix_pmw':PACS_160.snpix,
@@ -41,8 +40,8 @@ def all_bands(PACS_100,PACS_160,chains=4,iter=1000):
           'bkg_prior_pmw':PACS_160.bkg[0],
           'bkg_prior_sig_pmw':PACS_160.bkg[1],
           'Val_pmw':PACS_160.amat_data,
-          'Row_pmw': PACS_160.amat_row.astype(np.long),
-          'Col_pmw': PACS_160.amat_col.astype(np.long),
+          'Row_pmw': PACS_160.amat_row.astype(int),
+          'Col_pmw': PACS_160.amat_col.astype(int),
           'f_low_lim_pmw': PACS_160.prior_flux_lower,
           'f_up_lim_pmw': PACS_160.prior_flux_upper}
 
@@ -56,15 +55,15 @@ def all_bands(PACS_100,PACS_160,chains=4,iter=1000):
                 'db_psw': PACS_100.sim,
                 'sigma_psw': PACS_100.snim,
                 'Val_psw': PACS_100.amat_data,
-                'Row_psw': PACS_100.amat_row.astype(long),
-                'Col_psw': PACS_100.amat_col.astype(long),
+                'Row_psw': PACS_100.amat_row.astype(int),
+                'Col_psw': PACS_100.amat_col.astype(int),
                 'npix_pmw': PACS_160.snpix,
                 'nnz_pmw': PACS_160.amat_data.size,
                 'db_pmw': PACS_160.sim,
                 'sigma_pmw': PACS_160.snim,
                 'Val_pmw': PACS_160.amat_data,
-                'Row_pmw': PACS_160.amat_row.astype(long),
-                'Col_pmw': PACS_160.amat_col.astype(long)}
+                'Row_pmw': PACS_160.amat_row.astype(int),
+                'Col_pmw': PACS_160.amat_col.astype(int)}
     #see if model has already been compiled. If not, compile and save it
     model_file='/XID+PACS'
     from xidplus.stan_fit import get_stancode

@@ -1,4 +1,3 @@
-from numpy import long
 
 __author__ = 'pdh21'
 import os
@@ -32,8 +31,8 @@ def MIPS_24(MIPS_24,chains=4,iter=1000):
           'db_psw':MIPS_24.sim,
           'sigma_psw':MIPS_24.snim,
           'Val_psw':MIPS_24.amat_data,
-          'Row_psw': MIPS_24.amat_row.astype(long),
-          'Col_psw': MIPS_24.amat_col.astype(long)}
+          'Row_psw': MIPS_24.amat_row.astype(int),
+          'Col_psw': MIPS_24.amat_col.astype(int)}
 
     #see if model has already been compiled. If not, compile and save it
 

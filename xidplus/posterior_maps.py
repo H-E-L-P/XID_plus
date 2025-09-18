@@ -30,7 +30,7 @@ def Bayesian_pvals(prior,post_rep_map):
     pval=np.empty_like(prior.sim)
     for i in range(0,prior.snpix):
         ind=post_rep_map[i,:]<prior.sim[i]
-        pval[i]=sum(ind)/np.float(post_rep_map.shape[1])
+        pval[i]=sum(ind)/float(post_rep_map.shape[1])
     pval[np.isposinf(pval)]=1.0
     #pval[np.isneginf(pval)]=0.0
     return pval
@@ -64,7 +64,7 @@ def Bayes_Pval_res(prior,post_rep_map):
         t = np.sum(((post_rep_map[prior.amat_row[ind], :] - prior.sim[prior.amat_row[ind], None]) / (
         np.sqrt(2) * prior.snim[prior.amat_row[ind], None])) ** 2.0, axis=0)
         ind_T = t / ind.sum() > 2
-        Bayes_pval_res_vals[i] = ind_T.sum()/np.float(post_rep_map.shape[1])
+        Bayes_pval_res_vals[i] = ind_T.sum()/float(post_rep_map.shape[1])
 
     return Bayes_pval_res_vals
 

@@ -8,8 +8,6 @@ import numpy as np
 
 
 import warnings
-from matplotlib.cbook import MatplotlibDeprecationWarning
-warnings.simplefilter('ignore', MatplotlibDeprecationWarning)
 warnings.simplefilter('ignore', UserWarning)
 warnings.simplefilter('ignore', RuntimeWarning)
 warnings.simplefilter('ignore',UnicodeWarning)

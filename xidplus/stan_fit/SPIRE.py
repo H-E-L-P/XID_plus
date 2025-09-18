@@ -1,4 +1,3 @@
-from numpy import long
 
 __author__ = 'pdh21'
 import os
@@ -35,22 +34,22 @@ def all_bands(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
           'db_psw':SPIRE_250.sim,
           'sigma_psw':SPIRE_250.snim,
           'Val_psw':SPIRE_250.amat_data,
-          'Row_psw': SPIRE_250.amat_row.astype(long),
-          'Col_psw': SPIRE_250.amat_col.astype(long),
+          'Row_psw': SPIRE_250.amat_row.astype(int),
+          'Col_psw': SPIRE_250.amat_col.astype(int),
           'npix_pmw':SPIRE_350.snpix,
           'nnz_pmw':SPIRE_350.amat_data.size,
           'db_pmw':SPIRE_350.sim,
           'sigma_pmw':SPIRE_350.snim,
           'Val_pmw':SPIRE_350.amat_data,
-          'Row_pmw': SPIRE_350.amat_row.astype(long),
-          'Col_pmw': SPIRE_350.amat_col.astype(long),
+          'Row_pmw': SPIRE_350.amat_row.astype(int),
+          'Col_pmw': SPIRE_350.amat_col.astype(int),
           'npix_plw':SPIRE_500.snpix,
           'nnz_plw':SPIRE_500.amat_data.size,
           'db_plw':SPIRE_500.sim,
           'sigma_plw':SPIRE_500.snim,
           'Val_plw':SPIRE_500.amat_data,
-          'Row_plw': SPIRE_500.amat_row.astype(long),
-          'Col_plw': SPIRE_500.amat_col.astype(long)}
+          'Row_plw': SPIRE_500.amat_row.astype(int),
+          'Col_plw': SPIRE_500.amat_col.astype(int)}
 
     #see if model has already been compiled. If not, compile and save it
     model_file='/XID+SPIRE'
@@ -87,22 +86,22 @@ def all_bands_log10(SPIRE_250,SPIRE_350,SPIRE_500,chains=4,iter=1000):
           'db_psw':SPIRE_250.sim,
           'sigma_psw':SPIRE_250.snim,
           'Val_psw':SPIRE_250.amat_data,
-          'Row_psw': SPIRE_250.amat_row.astype(long),
-          'Col_psw': SPIRE_250.amat_col.astype(long),
+          'Row_psw': SPIRE_250.amat_row.astype(int),
+          'Col_psw': SPIRE_250.amat_col.astype(int),
           'npix_pmw':SPIRE_350.snpix,
           'nnz_pmw':SPIRE_350.amat_data.size,
           'db_pmw':SPIRE_350.sim,
           'sigma_pmw':SPIRE_350.snim,
           'Val_pmw':SPIRE_350.amat_data,
-          'Row_pmw': SPIRE_350.amat_row.astype(long),
-          'Col_pmw': SPIRE_350.amat_col.astype(long),
+          'Row_pmw': SPIRE_350.amat_row.astype(int),
+          'Col_pmw': SPIRE_350.amat_col.astype(int),
           'npix_plw':SPIRE_500.snpix,
           'nnz_plw':SPIRE_500.amat_data.size,
           'db_plw':SPIRE_500.sim,
           'sigma_plw':SPIRE_500.snim,
           'Val_plw':SPIRE_500.amat_data,
-          'Row_plw': SPIRE_500.amat_row.astype(long),
-          'Col_plw': SPIRE_500.amat_col.astype(long)}
+          'Row_plw': SPIRE_500.amat_row.astype(int),
+          'Col_plw': SPIRE_500.amat_col.astype(int)}
 
     #see if model has already been compiled. If not, compile and save it
     model_file='/XID+logSPIRE'
